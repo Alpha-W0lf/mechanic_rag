@@ -29,16 +29,17 @@
 3. Vector database (CONFIRMED)
    - Supabase (Postgres + pgvector) free tier for simplicity and durability.
 
-4. Embeddings model (RESEARCH)
-   - Candidate: Google `text-embedding-004`. Perform comparative research before committing (see `docs/embedding_research.md`).
+4. Embeddings model (MVP DEFAULT + MIGRATION PLAN)
+   - MVP default: Google `text-embedding-004` with config abstraction; plan for migration to successor (e.g., `text-embedding-005`) once verified.
+   - Alternatives considered: Cohere Embed v3 (English/Multilingual, 1024/384 dims), BGE-M3 (OSS; dense/sparse/multi-vector). Keep decision flexible via env toggle. See `docs/embedding_research.md`.
 
 5. Generation model (CONFIRMED DEFAULT + TOGGLE)
    - Default: Gemini 2.5 Flash for interactive throughput on free tier.
    - Toggle: Optional configuration to switch to Gemini 2.5 Pro for selected cases within free limits (see `docs/gemini_api_notes.md`).
 
-6. Ingestion & chunking (RESEARCH-DRIVEN)
-   - Extract PDF content; preserve headings and page numbers.
-   - Start with ~1000–1200 chars, ~200 overlap; confirm via research/benchmarks (see `docs/chunking_research.md`).
+6. Ingestion & chunking (RESEARCH-DRIVEN → BASELINE SELECTED)
+   - Parsing: Docling as primary (layout-aware: headings/sections/tables). PyMuPDF as fast path for text + images. Use pdfplumber/Camelot selectively for torque/spec tables.
+   - Chunking: structure-aware first; baseline ~1000–1200 chars with ~200 overlap; include `section_path` and page range in metadata. See `docs/chunking_research.md`.
 
 7. Security & keys (CONFIRMED APPROACH)
    - Keep keys server-side only. Use Vercel Project Environment Variables for prod; `.env.local` for dev; commit a `.env.example`. Consider 1Password/Vercel integration for team-secret hygiene.
@@ -54,12 +55,14 @@
 - API routes:
   - `/api/ask`: receives query, embeds query, retrieves top-k from vector DB with MMR diversification, constructs prompt, calls Gemini, returns answer + citations.
 - Ingestion script (Node):
-  - `ingest`: read PDFs from `rag_input/`, extract text + metadata, split into chunks, embed via chosen embedding model, upsert into Supabase pgvector (HNSW or IVFFlat index).
+  - `ingest`: read PDFs from `rag_input/`, parse via Docling (fallback PyMuPDF), extract `section_path` + page ranges, split into chunks, embed via selected embedding model, upsert into Supabase pgvector.
+- Indexing: prefer HNSW (cosine) if supported in the project; fallback to IVFFlat with tuned lists/probes. See `docs/indexing_research.md`.
+ - Indexing: prefer HNSW (cosine). Supabase docs provide HNSW guidance with pgvector ≥0.6.0; verify availability in our project at setup. We have a strong preference fro HNSW, but fallback to IVFFlat with tuned lists/probes if needed. See `docs/indexing_research.md`.
 - Secrets management: no keys in client. Use Vercel Env Vars for prod, `.env.local` for dev, `.env.example` for onboarding; no secrets in repo or static assets.
 
 ### 6) Data Model (Supabase)
 - Table `documents`: `id`, `vehicle`, `source_name`, `source_type`, `path`, `ingested_at`.
-- Table `chunks`: `id`, `document_id`, `chunk_index`, `content`, `page_start`, `page_end`, `section_heading`, `embedding (vector)`.
+- Table `chunks`: `id`, `document_id`, `chunk_index`, `content`, `page_start`, `page_end`, `section_heading`, `section_path`, `embedding (vector)`.
 
 ### 7) UX Details
 - Single-page chat with: question input, model answer, inline citation markers, expandable sources panel.
@@ -76,14 +79,14 @@
 - App form factor (CONFIRMED): Web UI (Next.js). No CLI needed.
 - Hosting (CONFIRMED): Vercel free.
 - Vector DB (CONFIRMED): Supabase pgvector.
-- Embeddings (OPEN): Research in `docs/embedding_research.md`.
+- Embeddings (MVP DEFAULT): `text-embedding-004` with env-configured toggle; plan migration to `-005` after verification. Research in `docs/embedding_research.md`.
 - Generation model (OPEN): Favor Gemini 2.5 Flash; allow Pro when quotas permit. Validate against `docs/gemini_api_notes.md`.
 - Initial documents (CONFIRMED): S2000 Owner’s + Service Manuals in `rag_input/`.
 - Chunking (OPEN): Research in `docs/chunking_research.md`.
 - Retrieval top-K (PROPOSED): Start k=8 with MMR; rationale in Section 11.
 - Must-haves (CONFIRMED): Chat with citations, disclaimer, logging, rate limiting, polished UI.
 - Non-goals v1 (CONFIRMED): Agentic workflows, crawling, multi-vehicle, auth.
-- PDF parsing approach (OPEN): Research in `docs/pdf_parsing_research.md`.
+- PDF parsing approach (PROPOSED): Docling primary; PyMuPDF fast path; pdfplumber/Camelot for tables. Research in `docs/pdf_parsing_research.md`.
 - Licensing/disclaimer (TO IMPLEMENT): See Section 10.
 - Evaluation acceptance criteria (TO IMPLEMENT): See Section 12.
 
@@ -129,6 +132,7 @@
 - Embeddings: `docs/embedding_research.md`
 - Chunking: `docs/chunking_research.md`
 - PDF parsing (text/tables/images): `docs/pdf_parsing_research.md`
+- Indexing: `docs/indexing_research.md`
 
 ### 14) Portfolio Presentation Plan
 - README: rich, with architecture diagram, feature screenshots/GIFs, quick start, limitations, and roadmap.
@@ -140,10 +144,10 @@
 ### 15) Initial Task List (post-approval)
 - Lock decisions per Sections 9–12.
 - Create Next.js app skeleton, polished UI scaffold, and API route stubs.
-- Initialize Supabase and create pgvector indexes (HNSW/IVFFlat).
-- Begin PDF parsing experiments; pick a parser for MVP.
-- Implement ingestion script; ingest manuals; verify metadata (headings/pages).
-- Implement retrieval with MMR and citations; integrate Gemini model with config toggle (Flash/Pro).
+- Initialize Supabase; check pgvector version; attempt HNSW index creation (cosine). If unsupported, use IVFFlat with lists≈sqrt(N) and probes≈10.
+- Implement Docling-based parsing prototype with PyMuPDF fallback; validate 10–20 pages.
+- Implement ingestion script; ingest manuals; verify `section_path` and page mapping.
+- Implement retrieval with MMR (λ≈0.4, dynamic k) and citations; integrate Gemini model with config toggle (Flash/Pro).
 - Add disclaimer, basic logging, and rate limiting.
 - Prepare evaluation set; run baseline; tune chunking/k as needed.
 
