@@ -28,8 +28,8 @@ Objective: Establish a clean, production-minded foundation (env, DB, app scaffol
   - [x] Configure linting/formatting (ESLint, Prettier). Add scripts to `package.json`.
   - [x] Set up a minimal GitHub Actions workflow: install, lint, build.
 - [ ] **Documentation polish**
-  - [ ] Keep `README.md` user-facing (setup, usage, architecture). No roadmaps here.
-  - [ ] Use `docs/` for plans, research, and build guides.
+  - [x] Keep `README.md` user-facing (setup, usage, architecture). No roadmaps here.
+  - [x] Use `docs/` for plans, research, and build guides.
 
 Exit criteria
 - Local dev runs with a Hello World UI and working `/api/health` route.

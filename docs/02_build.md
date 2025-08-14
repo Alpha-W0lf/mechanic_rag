@@ -24,6 +24,13 @@ Objective: Choose a practical PDF parsing approach and implement an ingestion pi
   - [ ] Spot-check chunk samples and their metadata for correctness.
   - [ ] Verify vector index builds and basic nearest-neighbor queries.
 
+Progress (scaffolded):
+- [x] Added ingestion skeleton (`scripts/ingest/ingest.py`) with `--dry-run`.
+- [x] Added PyMuPDF page-level text extractor module (`scripts/ingest/pdf_text.py`).
+- [x] Added baseline fixed-window chunker (`scripts/ingest/chunking.py`).
+ - [x] Implement JSONL writer for chunk outputs (`scripts/ingest/jsonl.py`).
+ - [x] Sample pipeline to produce chunk JSONL without DB (`scripts/ingest/sample_run.py`).
+
 Exit criteria
 - Parser selected for MVP with rationale in `docs/pdf_parsing_research.md`.
 - Ingestion script (Python, uv-managed venv) creates chunks + metadata and loads Supabase successfully (including provenance columns).
