@@ -17,7 +17,7 @@ Personal, non-commercial portfolio project. A retrieval-augmented generation (RA
 1. Clone the repo.
 2. Create `.env.local` from `.env.example` and fill in values.
 3. Provision Supabase project (free tier) and run `db/schema.sql`.
-4. Place manuals in `rag_input/`.
+4. Place manuals in `rag_input/` (Owner's Manual, Service Manual, Wiring Diagram).
 5. (Planned) Run ingestion script to populate embeddings.
 
 ### Disclaimers

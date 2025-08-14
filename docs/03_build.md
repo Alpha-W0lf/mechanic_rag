@@ -5,7 +5,8 @@ Objective: Implement retrieval with MMR diversification, prompt construction wit
 ### Steps
 - [ ] **Retrieval library**
   - [ ] Add Supabase client utilities to query `chunks` by vector similarity (cosine) and MMR.
-  - [ ] Implement similarity thresholding and dynamic `k` (baseline: 6–12; default 8).
+  - [ ] Implement FTS/BM25 queries via `content_tsv` and `websearch_to_tsquery`.
+  - [ ] Implement fusion: RRF by default (N≈50 per modality), then MMR and dynamic `k` (baseline: 6–12; default 8). Feature toggle for conditional fusion when vector confidence is high.
 - [ ] **Prompt construction**
   - [ ] Build a system prompt emphasizing citation requirements and safety disclaimers.
   - [ ] Include top-k chunks (de-duplicated) with their `section_path` and page ranges.
@@ -21,5 +22,6 @@ Objective: Implement retrieval with MMR diversification, prompt construction wit
 
 Exit criteria
 - `/api/ask` returns answers with correct, clickable citations in dev.
+- Retrieval uses hybrid fusion (RRF + MMR + dynamic k) with a configuration toggle for conditional fusion.
 - Basic UX works end-to-end locally.
 

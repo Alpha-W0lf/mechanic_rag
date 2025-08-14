@@ -21,6 +21,9 @@ Objective: Establish a clean, production-minded foundation (env, DB, app scaffol
   - [ ] Initialize a Next.js app (TypeScript). Include ESLint and Prettier.
   - [ ] Add basic directory structure for `app/` or `pages/`, `lib/`, `scripts/`.
   - [ ] Create placeholder serverless API routes for `/api/ask` and `/api/health`.
+- [ ] **Dev environments**
+  - [ ] Python ingestion: install `uv` and create a virtual env (`uv venv .venv`), then `uv pip install -r requirements.txt`.
+  - [ ] Node app: install with `pnpm` (or npm); commit the lockfile; add `.nvmrc` for Node version pinning.
 - [ ] **Tooling & CI**
   - [ ] Configure linting/formatting (ESLint, Prettier). Add scripts to `package.json`.
   - [ ] Set up a minimal GitHub Actions workflow: install, lint, build.

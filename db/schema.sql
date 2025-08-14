@@ -44,3 +44,43 @@ from public.chunks c
 join public.documents d on d.id = c.document_id;
 
 
+-- Additive portfolio-grade DDL (idempotent) — indexing & metadata
+-- Reference: docs/sop.md and docs/indexing_research.md
+
+-- Embedding provenance metadata (optional but recommended)
+alter table if exists public.chunks
+  add column if not exists embedding_model text,
+  add column if not exists embedding_dim integer,
+  add column if not exists embedding_version text,
+  add column if not exists embedded_at timestamptz;
+
+-- Lexical search support (generated tsvector + GIN index)
+alter table if exists public.chunks
+  add column if not exists content_tsv tsvector
+  generated always as (to_tsvector('english', coalesce(content,''))) stored;
+
+create index if not exists idx_chunks_content_tsv on public.chunks using gin (content_tsv);
+
+-- Prefer HNSW where supported; keep IVFFlat as baseline (already created above)
+-- If HNSW creation fails on your Supabase project, keep IVFFlat index only.
+do $$ begin
+  begin
+    execute 'create index if not exists idx_chunks_embedding_hnsw on public.chunks using hnsw (embedding vector_cosine_ops)';
+  exception when others then
+    -- Swallow errors if hnsw unsupported; IVFFlat remains in place
+    null;
+  end;
+end $$;
+
+-- Log table for embedding runs (provenance & rollback)
+create table if not exists public.embedding_runs (
+  id uuid primary key default gen_random_uuid(),
+  model text not null,
+  model_version text,
+  embedding_dim integer not null,
+  code_version text,
+  started_at timestamptz not null default now(),
+  finished_at timestamptz,
+  notes text
+);
+
