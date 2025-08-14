@@ -12,7 +12,7 @@ Objective: Establish a clean, production-minded foundation (env, DB, app scaffol
 - [ ] **Repository hygiene**
   - [x] Copy `env.example` to `.env.local` and fill values for local dev.
   - [ ] In Vercel, add project environment variables (server-side only).
-  - [ ] Ensure `.gitignore` excludes local env/secrets and build artifacts.
+  - [x] Ensure `.gitignore` excludes local env/secrets and build artifacts.
 - [ ] **Database (Supabase)**
   - [ ] Create a new Supabase project (free tier).
   - [ ] In the SQL editor, run `db/schema.sql` to create tables, indexes, and view.
