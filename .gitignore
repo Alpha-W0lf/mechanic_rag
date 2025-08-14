@@ -10,9 +10,6 @@ venv/
 __pycache__/
 *.pyc
 
-# Data inputs (manuals)
-rag_input/
-
 # Node
 node_modules/
 .next/
