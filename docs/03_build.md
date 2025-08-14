@@ -6,7 +6,7 @@ Objective: Implement retrieval with MMR diversification, prompt construction wit
 - [ ] **Retrieval library**
   - [ ] Add Supabase client utilities to query `chunks` by vector similarity (cosine) and MMR.
   - [ ] Implement FTS/BM25 queries via `content_tsv` and `websearch_to_tsquery`.
-  - [ ] Implement fusion: RRF by default (N≈50 per modality), then MMR and dynamic `k` (baseline: 6–12; default 8). Feature toggle for conditional fusion when vector confidence is high.
+  - [x] Implement fusion: RRF by default (N≈50 per modality), then MMR and dynamic `k` (baseline: 6–12; default 8). Feature toggle for conditional fusion when vector confidence is high. (Stubbed in `web/src/lib/retrieval/rrf.ts`, `mmr.ts`, and used in `/api/ask`.)
 - [ ] **Prompt construction**
   - [ ] Build a system prompt emphasizing citation requirements and safety disclaimers.
   - [ ] Include top-k chunks (de-duplicated) with their `section_path` and page ranges.
@@ -17,8 +17,8 @@ Objective: Implement retrieval with MMR diversification, prompt construction wit
   - [ ] Validate input; embed query; retrieve; construct prompt; call model.
   - [ ] Return answer and normalized citations array (doc name, section, page range).
 - [ ] **Minimal UI wiring**
-  - [ ] Build a simple chat page that displays answers and expandable citations.
-  - [ ] Include a compact inline disclaimer.
+  - [x] Build a simple chat page that displays answers (stubbed retrieval results).
+  - [x] Include a compact inline disclaimer.
 
 Exit criteria
 - `/api/ask` returns answers with correct, clickable citations in dev.

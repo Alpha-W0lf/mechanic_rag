@@ -10,6 +10,9 @@ Objective: Choose a practical PDF parsing approach and implement an ingestion pi
   - [ ] Implement a text-first parser (Docling primary, PyMuPDF fallback) to extract text, headings, and page numbers.
   - [ ] For tables (maintenance schedule, torque specs), try pdfplumber/Camelot; record fidelity vs complexity.
   - [ ] Wiring diagram handling (MVP): attempt text-layer extraction for labels/legends; capture page references and section paths. Defer OCR/VLM to Phase 2 if image-only.
+  
+Progress (scaffolded):
+- [x] Added parse orchestrator stub with PyMuPDF fallback (`scripts/ingest/parse.py`).
 - [ ] **Ingestion output schema**
   - [ ] Produce JSONL records with: `document`, `page_start`, `page_end`, `section_heading`, `section_path`, `content`.
   - [ ] Validate 10–20 sample pages for fidelity and clean formatting.
