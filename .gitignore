@@ -1,0 +1,23 @@
+# Root ignores
+.DS_Store
+.env
+.env.*
+*.local
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Data inputs (manuals)
+rag_input/
+
+# Node
+node_modules/
+.next/
+coverage/
+
+# Misc
+*.log
+
