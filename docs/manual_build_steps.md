@@ -1,5 +1,7 @@
 ## Manual Build Steps (Accounts, Env, One-time Setup)
 
+> ✅ **ALL SETUP COMPLETE** - All manual build steps have been completed successfully on both MacBooks. Development environment is fully configured and ready for Phase 2 implementation!
+
 Follow these steps to provision external services and wire up local/prod envs. Keep this open while you work and check off completed items.
 
 ### 1) Supabase (free tier)
@@ -65,8 +67,8 @@ Follow these steps to provision external services and wire up local/prod envs. K
 - [x] Confirmed data is already indexed and retrieval is working perfectly
 
 ### 7) Supabase CLI (optional local admin)
-- [x] Install Supabase CLI: `brew install supabase/tap/supabase` (completed on this MacBook)
-- [ ] **TODO: Install Supabase CLI on M2 Pro MacBook (already done on M2 Max Macbook)** - still needs to be done
+- [x] Install Supabase CLI: `brew install supabase/tap/supabase` (completed on M2 Max MacBook)
+- [x] Install Supabase CLI on M2 Pro MacBook: `brew install supabase/tap/supabase` (completed)
 - [x] Note: You can manage everything from the dashboard; CLI is not required for this project
 
 Notes
