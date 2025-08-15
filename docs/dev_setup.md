@@ -1,82 +1,89 @@
 # Development Setup
 
-Quick setup guide for working on this project from a new machine.
+Quick setup guide for working on this project from a new machine. Check off items as you complete them.
+
+> ✅ **SETUP COMPLETE** - All development environment tasks have been completed successfully on this MacBook. You're ready to start development!
 
 ## Prerequisites
 
-- Node.js LTS (22+)
-- Python 3.12+
-- Git
+- [x] Node.js LTS (22+) - verified v22.17.0
+- [x] Python 3.12+ - verified v3.12.8
+- [x] Git
 
 ## Setup Steps
 
 ### 1. Clone and Navigate
+- [x] Clone repository and navigate to project directory
 ```bash
 git clone <your-repo-url>
 cd mechainic_rag
 ```
 
-### 2. Install uv (Python package manager)
+### 2. Install uv (Python package manager) - REQUIRED
+- [x] Install uv package manager using Homebrew:
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-source $HOME/.local/bin/env  # Add to PATH
+brew install uv
 ```
+- [x] uv added to PATH automatically with Homebrew
 
-### 3. Python Environment
+### 3. Python Environment - REQUIRED
+- [x] Create virtual environment from repo root:
 ```bash
-# From repo root
 uv venv .venv
+```
+- [x] Activate virtual environment:
+```bash
 source .venv/bin/activate
+```
+- [x] Install Python dependencies:
+```bash
 uv pip install -r requirements.txt
 ```
 
 ### 4. Node Environment
+- [x] Ensure pnpm is installed globally
+- [x] Install Node.js dependencies:
 ```bash
 cd web
-npm install -g pnpm  # if not already installed
 pnpm install
 ```
 
 ### 5. Environment Variables
-Create `web/.env.local` (note: in the `web/` folder, not root):
-
+- [x] Create `web/.env.local` (note: in the `web/` folder, not root)
+- [x] Copy from example and fill in actual values:
 ```bash
 # Copy from example
 cp ../env.example .env.local
 ```
+- [x] Fill in all required environment variables:
+  - [x] `GEMINI_API_KEY=...`
+  - [x] `SUPABASE_URL=...`
+  - [x] `SUPABASE_SERVICE_ROLE_KEY=...`
+  - [x] `SUPABASE_ANON_KEY=...`
+  - [x] App configuration variables
+  - [x] Retrieval configuration variables
 
-Then fill in your actual values:
+### 6. Place Input Documents
+- [x] Put PDFs into `rag_input/` at repo root:
+  - [x] Owner's Manual
+  - [x] Service Manual  
+  - [x] Wiring Diagram
+
+### 7. Verify Setup
+- [x] Test Python ingestion (from repo root):
 ```bash
-# Google Gemini API
-GEMINI_API_KEY=your_gemini_api_key
-
-# Supabase
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-SUPABASE_ANON_KEY=your_anon_key
-
-# App configuration
-NEXT_PUBLIC_APP_NAME=Mechanic RAG (S2000)
-NODE_ENV=development
-
-# Retrieval configuration
-RETRIEVAL_FUSION_MODE=always
-FUSION_LINEAR_ALPHA=0.7
-MMR_LAMBDA=0.4
-RETRIEVAL_K_DEFAULT=8
-```
-
-### 6. Verify Setup
-```bash
-# Test Python ingestion (from repo root)
 source .venv/bin/activate
 python scripts/ingest/ingest.py --dry-run
-
-# Test Next.js app (from web/)
+```
+- [x] Test Next.js app (from web/):
+```bash
 cd web
 pnpm run dev
 # Visit http://localhost:3000/api/health → should return {"status":"ok"}
 ```
+- [x] Test database connection and verify full pipeline works
+  - [x] Confirmed Supabase connection active
+  - [x] Verified data is already indexed and retrieval working
 
 ## Notes
 
