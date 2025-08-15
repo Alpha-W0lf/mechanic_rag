@@ -23,7 +23,7 @@ create table if not exists public.chunks (
   page_end integer,
   section_heading text,
   section_path text, -- e.g., "13 Clutch > 13-3 Service"
-  embedding vector,  -- leave dimension unspecified to avoid mismatch during early exploration
+  embedding vector(768),  -- Google text-embedding-004 uses 768 dimensions
   created_at timestamptz not null default now()
 );
 
