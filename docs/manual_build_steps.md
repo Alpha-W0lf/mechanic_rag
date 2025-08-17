@@ -74,5 +74,3 @@ Follow these steps to provision external services and wire up local/prod envs. K
 Notes
 - Keep secrets out of client code. Only serverless API routes should access Supabase service role and Gemini keys.
 - HNSW index is attempted automatically in `db/schema.sql`; it will silently fall back if unsupported.
-
-

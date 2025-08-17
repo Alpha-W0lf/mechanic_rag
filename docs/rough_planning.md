@@ -1,7 +1,7 @@
 ## Project: Mechanic RAG – MVP Planning (S2000 Focus)
 
 ### 1) Goal and Scope (from notes)
-- Build a RAG system specialized for the 2003 Honda S2000 using the owner's manual, service manual, and wiring diagram as initial sources.
+- Build a RAG system specialized for the 2003 Honda S2000 using the owner's manual and service manual as initial sources.
 - Production-minded MVP: simple, reliable, maintainable foundation, future-extensible to other vehicles and agentic workflows.
 - Operate entirely on free tiers, using the Google Gemini API within free limits.
 
@@ -39,11 +39,7 @@
 
 6. Ingestion & chunking (RESEARCH-DRIVEN → BASELINE SELECTED)
    - Parsing: Docling as primary (layout-aware: headings/sections/tables). PyMuPDF as fast path for text + images. Use pdfplumber/Camelot selectively for torque/spec tables.
-   - Chunking (portfolio-focused update):
-     - Structure-first baseline; then semantic-aware refinement for long sections (>2–3k chars) by detecting low-similarity valleys to avoid concept splits.
-     - Include hierarchical breadcrumbs (e.g., "Manual > Section > Subsection") in chunk text prefix and metadata to improve disambiguation and citation quality.
-     - Baseline window: ~1000–1200 chars with ~200 overlap; prefer sentence boundaries; keep tables intact.
-     - Token awareness: log token counts; cap per-chunk tokens to control prompt bloat. See `docs/chunking_research.md`.
+   - Chunking: structure-aware first; baseline ~1000–1200 chars with ~200 overlap; include `section_path` and page range in metadata. See `docs/chunking_research.md`.
 
 7. Security & keys (CONFIRMED APPROACH)
    - Keep keys server-side only. Use Vercel Project Environment Variables for prod; `.env.local` for dev; commit a `.env.example`. Consider 1Password/Vercel integration for team-secret hygiene.
@@ -58,9 +54,8 @@
 - Frontend: Next.js app with a modern, attractive chat UI, message history, and source citations.
 - API routes:
   - `/api/ask`: receives query, embeds query, retrieves top-k from vector DB with MMR diversification, constructs prompt, calls Gemini, returns answer + citations.
-- Ingestion script (Python):
-  - `ingest`: read PDFs from `rag_input/`, parse via Docling (fallback PyMuPDF), extract `section_path` + page ranges, split into chunks (structure-first + semantic refinement + breadcrumbs), embed via selected embedding model, upsert into Supabase pgvector.
-  - Wiring diagram handling (MVP): attempt text-layer extraction for labels/legends; capture page references and section paths. Defer OCR/VLM parsing of purely graphical content to a later phase unless quick wins are evident.
+- Ingestion script (Node):
+  - `ingest`: read PDFs from `rag_input/`, parse via Docling (fallback PyMuPDF), extract `section_path` + page ranges, split into chunks, embed via selected embedding model, upsert into Supabase pgvector.
 - Indexing: prefer HNSW (cosine) if supported in the project; fallback to IVFFlat with tuned lists/probes. See `docs/indexing_research.md`.
  - Indexing: prefer HNSW (cosine). Supabase docs provide HNSW guidance with pgvector ≥0.6.0; verify availability in our project at setup. We have a strong preference fro HNSW, but fallback to IVFFlat with tuned lists/probes if needed. See `docs/indexing_research.md`.
 - Secrets management: no keys in client. Use Vercel Env Vars for prod, `.env.local` for dev, `.env.example` for onboarding; no secrets in repo or static assets.
@@ -68,11 +63,6 @@
 ### 6) Data Model (Supabase)
 - Table `documents`: `id`, `vehicle`, `source_name`, `source_type`, `path`, `ingested_at`.
 - Table `chunks`: `id`, `document_id`, `chunk_index`, `content`, `page_start`, `page_end`, `section_heading`, `section_path`, `embedding (vector)`.
-
-Notes (embedding migration metadata): Track the embedding model and dimension per row to enable safe migrations. Options:
-- Add columns: `embedding_model text`, `embedding_dim integer`, `embedding_version text`, `embedded_at timestamptz`.
-- Or add `metadata jsonb` to carry the above. Avoid mixing dimensions within one indexed table; prefer re-embedding the whole corpus when model dims change.
-Implementation note: We will prepare idempotent DDL and apply it alongside the ingestion rollout (see task list). No schema deletions; additive only.
 
 ### 7) UX Details
 - Single-page chat with: question input, model answer, inline citation markers, expandable sources panel.
@@ -84,7 +74,6 @@ Implementation note: We will prepare idempotent DDL and apply it alongside the i
 - Logging of request ids, retrieval timings, token usage; redact sensitive info.
 - Basic analytics: questions count, retrieval latency, top documents used.
 - Guardrails: max answer length; ensure citations always present; refuse unsafe repair guidance without proper warnings.
-- Instrumentation: log retrieval scores (vector and lexical), MMR λ, selected k, token usage; add run ids for offline eval traceability.
 
 ### 9) Decisions: confirmed vs open
 - App form factor (CONFIRMED): Web UI (Next.js). No CLI needed.
@@ -93,20 +82,13 @@ Implementation note: We will prepare idempotent DDL and apply it alongside the i
 - Embeddings (MVP DEFAULT): `text-embedding-004` with env-configured toggle; plan migration to `-005` after verification. Research in `docs/embedding_research.md`.
 - Generation model (OPEN): Favor Gemini 2.5 Flash; allow Pro when quotas permit. Validate against `docs/gemini_api_notes.md`.
 - Initial documents (CONFIRMED): S2000 Owner’s + Service Manuals in `rag_input/`.
- - Initial documents (CONFIRMED): S2000 Owner’s Manual, Service Manual, and Wiring Diagram in `rag_input/`.
 - Chunking (OPEN): Research in `docs/chunking_research.md`.
 - Retrieval top-K (PROPOSED): Start k=8 with MMR; rationale in Section 11.
 - Must-haves (CONFIRMED): Chat with citations, disclaimer, logging, rate limiting, polished UI.
 - Non-goals v1 (CONFIRMED): Agentic workflows, crawling, multi-vehicle, auth.
 - PDF parsing approach (PROPOSED): Docling primary; PyMuPDF fast path; pdfplumber/Camelot for tables. Research in `docs/pdf_parsing_research.md`.
-  - Wiring diagram note: prioritize text-layer extraction for labels and references; evaluate OCR/VLM approaches in Phase 2 if needed.
 - Licensing/disclaimer (TO IMPLEMENT): See Section 10.
 - Evaluation acceptance criteria (TO IMPLEMENT): See Section 12.
-
-Portfolio-focused updates (decisions):
-- Ingestion runtime (CONFIRMED): Python.
-- Chunking (CONFIRMED DIRECTION): Structure-first + semantic refinement + hierarchical breadcrumbs; finalize parameters via eval in Phase 4.
-- Retrieval (CONFIRMED): Always fuse hybrid dense + lexical (Postgres FTS/BM25) via RRF by default, then apply MMR and dynamic k. Config toggle allows conditional fusion when vector confidence is high.
 
 ### 10) Licensing & Disclaimer Plan (non-commercial portfolio)
 - Purpose: personal, non-commercial portfolio; no monetization.
@@ -134,15 +116,6 @@ Portfolio-focused updates (decisions):
   - Light lemmatization and spelling normalization (e.g., “center” vs “centre”).
   - Implement as a lightweight preprocessor; keep original query for traceability.
 - Evaluate and tune parameters during offline testing (see Section 12).
-
-Hybrid retrieval (portfolio-focused addition):
-- Maintain a Postgres FTS index (`tsvector` over `content`), query via `websearch_to_tsquery`.
-- Fusion strategies:
-  - Reciprocal Rank Fusion (RRF) of dense and lexical top-N.
-  - Or linear score combo: `score = α * cosine + (1-α) * bm25_norm` (start α≈0.7).
-- When to apply:
-  - Always fuse for robustness, or conditionally when top-1 cosine < 0.40 or vector candidates < 3.
-- Keep MMR post-fusion to reduce near-duplicates by section.
 
 ### 12) Evaluation Plan & Acceptance Criteria
 - Dataset: curate 30–50 S2000 queries across categories: routine maintenance, torque specs, diagnostics, fluids, safety.
@@ -172,15 +145,9 @@ Hybrid retrieval (portfolio-focused addition):
 - Lock decisions per Sections 9–12.
 - Create Next.js app skeleton, polished UI scaffold, and API route stubs.
 - Initialize Supabase; check pgvector version; attempt HNSW index creation (cosine). If unsupported, use IVFFlat with lists≈sqrt(N) and probes≈10.
-- Implement Docling-based parsing prototype with PyMuPDF fallback; validate 10–20 pages (gold set) incl. table-heavy sections.
-- Implement ingestion script in Python; ingest manuals; verify `section_path` and page mapping.
-- Implement hybrid retrieval: vector cosine + Postgres FTS (BM25), fusion (RRF or linear), MMR, dynamic k; add similarity floor and conditional fusion.
-- Integrate Gemini model with config toggle (Flash/Pro) and enforce citations.
+- Implement Docling-based parsing prototype with PyMuPDF fallback; validate 10–20 pages.
+- Implement ingestion script; ingest manuals; verify `section_path` and page mapping.
+- Implement retrieval with MMR (λ≈0.4, dynamic k) and citations; integrate Gemini model with config toggle (Flash/Pro).
 - Add disclaimer, basic logging, and rate limiting.
 - Prepare evaluation set; run baseline; tune chunking/k as needed.
-
-Embedding migration tasks:
-- Add metadata to `chunks` for `embedding_model`, `embedding_dim`, and `embedded_at` (or `metadata jsonb`).
-- Create a re-embedding script that can backfill into a staging table, validate dims, and swap over atomically.
- - Apply additive DB DDL: create `embedding_runs` log table; add `content_tsv` generated column and GIN index; add HNSW (or IVFFlat) vector index.
 

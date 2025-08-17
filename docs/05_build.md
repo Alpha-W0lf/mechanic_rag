@@ -9,7 +9,6 @@ Objective: Ship a polished, portfolio-quality demo on Vercel with strong documen
 - [ ] **Operational hardening**
   - [ ] Add basic logging/analytics (no PII), rate limits, and error boundaries.
   - [ ] Enforce max response length and safety messaging.
-  - [ ] Expose a configuration toggle for conditional fusion (vector-only on high-confidence queries) for demonstration purposes.
 - [ ] **Deployment**
   - [ ] Configure Vercel project env vars and build settings.
   - [ ] Deploy and verify.

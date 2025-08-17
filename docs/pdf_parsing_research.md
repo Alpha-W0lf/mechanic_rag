@@ -6,7 +6,6 @@ Status: Research in progress — decision pending. We will conduct multiple web 
 - Extract high-fidelity text with headings and page numbers.
 - Preserve structure for tables and torque specs; capture figure/table captions.
 - Optionally extract images/diagrams metadata for future multimodal use.
- - Wiring diagram: capture textual labels, legends, and cross-references; map page/section locations for citation.
 
 ### Success Criteria (MVP)
 - ≥95% of paragraphs correctly captured with minimal artifacts.
@@ -36,13 +35,11 @@ Status: Research in progress — decision pending. We will conduct multiple web 
    - Use PyMuPDF or Docling to extract text blocks with page numbers.
    - Heuristic heading detection: PDF outline (if present), font size/style, numbering patterns (e.g., 13-3 Clutch Service).
    - Table handling: attempt pdfplumber; fallback to line-joined text with delimiters.
-   - Wiring diagram handling: attempt text-layer extraction for labels/legends; if pages are image-only, defer OCR/VLM to Phase 2.
    - Emit JSONL with fields: document, page_start, page_end, section_path, content, figures, tables_summary.
 
 2) Phase 2 (Enhancement): Tables & diagrams
    - Improve table extraction (Camelot/Docling); store normalized CSV for key tables (torque specs).
    - Extract images and captions; consider lightweight OCR for in-image text if needed.
-   - Wiring diagram: prototype OCR/VLM-based parsing for graphical-only content; evaluate feasibility and ROI.
 
 ### Evaluation Protocol
 - Build a small gold set: select 10 diverse sections (maintenance schedule, torque specs, diagnostics).
