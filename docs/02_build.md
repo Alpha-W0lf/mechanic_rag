@@ -3,11 +3,11 @@
 Objective: Choose a practical PDF parsing approach and implement an ingestion pipeline that produces high-quality chunks with metadata.
 
 ### Steps
-- [ ] **Research (Aug 2025 landscape)**
-  - [ ] Populate findings in `docs/pdf_parsing_research.md` (one search at a time; append after each).
-  - [ ] Populate findings in `docs/chunking_research.md` and `docs/embedding_research.md` similarly.
+- [x] **Research (Aug 2025 landscape)**
+  - [x] Populate findings in `docs/pdf_parsing_research.md` (one search at a time; append after each).
+  - [x] Populate findings in `docs/chunking_research.md` and `docs/embedding_research.md` similarly.
 - [ ] **Parser prototype**
-  - [ ] Implement a text-first parser (candidate: PyMuPDF or Docling) to extract text, headings, and page numbers.
+  - [x] Implement a text-first parser (candidate: PyMuPDF or Docling) to extract text, headings, and page numbers.
   - [ ] For tables (maintenance schedule, torque specs), try pdfplumber/Camelot; record fidelity vs complexity.
 - [ ] **Ingestion output schema**
   - [ ] Produce JSONL records with: `document`, `page_start`, `page_end`, `section_heading`, `section_path`, `content`.

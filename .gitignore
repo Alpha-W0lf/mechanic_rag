@@ -1,20 +1,73 @@
-# Root ignores
-.DS_Store
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+/node_modules
+/.pnpm-store
+
+# Local Environment
 .env
-.env.*
-*.local
+.env*.local
+!.env.example
 
-# Python
-.venv/
-venv/
-__pycache__/
-*.pyc
+# Production/Build artifacts
+/.next/
+/out/
+/build
 
-# Node
-node_modules/
-.next/
-coverage/
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test outputs
+/coverage
 
 # Misc
+.DS_Store
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+/pip-wheel-metadata/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+instance/
+.webassets-cache
+.scrapy
+.ipython/
+.pytest_cache/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
 *.log
+.hypothesis/
+.tox/
+.nox/
+
+# Virtual Environment
+.venv
+venv/
+venv.bak
+ENV/
+env/
+env.bak
+.env
+.envrc
+.direnv/
+
+# VSCode
+.vscode/
+
+# IntelliJ
+.idea/
+
+# Supabase
+.supabase
 
