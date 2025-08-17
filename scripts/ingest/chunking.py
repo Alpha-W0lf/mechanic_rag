@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Dict, Any
 
 
 @dataclass
 class Chunk:
     """A chunk of text with metadata about its source location and structure."""
+    document_id: str
     content: str
     page_start: int | None
     page_end: int | None
@@ -16,9 +17,19 @@ class Chunk:
     
     # Enhanced metadata for better retrieval
     chunk_index: int = 0
-    total_chunks: int = 0
-    char_start: int = 0
-    char_end: int = 0
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> Chunk:
+        """Create a Chunk object from a dictionary."""
+        return cls(
+            document_id=data.get("document_id", ""),
+            content=data.get("content", ""),
+            page_start=data.get("page_start"),
+            page_end=data.get("page_end"),
+            section_path=data.get("section_path"),
+            section_heading=data.get("section_heading"),
+            chunk_index=data.get("chunk_index", 0),
+        )
 
 
 @dataclass
@@ -131,14 +142,13 @@ def structure_aware_chunking(
         if len(section_text) <= max_chars:
             # Section fits in one chunk
             chunks.append(Chunk(
+                document_id="",
                 content=section_text,
                 page_start=section.page_start,
                 page_end=section.page_end,
                 section_path=section.section_path,
                 section_heading=section.heading,
                 chunk_index=chunk_index,
-                char_start=0,
-                char_end=len(section_text)
             ))
             chunk_index += 1
         else:
@@ -153,21 +163,15 @@ def structure_aware_chunking(
             
             for i, chunk_content in enumerate(section_chunks):
                 chunks.append(Chunk(
+                    document_id="",
                     content=chunk_content,
                     page_start=section.page_start,
                     page_end=section.page_end,
                     section_path=section.section_path,
                     section_heading=section.heading,
                     chunk_index=chunk_index,
-                    char_start=i * (target_chars - overlap_chars),
-                    char_end=i * (target_chars - overlap_chars) + len(chunk_content)
                 ))
                 chunk_index += 1
-    
-    # Update total_chunks for all chunks
-    total_chunks = len(chunks)
-    for chunk in chunks:
-        chunk.total_chunks = total_chunks
     
     return chunks
 

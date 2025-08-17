@@ -7,7 +7,7 @@ create extension if not exists vector;
 create table if not exists public.documents (
   id uuid primary key default gen_random_uuid(),
   vehicle text not null,
-  source_name text not null,
+  source_name text not null unique,
   source_type text not null, -- e.g., 'pdf'
   path text,                 -- relative path or identifier
   ingested_at timestamptz not null default now()

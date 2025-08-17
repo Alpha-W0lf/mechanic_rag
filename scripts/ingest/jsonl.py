@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import asdict, is_dataclass
 from pathlib import Path
-from typing import Iterable, Mapping, Any
+from typing import Iterable, Mapping, Any, Iterator
 
 
 def _to_jsonable(record: Any) -> Mapping[str, Any] | Any:
@@ -18,3 +18,9 @@ def write_jsonl(path: Path, records: Iterable[Any]) -> None:
         for rec in records:
             jsonable = _to_jsonable(rec)
             f.write(json.dumps(jsonable, ensure_ascii=False) + "\n")
+
+def read_jsonl(path: Path) -> Iterator[Any]:
+    """Read a JSONL file and yield each line as a Python object."""
+    with path.open("r", encoding="utf-8") as f:
+        for line in f:
+            yield json.loads(line)

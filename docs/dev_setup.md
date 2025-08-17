@@ -84,6 +84,16 @@ pnpm run dev
 - [x] Test database connection and verify full pipeline works
   - [x] Confirmed Supabase connection active
   - [x] Verified data is already indexed and retrieval working
+- [x] Test ingestion skeleton:
+  - [x] `python scripts/ingest/ingest.py --dry-run`
+  - [x] Confirmed discovery of all 3 PDFs and shows planned steps
+- [ ] **Download NLTK data models (one-time setup)**
+  - [ ] Run the following command from an activated venv:
+  - [ ] `python -c "import nltk; nltk.download('all')"`
+
+### 6) Verify database connection
+ - [x] Test Supabase connection from local environment
+ - [x] Verify vector extension is working
 
 ## Notes
 
