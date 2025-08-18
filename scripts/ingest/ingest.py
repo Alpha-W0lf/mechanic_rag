@@ -6,13 +6,12 @@ import os
 from pathlib import Path
 
 import google.generativeai as genai
-from chunking import structure_aware_chunking
+from scripts.ingest.chunking import Chunk, structure_aware_chunking
 from dotenv import load_dotenv
 from jsonl import write_jsonl, read_jsonl
-from parse import parse_document
+from scripts.ingest.parse import parse_document
 from supabase import create_client, Client
 from tqdm import tqdm
-from chunking import Chunk
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import uuid
 import warnings
@@ -62,50 +61,48 @@ def upsert_chunks(supabase: Client, chunks: list[dict]) -> None:
         print(f"Error upserting chunks: {e}")
         raise
 
-def process_pdf(pdf_path: Path, supabase: Client, dry_run: bool) -> None:
-    """Process a single PDF file."""
-    print(f"\nProcessing {pdf_path.name}...")
-
-    # Step 1: Always get the document ID first.
-    if not dry_run:
-        doc_to_upsert = {
-            "vehicle": "Honda S2000",
-            "source_name": pdf_path.name,
-            "source_type": "pdf",
-            "path": str(pdf_path),
-        }
-        document = supabase.table("documents").upsert(doc_to_upsert, on_conflict="source_name").execute().data[0]
-        document_id = document["id"]
-    else:
-        # Use a placeholder for dry runs
-        document_id = str(uuid.uuid4())
-
-    output_path = RAG_OUTPUT_DIR / f"{pdf_path.stem}.jsonl"
-
-    if output_path.exists():
-        print(f"Found existing chunks file, skipping parsing and chunking.")
-        chunks = [Chunk.from_dict(c) for c in read_jsonl(output_path)]
-    else:
-        # Parse PDF into a markdown string
-        full_text = parse_document(pdf_path)
+def process_pdf(pdf_path: Path, supabase_client, gemini_client, dry_run: bool = False):
+    """
+    Process a single PDF file: parse, chunk, embed, and upsert.
+    """
+    try:
+        print(f"Processing {pdf_path.name}...")
         
-        # Chunk the document
-        chunks = structure_aware_chunking(full_text)
-        
-        # Write chunks to JSONL file
-        write_jsonl(output_path, chunks)
-        
-        print(f"Wrote {len(chunks)} chunks to {output_path}")
+        # Upsert document entry and get document_id
+        source_name = pdf_path.name
+        if not dry_run:
+            doc_to_upsert = {
+                "vehicle": "Honda S2000",
+                "source_name": source_name,
+                "source_type": "pdf",
+                "path": str(pdf_path),
+            }
+            doc_response = supabase_client.table("documents").upsert(doc_to_upsert, on_conflict="source_name").execute()
+            document_id = doc_response.data[0]['id']
+        else:
+            document_id = "dry-run-doc-id"
 
-    # Step 2: Always populate the document_id for all chunks.
-    for chunk in chunks:
-        chunk.document_id = document_id
+        # --- Step 1: Parse Document (Multimodal) ---
+        markdown_content, image_paths = parse_document(pdf_path)
 
-    # Step 3: Embed and upsert chunks to Supabase
-    if not dry_run:
-        print("Embedding and upserting chunks to Supabase...")
-        
-        # Prepare data for embedding and upserting
+        if not markdown_content.strip():
+            print(f"Warning: No content extracted from {pdf_path.name}. Skipping.")
+            return
+
+        # --- Step 2: Chunk Content ---
+        print(f"Chunking {pdf_path.name}...")
+        chunks = structure_aware_chunking(
+            markdown_content=markdown_content,
+            document_id=document_id,
+            image_paths=image_paths
+        )
+
+        if not chunks:
+            print(f"No chunks generated for {pdf_path.name}. Skipping.")
+            return
+
+        # --- Step 3: Embed Chunks ---
+        print(f"Embedding {len(chunks)} chunks for {pdf_path.name}...")
         chunks_to_embed = [chunk.content for chunk in chunks]
         embeddings = embed_chunks(chunks_to_embed)
         
@@ -116,11 +113,15 @@ def process_pdf(pdf_path: Path, supabase: Client, dry_run: bool) -> None:
             chunk_dict["embedding"] = embeddings[i]
             chunks_to_upsert.append(chunk_dict)
 
-        upsert_chunks(supabase, chunks_to_upsert)
+        # --- Step 4: Upsert Chunks ---
+        print(f"Upserting {len(chunks)} chunks to Supabase for {pdf_path.name}...")
+        upsert_chunks(supabase_client, chunks_to_upsert)
         
         print(f"Done processing {pdf_path.name}.")
+    except Exception as e:
+        print(f"Error processing {pdf_path.name}: {e}")
 
-def main() -> None:
+def main(dry_run: bool, cleanup: bool):
     parser = argparse.ArgumentParser(description="Ingestion skeleton")
     parser.add_argument("--dry-run", action="store_true", help="Print plan only; no DB writes")
     parser.add_argument("--cleanup", action="store_true", help="Truncate documents and chunks tables")
@@ -134,22 +135,22 @@ def main() -> None:
     if not supabase_url or not supabase_key or not gemini_api_key:
         raise ValueError("Supabase and Gemini API keys must be set in .env file")
 
-    supabase: Client = create_client(supabase_url, supabase_key)
+    supabase_client: Client = create_client(supabase_url, supabase_key)
     genai.configure(api_key=gemini_api_key)
 
-    if args.cleanup:
+    if cleanup:
         print("Cleaning up database tables...")
-        supabase.table("documents").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
-        supabase.table("chunks").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
+        supabase_client.table("documents").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
+        supabase_client.table("chunks").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
         print("Cleanup complete.")
         return
 
-    pdfs = discover_pdfs()
-    print(f"Found {len(pdfs)} PDF(s) in {RAG_INPUT_DIR}")
-    for p in pdfs:
+    pdf_files = list(RAG_INPUT_DIR.glob("*.pdf"))
+    print(f"Found {len(pdf_files)} PDF(s) in {RAG_INPUT_DIR}")
+    for p in pdf_files:
         print(f" - {p.name}")
 
-    if args.dry_run:
+    if dry_run:
         print(
             "\nDry run: parsing (Docling/PyMuPDF), chunking (structure+semantic), "
             "embedding, upsert to Supabase."
@@ -157,12 +158,15 @@ def main() -> None:
         return
 
     with ThreadPoolExecutor() as executor:
-        futures = [executor.submit(process_pdf, pdf_path, supabase, args.dry_run) for pdf_path in pdfs]
+        # Pass clients to each thread
+        futures = [
+            executor.submit(process_pdf, pdf, supabase_client, genai.configure(api_key=gemini_api_key), dry_run)
+            for pdf in pdf_files
+        ]
         for future in as_completed(futures):
-            try:
-                future.result()
-            except Exception as e:
-                print(f"Error processing a PDF: {e}")
+            future.result()  # Propagate exceptions
+
+    print("Ingestion complete.")
 
 
 if __name__ == "__main__":

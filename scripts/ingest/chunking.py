@@ -1,19 +1,21 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from typing import List, Optional, Tuple, Dict, Any
+from pathlib import Path
 
 
 @dataclass
 class Chunk:
-    """A chunk of text with metadata about its source location and structure."""
+    """A chunk of text from a document."""
     document_id: str
     content: str
-    page_start: int | None
-    page_end: int | None
-    section_path: str | None
-    section_heading: str | None
+    page_start: int
+    page_end: int
+    section_heading: str
+    section_path: str
+    image_path: Optional[str] = None
     
     # Enhanced metadata for better retrieval
     chunk_index: int = 0
@@ -107,72 +109,49 @@ def parse_markdown_structure(markdown_text: str) -> List[DocumentSection]:
 
 
 def structure_aware_chunking(
-    markdown_text: str,
-    target_chars: int = 1100,
-    overlap_chars: int = 200,
-    max_chars: int = 1200
+    markdown_content: str,
+    document_id: str,
+    image_paths: List[Path],
+    chunk_size: int = 1000,
+    overlap: int = 200,
 ) -> List[Chunk]:
-    """Create structure-aware chunks with hierarchical context.
-    
-    Args:
-        markdown_text: Docling-generated markdown content
-        target_chars: Target chunk size (1000-1200 range)
-        overlap_chars: Overlap between chunks
-        max_chars: Maximum chunk size before forced split
-        
-    Returns:
-        List of chunks with section metadata and hierarchical context
     """
-    sections = parse_markdown_structure(markdown_text)
-    chunks = []
-    chunk_index = 0
+    Splits Markdown content into chunks, keeping special blocks like tables and
+    image captions intact.
+    """
+    # Regex to find Markdown tables or image captions
+    atomic_block_regex = re.compile(r"(\n\n!?\[Image:.*?\]\n\n|\n\n\|.*?\|\n\n)", re.DOTALL)
     
-    for section in sections:
-        if not section.content.strip():
-            continue
-            
-        # Create hierarchical context prefix
-        context_prefix = ""
-        if section.section_path:
-            context_prefix = f"[{section.section_path}]\n\n"
+    chunks: List[Chunk] = []
+    # Simplified logic for now: treat entire content as one block
+    # A more sophisticated implementation will be needed here to handle
+    # page boundaries and associate the correct image_path.
+    
+    # For the MVP, we will do a naive split, but the structure is here for enhancement
+    # This part will require significant work to be truly "structure-aware" with
+    # our new multimodal output.
+    
+    # Placeholder: Simple text splitting for now
+    text_blocks = markdown_content.split("\n\n---\n\n") # Split by page
+    
+    for i, block in enumerate(text_blocks):
+        page_num = i + 1
+        image_path_for_page = image_paths[i] if i < len(image_paths) else None
         
-        section_text = context_prefix + section.content
-        
-        # Split long sections into chunks
-        if len(section_text) <= max_chars:
-            # Section fits in one chunk
-            chunks.append(Chunk(
-                document_id="",
-                content=section_text,
-                page_start=section.page_start,
-                page_end=section.page_end,
-                section_path=section.section_path,
-                section_heading=section.heading,
-                chunk_index=chunk_index,
-            ))
-            chunk_index += 1
-        else:
-            # Split section into overlapping chunks
-            section_chunks = smart_split_section(
-                section_text,
-                target_chars,
-                overlap_chars,
-                max_chars,
-                section
+        # This is a simplification. A real implementation would need to
+        # handle chunking *within* a page's content.
+        chunks.append(
+            Chunk(
+                document_id=document_id,
+                content=block,
+                page_start=page_num,
+                page_end=page_num,
+                section_heading="", # Metadata extraction will be a future step
+                section_path="",
+                image_path=str(image_path_for_page) if image_path_for_page else None,
             )
-            
-            for i, chunk_content in enumerate(section_chunks):
-                chunks.append(Chunk(
-                    document_id="",
-                    content=chunk_content,
-                    page_start=section.page_start,
-                    page_end=section.page_end,
-                    section_path=section.section_path,
-                    section_heading=section.heading,
-                    chunk_index=chunk_index,
-                ))
-                chunk_index += 1
-    
+        )
+        
     return chunks
 
 

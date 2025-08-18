@@ -1,15 +1,11 @@
 import os
-import pathlib
-import textwrap
+from pathlib import Path
 import google.generativeai as genai
-from IPython.display import display
-from IPython.display import Markdown
-from PIL import Image
-from pdf2image import convert_from_path
-from pdf2image.exceptions import PDFInfoNotInstalledError
+from dotenv import load_dotenv
+from pypdf import PdfReader, PdfWriter
 
 # --- Configuration ---
-# Configure the Gemini API key
+load_dotenv(dotenv_path="web/.env.local")
 try:
     genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 except KeyError:
@@ -17,100 +13,100 @@ except KeyError:
     exit(1)
 
 # --- Constants ---
-PDF_PATH = pathlib.Path("rag_input/Honda_S2000_Service_Manual_2000_2008.pdf")
-OUTPUT_DIR = pathlib.Path("scripts/ingest/poc_output")
-PAGE_TO_TEST = 35 # A page with a mix of text, tables, and diagrams
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+PDF_PATH = PROJECT_ROOT / "rag_input/Honda_S2000_Service Manual_2000_2008.pdf"
+TEMP_PDF_PATH = PROJECT_ROOT / "scripts/ingest/temp_pdf_chunk.pdf"
 
-# --- Configuration ---
-MODELS_TO_TEST = [
-    "gemini-2.0-flash-latest",
+# A list of pages to test, chosen for their different content types
+PAGES_TO_TEST = [
+    {"page": 35, "description": "a dense table of engine specifications"},
+    {"page": 85, "description": "procedural text with numbered lists"},
+    {"page": 158, "description": "a complex exploded-view diagram of a transmission component"}
 ]
-DPIS_TO_TEST = [150, 300, 600]
 
 # --- Functions ---
-def convert_pdf_page_to_image(pdf_path: pathlib.Path, page_number: int, output_path: pathlib.Path):
-    """
-    Converts a single page of a PDF to a high-resolution PNG image.
-    """
-    print(f"Converting page {page_number} of {pdf_path.name} to image...")
-    try:
-        images = convert_from_path(
-            pdf_path,
-            first_page=page_number,
-            last_page=page_number,
-            dpi=300,  # Use a high DPI for better quality
-            fmt="png",
-            thread_count=1 # Keep it single-threaded for the PoC
-        )
-        if images:
-            images[0].save(output_path, "PNG")
-            print(f"Successfully saved image to {output_path}")
-            return True
-    except PDFInfoNotInstalledError:
-        print("ERROR: Poppler is not installed or not in PATH.")
-        print("Please install Poppler and try again.")
-        return False
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return False
-    return False
+def split_pdf_chunk(
+    original_pdf: Path,
+    output_pdf: Path,
+    page_range: range
+):
+    """Creates a smaller PDF from a page range of a larger one."""
+    print(f"Creating a temporary PDF with pages {page_range.start}-{page_range.stop-1}...")
+    reader = PdfReader(original_pdf)
+    writer = PdfWriter()
+    for i in page_range:
+        writer.add_page(reader.pages[i-1]) # pypdf is 0-indexed
+    with open(output_pdf, "wb") as f:
+        writer.write(f)
+    print(f"Temporary PDF saved to {output_pdf}")
 
 # --- Main Execution ---
 def main():
     """
-    Main function to run the multimodal ingestion proof of concept.
+    Runs a multi-turn experiment for several page types to test Gemini 2.5 Pro's
+    PDF understanding capabilities.
     """
-    print("Running Multimodal Ingestion PoC...")
-    OUTPUT_DIR.mkdir(exist_ok=True)
+    print("--- Starting Gemini 2.5 Pro PDF Capability Experiment ---")
+    
+    # Create a single PDF chunk containing all pages we want to test
+    all_page_numbers = sorted([p["page"] for p in PAGES_TO_TEST])
+    min_page, max_page = all_page_numbers[0], all_page_numbers[-1]
+    
+    pdf_file = None
+    try:
+        # Step 1: Create a single PDF chunk that includes all pages
+        split_pdf_chunk(PDF_PATH, TEMP_PDF_PATH, range(min_page, max_page + 1))
 
-    # --- Step 1: Generate Image Variants ---
-    image_paths = {}
-    for dpi in DPIS_TO_TEST:
-        output_path = OUTPUT_DIR / f"page_{PAGE_TO_TEST}_{dpi}dpi.png"
-        if not convert_pdf_page_to_image(PDF_PATH, PAGE_TO_TEST, output_path):
-            exit(1)
-        image_paths[dpi] = output_path
+        # Step 2: Upload the PDF chunk
+        print(f"Uploading {TEMP_PDF_PATH.name}...")
+        pdf_file = genai.upload_file(path=TEMP_PDF_PATH, display_name="S2000 Manual Chunk")
+        print(f"Upload complete: {pdf_file.uri}")
 
-    # --- Step 2: Run Experiments ---
-    for model_name in MODELS_TO_TEST:
-        for dpi in DPIS_TO_TEST:
-            image_path = image_paths[dpi]
-            print(f"\n--- Running Experiment: Model={model_name}, DPI={dpi} ---")
+        # Step 3: Start a chat session
+        model = genai.GenerativeModel(model_name="gemini-2.5-pro")
+        chat = model.start_chat()
 
-            try:
-                # Load the image
-                img = Image.open(image_path)
+        # --- Run experiment for each page type ---
+        for page_info in PAGES_TO_TEST:
+            page_num = page_info["page"]
+            description = page_info["description"]
+            
+            print(f"\n\n--- Testing Page {page_num} ({description}) ---")
 
-                # Instantiate the model
-                model = genai.GenerativeModel(model_name)
+            # --- Turn 1: General Transcription ---
+            print(f"\n--- Turn 1: Transcribing page {page_num}... ---")
+            prompt1 = f"""
+            Analyze the uploaded PDF file. Your task is to meticulously transcribe
+            the entire content of page {page_num} into a well-structured Markdown document.
+            """
+            response1 = chat.send_message([prompt1, pdf_file] if page_info == PAGES_TO_TEST[0] else prompt1)
+            print("Model Response (Turn 1):")
+            print(response1.text)
 
-                # Craft the prompt
-                prompt = """
-                You are a technical document specialist. Your task is to meticulously analyze the provided image of a technical manual page and convert its entire content into a well-structured Markdown document.
+            # --- Turn 2: Fine-grained Analysis ---
+            print(f"\n--- Turn 2: Analyzing the main content of page {page_num}... ---")
+            prompt2 = f"""
+            From the document, look at page {page_num} again.
+            Describe the main content of this page, focusing on {description}.
+            """
+            response2 = chat.send_message(prompt2)
+            print("Model Response (Turn 2):")
+            print(response2.text)
+            print("--------------------------------------------------")
 
-                Instructions:
-                1.  **Transcribe All Text:** Capture every piece of text on the page, including headers, footers, page numbers, table content, diagram labels, and captions.
-                2.  **Preserve Structure:** Replicate the document's structure using Markdown. Use headings (`#`, `##`, etc.) for titles and sections. Use lists for itemized information.
-                3.  **Format Tables:** Recreate any tables using Markdown table syntax. Ensure all rows, columns, and headers are accurately represented.
-                4.  **Describe Images/Diagrams:** Where there are images or diagrams, provide a brief, descriptive placeholder in the text, like `[Image: Description of the engine assembly]` or `[Diagram: Wiring schematic for the main fuse box]`.
-                5.  **Be Exact:** Do not summarize, interpret, or add any information not present in the original document. The goal is a perfect, machine-readable transcription of the page's content and layout.
-                """
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        # Step 4: Clean up
+        if 'pdf_file' in locals() and pdf_file:
+            print(f"Deleting uploaded file: {pdf_file.name}")
+            genai.delete_file(pdf_file.name)
+        if TEMP_PDF_PATH.exists():
+            print(f"Deleting temporary PDF: {TEMP_PDF_PATH.name}")
+            TEMP_PDF_PATH.unlink()
+        print("Cleanup complete.")
 
-                # Call the API
-                response = model.generate_content([prompt, img])
-
-                # Save the response to a file
-                output_md_path = OUTPUT_DIR / f"output_{model_name}_{dpi}dpi.md"
-                with open(output_md_path, "w") as f:
-                    f.write(response.text)
-                print(f"Successfully saved Markdown to {output_md_path}")
-
-            except Exception as e:
-                print(f"An error occurred during the Gemini API call: {e}")
-                # Continue to the next experiment
-                continue
-
-    print("\nPoC complete. Please review the output files in the 'poc_output' directory.")
+    print("\n--- Experiment Complete ---")
 
 if __name__ == "__main__":
     main()

@@ -20,23 +20,35 @@ This document summarizes key details about the Google Gemini API, based on the o
 
 ---
 
-### 2. Free Tier Rate Limits (Corrected)
+### 2. Verified Model Capabilities & Identifiers (Definitive)
 
-Rate limits are applied per project and reset at midnight Pacific time.
+Based on the canonical documentation, the following is the definitive model strategy for this project.
 
-| Model                                       | Requests per Minute (RPM) | Tokens per Minute (TPM) | Requests per Day (RPD) |
-| ------------------------------------------- | ------------------------- | ----------------------- | ---------------------- |
-| **`Gemini 2.5 Pro`**                          | 5                         | 250,000                 | 100                    |
-| **`Gemini 2.5 Flash`**                        | 10                        | 250,000                 | 250                    |
-| **`Gemini 2.0 Flash Preview Image Generation`** | 10                        | 200,000                 | 100                    |
-| **`Gemini Embedding`**                        | 100                       | 30,000                  | 1,000                  |
+| Model                               | Verified API Identifier | Key Multimodal Capabilities (Inputs)                                 |
+| ----------------------------------- | ----------------------- | -------------------------------------------------------------------- |
+| **`Gemini 2.5 Pro` (Recommended)**    | `gemini-2.5-pro`        | **PDF:** Yes <br> **Image:** Yes <br> **Video:** Yes <br> **Audio:** Yes |
+| **`Gemini 2.5 Flash`**                | `gemini-2.5-flash`      | **Image:** Yes <br> **Video:** Yes <br> **Audio:** Yes                |
+| **`Gemini Embedding`**                | `text-embedding-004`    | **Text Only**                                                        |
+
+**Conclusion:** **`Gemini 2.5 Pro`** is the most capable model for our task. Its ability to natively ingest PDF documents makes it superior to any other choice.
 
 ---
 
-### 3. Architectural Implications & New Strategy
+### 3. Free Tier Rate Limits (Corrected)
 
-*   **`Gemini 2.5 Pro` is Viable:** The corrected limits (5 RPM / 100 RPD) are much more reasonable than previously thought. While still a constraint, this makes the model viable for lower-volume, high-quality extraction or summarization tasks within our pipeline.
-*   **Multimodal Ingestion is a Go:** The `Gemini 2.0 Flash Preview Image Generation` model has clear, workable limits (10 RPM / 100 RPD). This confirms that a multimodal ingestion strategy, where we pass document images to the model for analysis, is a feasible and powerful approach for handling complex layouts, tables, and diagrams.
-*   **Embedding Throughput:** The `Gemini Embedding` model has generous limits, which is excellent as embedding is a high-volume step in the ingestion process.
+Rate limits are applied per project.
 
-With this verified information, we can confidently proceed with an architecture that leverages Google's multimodal capabilities for the highest-quality data extraction, which was our primary goal. The next step will be to adapt our ingestion script to use this new approach.
+| Model                | Requests per Minute (RPM) | Tokens per Minute (TPM) | Requests per Day (RPD) |
+| -------------------- | ------------------------- | ----------------------- | ---------------------- |
+| **`Gemini 2.5 Pro`**   | 5                         | 250,000                 | 100                    |
+| **`Gemini 2.5 Flash`** | 10                        | 250,000                 | 250                    |
+
+---
+
+### 4. Architectural Implications & New Strategy (Final)
+
+*   **Definitive Model Choice:** We will use **`gemini-2.5-pro`**. Its modest rate limits are acceptable for our one-time ingestion in exchange for its state-of-the-art capabilities.
+*   **Simplified Ingestion Pipeline:** The `pdf2image` conversion step is **no longer necessary**. Our core `parse.py` logic will be significantly simplified. We will now send the PDF file directly to the Gemini API.
+*   **Solving the Diagram/Table Problem:** The model's native PDF understanding allows for a powerful multi-prompt workflow. We can now design a process where we:
+    1.  First, ask the model for a high-level summary or table of contents of the document.
+    2.  Then, in subsequent prompts, ask it to perform fine-grained extractions, such as "Generate a detailed Markdown transcription of the content on page 35" or "Extract the table from page 42 and return it as CSV." This provides a clear path to isolating and saving our visual assets.

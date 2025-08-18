@@ -23,6 +23,7 @@ create table if not exists public.chunks (
   page_end integer,
   section_heading text,
   section_path text, -- e.g., "13 Clutch > 13-3 Service"
+  image_path text, -- path to the source page image for multimodal retrieval
   embedding vector,  -- leave dimension unspecified to avoid mismatch during early exploration
   created_at timestamptz not null default now()
 );

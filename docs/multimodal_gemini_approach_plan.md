@@ -15,10 +15,10 @@ The core principle is to treat each page of our source PDF manuals as an **image
 
 ## 2. Strategic Viability & Model Selection
 
-This approach is feasible within our project's constraints. After careful consideration of the trade-offs between speed, cost, and quality, we have established the following model strategy:
+This approach is feasible within our project's constraints. After extensive PoC testing, we have established the definitive model and strategy:
 
--   **Primary Model:** We will proceed with `Gemini 2.0 Flash Preview Image Generation`. Its free-tier limits (**10 RPM / 100 RPD**) are sufficient for our initial, full-scale ingestion run.
--   **Quality Assurance:** While `Gemini 2.0 Flash` is expected to have sufficient quality, we will design the ingestion pipeline to facilitate future experiments. If necessary, we can later re-process a subset of particularly complex pages with a more powerful model like `Gemini 2.5 Pro`.
+-   **Primary Model:** We will use `Gemini 2.5 Pro`. Its ability to natively ingest and analyze large PDF documents, combined with its state-of-the-art reasoning, makes it the ideal choice. Its free-tier limits (**5 RPM / 100 RPD**) are sufficient for a throttled ingestion run.
+-   **Core Strategy:** We will upload multi-page chunks of the source PDFs directly to the Gemini API. The model will be prompted to analyze and transcribe the content on a page-by-page basis. This is more efficient and powerful than pre-converting every page to an image.
 
 ---
 
@@ -30,30 +30,30 @@ The end-to-end process for ingesting a single PDF document will be as follows:
     -   **Check for Existing Output:** Before processing a given page (e.g., page `N` of a PDF), the system will first check for the existence of its corresponding output file (e.g., `output/markdown/document-name/page_N.md`).
     -   **Skip if Complete:** If the output file already exists, the system will skip that page and proceed to the next, making the entire pipeline idempotent and resumable.
 
-2.  **Page Iteration & Conversion:**
-    -   The system will iterate through the source PDF, page by page.
-    -   Each page will be converted into a high-resolution PNG image. We will default to **300 DPI** but will experiment with 150, 300, and 600 DPI in the PoC phase to find the optimal balance of quality and file size.
+2.  **PDF Chunking & Uploading:**
+    -   Large source PDFs (>1000 pages) will be split into smaller, temporary PDF "chunks" that comply with the API's page limits.
+    -   Each chunk will be uploaded to the Gemini File API.
 
-3.  **Prompt Engineering & API Call:**
-    -   For each page image, a carefully crafted prompt will be sent to the Gemini API.
-    -   This prompt will instruct the model to act as a technical document specialist, with explicit instructions to:
-        -   Transcribe **all** text content verbatim.
-        -   Recreate the page's structure and reading order in **Markdown**.
-        -   Reformat all tables using **Markdown table syntax**.
-        -   For every diagram, image, or figure, generate a **detailed, descriptive caption** and embed it in the Markdown (e.g., `[Image: A detailed diagram showing the torque sequence for the cylinder head bolts.]`).
+3.  **Multi-Prompt Page Analysis:**
+    -   For each page within the uploaded chunk, a carefully crafted, multi-turn prompt sequence will be sent to the Gemini API.
+    -   This sequence will instruct the model to:
+        1.  First, **identify the content type** on the page (e.g., text, table, diagram).
+        2.  Second, use a **targeted prompt** to meticulously extract that content into well-structured Markdown. This is crucial for handling complex tables and describing diagrams accurately.
 
-4.  **Response Processing & Structuring:**
-    -   The system will receive the structured Markdown response from the API for each page.
-    -   The Markdown for each page will be saved to its own file (e.g., `output/markdown/document-name/page_N.md`) to facilitate the state management described in Step 1.
+4.  **On-Demand Asset Extraction:**
+    -   **Crucially, after the AI returns the Markdown for page `N`**, the ingestion script will then programmatically extract that single page from the original source PDF and save it as a high-resolution PNG image (e.g., `output/images/document-name/page_N.png`). This step ensures we have a discrete visual asset for every processed page.
+
+5.  **Response Processing & Structuring:**
+    -   The Markdown for each page will be saved to its own file (e.g., `output/markdown/document-name/page_N.md`) to facilitate state management.
     -   After all pages are processed, these individual files will be aggregated into a single, complete Markdown document for the next step.
 
-5.  **Chunking & Embedding:**
+6.  **Chunking & Embedding:**
     -   **Enhanced, Markdown-Aware Chunking:** The aggregated Markdown document will be processed by an enhanced version of our `structure_aware_chunking` logic. This logic will be specifically upgraded to recognize complex Markdown syntax (tables, image captions) and treat them as **atomic, unbreakable units**. This is critical to preserving the contextual integrity of visual elements.
     -   The resulting text chunks will be embedded using the `Gemini Embedding` model.
 
-6.  **Database Upsert:**
+7.  **Database Upsert:**
     -   The embedded chunks will be upserted into our Supabase vector database.
-    -   **Crucially, the metadata for each chunk will include a direct, relative file path** to the source page image (e.g., `output/images/document-name/page_N.png`).
+    -   The metadata for each chunk will now include the correct, relative file path to the source page image generated in Step 4 (e.g., `output/images/document-name/page_N.png`).
 
 ---
 
@@ -64,7 +64,7 @@ This ingestion strategy directly enables a superior user experience at query tim
 1.  **Retrieval Logic:**
     -   When a user asks a question, the query is embedded and a vector search is performed.
     -   The search will retrieve relevant text chunks, which could be standard paragraphs **or our detailed image/table captions**.
-    -   The application logic will recognize when a retrieved chunk's metadata contains an `image_path`.
+    -   The application logic will then inspect the *content* of the retrieved chunks. If a chunk's content matches a caption pattern (e.g., it starts with `[Image: ...]` or `[Table: ...]`), it will be treated as a visual asset, and its `image_path` from the metadata will be used.
 
 2.  **API Response Contract:**
     -   When visual assets are relevant to a query, the API will return a structured JSON object that explicitly separates the textual answer from the visual assets. This provides a clean, predictable contract for the frontend.

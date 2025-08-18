@@ -2,13 +2,11 @@
 python-dotenv==1.0.1
 requests==2.32.3
 psycopg[binary]==3.2.1
-pdfplumber==0.11.4
 tenacity==9.0.0
 tqdm==4.66.5
-# PDF parsing (switched to unstructured.io for quality)
-unstructured[pdf]==0.14.10
+pdf2image
+pypdf
 
 # Vector DB and embeddings
 supabase==2.5.3
 google-generativeai==0.8.0
-pdf2image
