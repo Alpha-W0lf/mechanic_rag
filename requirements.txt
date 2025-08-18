@@ -11,3 +11,4 @@ unstructured[pdf]==0.14.10
 # Vector DB and embeddings
 supabase==2.5.3
 google-generativeai==0.8.0
+pdf2image

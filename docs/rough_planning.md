@@ -37,9 +37,10 @@
    - Default: Gemini 2.5 Flash for interactive throughput on free tier.
    - Toggle: Optional configuration to switch to Gemini 2.5 Pro for selected cases within free limits (see `docs/gemini_api_notes.md`).
 
-6. Ingestion & chunking (RESEARCH-DRIVEN → BASELINE SELECTED)
-   - Parsing: Docling as primary (layout-aware: headings/sections/tables). PyMuPDF as fast path for text + images. Use pdfplumber/Camelot selectively for torque/spec tables.
-   - Chunking: structure-aware first; baseline ~1000–1200 chars with ~200 overlap; include `section_path` and page range in metadata. See `docs/chunking_research.md`.
+6. Ingestion & chunking (RESEARCH-DRIVEN → **SUPERSEDED**)
+   - **This plan is now obsolete.** The definitive, up-to-date ingestion and chunking strategy is documented in: `docs/multimodal_gemini_approach_plan.md`.
+   - ~~Parsing: Docling as primary (layout-aware: headings/sections/tables). PyMuPDF as fast path for text + images. Use pdfplumber/Camelot selectively for torque/spec tables.~~
+   - ~~Chunking: structure-aware first; baseline ~1000–1200 chars with ~200 overlap; include `section_path` and page range in metadata. See `docs/chunking_research.md`.~~
 
 7. Security & keys (CONFIRMED APPROACH)
    - Keep keys server-side only. Use Vercel Project Environment Variables for prod; `.env.local` for dev; commit a `.env.example`. Consider 1Password/Vercel integration for team-secret hygiene.
@@ -86,9 +87,9 @@
 - Retrieval top-K (PROPOSED): Start k=8 with MMR; rationale in Section 11.
 - Must-haves (CONFIRMED): Chat with citations, disclaimer, logging, rate limiting, polished UI.
 - Non-goals v1 (CONFIRMED): Agentic workflows, crawling, multi-vehicle, auth.
-- PDF parsing approach (PROPOSED): Docling primary; PyMuPDF fast path; pdfplumber/Camelot for tables. Research in `docs/pdf_parsing_research.md`.
-- Licensing/disclaimer (TO IMPLEMENT): See Section 10.
-- Evaluation acceptance criteria (TO IMPLEMENT): See Section 12.
+- PDF parsing approach (**SUPERSEDED**):
+  - **This plan is now obsolete.** The definitive strategy is documented in: `docs/multimodal_gemini_approach_plan.md`.
+  - ~~Docling primary; PyMuPDF fast path; pdfplumber/Camelot for tables. Research in `docs/pdf_parsing_research.md`.~~
 
 ### 10) Licensing & Disclaimer Plan (non-commercial portfolio)
 - Purpose: personal, non-commercial portfolio; no monetization.

@@ -1,5 +1,16 @@
 # Modern Ingestion Options for Complex, Scanned PDFs (August 2025)
 
+---
+
+### **Executive Decision (August 17, 2025)**
+
+After extensive research and analysis of the options detailed in this document, the **Multimodal LLM-based Ingestion** strategy (Section 2) was selected as the definitive approach for this project.
+
+-   **Rationale:** This strategy offers the highest potential for quality by preserving the spatial context of the source documents. It is uniquely capable of handling our complex, scanned manuals and enables the key project goal of multimodal retrieval (retrieving both text and associated images/diagrams).
+-   **Definitive Plan:** The full implementation details for this strategy are documented in `docs/multimodal_gemini_approach_plan.md`.
+
+---
+
 ## 1. Initial Findings: The Speed vs. Accuracy Trade-off
 
 Initial research confirms a primary trade-off in PDF parsing strategies. This is a fundamental concept that frames our decision-making process.

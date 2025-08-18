@@ -12,7 +12,7 @@ Status: Research in progress — decision pending. Baseline parameters below are
 - Semantic chunking: embedding-aware breakpoints to avoid splitting concepts.
 - Hierarchical chunks: include section path context in each chunk.
 
-### Baseline Proposal (MVP)
+### Baseline Proposal (Superseded)
 - 1000–1200 chars, 200 overlap; retain headings and page ranges in metadata.
 - Use MMR during retrieval to diversify results.
 
@@ -28,6 +28,16 @@ Status: Research in progress — decision pending. Baseline parameters below are
 ### Notes
 - Manuals often use numbered headings; leverage these plus PDF outline.
 - Keep tables intact within a single chunk when possible.
+
+### Final Decision: Markdown-Aware Chunker
+
+**Decision Date:** August 17, 2025
+
+Based on our decision to adopt a multimodal ingestion strategy that produces rich Markdown, the new baseline is to enhance our `structure_aware_chunking` logic.
+
+-   **Strategy:** The chunker will be explicitly modified to recognize Markdown syntax for tables and `[Image: ...]` captions.
+-   **Behavior:** These elements will be treated as atomic, unbreakable units to ensure their contextual integrity is preserved during the chunking process.
+-   **Rationale:** This approach produces the highest quality, most contextually-aware chunks, which is a direct investment in the core quality of our RAG system.
 
 ### Findings from Web Search 1 (Aug 2025) — Structure-Aware Chunking
 

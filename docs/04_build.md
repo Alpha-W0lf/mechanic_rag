@@ -1,18 +1,21 @@
-## Phase 4 — Evaluation & Tuning
+## Phase 4 — Polish & Deployment
 
-Objective: Establish a small-but-realistic S2000 QA set and tune retrieval/chunking to meet acceptance targets.
+Objective: Ship a polished, portfolio-quality demo on Vercel with strong documentation.
 
 ### Steps
-- [ ] **Dataset curation**
-  - [ ] Create 30–50 questions across maintenance, torque, diagnostics, fluids, safety.
-  - [ ] Store as JSON/CSV with expected citation sections/pages if known.
-- [ ] **Evaluation harness**
-  - [ ] Script to run queries, capture retrieved chunks, answers, and citations.
-  - [ ] Compute Recall@k, MRR@10, nDCG@10, citation presence/correctness, and factuality spot-checks.
-- [ ] **Tuning loop**
-  - [ ] Vary chunk size/overlap, dynamic `k`, MMR λ, and similarity thresholds.
-  - [ ] Record results; select configuration meeting targets.
+- [ ] **UI polish**
+  - [ ] Cohesive theme, light/dark mode, micro-interactions, loading states, copy-to-clipboard.
+  - [ ] Excellent citations UX with quick navigation to source context.
+- [ ] **Operational hardening**
+  - [ ] Add basic logging/analytics (no PII), rate limits, and error boundaries.
+  - [ ] Enforce max response length and safety messaging.
+- [ ] **Deployment**
+  - [ ] Configure Vercel project env vars and build settings.
+  - [ ] Deploy and verify.
+- [ ] **Documentation & assets**
+  - [ ] Finalize `README.md` (setup, usage, architecture, limitations).
+  - [ ] Add screenshots/GIFs and an architecture diagram.
 
 Exit criteria
-- Meets initial thresholds: ≥85% citation presence, ≥75% factuality (spot-check), ≥80% Recall@8.
+- Public demo live on Vercel; README is polished; basic smoke tests pass.
 

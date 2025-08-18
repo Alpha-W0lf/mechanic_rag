@@ -1,25 +1,18 @@
-## Phase 3 — Retrieval, Generation, and API
+## Phase 3 — Evaluation & Tuning
 
-Objective: Implement retrieval with MMR diversification, prompt construction with citations, and the `/api/ask` route.
+Objective: Establish a small-but-realistic S2000 QA set and tune retrieval/chunking to meet acceptance targets.
 
 ### Steps
-- [ ] **Retrieval library**
-  - [ ] Add Supabase client utilities to query `chunks` by vector similarity (cosine) and MMR.
-  - [ ] Implement similarity thresholding and dynamic `k` (baseline: 6–12; default 8).
-- [ ] **Prompt construction**
-  - [ ] Build a system prompt emphasizing citation requirements and safety disclaimers.
-  - [ ] Include top-k chunks (de-duplicated) with their `section_path` and page ranges.
-- [ ] **Generation model integration**
-  - [ ] Default to Gemini 2.5 Flash; add config toggle for Pro.
-  - [ ] Handle retries, rate limits, and timeouts gracefully.
-- [ ] **`/api/ask` route**
-  - [ ] Validate input; embed query; retrieve; construct prompt; call model.
-  - [ ] Return answer and normalized citations array (doc name, section, page range).
-- [ ] **Minimal UI wiring**
-  - [ ] Build a simple chat page that displays answers and expandable citations.
-  - [ ] Include a compact inline disclaimer.
+- [ ] **Dataset curation**
+  - [ ] Create 30–50 questions across maintenance, torque, diagnostics, fluids, safety.
+  - [ ] Store as JSON/CSV with expected citation sections/pages if known.
+- [ ] **Evaluation harness**
+  - [ ] Script to run queries, capture retrieved chunks, answers, and citations.
+  - [ ] Compute Recall@k, MRR@10, nDCG@10, citation presence/correctness, and factuality spot-checks.
+- [ ] **Tuning loop**
+  - [ ] Vary chunk size/overlap, dynamic `k`, MMR λ, and similarity thresholds.
+  - [ ] Record results; select configuration meeting targets.
 
 Exit criteria
-- `/api/ask` returns answers with correct, clickable citations in dev.
-- Basic UX works end-to-end locally.
+- Meets initial thresholds: ≥85% citation presence, ≥75% factuality (spot-check), ≥80% Recall@8.
 
