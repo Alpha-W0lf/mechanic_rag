@@ -1,0 +1,7 @@
+README.md
+pyproject.toml
+mecharag.egg-info/PKG-INFO
+mecharag.egg-info/SOURCES.txt
+mecharag.egg-info/dependency_links.txt
+mecharag.egg-info/requires.txt
+mecharag.egg-info/top_level.txt

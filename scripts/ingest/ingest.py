@@ -4,11 +4,15 @@ from __future__ import annotations
 import argparse
 import os
 from pathlib import Path
+import sys
+
+# Add project root to the Python path
+project_root = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(project_root))
 
 import google.generativeai as genai
 from scripts.ingest.chunking import Chunk, structure_aware_chunking
 from dotenv import load_dotenv
-from jsonl import write_jsonl, read_jsonl
 from scripts.ingest.parse import parse_document
 from supabase import create_client, Client
 from tqdm import tqdm
@@ -121,10 +125,18 @@ def process_pdf(pdf_path: Path, supabase_client, gemini_client, dry_run: bool = 
     except Exception as e:
         print(f"Error processing {pdf_path.name}: {e}")
 
-def main(dry_run: bool, cleanup: bool):
-    parser = argparse.ArgumentParser(description="Ingestion skeleton")
-    parser.add_argument("--dry-run", action="store_true", help="Print plan only; no DB writes")
-    parser.add_argument("--cleanup", action="store_true", help="Truncate documents and chunks tables")
+def main():
+    parser = argparse.ArgumentParser(description="Ingestion script for MechaRAG")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Runs the script without writing to the database.",
+    )
+    parser.add_argument(
+        "--cleanup",
+        action="store_true",
+        help="Deletes all documents and chunks from the database before running.",
+    )
     args = parser.parse_args()
 
     # Initialize Supabase and Gemini clients
@@ -138,36 +150,37 @@ def main(dry_run: bool, cleanup: bool):
     supabase_client: Client = create_client(supabase_url, supabase_key)
     genai.configure(api_key=gemini_api_key)
 
-    if cleanup:
+    if args.cleanup:
         print("Cleaning up database tables...")
         supabase_client.table("documents").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
         supabase_client.table("chunks").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
         print("Cleanup complete.")
+        # If only cleanup is requested, exit after it's done.
         return
 
-    pdf_files = list(RAG_INPUT_DIR.glob("*.pdf"))
-    print(f"Found {len(pdf_files)} PDF(s) in {RAG_INPUT_DIR}")
-    for p in pdf_files:
-        print(f" - {p.name}")
+    pdf_files = discover_pdfs()
+    print(f"Found {len(pdf_files)} PDF(s) to process in {RAG_INPUT_DIR}.")
 
-    if dry_run:
-        print(
-            "\nDry run: parsing (Docling/PyMuPDF), chunking (structure+semantic), "
-            "embedding, upsert to Supabase."
-        )
-        return
-
-    with ThreadPoolExecutor() as executor:
-        # Pass clients to each thread
-        futures = [
-            executor.submit(process_pdf, pdf, supabase_client, genai.configure(api_key=gemini_api_key), dry_run)
-            for pdf in pdf_files
-        ]
-        for future in as_completed(futures):
-            future.result()  # Propagate exceptions
-
-    print("Ingestion complete.")
-
+    if args.dry_run:
+        print("\n--- DRY RUN MODE ---")
+        print("The script will perform parsing and chunking but will not embed or upsert data.")
+        # In a dry run, we still need to initialize the Gemini client for the parser
+        genai.configure(api_key=gemini_api_key)
+    
+    # Use ThreadPoolExecutor for parallel processing
+    with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+        futures = {
+            executor.submit(process_pdf, pdf_path, supabase_client, genai, args.dry_run)
+            for pdf_path in pdf_files
+        }
+        
+        for future in tqdm(as_completed(futures), total=len(pdf_files)):
+            try:
+                future.result()
+            except Exception as e:
+                print(f"An error occurred in a worker thread: {e}")
+    
+    print("\nIngestion complete.")
 
 if __name__ == "__main__":
     main()

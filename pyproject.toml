@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mecharag"
+version = "0.1.0"
+description = "A multimodal RAG system for automotive technical manuals."
+authors = [
+    {name = "AI Engineering Partner", email = "ai@cursor.dev"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+
+dependencies = [
+    # --- Ingestion & Core ---
+    "python-dotenv==1.0.1",
+    "requests==2.32.3",
+    "psycopg[binary]==3.2.9", # Updated for Python 3.13 compatibility
+    "tenacity==9.0.0",
+    "tqdm==4.66.5",
+
+    # --- PDF & Image Processing ---
+    "pdf2image==1.17.0", # Latest stable as of Aug 2025
+    "pypdf==5.9.0",     # Latest stable before major v6 release
+
+    # --- Vector DB and AI ---
+    "supabase==2.5.3", # Monitor for updates
+    "google-generativeai==0.8.0" # Monitor for updates
+]
+
+[tool.setuptools]
+packages = ["scripts"]

@@ -7,7 +7,7 @@ Quick setup guide for working on this project from a new machine. Check off item
 ## Prerequisites
 
 - [x] Node.js LTS (22+) - verified v22.17.0
-- [x] Python 3.12+ - verified v3.12.8
+- [x] Python 3.13+ - verified v3.13.7
 - [x] Git
 
 ## Setup Steps
@@ -26,21 +26,31 @@ brew install uv
 ```
 - [x] uv added to PATH automatically with Homebrew
 
-### 3. Python Environment - REQUIRED
-- [x] Create virtual environment from repo root:
+### 3. System-Level Dependencies - REQUIRED
+- [x] Install Python 3.13 (if not available):
 ```bash
-uv venv .venv
+brew install python@3.13
+```
+- [x] Install `poppler` for PDF manipulation:
+```bash
+brew install poppler
+```
+
+### 4. Python Environment - REQUIRED
+- [x] Create virtual environment using Python 3.13:
+```bash
+uv venv -p python3.13 .venv
 ```
 - [x] Activate virtual environment:
 ```bash
 source .venv/bin/activate
 ```
-- [x] Install Python dependencies:
+- [x] Install Python dependencies from `pyproject.toml`:
 ```bash
-uv pip install -r requirements.txt
+uv pip install -e .
 ```
 
-### 4. Node Environment
+### 5. Node Environment
 - [x] Ensure pnpm is installed globally
 - [x] Install Node.js dependencies:
 ```bash
@@ -48,7 +58,7 @@ cd web
 pnpm install
 ```
 
-### 5. Environment Variables
+### 6. Environment Variables
 - [x] Create `web/.env.local` (note: in the `web/` folder, not root)
 - [x] Copy from example and fill in actual values:
 ```bash
@@ -63,13 +73,13 @@ cp ../env.example .env.local
   - [x] App configuration variables
   - [x] Retrieval configuration variables
 
-### 6. Place Input Documents
+### 7. Place Input Documents
 - [x] Put PDFs into `rag_input/` at repo root:
   - [x] Owner's Manual
   - [x] Service Manual  
   - [x] Wiring Diagram
 
-### 7. Verify Setup
+### 8. Verify Setup
 - [x] Test Python ingestion (from repo root):
 ```bash
 source .venv/bin/activate
@@ -95,7 +105,8 @@ pnpm run dev
 ## Notes
 
 - **Environment files**: `.env.local` goes in `web/` folder (where `package.json` is)
-- **Python venv**: Activate with `source .venv/bin/activate` from repo root
+- **Python venv**: Activate with `source .venv/bin/activate` from repo root. Use `uv venv -p python3.13 .venv` to create it.
+- **Python Dependencies**: Install with `uv pip install -e .` which reads from `pyproject.toml`.
 - **PDFs**: Place in `rag_input/` at repo root (Owner's Manual, Service Manual, Wiring Diagram)
 - **Secrets**: Never commit `.env.local` - it's gitignored
 
@@ -103,4 +114,4 @@ pnpm run dev
 
 - If uv not found: restart shell or run `source $HOME/.local/bin/env`
 - If Next.js can't find env vars: ensure `.env.local` is in `web/` folder
-- If Python deps fail: ensure you're in the activated venv (`source .venv/bin/activate`)
+- If Python deps fail: ensure you're in the activated venv and have run `uv pip install -e .`.

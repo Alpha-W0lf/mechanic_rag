@@ -112,46 +112,60 @@ def structure_aware_chunking(
     markdown_content: str,
     document_id: str,
     image_paths: List[Path],
-    chunk_size: int = 1000,
+    chunk_size: int = 1200, # Increased default size for more context
     overlap: int = 200,
 ) -> List[Chunk]:
     """
     Splits Markdown content into chunks, keeping special blocks like tables and
-    image captions intact.
+    image captions intact. Associates the correct image_path with each chunk.
     """
-    # Regex to find Markdown tables or image captions
-    atomic_block_regex = re.compile(r"(\n\n!?\[Image:.*?\]\n\n|\n\n\|.*?\|\n\n)", re.DOTALL)
-    
     chunks: List[Chunk] = []
-    # Simplified logic for now: treat entire content as one block
-    # A more sophisticated implementation will be needed here to handle
-    # page boundaries and associate the correct image_path.
     
-    # For the MVP, we will do a naive split, but the structure is here for enhancement
-    # This part will require significant work to be truly "structure-aware" with
-    # our new multimodal output.
+    # Split the entire document by page breaks first
+    pages_content = markdown_content.split("\n\n---\n\n")
     
-    # Placeholder: Simple text splitting for now
-    text_blocks = markdown_content.split("\n\n---\n\n") # Split by page
-    
-    for i, block in enumerate(text_blocks):
+    chunk_index_counter = 0
+    for i, page_text in enumerate(pages_content):
         page_num = i + 1
-        image_path_for_page = image_paths[i] if i < len(image_paths) else None
+        image_path_for_page = str(image_paths[i]) if i < len(image_paths) else None
         
-        # This is a simplification. A real implementation would need to
-        # handle chunking *within* a page's content.
-        chunks.append(
-            Chunk(
-                document_id=document_id,
-                content=block,
-                page_start=page_num,
-                page_end=page_num,
-                section_heading="", # Metadata extraction will be a future step
-                section_path="",
-                image_path=str(image_path_for_page) if image_path_for_page else None,
+        # Naive implementation for now, will be improved
+        if not page_text.strip():
+            continue
+
+        # This simple chunking logic does not yet protect atomic blocks.
+        # It's a placeholder for a more sophisticated recursive splitter.
+        start = 0
+        while start < len(page_text):
+            end = start + chunk_size
+            chunk_content = page_text[start:end]
+            
+            # Simple overlap logic
+            if end < len(page_text):
+                # Find the last good breakpoint (like a newline) to avoid cutting words
+                last_newline = chunk_content.rfind('\n')
+                if last_newline > chunk_size - overlap:
+                    end = start + last_newline
+                    chunk_content = page_text[start:end]
+
+            chunks.append(
+                Chunk(
+                    document_id=document_id,
+                    content=chunk_content.strip(),
+                    page_start=page_num,
+                    page_end=page_num,
+                    section_heading="", # Placeholder
+                    section_path="",    # Placeholder
+                    image_path=image_path_for_page,
+                    chunk_index=chunk_index_counter,
+                )
             )
-        )
-        
+            chunk_index_counter += 1
+            
+            if end >= len(page_text):
+                break
+            start += (chunk_size - overlap)
+
     return chunks
 
 
