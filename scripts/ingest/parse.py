@@ -9,10 +9,15 @@ from google.api_core import exceptions as google_exceptions
 from pypdf import PdfReader, PdfWriter
 from pdf2image import convert_from_path
 from tenacity import retry, stop_after_attempt, wait_exponential
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 # --- Custom Exceptions ---
 class DailyQuotaExceededError(Exception):
     """Custom exception for when the Gemini API daily quota is met."""
+    pass
+
+class ConsecutiveSafetyBlockError(Exception):
+    """Custom exception for when 3 consecutive chunks are blocked by safety settings."""
     pass
 
 # --- Constants ---
@@ -49,7 +54,25 @@ Your final output should be a single text response containing the Markdown for a
 )
 def generate_content_with_retry(model, prompt, pdf_file):
     """Wrapper for Gemini API call with exponential backoff retry."""
-    return model.generate_content([prompt, pdf_file], request_options={'timeout': 1000})
+    # Create a generation config to explicitly disable all safety filters.
+    # This is the most reliable way to prevent false positives on technical docs.
+    generation_config = genai.GenerationConfig(
+        candidate_count=1,
+        stop_sequences=[],
+        temperature=0, # Set to 0 for deterministic, factual transcription
+        safety_settings={
+            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+        }
+    )
+    
+    return model.generate_content(
+        [prompt, pdf_file], 
+        request_options={'timeout': 1000},
+        generation_config=generation_config
+    )
 
 def split_pdf_into_chunks(pdf_path: Path, temp_dir: Path, chunk_size: int) -> List[Path]:
     """Splits a large PDF into smaller, temporary PDF chunks."""
@@ -68,6 +91,12 @@ def split_pdf_into_chunks(pdf_path: Path, temp_dir: Path, chunk_size: int) -> Li
         end_page = min(i + chunk_size, total_pages)
         # Use 4-digit zero-padding for filenames
         chunk_path = temp_dir / f"{pdf_path.stem}_chunk_{start_page + 1:04d}-{end_page:04d}.pdf"
+
+        # --- Optimization: Skip if chunk already exists ---
+        if chunk_path.exists():
+            print(f"  Skipping existing chunk: {chunk_path.name}")
+            chunk_paths.append(chunk_path)
+            continue
 
         for j in range(start_page, end_page):
             writer.add_page(reader.pages[j])
@@ -94,11 +123,10 @@ def extract_page_as_png(pdf_path: Path, page_num: int, output_path: Path, dpi: i
         print(f"ERROR: Could not extract page {page_num} as PNG. Is poppler installed?")
         raise e
 
-def parse_document(pdf_path: Path) -> Tuple[str, List[Path]]:
+def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
     """
-    Parses a PDF into a single Markdown string and a set of page images using the
-    Gemini 2.5 Pro PDF-native, multi-prompt analysis, and on-demand asset
-    extraction strategy.
+    Parses a PDF into a single Markdown string, a set of page images, and a list
+    of any chunks that were blocked by safety settings.
     """
     print(f"Starting multimodal parsing for {pdf_path.name}...")
 
@@ -111,6 +139,7 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path]]:
     temp_pdf_dir.mkdir(parents=True, exist_ok=True)
 
     image_paths: List[Path] = []
+    blocked_chunks_in_doc: List[str] = []
     
     # --- 2. Split PDF into manageable chunks ---
     pdf_chunks = split_pdf_into_chunks(pdf_path, temp_pdf_dir, PDF_CHUNK_SIZE)
@@ -118,29 +147,72 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path]]:
     
     # --- 3. Process each chunk ---
     page_offset = 0
+    consecutive_error_count = 0
     for chunk_path in pdf_chunks:
         print(f"\n--- Processing PDF Chunk: {chunk_path.name} ---")
         
-        # --- 3a. Upload chunk to File API ---
+        num_pages_in_chunk = len(PdfReader(chunk_path).pages)
+        
+        # --- 3a. Chunk-level Resumability Check ---
+        output_files_exist = True
+        for i in range(num_pages_in_chunk):
+            page_num_in_doc = page_offset + i + 1
+            markdown_path = doc_markdown_dir / f"page_{page_num_in_doc:04d}.md"
+            if not markdown_path.exists():
+                output_files_exist = False
+                break
+        
+        if output_files_exist:
+            print(f"Skipping chunk, all {num_pages_in_chunk} output files already exist.")
+            # Still need to populate image_paths for the return value
+            for i in range(num_pages_in_chunk):
+                page_num_in_doc = page_offset + i + 1
+                image_paths.append(doc_images_dir / f"page_{page_num_in_doc:04d}.png")
+            page_offset += num_pages_in_chunk
+            continue
+
+        # --- 3b. Upload chunk to File API ---
         print(f"Uploading {chunk_path.name} to Gemini File API...")
         pdf_file = genai.upload_file(path=chunk_path, display_name=chunk_path.name)
         
         try:
-            # --- 3b. Start Chat Session ---
+            # --- 3c. Start Analysis ---
             model = genai.GenerativeModel(model_name="gemini-2.5-pro")
-            
-            num_pages_in_chunk = len(PdfReader(chunk_path).pages)
             
             print(f"Analyzing {num_pages_in_chunk} pages in one API call...")
             
-            # --- 3c. Analyze the entire chunk in one call ---
+            # --- 3d. Analyze the entire chunk in one call ---
             prompt = get_chunk_analysis_prompt(num_pages_in_chunk)
             response = generate_content_with_retry(model, prompt, pdf_file)
             
-            # Split the single response into individual page contents, filtering out empty strings
-            pages_markdown = [md for md in response.text.split("---PAGE_BREAK---") if md.strip()]
+            # --- 3e. Handle potential safety blocks ---
+            try:
+                response_text = response.text
+                consecutive_error_count = 0 # Reset on success
+            except ValueError:
+                consecutive_error_count += 1
+                
+                reason = "Unknown"
+                try:
+                    # Correctly access the finish_reason from the first candidate
+                    reason = response.candidates[0].finish_reason.name
+                except (IndexError, AttributeError):
+                    pass # Keep reason as "Unknown" if the structure is unexpected
+                
+                log_message = f"{pdf_path.name} - Chunk {chunk_path.name} - Reason: {reason}"
+                blocked_chunks_in_doc.append(log_message)
+                
+                print(f"WARNING: Chunk blocked by safety settings. (Consecutive errors: {consecutive_error_count})")
+                
+                if consecutive_error_count >= 3:
+                    print("ERROR: 3 consecutive chunks were blocked. Stopping ingestion.")
+                    raise ConsecutiveSafetyBlockError
+                continue # Skips to the finally block and then the next iteration
 
-            # --- 3d. Process and save each page's output ---
+            # Split the single response into individual page contents, filtering out empty strings
+            pages_markdown = [md for md in response_text.split("---PAGE_BREAK---") if md.strip()]
+
+            # --- 3f. Process and save each page's output (with overwrite) ---
             for i, page_md in enumerate(pages_markdown):
                 if i >= num_pages_in_chunk:
                     print(f"Warning: Model returned more pages than were in the chunk. Ignoring extra page {i+1}.")
@@ -152,15 +224,11 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path]]:
                 image_path = doc_images_dir / f"page_{page_num_in_doc:04d}.png"
                 image_paths.append(image_path)
                 
-                if markdown_path.exists():
-                    print(f"Skipping page {page_num_in_doc}/{total_pages}, output already exists.")
-                    continue
-                
-                # Save the extracted markdown for the page
+                # Save the extracted markdown for the page (overwrite existing)
                 with open(markdown_path, "w") as f:
                     f.write(page_md.strip())
                 
-                # Extract the corresponding page as a PNG
+                # Extract the corresponding page as a PNG (overwrite existing)
                 extract_page_as_png(pdf_path, page_num_in_doc, image_path, DPI)
 
             # --- Rate Limiting (per chunk, not per page) ---
@@ -179,6 +247,8 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path]]:
                 f.write(f"{pdf_path.name} - Page {page_num_in_doc} - Reason: {e}\n")
             continue # Skip to the next page
 
+        except ConsecutiveSafetyBlockError:
+            raise # Propagate to stop the main process
         except DailyQuotaExceededError:
             # Propagate the exception to stop the entire process
             raise
@@ -205,6 +275,6 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path]]:
     # Optionally, clean up the temp_pdf_dir here if desired
     
     print("Multimodal parsing complete.")
-    return aggregated_content, image_paths
+    return aggregated_content, image_paths, blocked_chunks_in_doc
 
 

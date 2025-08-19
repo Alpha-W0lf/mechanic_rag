@@ -13,12 +13,24 @@ sys.path.insert(0, str(project_root))
 import google.generativeai as genai
 from scripts.ingest.chunking import Chunk, structure_aware_chunking
 from dotenv import load_dotenv
-from scripts.ingest.parse import parse_document, DailyQuotaExceededError
+from scripts.ingest.parse import (
+    parse_document, 
+    DailyQuotaExceededError, 
+    ConsecutiveSafetyBlockError
+)
 from supabase import create_client, Client
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import uuid
 import warnings
+from typing import Any
+import logging
+
+# --- Suppress gRPC Logs ---
+# The gRPC library used by Google's SDK is very noisy.
+# We will set its logging level to ERROR to silence non-critical warnings.
+logging.getLogger('grpc').setLevel(logging.ERROR)
+# ---------------------------
 
 # Suppress the specific UserWarning from unstructured about PDF text extraction
 warnings.filterwarnings(
@@ -65,48 +77,61 @@ def upsert_chunks(supabase: Client, chunks: list[dict]) -> None:
         print(f"Error upserting chunks: {e}")
         raise
 
-def process_pdf(pdf_path: Path, supabase_client, gemini_client, dry_run: bool = False):
+def process_pdf(pdf_path: Path, supabase_client: Client, genai_client: Any, dry_run: bool = False):
     """
-    Process a single PDF file: parse, chunk, embed, and upsert.
+    Processes a single PDF and returns a list of any chunks that were blocked.
     """
     try:
-        print(f"Processing {pdf_path.name}...")
-        
-        # Upsert document entry and get document_id
-        source_name = pdf_path.name
-        if not dry_run:
-            doc_to_upsert = {
-                "vehicle": "Honda S2000",
-                "source_name": source_name,
-                "source_type": "pdf",
-                "path": str(pdf_path),
-            }
-            doc_response = supabase_client.table("documents").upsert(doc_to_upsert, on_conflict="source_name").execute()
-            document_id = doc_response.data[0]['id']
+        document_name = pdf_path.name
+        print(f"Processing {document_name}...")
+
+        # --- 1. Get or create document ID ---
+        if dry_run:
+            document_id = str(uuid.uuid4())
+            print(f"  [DRY RUN] Generated document ID: {document_id}")
         else:
-            document_id = "dry-run-doc-id"
+            print("  Upserting document to get a stable ID...")
+            doc_data = {
+                "source_name": document_name, 
+                "source_type": "PDF",
+                "vehicle": "Honda S2000" # Add the required vehicle field
+            }
+            response = supabase_client.table("documents").upsert(doc_data, on_conflict="source_name").execute()
+            document_id = response.data[0]['id']
+            print(f"  Got document ID: {document_id}")
 
-        # --- Step 1: Parse Document (Multimodal) ---
-        markdown_content, image_paths = parse_document(pdf_path)
+        # --- 2. Multimodal Parsing ---
+        # This step generates the local markdown and image files
+        full_markdown_content, image_paths, blocked_chunks = parse_document(pdf_path)
 
-        if not markdown_content.strip():
-            print(f"Warning: No content extracted from {pdf_path.name}. Skipping.")
+        # --- 3. Add page number markers to content for chunking ---
+        pages_content = full_markdown_content.split("\n\n---\n\n")
+        content_with_markers = ""
+        for i, page_text in enumerate(pages_content):
+            page_num = i + 1
+            content_with_markers += f"PAGE_MARKER_START:{page_num}\n"
+            content_with_markers += page_text
+            content_with_markers += f"\nPAGE_MARKER_END:{page_num}\n\n"
+
+        if not full_markdown_content.strip():
+            print(f"Warning: No content extracted from {document_name}. Skipping.")
             return
 
-        # --- Step 2: Chunk Content ---
-        print(f"Chunking {pdf_path.name}...")
+        # --- 4. Structure-Aware Chunking ---
+        print(f"  Performing structure-aware chunking for {document_name}...")
         chunks = structure_aware_chunking(
-            markdown_content=markdown_content,
+            markdown_content=content_with_markers,
             document_id=document_id,
-            image_paths=image_paths
+            image_paths=image_paths,
         )
+        print(f"  Created {len(chunks)} chunks.")
 
         if not chunks:
-            print(f"No chunks generated for {pdf_path.name}. Skipping.")
+            print(f"  No chunks were created for {document_name}. Nothing to embed or upsert.")
             return
 
-        # --- Step 3: Embed Chunks ---
-        print(f"Embedding {len(chunks)} chunks for {pdf_path.name}...")
+        # --- 5. Embed Chunks ---
+        print(f"  Embedding {len(chunks)} chunks for {document_name}...")
         chunks_to_embed = [chunk.content for chunk in chunks]
         embeddings = embed_chunks(chunks_to_embed)
         
@@ -117,17 +142,19 @@ def process_pdf(pdf_path: Path, supabase_client, gemini_client, dry_run: bool = 
             chunk_dict["embedding"] = embeddings[i]
             chunks_to_upsert.append(chunk_dict)
 
-        # --- Step 4: Upsert Chunks ---
-        print(f"Upserting {len(chunks)} chunks to Supabase for {pdf_path.name}...")
+        # --- 6. Upsert Chunks ---
+        print(f"  Upserting {len(chunks)} chunks to Supabase for {document_name}...")
         upsert_chunks(supabase_client, chunks_to_upsert)
         
-        print(f"Done processing {pdf_path.name}.")
+        print(f"Done processing {document_name}.")
+        return blocked_chunks
     except DailyQuotaExceededError:
         # This is a special signal to stop processing new documents.
         # We re-raise it so the main thread can catch it and shut down.
         raise
     except Exception as e:
         print(f"Error processing {pdf_path.name}: {e}")
+        return [f"{pdf_path.name} - GENERIC_ERROR - Reason: {e}"]
 
 def main():
     parser = argparse.ArgumentParser(description="Ingestion script for MechaRAG")
@@ -171,23 +198,41 @@ def main():
         # In a dry run, we still need to initialize the Gemini client for the parser
         genai.configure(api_key=gemini_api_key)
     
-    # Use ThreadPoolExecutor for parallel processing
-    with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
-        futures = {
-            executor.submit(process_pdf, pdf_path, supabase_client, genai, args.dry_run)
-            for pdf_path in pdf_files
-        }
-        
-        for future in tqdm(as_completed(futures), total=len(pdf_files)):
-            try:
-                future.result()
-            except DailyQuotaExceededError:
-                print("Daily quota error caught in main thread. Shutting down gracefully.")
-                # We can cancel remaining futures, but for simplicity, we'll just let the pool exit.
-                break 
-            except Exception as e:
-                print(f"An error occurred in a worker thread: {e}")
-    
+    all_blocked_chunks = []
+    try:
+        with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+            futures = {
+                executor.submit(process_pdf, pdf_path, supabase_client, genai, args.dry_run)
+                for pdf_path in pdf_files
+            }
+            
+            for future in tqdm(as_completed(futures), total=len(pdf_files)):
+                try:
+                    blocked_list = future.result()
+                    if blocked_list:
+                        all_blocked_chunks.extend(blocked_list)
+                except ConsecutiveSafetyBlockError:
+                    print("Consecutive safety block error caught in main thread. Shutting down.")
+                    break 
+                except DailyQuotaExceededError:
+                    print("Daily quota error caught in main thread. Shutting down gracefully.")
+                    break 
+                except Exception as e:
+                    print(f"An error occurred in a worker thread: {e}")
+    finally:
+        # --- Final Step: Update the blocked chunks log ---
+        # This block is guaranteed to run even if the script is interrupted.
+        log_path = project_root / "output" / "blocked_chunks.log"
+        if all_blocked_chunks:
+            print(f"\nUpdating blocked chunks log with {len(all_blocked_chunks)} entr(y/ies)...")
+            with open(log_path, "w") as f:
+                for line in sorted(all_blocked_chunks):
+                    f.write(f"{line}\n")
+        else:
+            print("\nNo chunks were blocked in this run. Clearing log file.")
+            if log_path.exists():
+                log_path.unlink() # Delete the file if it's empty
+
     print("\nIngestion complete.")
 
 if __name__ == "__main__":
