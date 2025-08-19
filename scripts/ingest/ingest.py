@@ -10,7 +10,7 @@ import sys
 project_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(project_root))
 
-import google.generativeai as genai
+from google import genai
 from scripts.ingest.chunking import Chunk, structure_aware_chunking
 from dotenv import load_dotenv
 from scripts.ingest.parse import (
@@ -158,49 +158,41 @@ def process_pdf(pdf_path: Path, supabase_client: Client, genai_client: Any, dry_
 
 def main():
     parser = argparse.ArgumentParser(description="Ingestion script for MechaRAG")
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Runs the script without writing to the database.",
-    )
-    parser.add_argument(
-        "--cleanup",
-        action="store_true",
-        help="Deletes all documents and chunks from the database before running.",
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Run the script without making API calls or database insertions.")
     args = parser.parse_args()
 
-    # Initialize Supabase and Gemini clients
+    # --- Load Environment Variables ---
+    env_path = project_root / 'web' / '.env.local'
+    load_dotenv(dotenv_path=env_path)
+    
     supabase_url = os.getenv("SUPABASE_URL")
     supabase_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
     gemini_api_key = os.getenv("GEMINI_API_KEY")
 
-    if not supabase_url or not supabase_key or not gemini_api_key:
-        raise ValueError("Supabase and Gemini API keys must be set in .env file")
-
-    supabase_client: Client = create_client(supabase_url, supabase_key)
-    genai.configure(api_key=gemini_api_key)
-
-    if args.cleanup:
-        print("Cleaning up database tables...")
-        supabase_client.table("documents").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
-        supabase_client.table("chunks").delete().neq("id", "00000000-0000-0000-0000-000000000000").execute()
-        print("Cleanup complete.")
-        # If only cleanup is requested, exit after it's done.
+    if not all([supabase_url, supabase_key, gemini_api_key]):
+        print("ERROR: Supabase URL, Key, or Gemini API Key are not set. Check your .env.local file.")
         return
 
-    pdf_files = discover_pdfs()
-    print(f"Found {len(pdf_files)} PDF(s) to process in {RAG_INPUT_DIR}.")
-
+    # --- Initialize Clients ---
+    supabase_client = create_client(supabase_url, supabase_key)
+    
+    # The new google-genai library uses the GOOGLE_API_KEY environment variable
+    # automatically, so genai.configure() is no longer needed.
+    # genai.configure(api_key=gemini_api_key)
+    
+    pdf_files = list((project_root / "rag_input").glob("*.pdf"))
+    print(f"\nFound {len(pdf_files)} PDF(s) to process in {project_root / 'rag_input'}.")
+    
     if args.dry_run:
         print("\n--- DRY RUN MODE ---")
-        print("The script will perform parsing and chunking but will not embed or upsert data.")
+        print("The script will simulate the ingestion process without making API calls or writing to the database.")
         # In a dry run, we still need to initialize the Gemini client for the parser
-        genai.configure(api_key=gemini_api_key)
+        pass
     
     all_blocked_chunks = []
     try:
-        with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
+        # Limit to 2 workers to stay safely under the 5 RPM limit for the API.
+        with ThreadPoolExecutor(max_workers=2) as executor:
             futures = {
                 executor.submit(process_pdf, pdf_path, supabase_client, genai, args.dry_run)
                 for pdf_path in pdf_files
@@ -213,9 +205,11 @@ def main():
                         all_blocked_chunks.extend(blocked_list)
                 except ConsecutiveSafetyBlockError:
                     print("Consecutive safety block error caught in main thread. Shutting down.")
+                    executor.shutdown(wait=False, cancel_futures=True)
                     break 
                 except DailyQuotaExceededError:
                     print("Daily quota error caught in main thread. Shutting down gracefully.")
+                    executor.shutdown(wait=False, cancel_futures=True)
                     break 
                 except Exception as e:
                     print(f"An error occurred in a worker thread: {e}")

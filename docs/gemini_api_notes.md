@@ -9,7 +9,16 @@ This document summarizes key details about the Google Gemini API, based on the o
 
 ---
 
-### 1. Available Models & Suitability
+### 1. SDK & Library Versioning (Definitive)
+
+-   **Required Library:** The project **MUST** use the `google-genai` Python package.
+-   **Legacy Library:** The `google-generativeai` package is **deprecated** and MUST NOT be used. It is unstable and will not receive updates.
+-   **Current Version:** The current stable version is `2.0.0`.
+-   **Usage Pattern:** All API interactions **MUST** use the `genai.Client()` pattern as documented in the official SDK.
+
+---
+
+### 2. Available Models & Suitability
 
 | Model                                       | Key Characteristics & Use Cases                                                                               |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -20,7 +29,7 @@ This document summarizes key details about the Google Gemini API, based on the o
 
 ---
 
-### 2. Verified Model Capabilities & Identifiers (Definitive)
+### 3. Verified Model Capabilities & Identifiers (Definitive)
 
 Based on the canonical documentation, the following is the definitive model strategy for this project.
 
@@ -34,7 +43,7 @@ Based on the canonical documentation, the following is the definitive model stra
 
 ---
 
-### 3. Free Tier Rate Limits (Corrected)
+### 4. Free Tier Rate Limits (Corrected)
 
 Rate limits are applied per project.
 
@@ -45,7 +54,55 @@ Rate limits are applied per project.
 
 ---
 
-### 4. Architectural Implications & New Strategy (Final)
+### 5. API Usage Best Practices (New)
+
+#### Correctly Configuring Safety Settings
+
+To prevent false-positives and ensure reliable processing of technical documents, safety settings should be explicitly disabled. The following is the definitive, correct pattern for doing so with the `google-genai` library. The `safety_settings` must be passed inside a `GenerateContentConfig` object.
+
+```python
+from google import genai
+from google.genai.types import HarmCategory, HarmBlockThreshold
+
+# 1. Define the safety settings as a list of SafetySetting objects.
+safety_settings = [
+    genai.types.SafetySetting(
+        category=HarmCategory.HARM_CATEGORY_HARASSMENT,
+        threshold=HarmBlockThreshold.BLOCK_NONE,
+    ),
+    genai.types.SafetySetting(
+        category=HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+        threshold=HarmBlockThreshold.BLOCK_NONE,
+    ),
+    genai.types.SafetySetting(
+        category=HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+        threshold=HarmBlockThreshold.BLOCK_NONE,
+    ),
+    genai.types.SafetySetting(
+        category=HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+        threshold=HarmBlockThreshold.BLOCK_NONE,
+    ),
+]
+
+# 2. Create the configuration object, passing the safety settings inside it.
+config = genai.types.GenerateContentConfig(
+    candidate_count=1,
+    temperature=0,
+    safety_settings=safety_settings
+)
+
+# 3. Make the API call, passing the single config object.
+# client = genai.Client()
+# response = client.models.generate_content(
+#     model="models/gemini-2.5-pro",
+#     contents=[prompt, pdf_file], 
+#     config=config,
+# )
+```
+
+---
+
+### 6. Architectural Implications & New Strategy (Final)
 
 *   **Definitive Model Choice:** We will use **`gemini-2.5-pro`**. Its modest rate limits are acceptable for our one-time ingestion in exchange for its state-of-the-art capabilities.
 *   **Simplified Ingestion Pipeline:** The `pdf2image` conversion step is **no longer necessary**. Our core `parse.py` logic will be significantly simplified. We will now send the PDF file directly to the Gemini API.

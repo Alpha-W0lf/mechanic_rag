@@ -4,12 +4,12 @@ import time
 from pathlib import Path
 from typing import List, Tuple
 
-import google.generativeai as genai
+from google import genai
 from google.api_core import exceptions as google_exceptions
 from pypdf import PdfReader, PdfWriter
 from pdf2image import convert_from_path
-from tenacity import retry, stop_after_attempt, wait_exponential
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
+from tenacity import retry, stop_after_attempt, wait_exponential, RetryError
+from google.genai.types import HarmCategory, HarmBlockThreshold
 
 # --- Custom Exceptions ---
 class DailyQuotaExceededError(Exception):
@@ -48,30 +48,44 @@ For each page, perform the following actions:
 Your final output should be a single text response containing the Markdown for all {page_count} pages, each separated by the `---PAGE_BREAK---` token.
 """
 
-@retry(
-    stop=stop_after_attempt(3),
-    wait=wait_exponential(multiplier=1, min=4, max=10)
-)
-def generate_content_with_retry(model, prompt, pdf_file):
+# @retry(
+#     stop=stop_after_attempt(3),
+#     wait=wait_exponential(multiplier=1, min=4, max=10)
+# )
+def generate_content_with_retry(client, model_name, prompt, pdf_file):
     """Wrapper for Gemini API call with exponential backoff retry."""
-    # Create a generation config to explicitly disable all safety filters.
     # This is the most reliable way to prevent false positives on technical docs.
-    generation_config = genai.GenerationConfig(
+    safety_settings = [
+        genai.types.SafetySetting(
+            category=HarmCategory.HARM_CATEGORY_HARASSMENT,
+            threshold=HarmBlockThreshold.BLOCK_NONE,
+        ),
+        genai.types.SafetySetting(
+            category=HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+            threshold=HarmBlockThreshold.BLOCK_NONE,
+        ),
+        genai.types.SafetySetting(
+            category=HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+            threshold=HarmBlockThreshold.BLOCK_NONE,
+        ),
+        genai.types.SafetySetting(
+            category=HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+            threshold=HarmBlockThreshold.BLOCK_NONE,
+        ),
+    ]
+
+    # Use the correct GenerateContentConfig class and pass all settings inside it.
+    config = genai.types.GenerateContentConfig(
         candidate_count=1,
         stop_sequences=[],
-        temperature=0, # Set to 0 for deterministic, factual transcription
-        safety_settings={
-            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-        }
+        temperature=0,
+        safety_settings=safety_settings
     )
     
-    return model.generate_content(
-        [prompt, pdf_file], 
-        request_options={'timeout': 1000},
-        generation_config=generation_config
+    return client.models.generate_content(
+        model=model_name,
+        contents=[prompt, pdf_file], 
+        config=config,
     )
 
 def split_pdf_into_chunks(pdf_path: Path, temp_dir: Path, chunk_size: int) -> List[Path]:
@@ -130,7 +144,10 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
     """
     print(f"Starting multimodal parsing for {pdf_path.name}...")
 
-    # --- 1. Setup Directories ---
+    # --- 1. Setup Client and Directories ---
+    # Instantiate the modern Gemini client
+    client = genai.Client()
+
     doc_images_dir = IMAGES_DIR / pdf_path.stem
     doc_markdown_dir = MARKDOWN_DIR / pdf_path.stem
     temp_pdf_dir = OUTPUT_DIR / "temp_pdfs" / pdf_path.stem
@@ -173,17 +190,19 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
 
         # --- 3b. Upload chunk to File API ---
         print(f"Uploading {chunk_path.name} to Gemini File API...")
-        pdf_file = genai.upload_file(path=chunk_path, display_name=chunk_path.name)
+        upload_config = genai.types.UploadFileConfig(display_name=chunk_path.name)
+        pdf_file = client.files.upload(file=chunk_path, config=upload_config)
         
         try:
             # --- 3c. Start Analysis ---
-            model = genai.GenerativeModel(model_name="gemini-2.5-pro")
+            model_name = "models/gemini-2.5-pro"
             
             print(f"Analyzing {num_pages_in_chunk} pages in one API call...")
             
             # --- 3d. Analyze the entire chunk in one call ---
             prompt = get_chunk_analysis_prompt(num_pages_in_chunk)
-            response = generate_content_with_retry(model, prompt, pdf_file)
+            response_text = "" # Initialize to ensure it's always a string
+            response = generate_content_with_retry(client, model_name, prompt, pdf_file)
             
             # --- 3e. Handle potential safety blocks ---
             try:
@@ -209,6 +228,11 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
                     raise ConsecutiveSafetyBlockError
                 continue # Skips to the finally block and then the next iteration
 
+            # After a successful API call, the response text can still be None.
+            if not response_text:
+                print(f"WARNING: Chunk {chunk_path.name} resulted in an empty response from the API. Skipping.")
+                continue
+
             # Split the single response into individual page contents, filtering out empty strings
             pages_markdown = [md for md in response_text.split("---PAGE_BREAK---") if md.strip()]
 
@@ -232,21 +256,35 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
                 extract_page_as_png(pdf_path, page_num_in_doc, image_path, DPI)
 
             # --- Rate Limiting (per chunk, not per page) ---
-            time.sleep(13)
+            # To stay under the 5 RPM limit for the Gemini 1.5 Pro free tier,
+            # especially when running with parallel workers, a conservative delay is essential.
+            # With 2 workers, a 25-second delay results in a max of ~4.8 RPM.
+            time.sleep(25)
 
-        except google_exceptions.ResourceExhausted as e:
-            print("\n--- GEMINI DAILY QUOTA EXCEEDED ---")
-            print(f"Error: {e}")
-            print("The script will now stop gracefully. Please run it again tomorrow to continue.")
-            raise DailyQuotaExceededError
+        except RetryError as e:
+            # If the retry logic fails, check if the root cause was a quota error.
+            last_exception = e.last_attempt.exception()
+            if isinstance(last_exception, google_exceptions.GoogleAPICallError) and (
+                "429" in str(last_exception) or "RESOURCE_EXHAUSTED" in str(last_exception)
+            ):
+                print("\n--- GEMINI DAILY QUOTA EXCEEDED (after retries) ---")
+                print(f"Final error: {e}")
+                raise DailyQuotaExceededError
+            else:
+                # Re-raise other retry errors
+                raise e
+
+        except google_exceptions.GoogleAPICallError as e:
+            # Catch broader API errors and inspect them for quota issues.
+            if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+                 print("\n--- GEMINI DAILY QUOTA EXCEEDED ---")
+                 print(f"Error: {e}")
+                 print("The script will now stop gracefully. Please run it again tomorrow to continue.")
+                 raise DailyQuotaExceededError
+            else:
+                # If it's another API error, let the generic handler below catch it.
+                raise e
         
-        except genai.types.StopCandidateException as e:
-            print(f"WARNING: Page {page_num_in_doc} was blocked by safety settings and will be skipped.")
-            # Log the blocked page for manual review later
-            with open(OUTPUT_DIR / "blocked_pages.log", "a") as f:
-                f.write(f"{pdf_path.name} - Page {page_num_in_doc} - Reason: {e}\n")
-            continue # Skip to the next page
-
         except ConsecutiveSafetyBlockError:
             raise # Propagate to stop the main process
         except DailyQuotaExceededError:
@@ -257,7 +295,7 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
         finally:
             # --- 3d. Cleanup ---
             print(f"Deleting uploaded file: {pdf_file.name}")
-            genai.delete_file(pdf_file.name)
+            client.files.delete(name=pdf_file.name)
             
         page_offset += num_pages_in_chunk
 
@@ -265,7 +303,7 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
     print("\nAggregating all Markdown content...")
     full_markdown_content = []
     for i in range(1, total_pages + 1):
-        md_path = doc_markdown_dir / f"page_{i}.md"
+        md_path = doc_markdown_dir / f"page_{i:04d}.md"
         if md_path.exists():
             full_markdown_content.append(md_path.read_text())
             

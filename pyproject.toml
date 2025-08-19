@@ -25,8 +25,9 @@ dependencies = [
     "pypdf==5.9.0",     # Latest stable before major v6 release
 
     # --- Vector DB and AI ---
-    "supabase==2.5.3", # Monitor for updates
-    "google-generativeai==0.8.0" # Monitor for updates
+    "supabase==2.18.1",
+    "google-genai==1.31.0",
+    "google-api-core==2.25.1"
 ]
 
 [tool.setuptools]
