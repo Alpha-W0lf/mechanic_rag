@@ -13,7 +13,7 @@ sys.path.insert(0, str(project_root))
 import google.generativeai as genai
 from scripts.ingest.chunking import Chunk, structure_aware_chunking
 from dotenv import load_dotenv
-from scripts.ingest.parse import parse_document
+from scripts.ingest.parse import parse_document, DailyQuotaExceededError
 from supabase import create_client, Client
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -122,6 +122,10 @@ def process_pdf(pdf_path: Path, supabase_client, gemini_client, dry_run: bool = 
         upsert_chunks(supabase_client, chunks_to_upsert)
         
         print(f"Done processing {pdf_path.name}.")
+    except DailyQuotaExceededError:
+        # This is a special signal to stop processing new documents.
+        # We re-raise it so the main thread can catch it and shut down.
+        raise
     except Exception as e:
         print(f"Error processing {pdf_path.name}: {e}")
 
@@ -177,6 +181,10 @@ def main():
         for future in tqdm(as_completed(futures), total=len(pdf_files)):
             try:
                 future.result()
+            except DailyQuotaExceededError:
+                print("Daily quota error caught in main thread. Shutting down gracefully.")
+                # We can cancel remaining futures, but for simplicity, we'll just let the pool exit.
+                break 
             except Exception as e:
                 print(f"An error occurred in a worker thread: {e}")
     

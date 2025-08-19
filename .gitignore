@@ -29,38 +29,16 @@ pnpm-debug.log*
 
 # Python
 __pycache__/
-*.py[cod]
-*$py.class
-/pip-wheel-metadata/
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-instance/
-.webassets-cache
-.scrapy
-.ipython/
-.pytest_cache/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.hypothesis/
-.tox/
-.nox/
-
-# Virtual Environment
-.venv
-venv/
-venv.bak
-ENV/
+*.pyc
+*.pyo
+*.pyd
+.Python
 env/
-env.bak
-.env
-.envrc
-.direnv/
+venv/
+.venv/
+
+# Generated output files
+output/
 
 # VSCode
 .vscode/

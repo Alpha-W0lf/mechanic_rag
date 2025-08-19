@@ -5,28 +5,51 @@ from pathlib import Path
 from typing import List, Tuple
 
 import google.generativeai as genai
+from google.api_core import exceptions as google_exceptions
 from pypdf import PdfReader, PdfWriter
 from pdf2image import convert_from_path
+from tenacity import retry, stop_after_attempt, wait_exponential
+
+# --- Custom Exceptions ---
+class DailyQuotaExceededError(Exception):
+    """Custom exception for when the Gemini API daily quota is met."""
+    pass
 
 # --- Constants ---
 OUTPUT_DIR = Path("output")
 IMAGES_DIR = OUTPUT_DIR / "images"
 MARKDOWN_DIR = OUTPUT_DIR / "markdown"
-PDF_CHUNK_SIZE = 500  # Number of pages per chunk to send to the API
+PDF_CHUNK_SIZE = 10  # Number of pages per chunk to send to the API
 DPI = 300 # DPI for the extracted PNG images
 
-def get_page_analysis_prompt(page_num: int) -> str:
-    """Returns the standardized prompt for Gemini to analyze a single page."""
+def get_chunk_analysis_prompt(page_count: int) -> str:
+    """Returns the standardized prompt for Gemini to analyze a multi-page chunk."""
     return f"""
-You are a technical document specialist. Your task is to meticulously analyze the provided PDF file and convert the entire content of page {page_num} into a well-structured Markdown document.
+You are a technical document specialist. Your task is to meticulously analyze the provided PDF file, which contains {page_count} pages.
 
-Instructions:
-1.  **Transcribe All Text:** Capture every piece of text on the page, including headers, footers, page numbers, table content, diagram labels, and captions.
-2.  **Preserve Structure:** Replicate the document's structure using Markdown. Use headings (`#`, `##`, etc.) for titles and sections. Use lists for itemized information.
-3.  **Format Tables:** Recreate any tables using Markdown table syntax. Ensure all rows, columns, and headers are accurately represented.
-4.  **Describe Images/Diagrams:** For every diagram, image, or figure, generate a detailed, descriptive caption and embed it in the Markdown using the format `[Image: A detailed description of the visual element.]`.
-5.  **Be Exact:** Do not summarize, interpret, or add any information not present in the original document. The goal is a perfect, machine-readable transcription of the page's content and layout.
+You must iterate through each page of the document sequentially, from page 1 to page {page_count}.
+
+For each page, perform the following actions:
+1.  **Transcribe All Text:** Capture every piece of text, including headers, footers, page numbers, and labels.
+2.  **Preserve Structure:** Replicate the document's structure using Markdown (headings, lists, etc.).
+3.  **Format Tables:** Recreate any tables using Markdown table syntax.
+4.  **Caption Visuals for Retrieval:** For every single image, diagram, chart, or table, you must generate a caption optimized for a search system. The caption must be enclosed in the format `[Image: caption text]`. The caption text itself must:
+    a. Be highly detailed and specific.
+    b. Explicitly name all key components, parts, and labels shown in the visual. For example, instead of "a diagram of the engine," write "a diagram of the F20C engine block, highlighting the crankshaft, pistons, and connecting rods."
+    c. Include any specific data, specifications, or torque values that are part of the image itself. For example, "a diagram showing the oil drain plug with a torque specification of 33 lb-ft."
+    d. Describe the visual's purpose. For example, "an exploded view of the clutch master cylinder assembly used for disassembly," or "a wiring diagram for the audio system."
+5.  **Insert Separator:** After processing the entire content of a page, you MUST insert the exact separator token `---PAGE_BREAK---` on its own line. This is critical for parsing the output.
+
+Your final output should be a single text response containing the Markdown for all {page_count} pages, each separated by the `---PAGE_BREAK---` token.
 """
+
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=4, max=10)
+)
+def generate_content_with_retry(model, prompt, pdf_file):
+    """Wrapper for Gemini API call with exponential backoff retry."""
+    return model.generate_content([prompt, pdf_file], request_options={'timeout': 1000})
 
 def split_pdf_into_chunks(pdf_path: Path, temp_dir: Path, chunk_size: int) -> List[Path]:
     """Splits a large PDF into smaller, temporary PDF chunks."""
@@ -43,7 +66,8 @@ def split_pdf_into_chunks(pdf_path: Path, temp_dir: Path, chunk_size: int) -> Li
         writer = PdfWriter()
         start_page = i
         end_page = min(i + chunk_size, total_pages)
-        chunk_path = temp_dir / f"{pdf_path.stem}_chunk_{start_page + 1}-{end_page}.pdf"
+        # Use 4-digit zero-padding for filenames
+        chunk_path = temp_dir / f"{pdf_path.stem}_chunk_{start_page + 1:04d}-{end_page:04d}.pdf"
 
         for j in range(start_page, end_page):
             writer.add_page(reader.pages[j])
@@ -104,40 +128,60 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path]]:
         try:
             # --- 3b. Start Chat Session ---
             model = genai.GenerativeModel(model_name="gemini-2.5-pro")
-            chat = model.start_chat()
             
             num_pages_in_chunk = len(PdfReader(chunk_path).pages)
             
-            # --- 3c. Process each page in the chunk ---
-            for i in range(num_pages_in_chunk):
-                page_num_in_chunk = i + 1
-                page_num_in_doc = page_offset + page_num_in_chunk
+            print(f"Analyzing {num_pages_in_chunk} pages in one API call...")
+            
+            # --- 3c. Analyze the entire chunk in one call ---
+            prompt = get_chunk_analysis_prompt(num_pages_in_chunk)
+            response = generate_content_with_retry(model, prompt, pdf_file)
+            
+            # Split the single response into individual page contents, filtering out empty strings
+            pages_markdown = [md for md in response.text.split("---PAGE_BREAK---") if md.strip()]
+
+            # --- 3d. Process and save each page's output ---
+            for i, page_md in enumerate(pages_markdown):
+                if i >= num_pages_in_chunk:
+                    print(f"Warning: Model returned more pages than were in the chunk. Ignoring extra page {i+1}.")
+                    continue
+
+                page_num_in_doc = page_offset + i + 1
                 
-                markdown_path = doc_markdown_dir / f"page_{page_num_in_doc}.md"
-                image_path = doc_images_dir / f"page_{page_num_in_doc}.png"
+                markdown_path = doc_markdown_dir / f"page_{page_num_in_doc:04d}.md"
+                image_path = doc_images_dir / f"page_{page_num_in_doc:04d}.png"
                 image_paths.append(image_path)
                 
-                # --- i. Resumability Check ---
                 if markdown_path.exists():
                     print(f"Skipping page {page_num_in_doc}/{total_pages}, output already exists.")
                     continue
-                    
-                print(f"Analyzing page {page_num_in_doc}/{total_pages}...")
                 
-                # --- ii. Multi-prompt Analysis ---
-                prompt = get_page_analysis_prompt(page_num_in_chunk)
-                response = chat.send_message([prompt, pdf_file] if i == 0 else prompt)
-                
-                # --- iii. Save Markdown ---
+                # Save the extracted markdown for the page
                 with open(markdown_path, "w") as f:
-                    f.write(response.text)
-                    
-                # --- iv. On-demand Asset Extraction ---
-                extract_page_as_png(pdf_path, page_num_in_doc, image_path, DPI)
+                    f.write(page_md.strip())
                 
-                # --- v. Rate Limiting ---
-                time.sleep(13) # ~4.6 RPM, safely under the 5 RPM limit for Gemini 2.5 Pro
+                # Extract the corresponding page as a PNG
+                extract_page_as_png(pdf_path, page_num_in_doc, image_path, DPI)
 
+            # --- Rate Limiting (per chunk, not per page) ---
+            time.sleep(13)
+
+        except google_exceptions.ResourceExhausted as e:
+            print("\n--- GEMINI DAILY QUOTA EXCEEDED ---")
+            print(f"Error: {e}")
+            print("The script will now stop gracefully. Please run it again tomorrow to continue.")
+            raise DailyQuotaExceededError
+        
+        except genai.types.StopCandidateException as e:
+            print(f"WARNING: Page {page_num_in_doc} was blocked by safety settings and will be skipped.")
+            # Log the blocked page for manual review later
+            with open(OUTPUT_DIR / "blocked_pages.log", "a") as f:
+                f.write(f"{pdf_path.name} - Page {page_num_in_doc} - Reason: {e}\n")
+            continue # Skip to the next page
+
+        except DailyQuotaExceededError:
+            # Propagate the exception to stop the entire process
+            raise
         except Exception as e:
             print(f"ERROR processing chunk {chunk_path.name}: {e}")
         finally:
