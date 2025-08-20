@@ -191,8 +191,8 @@ def main():
     
     all_blocked_chunks = []
     try:
-        # Limit to 2 workers to stay safely under the 5 RPM limit for the API.
-        with ThreadPoolExecutor(max_workers=2) as executor:
+        # Limit to 1 worker to run sequentially and guarantee we stay under the 5 RPM limit.
+        with ThreadPoolExecutor(max_workers=1) as executor:
             futures = {
                 executor.submit(process_pdf, pdf_path, supabase_client, genai, args.dry_run)
                 for pdf_path in pdf_files

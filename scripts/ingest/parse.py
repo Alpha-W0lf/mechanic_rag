@@ -171,6 +171,27 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
         num_pages_in_chunk = len(PdfReader(chunk_path).pages)
         
         # --- 3a. Chunk-level Resumability Check ---
+        # Prefer filename-based page range detection for robust skipping
+        try:
+            range_part = chunk_path.name.split("_chunk_")[1].split(".pdf")[0]
+            start_str, end_str = range_part.split("-")
+            start_page_num = int(start_str)
+            end_page_num = int(end_str)
+            md_all_exist = True
+            for page_num in range(start_page_num, end_page_num + 1):
+                if not (doc_markdown_dir / f"page_{page_num:04d}.md").exists():
+                    md_all_exist = False
+                    break
+            if md_all_exist:
+                print(f"Skipping chunk (by filename range), all output files exist: {chunk_path.name}")
+                for page_num in range(start_page_num, end_page_num + 1):
+                    image_paths.append(doc_images_dir / f"page_{page_num:04d}.png")
+                page_offset += num_pages_in_chunk
+                continue
+        except Exception:
+            pass
+
+        # Fallback to offset-based check
         output_files_exist = True
         for i in range(num_pages_in_chunk):
             page_num_in_doc = page_offset + i + 1
@@ -230,6 +251,22 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
 
             # After a successful API call, the response text can still be None.
             if not response_text:
+                # Check if files already exist for this chunk; if so, clarify the log
+                try:
+                    range_part = chunk_path.name.split("_chunk_")[1].split(".pdf")[0]
+                    start_str, end_str = range_part.split("-")
+                    start_page_num = int(start_str)
+                    end_page_num = int(end_str)
+                    md_all_exist = True
+                    for page_num in range(start_page_num, end_page_num + 1):
+                        if not (doc_markdown_dir / f"page_{page_num:04d}.md").exists():
+                            md_all_exist = False
+                            break
+                    if md_all_exist:
+                        print(f"INFO: API text empty, but files already exist for {chunk_path.name}. Skipping.")
+                        continue
+                except Exception:
+                    pass
                 print(f"WARNING: Chunk {chunk_path.name} resulted in an empty response from the API. Skipping.")
                 continue
 
@@ -256,10 +293,10 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
                 extract_page_as_png(pdf_path, page_num_in_doc, image_path, DPI)
 
             # --- Rate Limiting (per chunk, not per page) ---
-            # To stay under the 5 RPM limit for the Gemini 1.5 Pro free tier,
-            # especially when running with parallel workers, a conservative delay is essential.
-            # With 2 workers, a 25-second delay results in a max of ~4.8 RPM.
-            time.sleep(25)
+            # To stay safely under the 2 RPM limit for the Gemini 2.5 Pro free tier,
+            # a conservative delay is essential. With 1 worker, a 33-second delay
+            # results in a max of ~1.8 RPM.
+            time.sleep(33)
 
         except RetryError as e:
             # If the retry logic fails, check if the root cause was a quota error.

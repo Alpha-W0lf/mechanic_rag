@@ -49,7 +49,7 @@ Rate limits are applied per project.
 
 | Model                | Requests per Minute (RPM) | Tokens per Minute (TPM) | Requests per Day (RPD) |
 | -------------------- | ------------------------- | ----------------------- | ---------------------- |
-| **`Gemini 2.5 Pro`**   | 5                         | 250,000                 | 100                    |
+| **`Gemini 2.5 Pro`**   | 2                         | 250,000                 | 50                    |
 | **`Gemini 2.5 Flash`** | 10                        | 250,000                 | 250                    |
 
 ---
