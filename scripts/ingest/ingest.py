@@ -191,28 +191,21 @@ def main():
     
     all_blocked_chunks = []
     try:
-        # Limit to 1 worker to run sequentially and guarantee we stay under the 5 RPM limit.
-        with ThreadPoolExecutor(max_workers=1) as executor:
-            futures = {
-                executor.submit(process_pdf, pdf_path, supabase_client, genai, args.dry_run)
-                for pdf_path in pdf_files
-            }
-            
-            for future in tqdm(as_completed(futures), total=len(pdf_files)):
-                try:
-                    blocked_list = future.result()
-                    if blocked_list:
-                        all_blocked_chunks.extend(blocked_list)
-                except ConsecutiveSafetyBlockError:
-                    print("Consecutive safety block error caught in main thread. Shutting down.")
-                    executor.shutdown(wait=False, cancel_futures=True)
-                    break 
-                except DailyQuotaExceededError:
-                    print("Daily quota error caught in main thread. Shutting down gracefully.")
-                    executor.shutdown(wait=False, cancel_futures=True)
-                    break 
-                except Exception as e:
-                    print(f"An error occurred in a worker thread: {e}")
+        # A simple sequential loop is clearer than a ThreadPoolExecutor with one worker.
+        for pdf_path in tqdm(pdf_files, desc="Processing PDFs"):
+            try:
+                blocked_list = process_pdf(pdf_path, supabase_client, genai, args.dry_run)
+                if blocked_list:
+                    all_blocked_chunks.extend(blocked_list)
+            except ConsecutiveSafetyBlockError:
+                print("Consecutive safety block error caught in main thread. Shutting down.")
+                break 
+            except DailyQuotaExceededError:
+                print("Daily quota error caught in main thread. Shutting down gracefully.")
+                break 
+            except Exception as e:
+                print(f"An error occurred while processing {pdf_path.name}: {e}")
+
     finally:
         # --- Final Step: Update the blocked chunks log ---
         # This block is guaranteed to run even if the script is interrupted.

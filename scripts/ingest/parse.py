@@ -11,7 +11,7 @@ from google import genai
 from google.api_core import exceptions as google_exceptions
 from pypdf import PdfReader, PdfWriter
 from pdf2image import convert_from_path
-from tenacity import retry, stop_after_attempt, wait_exponential, RetryError
+from tenacity import retry, stop_after_attempt, wait_exponential, RetryError, retry_if_exception_type
 from google.genai.types import HarmCategory, HarmBlockThreshold
 
 # --- Custom Exceptions ---
@@ -58,10 +58,11 @@ For each page, perform the following actions:
 Your final output should be a single text response containing the Markdown for all {page_count} pages, each separated by the `---PAGE_BREAK---` token.
 """
 
-# @retry(
-#     stop=stop_after_attempt(3),
-#     wait=wait_exponential(multiplier=1, min=4, max=10)
-# )
+@retry(
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=1, min=4, max=10),
+    retry=retry_if_exception_type((google_exceptions.ServiceUnavailable, google_exceptions.InternalServerError))
+)
 def generate_content_with_retry(client, model_name, prompt, pdf_file):
     """Wrapper for Gemini API call with exponential backoff retry."""
     # This is the most reliable way to prevent false positives on technical docs.
@@ -229,15 +230,16 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
             page_offset += num_pages_in_chunk
             continue
 
-        # --- 3b. Upload chunk to File API ---
-        print(f"[{ts()}] Uploading {chunk_path.name} to Gemini File API...")
-        upload_config = genai.types.UploadFileConfig(display_name=chunk_path.name)
-        up_start = time.time()
-        pdf_file = client.files.upload(file=chunk_path, config=upload_config)
-        up_elapsed = (time.time() - up_start) * 1000
-        print(f"[{ts()}] Uploaded file: {pdf_file.name} (upload_ms={up_elapsed:.0f})")
-        
+        pdf_file = None  # Ensure pdf_file is defined for the finally block
         try:
+            # --- 3b. Upload chunk to File API ---
+            print(f"[{ts()}] Uploading {chunk_path.name} to Gemini File API...")
+            upload_config = genai.types.UploadFileConfig(display_name=chunk_path.name)
+            up_start = time.time()
+            pdf_file = client.files.upload(file=chunk_path, config=upload_config)
+            up_elapsed = (time.time() - up_start) * 1000
+            print(f"[{ts()}] Uploaded file: {pdf_file.name} (upload_ms={up_elapsed:.0f})")
+            
             # --- 3c. Start Analysis ---
             model_name = "models/gemini-2.5-pro"
             
@@ -291,8 +293,7 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
                 if consecutive_error_count >= 3:
                     print(f"[{ts()}] ERROR: 3 consecutive chunks were blocked. Stopping ingestion.")
                     raise ConsecutiveSafetyBlockError
-                print(f"[{ts()}] Skipping sleep due to early-continue after safety block")
-                continue # Skips to the finally block and then the next iteration
+                # The loop will now naturally proceed to the finally block and then the sleep.
 
             # After a successful API call, the response text can still be None.
             if not response_text:
@@ -309,8 +310,7 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
                             break
                     if md_all_exist:
                         print(f"[{ts()}] INFO: API text empty, but files already exist for {chunk_path.name}. Skipping.")
-                        print(f"[{ts()}] Skipping sleep due to early-continue after empty-text but files-exist")
-                        continue
+                        # The loop will now naturally proceed to the finally block and then the sleep.
                 except Exception:
                     pass
                 # Dump debug file for analysis
@@ -339,47 +339,39 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
                 except Exception as dump_e:
                     print(f"[{ts()}] Failed to write debug file: {dump_e}")
                 print(f"[{ts()}] WARNING: Chunk {chunk_path.name} resulted in an empty response from the API. Skipping.")
-                print(f"[{ts()}] Skipping sleep due to early-continue after empty-text")
-                continue
+                # The loop will now naturally proceed to the finally block and then the sleep.
 
             # Split the single response into individual page contents, filtering out empty strings
-            pages_markdown = [md for md in response_text.split("---PAGE_BREAK---") if md.strip()]
-            print(f"[{ts()}] Parsed {len(pages_markdown)} page blocks for {chunk_path.name}")
-            try:
-                # Map indices to document pages for visibility
-                mapped_pages = [page_offset + i + 1 for i in range(len(pages_markdown))]
-                print(f"[{ts()}] Parsed doc pages: {mapped_pages}")
-            except Exception:
-                pass
+            if response_text:
+                pages_markdown = [md for md in response_text.split("---PAGE_BREAK---") if md.strip()]
+                print(f"[{ts()}] Parsed {len(pages_markdown)} page blocks for {chunk_path.name}")
+                try:
+                    # Map indices to document pages for visibility
+                    mapped_pages = [page_offset + i + 1 for i in range(len(pages_markdown))]
+                    print(f"[{ts()}] Parsed doc pages: {mapped_pages}")
+                except Exception:
+                    pass
 
-            # --- 3f. Process and save each page's output (with overwrite) ---
-            for i, page_md in enumerate(pages_markdown):
-                if i >= num_pages_in_chunk:
-                    print(f"[{ts()}] Warning: Model returned more pages than were in the chunk. Ignoring extra page {i+1}.")
-                    continue
+                # --- 3f. Process and save each page's output (with overwrite) ---
+                for i, page_md in enumerate(pages_markdown):
+                    if i >= num_pages_in_chunk:
+                        print(f"[{ts()}] Warning: Model returned more pages than were in the chunk. Ignoring extra page {i+1}.")
+                        continue
 
-                page_num_in_doc = page_offset + i + 1
-                
-                markdown_path = doc_markdown_dir / f"page_{page_num_in_doc:04d}.md"
-                image_path = doc_images_dir / f"page_{page_num_in_doc:04d}.png"
-                image_paths.append(image_path)
-                
-                # Save the extracted markdown for the page (overwrite existing)
-                with open(markdown_path, "w") as f:
-                    f.write(page_md.strip())
-                print(f"[{ts()}] Wrote markdown: {markdown_path.name}")
-                
-                # Extract the corresponding page as a PNG (overwrite existing)
-                extract_page_as_png(pdf_path, page_num_in_doc, image_path, DPI)
-                print(f"[{ts()}] Wrote image: {image_path.name}")
-
-            # --- Rate Limiting (per chunk, not per page) ---
-            # To stay safely under the 2 RPM limit for the Gemini 2.5 Pro free tier,
-            # a conservative delay is essential. With 1 worker, a 33-second delay
-            # results in a max of ~1.8 RPM.
-            print(f"[{ts()}] Sleeping before next chunk...")
-            time.sleep(33)
-            print(f"[{ts()}] Woke from sleep.")
+                    page_num_in_doc = page_offset + i + 1
+                    
+                    markdown_path = doc_markdown_dir / f"page_{page_num_in_doc:04d}.md"
+                    image_path = doc_images_dir / f"page_{page_num_in_doc:04d}.png"
+                    image_paths.append(image_path)
+                    
+                    # Save the extracted markdown for the page (overwrite existing)
+                    with open(markdown_path, "w") as f:
+                        f.write(page_md.strip())
+                    print(f"[{ts()}] Wrote markdown: {markdown_path.name}")
+                    
+                    # Extract the corresponding page as a PNG (overwrite existing)
+                    extract_page_as_png(pdf_path, page_num_in_doc, image_path, DPI)
+                    print(f"[{ts()}] Wrote image: {image_path.name}")
 
         except RetryError as e:
             # If the retry logic fails, check if the root cause was a quota error.
@@ -415,8 +407,17 @@ def parse_document(pdf_path: Path) -> Tuple[str, List[Path], List[str]]:
             print(f"[{ts()}] ERROR processing chunk {chunk_path.name}: {e}")
         finally:
             # --- 3d. Cleanup ---
-            print(f"[{ts()}] Deleting uploaded file: {pdf_file.name}")
-            client.files.delete(name=pdf_file.name)
+            if pdf_file:
+                print(f"[{ts()}] Deleting uploaded file: {pdf_file.name}")
+                client.files.delete(name=pdf_file.name)
+        
+        # --- Rate Limiting (Unconditional) ---
+        # This is now outside the main try/except/finally block for the API call,
+        # ensuring it runs after every chunk, regardless of success or failure.
+        # This is critical to respect the 2 RPM limit.
+        print(f"[{ts()}] Sleeping before next chunk...")
+        time.sleep(33)
+        print(f"[{ts()}] Woke from sleep.")
             
         page_offset += num_pages_in_chunk
 
