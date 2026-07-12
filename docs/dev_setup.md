@@ -16,7 +16,7 @@ Quick setup guide for working on this project from a new machine. Check off item
 - [x] Clone repository and navigate to project directory
 ```bash
 git clone <your-repo-url>
-cd mechainic_rag
+cd mechanic_rag
 ```
 
 ### 2. Install uv (Python package manager) - REQUIRED
