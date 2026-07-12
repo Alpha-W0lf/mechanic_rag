@@ -26,7 +26,9 @@ A **public, product-shaped RAG** system over **automotive service documentation*
 **Audience:** GitHub reviewers / interviewers — not a commercial shop product.
 
 **Domain exemplar for public storytelling:** Honda S2000–shaped **synthetic** fixtures.  
-**Long-term private data path:** Ingest **processed** packages from Ford capture (`fetch-ford-service-manuals`) and future sources — after unification — never raw OEM PDFs in public git.
+**Long-term private data path:** Ingest **processed** packages from the vehicle docs library (Ford + future source adapters) — after unification — never raw OEM PDFs in public git.
+
+**Related personal/ops program (not public DoD):** Rich library for vehicles a diesel-mechanic friend may touch; **completed PDFs delivered via Google Drive**. See second_brain vehicle library SSOT.
 
 ---
 

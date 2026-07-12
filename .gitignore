@@ -40,6 +40,11 @@ venv/
 # Generated output files
 output/
 
+# OEM / private manuals — never commit (public portfolio must stay fixture-only)
+rag_input/**
+!rag_input/.gitkeep
+*.pdf
+
 # VSCode
 .vscode/
 
