@@ -4,7 +4,7 @@
 **Created:** 2026-07-12  
 **Updated:** 2026-07-12 (local Postgres only; multi-vehicle library-aware)  
 **Owner:** Tom  
-**Repo:** `mechainic_rag`  
+**Repo:** `mechanic_rag` (renamed from `mechainic_rag`; Python import package remains `mecharag`)  
 
 **Hub SSOT (library program):** `second_brain/docs/2026-07-12_vehicle_docs_library_and_mechanic_rag_program.md`  
 **Portfolio decisions:** `second_brain/docs/2026-07-12_portfolio_vision_workspace_and_decisions.md`  
@@ -26,9 +26,11 @@ A **public, product-shaped RAG** system over **automotive service documentation*
 **Audience:** GitHub reviewers / interviewers — not a commercial shop product.
 
 **Domain exemplar for public storytelling:** Honda S2000–shaped **synthetic** fixtures.  
-**Long-term private data path:** Ingest **processed** packages from the vehicle docs library (Ford + future source adapters) — after unification — never raw OEM PDFs in public git.
+**Long-term private data path:** Ingest **processed Gold document artifacts** from the vehicle docs library (Ford + future source adapters) — after unification — never raw OEM PDFs in public git.
 
 **Related personal/ops program (not public DoD):** Rich library for vehicles a diesel-mechanic friend may touch; **completed PDFs delivered via Google Drive**. See second_brain vehicle library SSOT.
+
+**Public/private boundary:** Real OEM documents are expected in the **private library** and friend-delivery path. The private workflow does not enforce legal/rights gating. This public portfolio repo accepts only synthetic/redistributable fixtures, keeps private corpus roots out of git, and must fail public-release checks if OEM/private artifacts appear.
 
 ---
 
