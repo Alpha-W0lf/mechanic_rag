@@ -1,7 +1,8 @@
 # MechaRAG Enhancements: Hybrid Multimodal Retrieval Plan
 
-**Status:** Proposed
-**Date:** August 17, 2025
+**Status:** Non-binding archive — **not** portfolio v1 scope.  
+**Product SSOT:** [`VISION.md`](./VISION.md) (text-first; multimodal deferred; local Postgres only).  
+**Date:** August 17, 2025 (notes appended later; keep for history only)
 
 ---
 
@@ -96,3 +97,12 @@ Further questions and areas to research/think about. it is currently august/sept
 - what size vectors should we use? 1024? 1536? what are the pros and cons? what are the performance and storage implications?
 - what vector database storage options do we have on the perpetual free tier of supabase? in memory, solid state, on disk, etc. if we have a choice, which should we pick? what is the performace impact?
 - how should we think about evaluation and observability of our system to evaluate and improve accuracy, performance, recall, etc.?
+
+
+focus areas:
+- chunking strategy especially considering multimodal knowledge base (text markdown file for each page, png image for each page).
+- chunking should be semantic and sophisticated enough to accurately reflect natural semantic boundaries between topics/chunks.
+- we need to think about how we actually implement highly robust semantic chunking.
+- embedding strategy needs more strategizing. we want to make sure we have a high quality embedding approach that can lay a great foundation for the downstream steps in the rag system. how should we approach embeddings for our multimodal input data?
+- it is september 2025. what are the best embedding models we should consider using?
+- what size vectors should we use? should the text and image input data be embedded in the same vector space or different vector space? should the same embedding model be used for both modalities (text and image) or should we use two different embedding models?
