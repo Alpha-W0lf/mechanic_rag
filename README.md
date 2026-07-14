@@ -4,7 +4,7 @@ Personal, non-commercial **portfolio** project. Text-only RAG over automotive se
 
 **Status:** Guide 01 vertical slice implemented for local Compose + fixtures (pass 8c/9). **Not** portfolio-complete. **Not** public-flip ready. **Not** “v1 done.”
 
-**SSOT:** [`docs/VISION.md`](docs/VISION.md) · [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md`](docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md) · [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md)
+**SSOT:** [`docs/VISION.md`](docs/VISION.md) · [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`GETTING_STARTED.md`](GETTING_STARTED.md) · [`INTERVIEW.md`](INTERVIEW.md) · [`docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md`](docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md) · [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md)
 
 ### Stack (Guide 01)
 
@@ -54,7 +54,7 @@ mecharag eval --golden evals/
 - Generator default is **gemma4:e2b** (pass 9 smoke OK). Pass 8c eval baseline historically used **qwen3.5:4b**.
 - Eval set is **≥10–15** fixture cases (Guide 02); grow to ≥30 before “complete” claims (`evals/PATH_TO_30.md`).
 - Stale paths (`db/schema.sql`, `supabase/**`, deleted stub `web/app`) are non-authoritative.
-- Missing packaging: GETTING_STARTED, INTERVIEW.
+- Packaging: [`GETTING_STARTED.md`](GETTING_STARTED.md) (clone path) · [`INTERVIEW.md`](INTERVIEW.md) (FAQ) — Guide 03; still not portfolio v1 / public flip / freeze.
 
 ### Paired ask ablation eval (Guide 02)
 

@@ -154,7 +154,7 @@ Honest progress after Guide 01 (Align docs pass 10). Checked items = **path exis
 - [x] Hybrid → RRF → local CE + citations in API response (include `vehicle_id` / doc family) — Guide 01; CE/embed **candidates** not frozen
 - [ ] ≥30 eval cases with documented metrics (incl. CE lift vs RRF-only or justified keep) — Guide 02: **≥10–15** goldens + paired ask harness; path to ≥30 in `evals/PATH_TO_30.md`; proxy `+1`/`n=5` retired as freeze evidence
 - [x] Clone-and-run with fixtures (no OEM PDFs; Compose Postgres) — README Quick Start; fixtures only
-- [ ] README + GETTING_STARTED + architecture + INTERVIEW — README + ARCHITECTURE present; **GETTING_STARTED** / **INTERVIEW** still missing
+- [x] README + GETTING_STARTED + architecture + INTERVIEW — Guide 03 packaging landed (root GETTING_STARTED + INTERVIEW); freeze / public flip / ≥30 goldens still open
 - [x] Extensibility notes for multimodal **and** multi-vehicle library growth in architecture (not full private sync required)
 - [x] Minimal vehicle catalog (even if fixture-backed) — `vehicles` + fixture ingest
 
