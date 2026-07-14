@@ -171,7 +171,10 @@ All boxes start unchecked. Implement checks them with evidence. **Do not check b
 - [ ] **B4.** Call out operator footguns: unset `MECHANIC_FORCE_RRF_ONLY` for normal use; `MECHANIC_DIAGNOSTICS=0` default hides CE/ablation fields over HTTP; Compose-first before ingest.  
 - [ ] **B5.** Honesty table: packaging ≠ portfolio v1 complete ≠ public flip ≠ freeze ≠ ≥30 done; fixtures only; candidates not frozen.  
 - [ ] **B6.** Link back to README + INTERVIEW + VISION + ARCHITECTURE.  
-- [ ] **B7.** Update VISION §9 packaging checkboxes / status to reflect that `GETTING_STARTED.md` and `INTERVIEW.md` now exist (honest ticks only — do not claim freeze or public flip).  
+- [ ] **B7.** Update VISION §9 packaging checkbox with this **pinned replacement** (pass 37) — do not invent weaker/stronger claims:  
+  `- [x] README + GETTING_STARTED + architecture + INTERVIEW — Guide 03 packaging landed (root GETTING_STARTED + INTERVIEW); freeze / public flip / ≥30 goldens still open`  
+  Leave the ≥30 eval checkbox **unchecked**. Do **not** tick freeze or public-flip language.  
+- [ ] **B8.** Update ARCHITECTURE §16 step 8 honesty (pass 37): keep step 8 as the deferred bag, but **strike GETTING_STARTED/INTERVIEW from the deferred list** (or annotate “packaging landed Guide 03”) while freeze / ≥30 / Drive/Ford / hosted CE remain deferred. Do not rewrite hard sequencing beyond that packaging status honesty.
 
 ### Phase C — README minimal touch
 
@@ -214,8 +217,8 @@ All boxes start unchecked. Implement checks them with evidence. **Do not check b
 - PrivateGold / Drive / Ford / OEM PDFs  
 - Ranking redesign / hosted CE / true MMR / multimodal / Supabase  
 - Invented MR5 numeric public thresholds  
-- Rewriting ARCHITECTURE §16 hard text  
-- Ticking VISION §9 mid-Implement  
+- Rewriting ARCHITECTURE §16 hard sequencing beyond packaging status honesty (step-8 lag may stay; packaging status must match landed files)  
+- Claiming freeze / public flip / portfolio v1 via VISION ticks  
 - Fixing g10 grounding residual in product code  
 
 **Suggested verification commands (implementer — after artifacts exist):**
@@ -252,7 +255,7 @@ Count INTERVIEW themes (8). Spot-check metric rails against Architecture constra
 | Twin-process ablation in GETTING_STARTED | False stranger failures (two ports) | B3 smoke ceiling; README pointer only |
 | Soft Guide 02 residuals elevated to primary FAQ | Distracts from real contracts | A5; theme 8 secondary only |
 | Peer-copy AG1–AG3 / Kafka | Wrong-domain interview answers | A5; Architecture §9 |
-| Silent VISION §9 / ARCHITECTURE §16 edits | Status theater | D6; Align owns |
+| Skipping VISION §9 / ARCHITECTURE §16 status after files land | Untrustworthy docs | B7 + D6 — same-delivery honesty (pass 33); not optional Align theater |
 | Public flip premature language | Overclaim vs ARCHITECTURE | B5 honesty table; theme 7 |
 | Scope creep to freeze / PrivateGold / Drive / Ford / ≥30 | Calendar burn; pass-12 #4 drift | Stop conditions; core DoD exclusions |
 | GETTING_STARTED ↔ README drift | Support burden | Role split: clone depth vs skim+link |
@@ -297,7 +300,7 @@ Docs + README links only. **Rollback** = revert the packaging commit(s); delete 
 - Expand path-to-30 corpus as Guide 03 DoD (pointer only)  
 - Redesign ranking, add hosted CE, true MMR, multimodal, Supabase  
 - Invent MR5 numeric public thresholds  
-- Silently rewrite VISION §9 checkboxes or ARCHITECTURE §16 hard sequencing  
+- Skip same-delivery VISION §9 / packaging-status honesty after files land (required) — but do **not** invent freeze/public-flip ticks  
 - Re-open Guide 01/02 as unshippable or “fix g10 in product code” under this guide  
 - Claim “interview-packaged” / “portfolio v1” / “public flip ready” before Review verifies artifacts  
 - Proceed from Write → Ready-check / Implement without human gate  
@@ -326,16 +329,11 @@ These were soft in context (pass 26–27); **this guide locks them** unless a hu
 
 ---
 
-## Honest readiness (Refine pass 30 VERIFY)
+## Honest readiness (pass 37 VERIFY)
 
-- **Refine-dev-guide DoD:** met (verify pass; no material invent gaps).  
-- **Ready-check readiness score:** **9 / 10** — delta **0** vs pass 29. Ready for Ready check; soft residuals only. Material pins closed (root placement, thin Compose, eight themes, smoke ceiling, metric rails including ask-vs-proxy field-name ban, README link locus, curl copy-from-README). Not **10**: Implement still authors FAQ sentences under themes + keep-stub pointer prose (craft, not design invent).  
-- **Ready for Ready check?** **Yes**  
-- **Rollback OK?** **Yes** — docs/links-only revert path under Blast → Rollback (revert packaging commit(s); delete root files if needed; restore README absence line; no DB/runtime flags; do not leave VISION §9 checked if Align never ran).  
-- **Not authorized:** creating root GETTING_STARTED/INTERVIEW, README edits, freeze, corpus growth (Implement after Ready check + human gate).  
-- **Not claimable:** interview-packaged / portfolio v1 complete / public flip / freeze.  
-- **Residual Implement craft:** exact FAQ Q wording under pinned themes; keep-stub pointer prose; SSOT/Honest-limits link wording.  
-- **Live spot-check (pass 30):** `GETTING_STARTED.md` / `INTERVIEW.md` still **absent** (root + `docs/`); Implement AC/Phase boxes still `[ ]`; `MODEL_FREEZE_STATUS.md` embed/CE **candidate**, paired `ce_vs_rrf_ask_delta_hits=0`, proxy +1 retired; README still lists “Missing packaging”; README Quick Start curl matches B2 pin; `.env.example` host **5433**.
+- **Implement readiness score:** **9.4 / 10** — pass 37 pinned exact VISION §9 checkbox replacement + ARCHITECTURE step-8 packaging annotation. Soft residual = FAQ prose under eight themes. **Not 10:** exact interview Q/A sentences remain Implement craft.  
+- **Status:** **READY** — awaiting Implement authorize. Live: root files still absent; README “Missing packaging”; port 5433; candidates + ask delta 0.  
+- **Not authorized:** Implement until human says so.  
 
 ---
 
