@@ -4,7 +4,8 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 03 — GETTING_STARTED + INTERVIEW packaging  
 **Stage that authored this:** Write-dev-guide (pass 28)  
-**Status:** Draft — awaiting Ready check  
+**Last refined:** Refine-dev-guide (pass 30 VERIFY)  
+**Status:** **READY** (Ready check pass 35 — awaiting Implement authorize)  
 
 **Context SSOT:** `docs/2026-07-14_guide03_packaging_getting_started_interview_context_summary.md`  
 **Prerequisite:** Guide 01 vertical slice shippable; Guide 02 paired ask ablation shippable as-is (Review pass 24). This guide adds **docs + links only** — no product/ranking/eval code, no freeze, no corpus growth.
@@ -24,7 +25,7 @@ Land the **defendable interview + stranger-clone shell** around the already-ship
 
 ---
 
-## Learning notes (new for this guide)
+## Learning notes
 
 1. **Packaging vs freeze DoD** — Stranger-run docs and interview FAQ can ship while embed/CE stay **candidates**. Freezing is a separate human claim; packaging narrates evidence, it does not invent locks. Analogy: shipping the owner’s manual is not the same as stamping the engine “production certified.”
 
@@ -33,6 +34,10 @@ Land the **defendable interview + stranger-clone shell** around the already-ship
 3. **Smoke ceiling** — GETTING_STARTED “eval smoke” proves golden tooling runs for a stranger (health + ask + `mecharag eval` with Next up). Twin-process paired ablation is an evidence *reproduction* path. Mixing them overloads packaging and creates false failure modes (two Next ports) for clone reviewers.
 
 4. **Env layering footgun** — Next.js reads `web/.env.local`; CLI `load_dotenv()` then loads `web/.env.local`. Root `.env` alone can satisfy CLI but **not** Next. Teaching **one** copy target (`cp .env.example web/.env.local`) beats “also try root `.env`.”
+
+5. **Ready-check readiness vs Implement craft (pass 29)** — Ready check asks whether an Implement agent must invent *material* decisions (placement, smoke ceiling, metric rails, theme inventory). Exact FAQ sentences and where a README link sits are **craft residuals** — they do not block Ready check if pins are closed. Do not confuse “still writing prose at Implement” with “guide incomplete.”
+
+6. **Ask-delta vs proxy-delta field names** — Honest Guide 02 field is `ce_vs_rrf_ask_delta_hits`. Historical proxy theater used `ce_vs_rrf_delta_hits=+1` (n=5, answer-substring). Packaging must not conflate the two names; citing the short name as if it were Guide 02 lift recreates claim theater.
 
 ---
 
@@ -87,13 +92,14 @@ Land the **defendable interview + stranger-clone shell** around the already-ship
 | CE / embed **candidate** | Yes |
 | Human freeze | **No** — not done |
 | Proxy `+1` / `n=5` as lift | **Forbidden** |
+| Historical field `ce_vs_rrf_delta_hits` (no `_ask_`) as Guide 02 lift | **Forbidden** — proxy-era name only; if mentioned, label historical proxy / non-evidence |
 | “CE improves retrieval” / invented lift | **Forbidden** |
 | Keep-with-justification | Point at `MODEL_FREEZE_STATUS.md` stub; do not invent lift |
 
 7. **Ablation ≠ degrade** in FAQ: `ablation_rrf_only` / `MECHANIC_FORCE_RRF_ONLY` ≠ `rerank_degraded`.  
 8. **Public corpus boundary:** fixtures only; Drive / Ford / OEM PDFs never in this repo.  
 9. **Do not copy AlphaGuard AG1–AG3 / Kafka themes.** Domain FAQ = ranking / degrade / corpus / freeze honesty.  
-10. **Do not silently tick VISION §9** or rewrite ARCHITECTURE §16 — Align-docs owns checkbox / sequencing lag after Review evidence.  
+10. **Update VISION §9 / ARCHITECTURE §16 in this same delivery** so packaging status matches reality after `GETTING_STARTED.md` + `INTERVIEW.md` land (trustworthy docs). Do not leave packaging marked missing/unchecked when files exist.  
 11. **Assets/screenshots:** **out** of core DoD unless human expands.  
 12. Prefer ≤300 lines/file for incidental doc edits; no new product modules. Still say **vertical slice / not portfolio v1 complete / not public-flip ready**.
 
@@ -112,7 +118,7 @@ Copied/refined from context SSOT — do not invent extra scope:
 - [ ] `.env.local` honesty: single copy target `cp .env.example web/.env.local`  
 - [ ] Honesty banners: packaging ≠ portfolio v1 complete ≠ public flip ≠ freeze ≠ ≥30 goldens done  
 - [ ] No product/ranking/eval code; no freeze; no PrivateGold/Drive/Ford; no assets DoD  
-- [ ] Do not silently tick VISION §9 or rewrite ARCHITECTURE §16  
+- [ ] Update VISION §9 packaging status and ARCHITECTURE §16 honesty in **this same delivery** after files land (docs match reality)  
 
 ---
 
@@ -140,7 +146,7 @@ All boxes start unchecked. Implement checks them with evidence. **Do not check b
 | 7 | Packaging honesty banners | Does packaging mean portfolio v1 / public flip / freeze? |
 | 8 | Soft residual honesty (secondary) | What does g10 teach about citation∩gold vs `insufficient_evidence` outcome? |
 
-- [ ] **A3.** Theme 4 metric rails (binding): state CE/embed **candidate**; paired ask `ce_vs_rrf_ask_delta_hits=0` (n=12, `gemma4:e2b`, citation∩gold); **forbid** proxy `+1`/`n=5` as lift; keep-with-justification → pointer to `evals/MODEL_FREEZE_STATUS.md` stub — **no invented lift / no freeze theater**.  
+- [ ] **A3.** Theme 4 metric rails (binding): state CE/embed **candidate**; paired ask `ce_vs_rrf_ask_delta_hits=0` (n=12, `gemma4:e2b`, citation∩gold); **forbid** proxy `+1`/`n=5` as lift; **forbid** citing historical `ce_vs_rrf_delta_hits` (no `_ask_`) as Guide 02 lift; keep-with-justification → pointer to `evals/MODEL_FREEZE_STATUS.md` stub — **no invented lift / no freeze theater**.  
 - [ ] **A4.** Theme 8 honesty: ablation scores citation∩gold miss; do **not** claim hard-miss reliably returns `insufficient_evidence` (live Guide 02: both arms `citation_gold_hit=false`, `outcome=answered`).  
 - [ ] **A5.** Cross-check: no AG1–AG3/Kafka copy; no answer contradicts ARCHITECTURE §7; no claim packaging = v1 Done / public flip / freeze; soft Guide 02 residuals are not primary product narrative.  
 - [ ] **A6.** Link from INTERVIEW.md to `docs/ARCHITECTURE.md`, `docs/VISION.md`, `evals/MODEL_FREEZE_STATUS.md`, `evals/PATH_TO_30.md` (paths only; keep FAQ drill-friendly).
@@ -159,29 +165,30 @@ All boxes start unchecked. Implement checks them with evidence. **Do not check b
   6. `mecharag ingest --source fixtures`  
   7. `python scripts/checks/public_fail_closed.py fixtures`  
   8. `cd web && pnpm install && pnpm test && pnpm dev`  
-  9. Health + one ask (`curl` examples matching README)  
+  9. Health + one ask — **copy curl targets from README Quick Start** (do not invent vehicle/question): `GET /api/health`; `POST /api/ask` with `vehicle_id=fixture:honda-s2000-demo` and oil-drain-plug question as in README  
   10. Eval smoke: `mecharag eval --golden evals/` with Next **up**; document `--retrieval-only` as escape hatch if Next is down  
 - [ ] **B3.** Explicitly **exclude** twin-process paired ablation from GETTING_STARTED DoD — one-line pointer to README “Paired ask ablation eval.”  
 - [ ] **B4.** Call out operator footguns: unset `MECHANIC_FORCE_RRF_ONLY` for normal use; `MECHANIC_DIAGNOSTICS=0` default hides CE/ablation fields over HTTP; Compose-first before ingest.  
 - [ ] **B5.** Honesty table: packaging ≠ portfolio v1 complete ≠ public flip ≠ freeze ≠ ≥30 done; fixtures only; candidates not frozen.  
-- [ ] **B6.** Link back to README + INTERVIEW + VISION + ARCHITECTURE; do not tick VISION §9 from this file.
+- [ ] **B6.** Link back to README + INTERVIEW + VISION + ARCHITECTURE.  
+- [ ] **B7.** Update VISION §9 packaging checkboxes / status to reflect that `GETTING_STARTED.md` and `INTERVIEW.md` now exist (honest ticks only — do not claim freeze or public flip).  
 
 ### Phase C — README minimal touch
 
-- [ ] **C1.** Add links to root `GETTING_STARTED.md` and `INTERVIEW.md` from README Docs / top navigation area (smallest correct edit).  
-- [ ] **C2.** Update “Missing packaging: GETTING_STARTED, INTERVIEW” (or equivalent) once files land — remove absence claim only after files exist.  
+- [ ] **C1.** Add links to root `GETTING_STARTED.md` and `INTERVIEW.md` near the existing README **SSOT** line and/or **Honest limits** (smallest correct edit). **Do not** invent a new top-nav chrome — README has no separate Docs nav today.  
+- [ ] **C2.** Update “Missing packaging: GETTING_STARTED, INTERVIEW” (Honest limits) once files land — remove absence claim only after files exist; replace with links if not already added in C1.  
 - [ ] **C3.** Keep Quick Start as skim; do **not** paste full GETTING_STARTED prose or INTERVIEW FAQ into README.  
 - [ ] **C4.** Keep / strengthen: vertical slice / not v1 complete; candidates; fixtures only; Guide 02 flat delta honesty if mentioned.
 
 ### Phase D — Honesty pass + cross-links
 
-- [ ] **D1.** Grep packaging docs for accidental proxy `+1` / `n=5` lift, “CE improves retrieval,” “frozen,” “v1 Done,” “public flip ready,” or AlphaGuard AG/Kafka copy; fix if introduced.  
+- [ ] **D1.** Grep packaging docs for accidental proxy `+1` / `n=5` lift, bare `ce_vs_rrf_delta_hits` (no `_ask_`) presented as Guide 02 lift, “CE improves retrieval,” “frozen,” “v1 Done,” “public flip ready,” or AlphaGuard AG/Kafka copy; fix if introduced.  
 - [ ] **D2.** Confirm `web/.env.local` single-copy teaching appears in GETTING_STARTED and stays consistent with README / `.env.example`.  
 - [ ] **D3.** Confirm eval smoke ceiling: twin ablation only as README pointer from GETTING_STARTED.  
 - [ ] **D4.** Confirm keep-justification is a **pointer** to `MODEL_FREEZE_STATUS.md`, not invented lift prose.  
 - [ ] **D5.** Confirm assets/screenshots were **not** added as hard DoD (unless human expanded).  
-- [ ] **D6.** Confirm VISION §9 / ARCHITECTURE §16 were **not** silently edited for checkbox/sequencing theater.  
-- [ ] **D7.** Stop. Do not start freeze, PrivateGold, Drive, Ford, path-to-30 expansion, ranking redesign, or Align-docs checkbox edits in this guide.
+- [ ] **D6.** Confirm VISION §9 / ARCHITECTURE §16 status language matches packaging reality (files present; freeze/public still honest).  
+- [ ] **D7.** Stop. Do not start freeze, PrivateGold, Drive, Ford, path-to-30 expansion, or ranking redesign.
 
 ---
 
@@ -196,7 +203,7 @@ All boxes start unchecked. Implement checks them with evidence. **Do not check b
 5. Twin-process paired ablation is **not** required in GETTING_STARTED (README pointer only).  
 6. No secrets, no `.env` committed, no product/ranking/eval code required for DoD (doc/link-only diffs).  
 7. Assets not required; freeze not required; PrivateGold/Drive/Ford not required.  
-8. VISION §9 packaging boxes are **not** silently checked by this Implement — Align-docs follow-up may tick after Review evidence.
+8. VISION §9 packaging boxes / ARCHITECTURE §16 status updated in this same delivery to match landed files (trustworthy docs).
 
 **Explicitly not required for this guide’s DoD:**
 
@@ -219,7 +226,8 @@ test -f GETTING_STARTED.md
 test -f INTERVIEW.md
 rg -n 'GETTING_STARTED|INTERVIEW' README.md
 rg -n 'web/\.env\.local|5433|mecharag eval|candidate|ce_vs_rrf_ask_delta_hits' GETTING_STARTED.md INTERVIEW.md
-rg -n 'proxy|\+1|n=5|frozen|v1 [Dd]one|public flip|AG1|Kafka' GETTING_STARTED.md INTERVIEW.md || true
+rg -n 'proxy|\+1|n=5|ce_vs_rrf_delta_hits|frozen|v1 [Dd]one|public flip|AG1|Kafka' GETTING_STARTED.md INTERVIEW.md || true
+# If `ce_vs_rrf_delta_hits` (no _ask_) appears, it must be labeled historical proxy — never as Guide 02 lift
 # Theme coverage smoke (titles need not match exactly — themes must be present)
 rg -n 'RRF|rerank_degraded|ablation|fixtures|candidate|vehicle_id|PATH_TO_30|insufficient_evidence|portfolio' INTERVIEW.md
 # Optional stranger smoke (not required to check Write boxes; Implement/Review evidence):
@@ -238,7 +246,7 @@ Count INTERVIEW themes (8). Spot-check metric rails against Architecture constra
 
 | Risk | Blast radius | Mitigation in steps |
 |------|----------------|---------------------|
-| Interview claim theater (proxy `+1` / invented CE lift / freeze language) | Portfolio credibility kill | A3 metric rails; D1 grep; Architecture §6 table |
+| Interview claim theater (proxy `+1` / invent `ce_vs_rrf_delta_hits` lift / freeze language) | Portfolio credibility kill | A3 metric rails; D1 grep; Architecture §6 table |
 | `.env.local` footgun (root `.env` only) | Stranger half-working clone | B2 step 3; D2 |
 | Compose depth creep | Packaging becomes ops guide | Thin Compose pin; B2 step 2; no ops appendix |
 | Twin-process ablation in GETTING_STARTED | False stranger failures (two ports) | B3 smoke ceiling; README pointer only |
@@ -273,6 +281,7 @@ Docs + README links only. **Rollback** = revert the packaging commit(s); delete 
 | INTERVIEW contradicts ARCHITECTURE | ARCHITECTURE wins; fix FAQ |
 | Reviewer equates packaging with freeze / public flip | Theme 7 honesty banners required |
 | FAQ cites proxy `+1` as CE lift | Ban |
+| FAQ cites `ce_vs_rrf_delta_hits` (no `_ask_`) as Guide 02 lift | Ban — historical proxy name; use `ce_vs_rrf_ask_delta_hits` |
 | Human wants `docs/assets/` screenshots | Out unless human expands DoD |
 | Human wants twin ablation in GETTING_STARTED | Reject — README only (pinned smoke ceiling) |
 
@@ -311,30 +320,34 @@ These were soft in context (pass 26–27); **this guide locks them** unless a hu
 | Keep-justification depth | **Pointer** to `MODEL_FREEZE_STATUS.md` stub; no invented lift | Honest; thin | Human: author longer keep paragraph |
 | Assets/screenshots | **Out** of core DoD | Thin packaging; AG had assets, Mechanic handoff does not require | Human: add assets DoD |
 | FAQ tone | **Concise staff gotcha FAQ** (2–6 sentence answers) | Drill-friendly; less narrative | Human requests essay tone |
-| Align timing for VISION §9 / ARCHITECTURE §16 | **Out** of Guide 03 Implement | Avoid checkbox theater | Align stage after Review |
+| Align timing for VISION §9 / ARCHITECTURE §16 | **In DoD — same delivery** (pass 33 human) | Trustworthy docs | Human parks Align explicitly |
+| README link locus | **SSOT line and/or Honest limits** — no new nav chrome | Matches live README shape | Human: authorize Docs nav |
+| Curl ask example | **Copy README Quick Start** (`fixture:honda-s2000-demo` + oil drain plug) | Zero invent of demo IDs | Human: change demo ask |
 
 ---
 
-## Honest readiness (Write pass 28)
+## Honest readiness (Refine pass 30 VERIFY)
 
-- **Write-dev-guide DoD:** met (this Draft).  
-- **Ready for:** Ready-check / Refine-dev-guide (human-gated) — **not** Implement.  
-- **Not authorized:** creating root GETTING_STARTED/INTERVIEW, README edits, freeze, corpus growth.  
+- **Refine-dev-guide DoD:** met (verify pass; no material invent gaps).  
+- **Ready-check readiness score:** **9 / 10** — delta **0** vs pass 29. Ready for Ready check; soft residuals only. Material pins closed (root placement, thin Compose, eight themes, smoke ceiling, metric rails including ask-vs-proxy field-name ban, README link locus, curl copy-from-README). Not **10**: Implement still authors FAQ sentences under themes + keep-stub pointer prose (craft, not design invent).  
+- **Ready for Ready check?** **Yes**  
+- **Rollback OK?** **Yes** — docs/links-only revert path under Blast → Rollback (revert packaging commit(s); delete root files if needed; restore README absence line; no DB/runtime flags; do not leave VISION §9 checked if Align never ran).  
+- **Not authorized:** creating root GETTING_STARTED/INTERVIEW, README edits, freeze, corpus growth (Implement after Ready check + human gate).  
 - **Not claimable:** interview-packaged / portfolio v1 complete / public flip / freeze.  
-- **Residual Implement craft:** exact FAQ Q wording under pinned themes; keep-stub pointer prose; README link placement.  
-- **Score preview (not Ready-check):** executable packaging guide; material pins closed; residual is Implement craft, not design gaps.
+- **Residual Implement craft:** exact FAQ Q wording under pinned themes; keep-stub pointer prose; SSOT/Honest-limits link wording.  
+- **Live spot-check (pass 30):** `GETTING_STARTED.md` / `INTERVIEW.md` still **absent** (root + `docs/`); Implement AC/Phase boxes still `[ ]`; `MODEL_FREEZE_STATUS.md` embed/CE **candidate**, paired `ce_vs_rrf_ask_delta_hits=0`, proxy +1 retired; README still lists “Missing packaging”; README Quick Start curl matches B2 pin; `.env.example` host **5433**.
 
 ---
 
-## QUALITY_STANDARD §5 (Write stage)
+## QUALITY_STANDARD §5 (Refine stage)
 
-- [x] Assumptions listed / soft-pinned as guide defaults  
-- [x] Did not rush; unknowns pinned not guessed; no metric lift invented  
-- [x] Mode/Stage/artifacts declared (spoke / Write-dev-guide pass 28 / this path)  
-- [x] Edge cases for packaging present  
-- [x] Blast radius present (≥2 angles: interview claims, Align lag, env footgun)  
-- [x] Findings written to this guide + handoff Results  
+- [x] Assumptions listed / soft-pinned as guide defaults; ask-vs-proxy field-name ban pinned  
+- [x] Did not rush; unknowns pinned not guessed; no metric lift invented; scores not inflated  
+- [x] Mode/Stage/artifacts declared (spoke / Refine-dev-guide pass 30 VERIFY / this path)  
+- [x] Edge cases for packaging present (incl. field-name conflation)  
+- [x] Blast radius + Rollback present and executable (docs-only revert)  
+- [x] Findings written to this guide + refine note + handoff Results  
 - [x] Spoke stayed in Mechanic guide 03 packaging slice  
-- [x] No scope creep / **no Implement / no code**  
+- [x] No scope creep / **no Implement / no code / no Ready READY stamp**  
 - [x] Verification / DoD commands clear for later Implement  
-- [x] Honest readiness: Draft only; not Ready-check; not Implement  
+- [x] Honest readiness: Refined; Ready-check Yes; score 9 (delta 0); not Implement  
