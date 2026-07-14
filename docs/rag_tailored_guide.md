@@ -1,5 +1,7 @@
 ## MechaRAG Technical Reference — Tailored Guide (S2000 Multimodal RAG)
 
+> **Non-authoritative for v1.** Research-era notes (Supabase/Gemini/optional CE/MVP). Binding ranking SSOT is `docs/ARCHITECTURE.md` §7 + portfolio **MR2** (`second_brain/docs/2026-07-12_portfolio_vision_workspace_and_decisions.md`, `second_brain/docs/2026-07-12_hybrid_rag_reranker_decision.md`). Do not implement from this file.
+
 Status: Draft v1 tailored to this repository. Living document; designed to be extended with decisions, research notes, and evaluation results over time.
 
 This guide replaces the generic/classification‑oriented reference with a system design focused on MechaRAG: a high‑quality, multimodal RAG for the Honda S2000 manuals. It assumes a production‑minded MVP on free tiers, strong citations, and retrieval of both text and visuals (tables/diagrams).

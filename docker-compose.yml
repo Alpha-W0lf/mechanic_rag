@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: mechanic_rag_postgres
+    environment:
+      POSTGRES_USER: mechanic
+      POSTGRES_PASSWORD: mechanic
+      POSTGRES_DB: mechanic_rag
+    ports:
+      - "5433:5432"
+    volumes:
+      - mechanic_pgdata:/var/lib/postgresql/data
+      - ./db/migrations/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mechanic -d mechanic_rag"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mechanic_pgdata:

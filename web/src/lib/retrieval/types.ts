@@ -1,15 +1,47 @@
+/** Pure retrieval types — no DB / model runtime imports. */
+
 export type RetrievedChunk = {
-  id: string;
-  documentName: string;
-  sectionPath?: string | null;
-  pageStart?: number | null;
-  pageEnd?: number | null;
+  /** Stable chunk identity shared across vector, lexical, RRF, CE, citations. */
+  chunk_id: string;
+  document_id: string;
+  document_name?: string;
+  section_path?: string | null;
+  page_start?: number | null;
+  page_end?: number | null;
   content: string;
+  vehicle_id?: string;
+  doc_family?: string;
+  modality?: 'text' | 'image' | 'table';
 };
 
+/** Vector or lexical hit before fusion. Scores are retriever-native, not [0,1]. */
+export type RetrieverHit = RetrievedChunk & {
+  modality: 'vector' | 'lexical';
+  /** Retriever-native score (distance, ts_rank, etc.) — not comparable across modalities. */
+  retriever_score: number;
+};
+
+/**
+ * Post-RRF (and optional section-dedup) candidate.
+ * `rrf_score` is a rank-derived sum: Σ 1/(k+rank). Not normalized [0,1] similarity.
+ */
+export type RrfResult = RetrievedChunk & {
+  modality: 'fusion';
+  rrf_score: number;
+};
+
+/** Post-CE candidate. `ce_score` is model-native; not interchangeable with rrf_score. */
+export type CeResult = RetrievedChunk & {
+  modality: 'fusion';
+  rrf_score: number;
+  ce_score: number;
+};
+
+/** @deprecated Prefer RetrieverHit / RrfResult / CeResult with explicit score fields. */
 export type ScoredResult = RetrievedChunk & {
-  score: number; // normalized [0,1]
+  id?: string;
+  score: number;
   modality: 'vector' | 'lexical' | 'fusion';
+  rrf_score?: number;
+  ce_score?: number;
 };
-
-

@@ -1,0 +1,63 @@
+# Synthetic Honda S2000 Service Manual (demo fixture — not OEM text)
+
+## 1 Engine Oil
+
+### 1-1 Specification
+Engine oil capacity with filter change is 4.8 liters (5.1 US quarts).
+Use API SJ or later, SAE 10W-30 for normal operating temperatures.
+Oil drain plug torque is 39 N·m (29 lbf·ft).
+
+### 1-2 Oil Filter Replacement
+1. Warm the engine to normal operating temperature.
+2. Remove the oil filler cap.
+3. Place a drain pan under the oil drain plug.
+4. Remove the drain plug and washer; allow oil to drain completely.
+5. Reinstall the drain plug with a new washer; torque to 39 N·m (29 lbf·ft).
+6. Remove the oil filter using a filter wrench.
+7. Install a new oil filter; hand-tighten then turn an additional 3/4 turn.
+8. Refill with 4.8 liters of specified oil; run engine and check for leaks.
+
+## 2 Clutch
+
+### 2-1 Pedal Free Play
+Clutch pedal free play should be 9–17 mm (0.35–0.67 in).
+If free play is out of specification, adjust the clutch master cylinder pushrod.
+
+### 2-2 Hydraulic Fluid
+Use only Honda DOT 3 or DOT 4 brake fluid in the clutch hydraulic system.
+Never mix fluid types. Bleed the system after any hydraulic component replacement.
+
+## 3 Spark Plugs
+
+### 3-1 Specification
+Spark plug type: NGK PFR7G-11 or equivalent.
+Electrode gap: 1.0–1.1 mm (0.039–0.043 in).
+Spark plug torque: 18 N·m (13 lbf·ft).
+
+### 3-2 Replacement Interval
+Replace spark plugs every 105,000 miles (168,000 km) under normal conditions.
+Inspect earlier if misfire DTCs are present.
+
+## 4 Cooling System
+
+### 4-1 Coolant
+Coolant capacity is approximately 5.8 liters including reservoir.
+Use Honda Type 2 coolant mixed 50/50 with distilled water.
+Radiator cap relief pressure is 93–123 kPa (0.95–1.25 kgf/cm², 13.5–17.8 psi).
+
+### 4-2 Thermostat
+Thermostat begins opening at 78–82 °C (172–180 °F).
+Fully open temperature is 95 °C (203 °F).
+
+## 5 Valve Clearance
+
+### 5-1 Inspection
+Valve clearance (cold): intake 0.15–0.19 mm; exhaust 0.26–0.30 mm.
+Adjust with the engine cold. Rotate crankshaft to TDC for each cylinder as specified.
+
+## 6 Transmission Fluid
+
+### 6-1 Specification
+Manual transmission fluid capacity: 1.5 liters (1.6 US quarts).
+Use Honda Manual Transmission Fluid (MTF).
+Fill to the bottom of the filler hole with the vehicle level.

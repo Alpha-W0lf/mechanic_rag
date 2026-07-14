@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mechanic-rag.local/contracts/ask_response.schema.json",
+  "title": "AskResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["answer", "citations"],
+  "properties": {
+    "answer": { "type": "string" },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "chunk_id",
+          "vehicle_id",
+          "doc_family",
+          "document_id"
+        ],
+        "properties": {
+          "label": { "type": "string" },
+          "chunk_id": { "type": "string" },
+          "vehicle_id": { "type": "string" },
+          "doc_family": { "type": "string" },
+          "document_id": { "type": "string" },
+          "section_path": { "type": ["string", "null"] },
+          "page_start": { "type": ["integer", "null"] },
+          "page_end": { "type": ["integer", "null"] }
+        }
+      }
+    },
+    "outcome": {
+      "type": "string",
+      "enum": ["answered", "insufficient_evidence"]
+    },
+    "diagnostics": {
+      "description": "Present only when MECHANIC_DIAGNOSTICS=1. Never private chunk bodies.",
+      "type": ["object", "null"]
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mechanic-rag.local/contracts/ask_request.schema.json",
+  "title": "AskRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["vehicle_id", "question"],
+  "properties": {
+    "vehicle_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Required. No all-vehicle fallback; no VIN lookup."
+    },
+    "question": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "doc_family": {
+      "type": "string",
+      "description": "Optional filter; unused stub may be present without breaking contract."
+    }
+  }
+}

@@ -5,30 +5,28 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "mecharag"
 version = "0.1.0"
-description = "A multimodal RAG system for automotive technical manuals."
-authors = [
-    {name = "AI Engineering Partner", email = "ai@cursor.dev"}
-]
+description = "Mechanic RAG offline ingest and eval CLI (fixtures → Compose Postgres)."
 readme = "README.md"
-requires-python = ">=3.13"
-
+requires-python = ">=3.11"
 dependencies = [
-    # --- Ingestion & Core ---
     "python-dotenv==1.0.1",
     "requests==2.32.3",
-    "psycopg[binary]==3.2.9", # Updated for Python 3.13 compatibility
+    "psycopg[binary]==3.2.13",
     "tenacity==9.0.0",
-    "tqdm==4.66.5",
-
-    # --- PDF & Image Processing ---
-    "pdf2image==1.17.0", # Latest stable as of Aug 2025
-    "pypdf==5.9.0",     # Latest stable before major v6 release
-
-    # --- Vector DB and AI ---
-    "supabase==2.18.1",
-    "google-genai==1.31.0",
-    "google-api-core==2.25.1"
 ]
 
-[tool.setuptools]
-packages = ["scripts"]
+[project.optional-dependencies]
+legacy = [
+    "pdf2image==1.17.0",
+    "pypdf==5.9.0",
+    "supabase==2.18.1",
+    "google-genai==1.31.0",
+    "google-api-core==2.25.1",
+]
+
+[project.scripts]
+mecharag = "mecharag.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["mecharag*"]
+exclude = ["scripts*", "web*", "output*"]

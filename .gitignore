@@ -54,3 +54,6 @@ rag_input/**
 # Supabase
 .supabase
 
+
+# build metadata
+*.egg-info/

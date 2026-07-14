@@ -1,0 +1,47 @@
+{
+  "version": "1",
+  "description": "Minimal golden set for Guide 01 vertical slice. Grow to ≥30 before portfolio-complete claim.",
+  "debt": "Only 5 cases now; expand before release claims.",
+  "cases": [
+    {
+      "id": "g01-oil-drain-torque",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the oil drain plug torque?",
+      "allowed_section_paths": ["1 Engine Oil > 1-1 Specification", "1-1 Specification"],
+      "allowed_content_substrings": ["39 N·m", "29 lbf·ft"],
+      "notes": "Torque answer must come from oil specification section"
+    },
+    {
+      "id": "g02-oil-capacity",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the engine oil capacity with filter change?",
+      "allowed_section_paths": ["1 Engine Oil > 1-1 Specification", "1-1 Specification"],
+      "allowed_content_substrings": ["4.8 liters"],
+      "notes": null
+    },
+    {
+      "id": "g03-clutch-free-play",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the clutch pedal free play specification?",
+      "allowed_section_paths": ["2 Clutch > 2-1 Pedal Free Play", "2-1 Pedal Free Play"],
+      "allowed_content_substrings": ["9–17 mm", "0.35–0.67"],
+      "notes": null
+    },
+    {
+      "id": "g04-spark-plug-gap",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What electrode gap should spark plugs be set to?",
+      "allowed_section_paths": ["3 Spark Plugs > 3-1 Specification", "3-1 Specification"],
+      "allowed_content_substrings": ["1.0–1.1 mm"],
+      "notes": null
+    },
+    {
+      "id": "g05-valve-clearance",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the cold intake valve clearance?",
+      "allowed_section_paths": ["5 Valve Clearance > 5-1 Inspection", "5-1 Inspection"],
+      "allowed_content_substrings": ["0.15–0.19 mm"],
+      "notes": null
+    }
+  ]
+}

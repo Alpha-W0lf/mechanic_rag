@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mechanic-rag.local/contracts/normalized_document_manifest.schema.json",
+  "title": "NormalizedDocumentManifest",
+  "description": "Shared Mechanic ↔ vehicle-library RAG Gold manifest (Contract 7.2). schema_version 1.0.0 — bump on breaking field changes. Library-emit profile may use rights_class=private_oem; public FixtureSource profile must use synthetic_fixture + vehicle_id ^fixture: (enforced by validator, not this schema alone). Mechanic chunk_id / embeddings are forbidden on library emit. Root shape is a release wrapper with a documents[] array (not a single flat document).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "corpus_version", "documents"],
+  "properties": {
+    "schema_version": {
+      "description": "Pinned supported versions only. Unsupported → reject (never coerce).",
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "manifest_id": {
+      "description": "Immutable Gold release / manifest pointer (synonym: release_id).",
+      "type": "string",
+      "minLength": 1
+    },
+    "release_id": {
+      "description": "Optional synonym for manifest_id; at least one of manifest_id or release_id is required (see allOf).",
+      "type": "string",
+      "minLength": 1
+    },
+    "corpus_version": {
+      "description": "Library-published corpus/release version; bump signals reindex_needed downstream.",
+      "type": "string",
+      "minLength": 1
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/document" }
+    }
+  },
+  "allOf": [
+    {
+      "anyOf": [
+        { "required": ["manifest_id"] },
+        { "required": ["release_id"] }
+      ]
+    }
+  ],
+  "$defs": {
+    "sha256_hex": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "relative_text_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^/\\\\].*\\.(txt|md)$",
+      "description": "Relative path to a .txt or .md artifact; no absolute paths; no PDFs."
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapter_id", "source_id"],
+      "properties": {
+        "adapter_id": { "type": "string", "minLength": 1 },
+        "source_id": { "type": "string", "minLength": 1 },
+        "source_doc_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Opaque upstream source document IDs."
+        },
+        "redacted_locator": {
+          "type": "string",
+          "description": "Human-safe locator; must not embed secrets or live OEM tree paths in public fixtures."
+        },
+        "observation_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "export_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transform_name", "transform_version"],
+      "properties": {
+        "transform_name": { "type": "string", "minLength": 1 },
+        "transform_version": { "type": "string", "minLength": 1 },
+        "input_bronze_hashes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sha256_hex" }
+        },
+        "input_silver_hashes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sha256_hex" }
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "byte_length"],
+      "properties": {
+        "path": { "$ref": "#/$defs/relative_text_path" },
+        "sha256": { "$ref": "#/$defs/sha256_hex" },
+        "byte_length": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page_start", "page_end", "section_path", "heading"],
+      "anyOf": [
+        { "required": ["body"] },
+        { "required": ["text_path"] }
+      ],
+      "properties": {
+        "page_start": { "type": "integer", "minimum": 1 },
+        "page_end": { "type": "integer", "minimum": 1 },
+        "section_path": { "type": "string", "minLength": 1 },
+        "heading": { "type": "string", "minLength": 1 },
+        "body": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Inline page/section text. Prefer text_path for multi-unit fixtures."
+        },
+        "text_path": {
+          "$ref": "#/$defs/relative_text_path",
+          "description": "Relative text artifact; must also appear in document.artifacts with matching hash/size."
+        }
+      }
+    },
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vehicle_id",
+        "year",
+        "make",
+        "model",
+        "engine",
+        "doc_family",
+        "document_id",
+        "artifact_version",
+        "content_hash",
+        "rights_class",
+        "provenance",
+        "lineage",
+        "artifacts",
+        "units"
+      ],
+      "properties": {
+        "vehicle_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "fixture:… (public) or cat:… (catalog private). Never VIN. Never filename-alone. Full slug recipes: VEH-ID-ALGO-001."
+        },
+        "year": { "type": "integer", "minimum": 1900, "maximum": 2100 },
+        "make": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 },
+        "engine": { "type": "string", "minLength": 1 },
+        "trim": { "type": "string", "minLength": 1 },
+        "doc_family": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled vocabulary claim; examples include service_manual | wiring | connectors (full vocab deferred)."
+        },
+        "document_id": { "type": "string", "minLength": 1 },
+        "artifact_version": { "type": "string", "minLength": 1 },
+        "content_hash": {
+          "$ref": "#/$defs/sha256_hex",
+          "description": "SHA-256 of primary Gold text artifact bytes (idempotent skip key)."
+        },
+        "rights_class": {
+          "type": "string",
+          "enum": ["synthetic_fixture", "private_oem", "redistributable"],
+          "description": "Library emit may use private_oem. Public FixtureSource must reject private_oem."
+        },
+        "provenance": { "$ref": "#/$defs/provenance" },
+        "lineage": { "$ref": "#/$defs/lineage" },
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/artifact" }
+        },
+        "units": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/unit" },
+          "description": "Page/section units for citation locators. Mechanic derives chunk_ids later."
+        }
+      }
+    }
+  }
+}

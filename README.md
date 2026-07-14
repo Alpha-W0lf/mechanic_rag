@@ -1,27 +1,61 @@
-## Mechanic RAG — Portfolio MVP (text-first, multi-vehicle-ready)
+## Mechanic RAG — hybrid → RRF → CE vertical slice
 
-Personal, non-commercial **portfolio** project. A retrieval-augmented generation (RAG) app for automotive service documentation, built for maintainability and a **growing per-vehicle library**.
+Personal, non-commercial **portfolio** project. Text-only RAG over automotive service documentation.
 
-**Product intent (SSOT):** [`docs/VISION.md`](docs/VISION.md) — text-only v1; local Postgres only; multimodal deferred but extensible; multi-vehicle schema from day one.
+**Status:** Guide 01 vertical slice implemented for local Compose + fixtures (pass 8c/9). **Not** portfolio-complete. **Not** public-flip ready. **Not** “v1 done.”
 
-**Library program (hub):** `second_brain/docs/2026-07-12_vehicle_docs_library_and_mechanic_rag_program.md` (private Ford capture/processing feeds this app later; public clones use fixtures only).
+**SSOT:** [`docs/VISION.md`](docs/VISION.md) · [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md`](docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md) · [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md)
 
-### Features (target)
-- Chat UI with source citations (vehicle, document/family, section, page range)
-- Hybrid retrieval (vector + lexical); eval harness
-- Local Ollama generator; local Postgres + pgvector via Compose
-- Catalog-aware corpus (fixtures now; processed private packages later)
-- Polished, minimalist UI with light/dark modes
+### Stack (Guide 01)
 
-### Architecture
-- Next.js (TypeScript) + API routes
-- Postgres + pgvector (**local Docker Compose only** — no Supabase)
-- Ingestion for redistributable fixtures (no OEM PDF redistribution)
+- Next.js App Router under **`web/src/app` only** (root `web/app` removed — no dual tree)
+- Compose **Postgres + pgvector** (no Supabase product path)
+- Offline Python CLI: **`mecharag ingest`** / **`mecharag eval`**
+- Host **Ollama** generator default **`gemma4:e2b`** (fallback `qwen3.5:4b`); embedding candidate `nomic-embed-text` @ 768
+- Ranking: vehicle-filtered vector + lexical → **RRF** → **section dedup (default on)** → local **CE** (degrade to RRF on failure)
 
-### Getting Started
-See `docs/VISION.md` and (when written) GETTING_STARTED. Current `/api/ask` is still a **stub** — not portfolio-complete.
+### Quick Start
+
+```bash
+# 1. Postgres
+docker compose up -d
+
+# 2. Env
+cp .env.example web/.env.local
+# ensure Ollama is running; pull candidates:
+#   ollama pull nomic-embed-text
+#   ollama pull gemma4:e2b   # operator default; or OLLAMA_MODEL=qwen3.5:4b
+
+# 3. Python CLI
+python -m venv .venv && source .venv/bin/activate
+pip install -e .
+mecharag ingest --source fixtures
+
+# 4. Public fail-closed check
+python scripts/checks/public_fail_closed.py fixtures
+
+# 5. Web
+cd web && pnpm install && pnpm test && pnpm dev
+# health + ask
+curl -s localhost:3000/api/health
+curl -s -X POST localhost:3000/api/ask \
+  -H 'content-type: application/json' \
+  -d '{"vehicle_id":"fixture:honda-s2000-demo","question":"What is the oil drain plug torque?"}'
+
+# 6. Golden eval (start Next first for full ask path; or --retrieval-only)
+mecharag eval --golden evals/
+```
+
+### Honest limits
+
+- Public corpus = **`fixtures/` only** (synthetic). No OEM PDFs, Drive, or Ford.
+- Embedding + CE IDs are **candidates** (smoke-verified / provisional CE keep) — **not frozen** until human freeze for portfolio ranking claims (`evals/MODEL_FREEZE_STATUS.md`).
+- Generator default is **gemma4:e2b** (pass 9 smoke OK). Pass 8c eval baseline historically used **qwen3.5:4b**.
+- Eval set starts at **5** cases; grow to ≥30 before “complete” claims.
+- Stale paths (`db/schema.sql`, `supabase/**`, deleted stub `web/app`) are non-authoritative.
+- Missing packaging: GETTING_STARTED, INTERVIEW.
 
 ### Disclaimers
+
 - Advisory only. Verify against your official service manual. Use at your own risk.
-- No redistribution of OEM PDFs; only derived/synthetic chunk data for public clones.
-- Fork and local runs welcome when the smoke path is documented.
+- No redistribution of OEM PDFs.

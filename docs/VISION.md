@@ -1,13 +1,14 @@
 # Mechanic RAG — Portfolio Vision (v1)
 
-**Status:** Active portfolio vision (supersedes README MVP sketch and rough notes for product intent)  
+**Status:** Active portfolio vision · **Guide 01 vertical slice done** · **Not** portfolio-complete / public-flip ready  
 **Created:** 2026-07-12  
-**Updated:** 2026-07-12 (local Postgres only; multi-vehicle library-aware)  
+**Updated:** 2026-07-13 (Align docs pass 10 — gemma default, freeze honesty, slice ≠ full v1)  
 **Owner:** Tom  
 **Repo:** `mechanic_rag` (renamed from `mechainic_rag`; Python import package remains `mecharag`)  
 
 **Hub SSOT (library program):** `second_brain/docs/2026-07-12_vehicle_docs_library_and_mechanic_rag_program.md`  
 **Portfolio decisions:** `second_brain/docs/2026-07-12_portfolio_vision_workspace_and_decisions.md`  
+**Slice status:** `docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md` · `evals/MODEL_FREEZE_STATUS.md`
 
 **Non-binding archives (do not drive v1 scope):** `docs/enhancements_rough_notes.md`, `docs/multimodal_gemini_approach_plan.md`, assorted `rough_*.md` / numbered build notes — keep for history; this file wins on intent.
 
@@ -38,10 +39,10 @@ A **public, product-shaped RAG** system over **automotive service documentation*
 
 | Slot | Proof |
 |------|--------|
-| Product RAG | End-to-end ask → retrieve → generate → citations |
-| Retrieval quality | Hybrid fusion (RRF/MMR already stubbed in code) + evals |
+| Product RAG | End-to-end ask → retrieve → generate → citations (**Guide 01 path live**) |
+| Retrieval quality | Hybrid → RRF → local cross-encoder (N→K) + eval lift vs RRF-only (**path live**; formal freeze + ≥30 cases still open) |
 | Data engineering for RAG | Multi-vehicle catalog, ingest idempotency, status-aware corpus growth |
-| Engineering honesty | Stub `/api/ask` must be replaced before public “done” claims |
+| Engineering honesty | No fake candidates in product ask; candidates ≠ frozen models; slice ≠ “v1 complete” |
 
 ---
 
@@ -74,11 +75,11 @@ A vehicle that is capture-complete is **not** automatically RAG-ready. Portfolio
 
 **In scope**
 - Text chunks only (synthetic/public fixtures for public clones)
-- Hybrid lexical + vector retrieval
+- Hybrid lexical + vector retrieval → RRF → local cross-encoder rerank (N→K; degrade to RRF-only)
 - Citations (vehicle, document/family, section, page range when available)
-- Eval set + smoke path
+- Eval set + smoke path (incl. CE lift vs RRF-only)
 - Docs: README, GETTING_STARTED, architecture, INTERVIEW/tradeoffs, `.env.example`, fork/run welcome
-- Generator: local **Ollama** (default aligned with portfolio `gemma4:e2b` / fallback `qwen3.5:4b`)
+- Generator: local **Ollama** — operator default **`gemma4:e2b`** (pass 9 smoke OK); fallback **`qwen3.5:4b`** (pass 8c historical baseline)
 - **Local Postgres + pgvector via Docker Compose only**
 - Multi-vehicle **schema + catalog** (even if fixtures only ship 1–2 synthetic vehicles)
 
@@ -100,7 +101,7 @@ v1 is **text-only**, but architecture must **not paint us into a corner**.
 **Design rules (binding for future multimodal):**
 1. Chunk / retrieval **interfaces** accept a modality field (`text` now; `image` / `table` later).
 2. Storage schema leaves room for optional secondary embeddings (nullable columns / separate collections) without rewriting the ask API contract.
-3. Fusion layer (RRF/MMR) stays modality-agnostic: score lists in, ranked list out.
+3. Fusion / ranking stays modality-agnostic on ID lists: RRF (+ optional section dedup) → local CE on text pairs in v1; multimodal CE is post-v1.
 4. Multimodal enhancement docs remain **post-v1** proposals — not v1 DoD.
 
 **Explicit:** Do not implement multimodal in portfolio v1. Do not let multimodal docs redefine the finish line.
@@ -123,7 +124,7 @@ v1 is **text-only**, but architecture must **not paint us into a corner**.
 |-------|----------|
 | Product docs | **This VISION** is SSOT for Mechanic product intent |
 | Library program | Hub SSOT in second_brain (vehicle docs library doc) |
-| Code | **Build on** existing Next.js app + RRF/MMR libs; replace stub `/api/ask` |
+| Code | Guide 01 path: Next.js `web/src/app` + hybrid→RRF→section dedup→CE + Ollama citations; stub ask **retired** |
 | Database | **Local Compose Postgres+pgvector only** — no Supabase |
 | Multimodal plans | Archive / defer |
 | Scratch wipe? | **No** |
@@ -136,7 +137,8 @@ v1 is **text-only**, but architecture must **not paint us into a corner**.
 | ID | Choice |
 |----|--------|
 | DB | Local Postgres + pgvector (Compose) — **no Supabase optional** |
-| Generator default | Ollama (portfolio model tags) |
+| Generator default | Ollama **`gemma4:e2b`** (fallback `qwen3.5:4b`) |
+| Ranking | Hybrid → RRF → local CE (N→K); degrade to RRF-only; eval lift (MR2) |
 | Public corpus | Synthetic redistributable fixtures |
 | Modality v1 | Text-only; extensible later |
 | Vehicle model | Multi-vehicle schema from v1 |
@@ -146,16 +148,20 @@ v1 is **text-only**, but architecture must **not paint us into a corner**.
 
 ## 9. Success (portfolio v1)
 
-- [ ] Real retrieve path (no fake candidates)
-- [ ] Hybrid + citations in API response (include `vehicle_id` / doc family)
-- [ ] ≥30 eval cases with documented metrics
-- [ ] Clone-and-run with fixtures (no OEM PDFs; Compose Postgres)
-- [ ] README + GETTING_STARTED + architecture + INTERVIEW
-- [ ] Extensibility notes for multimodal **and** multi-vehicle library growth in architecture (not full private sync required)
-- [ ] Minimal vehicle catalog (even if fixture-backed)
+Honest progress after Guide 01 (Align docs pass 10). Checked items = **path exists with evidence**. Unchecked = still required before claiming portfolio v1 / public “done.”
+
+- [x] Real retrieve path (no fake candidates) — Guide 01
+- [x] Hybrid → RRF → local CE + citations in API response (include `vehicle_id` / doc family) — Guide 01; CE/embed **candidates** not frozen
+- [ ] ≥30 eval cases with documented metrics (incl. CE lift vs RRF-only or justified keep) — **5** cases + provisional CE keep today
+- [x] Clone-and-run with fixtures (no OEM PDFs; Compose Postgres) — README Quick Start; fixtures only
+- [ ] README + GETTING_STARTED + architecture + INTERVIEW — README + ARCHITECTURE present; **GETTING_STARTED** / **INTERVIEW** still missing
+- [x] Extensibility notes for multimodal **and** multi-vehicle library growth in architecture (not full private sync required)
+- [x] Minimal vehicle catalog (even if fixture-backed) — `vehicles` + fixture ingest
+
+**Do not equate Guide 01 shippable with this checklist complete.**
 
 ---
 
 ## 10. Alignment with senior AI eng portfolio
 
-Demonstrates production-shaped RAG (not a notebook): APIs, hybrid retrieval, evals, packaging, honest limitations, and DE-aware corpus growth — complementary to AlphaGuard (agents/streaming) and Eyeglass (MLOps/CV). The private Ford → process → Mechanic path is the **real** data story for interviews; public git stays legally clean.
+Demonstrates production-shaped RAG (not a notebook): APIs, hybrid retrieval → fusion → cross-encoder rerank, evals, packaging, honest limitations, and DE-aware corpus growth — complementary to AlphaGuard (agents/streaming) and Eyeglass (MLOps/CV). The private Ford → process → Mechanic path is the **real** data story for interviews; public git stays legally clean.

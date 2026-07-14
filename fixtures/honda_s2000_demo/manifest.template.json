@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "manifest_id": "fixture-honda-s2000-demo-sm-v1",
+  "release_id": "fixture-release-2026-07-12",
+  "corpus_version": "fixture-corpus-1",
+  "vehicle_id": "fixture:honda-s2000-demo",
+  "year": 2004,
+  "make": "Honda",
+  "model": "S2000",
+  "engine": "F20C",
+  "trim": null,
+  "doc_family": "service_manual",
+  "document_id": "fixture-s2000-service-manual",
+  "artifact_version": "1",
+  "content_hash": "REPLACE_AT_BUILD",
+  "rights_class": "synthetic_fixture",
+  "document_name": "Synthetic S2000 Service Manual (demo)",
+  "provenance": {
+    "adapter_id": "FixtureSource",
+    "source_id": "fixtures/honda_s2000_demo",
+    "redacted_locator": "fixtures/honda_s2000_demo/service_manual.txt",
+    "observation_ids": [],
+    "export_id": null,
+    "transform_name": "synthetic_author",
+    "transform_version": "1"
+  },
+  "units": []
+}
