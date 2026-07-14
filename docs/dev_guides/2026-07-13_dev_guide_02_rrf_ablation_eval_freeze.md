@@ -4,7 +4,7 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 02 — true RRF-only ask ablation + golden growth + embed/CE freeze gate  
 **Stage that authored this:** Write → Refine-dev-guide (pass 17)  
-**Status:** Refined — ready for Ready check before code (Implement still unauthorized)  
+**Status:** Review complete — shippable as-is (pass 23); freeze still human-only / candidate  
 **Context SSOT:** `docs/2026-07-13_guide02_rrf_ablation_eval_freeze_context_summary.md`  
 **Prerequisite:** Guide 01 DoD met (shippable; do not reopen as unshippable)
 
@@ -130,44 +130,44 @@ All steps unchecked until Implement. Do **not** check boxes in Write-dev-guide.
 
 ### Phase A — Ask-path ablation hook (env-gated)
 
-- [ ] **A1.** Add env gate **`MECHANIC_FORCE_RRF_ONLY=1`** (exact name; document in `.env.example`). When set, skip CE scoring and use post-RRF (+ dedup) top-K context order (reuse existing `!ce` branch structure).
-- [ ] **A2.** Emit **`ablation_rrf_only=true`** in diagnostics when ablation is active and `MECHANIC_DIAGNOSTICS=1`. Do **not** set `rerank_degraded=true` merely because ablation is on. Natural CE failure still sets `rerank_degraded` as today.
-- [ ] **A3.** Keep `opts?.ce` for unit tests. Do **not** add public `skip_ce` / `ablation_mode` to `contracts/ask_request.schema.json` or `validateAskRequest` for casual clients.
-- [ ] **A4.** Document operator discipline: paired eval requires CE-on process (env unset) and RRF-only process (env set), or an Implement-chosen equivalent that keeps arms isolated (e.g. two documented env invocations). `SECTION_DEDUP_ENABLED` identical on both.
-- [ ] **A5.** Unit test: with force flag / equivalent, CE is not invoked; diagnostics show `ablation_rrf_only`; with CE failure (no force), `rerank_degraded` still works and is distinct.
+- [x] **A1.** Add env gate **`MECHANIC_FORCE_RRF_ONLY=1`** (exact name; document in `.env.example`). When set, skip CE scoring and use post-RRF (+ dedup) top-K context order (reuse existing `!ce` branch structure).
+- [x] **A2.** Emit **`ablation_rrf_only=true`** in diagnostics when ablation is active and `MECHANIC_DIAGNOSTICS=1`. Do **not** set `rerank_degraded=true` merely because ablation is on. Natural CE failure still sets `rerank_degraded` as today.
+- [x] **A3.** Keep `opts?.ce` for unit tests. Do **not** add public `skip_ce` / `ablation_mode` to `contracts/ask_request.schema.json` or `validateAskRequest` for casual clients.
+- [x] **A4.** Document operator discipline: paired eval requires CE-on process (env unset) and RRF-only process (env set), or an Implement-chosen equivalent that keeps arms isolated (e.g. two documented env invocations). `SECTION_DEDUP_ENABLED` identical on both.
+- [x] **A5.** Unit test: with force flag / equivalent, CE is not invoked; diagnostics show `ablation_rrf_only`; with CE failure (no force), `rerank_degraded` still works and is distinct.
 
 ### Phase B — Eval harness: paired ask + honest fields
 
-- [ ] **B1.** For each golden (when ask URL enabled), run **paired** HTTP asks: CE-on vs forced RRF-only. Same case JSON, same corpus version, same generator env era.
-- [ ] **B2.** Score **both** arms with the **shared** hit predicate (Pin 2): cited `chunk_id` ∩ allowed section/substring evidence. Stop using answer-substring alone as the CE-side “retrieval hit.”
-- [ ] **B3.** Emit summary fields: `rrf_only_ask_hits`, `ce_ask_hits`, `ce_vs_rrf_ask_delta_hits`. Segregate legacy lexical FTS counters as `*_lexical_proxy` (rename and/or dual-emit during one transition run; never subtract lexical proxy from ask CE hits for “lift”).
-- [ ] **B4.** Rename or clearly deprecate misleading `retrieval_hit_via_citations` if it still means answer-substring — do not leave INTERVIEW-facing names that lie.
-- [ ] **B5.** Wire or **remove** `--compare-ce` in `mecharag/__main__.py` + `eval_cmd.py` (Pin 5). No always-True unread flag.
-- [ ] **B6.** Per-case error handling: mid-eval Ollama/Postgres flaps → skip/error that case on **both** arms or mark asymmetric failure explicitly — do not silently inflate delta.
-- [ ] **B7.** When `MECHANIC_DIAGNOSTICS=1`, record per arm: `rerank_degraded`, `ablation_rrf_only`, `ce_latency_ms`, generator model, CE model; surface **CE runtime mode** (`classification` vs `cosine`) if available from CE adapter / diagnostics (add a diagnostic field if missing — smallest hook).
-- [ ] **B8.** Write new paired baseline to `evals/last_run_summary.json` (or successor) under **`gemma4:e2b`**; label historical pass-8c proxy row as **proxy / qwen-era** only.
+- [x] **B1.** For each golden (when ask URL enabled), run **paired** HTTP asks: CE-on vs forced RRF-only. Same case JSON, same corpus version, same generator env era.
+- [x] **B2.** Score **both** arms with the **shared** hit predicate (Pin 2): cited `chunk_id` ∩ allowed section/substring evidence. Stop using answer-substring alone as the CE-side “retrieval hit.”
+- [x] **B3.** Emit summary fields: `rrf_only_ask_hits`, `ce_ask_hits`, `ce_vs_rrf_ask_delta_hits`. Segregate legacy lexical FTS counters as `*_lexical_proxy` (rename and/or dual-emit during one transition run; never subtract lexical proxy from ask CE hits for “lift”).
+- [x] **B4.** Rename or clearly deprecate misleading `retrieval_hit_via_citations` if it still means answer-substring — do not leave INTERVIEW-facing names that lie.
+- [x] **B5.** Wire or **remove** `--compare-ce` in `mecharag/__main__.py` + `eval_cmd.py` (Pin 5). No always-True unread flag.
+- [x] **B6.** Per-case error handling: mid-eval Ollama/Postgres flaps → skip/error that case on **both** arms or mark asymmetric failure explicitly — do not silently inflate delta.
+- [x] **B7.** When `MECHANIC_DIAGNOSTICS=1`, record per arm: `rerank_degraded`, `ablation_rrf_only`, `ce_latency_ms`, generator model, CE model; surface **CE runtime mode** (`classification` vs `cosine`) if available from CE adapter / diagnostics (add a diagnostic field if missing — smallest hook).
+- [x] **B8.** Write new paired baseline to `evals/last_run_summary.json` (or successor) under **`gemma4:e2b`**; label historical pass-8c proxy row as **proxy / qwen-era** only.
 
 ### Phase C — Golden growth (≥10–15 + path to ≥30)
 
-- [ ] **C1.** Expand `evals/golden_fixture_v1.json` (or versioned successor) to **≥10 and ≤15 is OK; target band ≥10–15** fixture cases on `fixture:honda-s2000-demo` (or additional synthetic fixtures if needed — still public fixtures only).
-- [ ] **C2.** Diversify intents: keep existing torque/spec positives; add ≥1 hard miss / insufficient-evidence expectation; ≥1 multi-section or cross-section distractor; avoid “all easy positives.”
-- [ ] **C3.** Ensure each new case has allowed evidence locators (`allowed_section_paths` and/or substrings) sufficient for citation∩gold scoring — not answer-only expectations.
-- [ ] **C4.** Document **path to ≥30** in the golden file header and/or a short note in `evals/` (themes to add later: more families, negatives, degrade observation cases, multi-vehicle when fixtures exist). Do **not** require 30 in this guide’s DoD.
-- [ ] **C5.** Re-run paired eval on the expanded set; refresh summary metrics.
+- [x] **C1.** Expand `evals/golden_fixture_v1.json` (or versioned successor) to **≥10 and ≤15 is OK; target band ≥10–15** fixture cases on `fixture:honda-s2000-demo` (or additional synthetic fixtures if needed — still public fixtures only).
+- [x] **C2.** Diversify intents: keep existing torque/spec positives; add ≥1 hard miss / insufficient-evidence expectation; ≥1 multi-section or cross-section distractor; avoid “all easy positives.”
+- [x] **C3.** Ensure each new case has allowed evidence locators (`allowed_section_paths` and/or substrings) sufficient for citation∩gold scoring — not answer-only expectations.
+- [x] **C4.** Document **path to ≥30** in the golden file header and/or a short note in `evals/` (themes to add later: more families, negatives, degrade observation cases, multi-vehicle when fixtures exist). Do **not** require 30 in this guide’s DoD.
+- [x] **C5.** Re-run paired eval on the expanded set; refresh summary metrics.
 
 ### Phase D — Human freeze gate (evidence only)
 
-- [ ] **D1.** Update `evals/MODEL_FREEZE_STATUS.md` with: paired ask ablation results; `n_cases`; generator=`gemma4:e2b`; CE model; **CE runtime mode**; degrade rate; explicit statement that proxy `+1`/`n=5` is **not** freeze evidence.
-- [ ] **D2.** Embedding + CE remain **candidates** unless **human** writes freeze. Guide 02 Implement may prepare the evidence section and freeze checklist; agent must **not** flip status to frozen unilaterally.
-- [ ] **D3.** If paired delta is flat/negative: leave candidates; optionally draft “keep with justification” stub for human edit — do not invent keep language as if lift existed.
-- [ ] **D4.** Align honesty lines if needed in ARCHITECTURE §15 / VISION §9 pointers (smallest doc edits) so they no longer imply proxy delta is true ablation — without claiming portfolio-complete.
+- [x] **D1.** Update `evals/MODEL_FREEZE_STATUS.md` with: paired ask ablation results; `n_cases`; generator=`gemma4:e2b`; CE model; **CE runtime mode**; degrade rate; explicit statement that proxy `+1`/`n=5` is **not** freeze evidence.
+- [x] **D2.** Embedding + CE remain **candidates** unless **human** writes freeze. Guide 02 Implement may prepare the evidence section and freeze checklist; agent must **not** flip status to frozen unilaterally.
+- [x] **D3.** If paired delta is flat/negative: leave candidates; optionally draft “keep with justification” stub for human edit — do not invent keep language as if lift existed.
+- [x] **D4.** Align honesty lines if needed in ARCHITECTURE §15 / VISION §9 pointers (smallest doc edits) so they no longer imply proxy delta is true ablation — without claiming portfolio-complete.
 
 ### Phase E — Verification + stop
 
-- [ ] **E1.** Run unit tests for ablation vs degrade distinction; run vitest suite still green for ranking/ask contract.
-- [ ] **E2.** Run `mecharag eval` paired path against Compose + Next with diagnostics on; confirm new field names present; lexical proxy not used as lift.
-- [ ] **E3.** Confirm public ask schema unchanged for casual clients; `.env.example` documents `MECHANIC_FORCE_RRF_ONLY` + diagnostics.
-- [ ] **E4.** Stop. Do not start Drive/Ford/PrivateGold production, INTERVIEW packaging claim updates that assert CE lift without paired evidence, hosted CE, or ranking redesign.
+- [x] **E1.** Run unit tests for ablation vs degrade distinction; run vitest suite still green for ranking/ask contract.
+- [x] **E2.** Run `mecharag eval` paired path against Compose + Next with diagnostics on; confirm new field names present; lexical proxy not used as lift.
+- [x] **E3.** Confirm public ask schema unchanged for casual clients; `.env.example` documents `MECHANIC_FORCE_RRF_ONLY` + diagnostics.
+- [x] **E4.** Stop. Do not start Drive/Ford/PrivateGold production, INTERVIEW packaging claim updates that assert CE lift without paired evidence, hosted CE, or ranking redesign.
 
 ---
 
@@ -210,6 +210,10 @@ All steps unchecked until Implement. Do **not** check boxes in Write-dev-guide.
 | Cosine fallback mid-run | Score-domain mix in “CE” arm | B7 record runtime mode |
 | Asymmetric arm failures | Inflated delta | B6 per-case skip/error |
 | Doc drift (ARCHITECTURE §15, VISION §9, freeze file) | Conflicting honesty | D4 smallest align |
+
+### Rollback (pass 18 — for Ready check)
+
+**Rollback** = git revert the Guide 02 PR; unset `MECHANIC_FORCE_RRF_ONLY` on any running Next process; if summary field rename already shipped, keep dual-emit or document one-release deprecation before dropping proxy field names. Do **not** leave models marked frozen if evidence was reverted. No public ask-schema widen to unwind.
 
 ---
 
@@ -264,19 +268,21 @@ cat evals/last_run_summary.json
 
 ---
 
-## Refine pass 17 (hub)
+## Refine pass 18 (hub verify)
 
-**Checked:** completeness vs context (proxy CE lift, HTTP `opts.ce` gap, freeze gate); step order A→E; shared hit predicate; blast/edges; DoD.
+**Checked:** completeness, order, DoD, blast/edges, pins; Ready-check preview (alignment, rollback).
 
-**Material edits this refine:** Pin exact env name **`MECHANIC_FORCE_RRF_ONLY`** (was soft `FORCE_RRF_ONLY` vs prefix). Status → Refined. No other DoD holes found.
+**Material edits:** Explicit **Rollback** subsection. Env name pin from pass 17 unchanged.
 
 **Honest call:** **Ready check next**. Still **not** authorized to Implement / freeze.
 
+**Readiness score (Refine preview, /10):** **9.0** — measurement design solid; residual operational risk is paired-eval env restart discipline (documented, not a design hole).
+
 ---
 
-## Honest readiness (Refine pass 17)
+## Honest readiness (Refine pass 17–18)
 
-- Guide is **Refined — ready for Ready check before code**.
+- Guide **Implemented** (pass 22). Paired ask ablation live; models remain candidates.
 - Soft pins from context are **locked as defaults** above with tradeoffs (env name now exact).
 - **No implementation** in Refine (no `ask.ts` / `eval_cmd.py` / freeze-as-done edits).
 - Next: Ready check → Implement (human-gated).

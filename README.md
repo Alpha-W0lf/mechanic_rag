@@ -44,6 +44,7 @@ curl -s -X POST localhost:3000/api/ask \
 
 # 6. Golden eval (start Next first for full ask path; or --retrieval-only)
 mecharag eval --golden evals/
+# Paired ablation: see "Paired ask ablation eval" below (two Next processes)
 ```
 
 ### Honest limits
@@ -51,9 +52,28 @@ mecharag eval --golden evals/
 - Public corpus = **`fixtures/` only** (synthetic). No OEM PDFs, Drive, or Ford.
 - Embedding + CE IDs are **candidates** (smoke-verified / provisional CE keep) — **not frozen** until human freeze for portfolio ranking claims (`evals/MODEL_FREEZE_STATUS.md`).
 - Generator default is **gemma4:e2b** (pass 9 smoke OK). Pass 8c eval baseline historically used **qwen3.5:4b**.
-- Eval set starts at **5** cases; grow to ≥30 before “complete” claims.
+- Eval set is **≥10–15** fixture cases (Guide 02); grow to ≥30 before “complete” claims (`evals/PATH_TO_30.md`).
 - Stale paths (`db/schema.sql`, `supabase/**`, deleted stub `web/app`) are non-authoritative.
 - Missing packaging: GETTING_STARTED, INTERVIEW.
+
+### Paired ask ablation eval (Guide 02)
+
+True CE lift uses **two Next processes** (env gate — public ask schema is **not** widened):
+
+| Arm | Env | Example |
+|-----|-----|---------|
+| CE-on | `MECHANIC_DIAGNOSTICS=1`, **unset** `MECHANIC_FORCE_RRF_ONLY` | `cd web && MECHANIC_DIAGNOSTICS=1 pnpm dev` → `:3000` |
+| RRF-only | `MECHANIC_FORCE_RRF_ONLY=1` + diagnostics | `cd web && PORT=3001 MECHANIC_FORCE_RRF_ONLY=1 MECHANIC_DIAGNOSTICS=1 pnpm dev` |
+
+`SECTION_DEDUP_ENABLED` must match on both. Then:
+
+```bash
+mecharag eval --golden evals/ \
+  --ask-url http://127.0.0.1:3000/api/ask \
+  --ask-url-rrf-only http://127.0.0.1:3001/api/ask
+```
+
+Expect summary fields `rrf_only_ask_hits`, `ce_ask_hits`, `ce_vs_rrf_ask_delta_hits` (citation∩gold). Lexical FTS counters are `*_lexical_proxy` and are **not** CE lift. Ablation diagnostics use `ablation_rrf_only=true` (not `rerank_degraded`). See also `mecharag eval --help`.
 
 ### Disclaimers
 

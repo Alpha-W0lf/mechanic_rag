@@ -42,6 +42,37 @@ export type AskFailure = {
 
 const MAX_QUESTION = 4000;
 
+/** Env-gated Guide 02 ablation: skip CE intentionally (≠ natural degrade). */
+export function isForceRrfOnlyEnv(
+  env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  return env.MECHANIC_FORCE_RRF_ONLY === '1';
+}
+
+/** Parse `transformers_js:classification` → `classification` (or passthrough). */
+export function parseCeRuntimeMode(runtime: string | undefined): string | undefined {
+  if (!runtime) return undefined;
+  const idx = runtime.lastIndexOf(':');
+  return idx >= 0 ? runtime.slice(idx + 1) : runtime;
+}
+
+/**
+ * Diagnostic flags for post-fusion ranking.
+ * Ablation must never be labeled as `rerank_degraded`.
+ */
+export function rankingDiagnosticFlags(input: {
+  forceRrfOnly: boolean;
+  ceFailedOrUnavailable: boolean;
+}): { ablation_rrf_only: boolean; rerank_degraded: boolean } {
+  if (input.forceRrfOnly) {
+    return { ablation_rrf_only: true, rerank_degraded: false };
+  }
+  return {
+    ablation_rrf_only: false,
+    rerank_degraded: input.ceFailedOrUnavailable,
+  };
+}
+
 export function validateAskRequest(
   body: unknown,
 ): { ok: true; value: AskRequest } | { ok: false; error: string; status: number } {
@@ -91,10 +122,13 @@ export async function handleAsk(
   let lexicalMs = 0;
   let ceLatencyMs = 0;
   let rerankDegraded = false;
+  let ablationRrfOnly = false;
   let ceError: string | undefined;
+  let ceRuntimeMode: string | undefined;
   let ceModel = process.env.CE_MODEL || 'cross-encoder/ms-marco-MiniLM-L-6-v2';
   let embeddingModel = process.env.EMBEDDING_MODEL || 'nomic-embed-text';
   let generatorModel = process.env.OLLAMA_MODEL || 'gemma4:e2b';
+  const forceRrfOnly = isForceRrfOnlyEnv();
 
   try {
     const exists = await vehicleExists(req.vehicle_id);
@@ -168,27 +202,53 @@ export async function handleAsk(
               rrf_size: rrfSize,
               dedup_drops: dedupDrops,
               rerank_degraded: false,
+              ablation_rrf_only: forceRrfOnly,
             }
           : null,
       };
     }
 
-    const ce = opts?.ce ?? (await createCrossEncoderFromEnv().catch(() => null));
+    // Ablation: intentional RRF(+dedup)-only — distinct from natural CE degrade.
     let finalChunks: Array<RrfResult | CeResult> = fused.slice(0, ceTopK);
-    if (!ce) {
-      rerankDegraded = true;
-      ceError = 'ce_unavailable';
-    } else {
-      ceModel = ce.modelId;
-      const rerank = await rerankWithDegrade(req.question, fused, ce, {
-        topN: ceTopN,
-        topK: ceTopK,
-        timeoutMs: ceTimeoutMs,
+    if (forceRrfOnly) {
+      const flags = rankingDiagnosticFlags({
+        forceRrfOnly: true,
+        ceFailedOrUnavailable: false,
       });
-      finalChunks = rerank.results;
-      rerankDegraded = rerank.rerank_degraded;
-      ceLatencyMs = rerank.ce_latency_ms;
-      ceError = rerank.ce_error;
+      ablationRrfOnly = flags.ablation_rrf_only;
+      rerankDegraded = flags.rerank_degraded;
+      ceModel = 'skipped_ablation';
+      ceRuntimeMode = undefined;
+      // Do not create/call CE when ablating (opts.ce still available for tests
+      // when FORCE is unset).
+    } else {
+      const ce = opts?.ce ?? (await createCrossEncoderFromEnv().catch(() => null));
+      if (!ce) {
+        const flags = rankingDiagnosticFlags({
+          forceRrfOnly: false,
+          ceFailedOrUnavailable: true,
+        });
+        ablationRrfOnly = flags.ablation_rrf_only;
+        rerankDegraded = flags.rerank_degraded;
+        ceError = 'ce_unavailable';
+      } else {
+        ceModel = ce.modelId;
+        ceRuntimeMode = parseCeRuntimeMode(ce.runtime);
+        const rerank = await rerankWithDegrade(req.question, fused, ce, {
+          topN: ceTopN,
+          topK: ceTopK,
+          timeoutMs: ceTimeoutMs,
+        });
+        finalChunks = rerank.results;
+        const flags = rankingDiagnosticFlags({
+          forceRrfOnly: false,
+          ceFailedOrUnavailable: rerank.rerank_degraded,
+        });
+        ablationRrfOnly = flags.ablation_rrf_only;
+        rerankDegraded = flags.rerank_degraded;
+        ceLatencyMs = rerank.ce_latency_ms;
+        ceError = rerank.ce_error;
+      }
     }
 
     const ids = finalChunks.map((c) => c.chunk_id);
@@ -228,7 +288,9 @@ export async function handleAsk(
       ce_k: ceTopK,
       ce_latency_ms: ceLatencyMs,
       rerank_degraded: rerankDegraded,
+      ablation_rrf_only: ablationRrfOnly,
       ce_error: ceError,
+      ce_runtime_mode: ceRuntimeMode,
       chunk_ids: usedChunkIds,
       embedding_model: embeddingModel,
       generator_model: generatorModel,
@@ -254,7 +316,9 @@ export async function handleAsk(
             ce_k: ceTopK,
             ce_latency_ms: ceLatencyMs,
             rerank_degraded: rerankDegraded,
+            ablation_rrf_only: ablationRrfOnly,
             ce_error: ceError,
+            ce_runtime_mode: ceRuntimeMode,
             chunk_ids: usedChunkIds,
             embedding_model: embeddingModel,
             generator_model: generatorModel,

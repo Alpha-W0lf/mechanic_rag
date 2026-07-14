@@ -1,35 +1,69 @@
-# Model freeze status (Guide 01)
+# Model freeze status (Guide 01 → Guide 02 evidence)
 
 | Lock | Candidate in use | Status |
 |------|------------------|--------|
-| Embedding model + dim | Ollama `nomic-embed-text` @ 768 | **Smoke verified** (Compose ingest → 17 chunks @ dim 768; live ask retrieve). Still **candidate** until human freezes for portfolio claims. |
-| CE model + runtime | `Xenova/ms-marco-MiniLM-L-6-v2` via `transformers_js` (maps to architecture candidate `cross-encoder/ms-marco-MiniLM-L-6-v2`) | **Keep as MR2 candidate** — first paired baseline shows weak proxy lift (`ce_vs_rrf_delta_hits=+1` where RRF-only side is lexical-FTS proxy, not a true RRF-only ask). Degrade rate 0.0 on golden run; avg CE latency ~183ms. **Not frozen.** |
+| Embedding model + dim | Ollama `nomic-embed-text` @ 768 | **Smoke verified**. Still **candidate** until human freezes for portfolio claims. |
+| CE model + runtime | `Xenova/ms-marco-MiniLM-L-6-v2` via `transformers_js` (`classification` mode on 2026-07-13 paired run) | **Candidate** — paired ask delta **flat (0)** on n=12. **Not frozen.** Agent must not invent freeze. |
+
+## Freeze checklist (human-only)
+
+Do **not** flip status to frozen unless **all** are true and a human authors the freeze:
+
+1. Paired ask ablation metrics present under generator **`gemma4:e2b`** (`rrf_only_ask_hits`, `ce_ask_hits`, `ce_vs_rrf_ask_delta_hits`).
+2. Shared hit predicate = cited `chunk_id` ∩ allowed evidence (not answer-substring alone).
+3. CE model id + **CE runtime mode** (`classification` vs `cosine`) recorded.
+4. Degrade rate recorded (and distinct from `ablation_rrf_only`).
+5. Golden set ≥10–15 strongly preferred (path to ≥30 documented).
+6. **Forbidden:** freeze on proxy `ce_vs_rrf_delta_hits=+1` / `n=5` / lexical proxy alone.
+
+If paired delta is flat/negative: leave **candidate**; human may write keep-with-justification (MR2) — do not invent lift language.
+
+### Keep-with-justification stub (for human edit — not authored as lift)
+
+Paired ask ablation (2026-07-13, gemma4:e2b, CE classification, n=12) shows `ce_vs_rrf_ask_delta_hits=0`. CE did not improve citation∩gold hits vs forced RRF-only on this fixture set. Human may still keep MiniLM as MR2 candidate for latency/diversity reasons with written justification — do not claim lift from this run or from historical proxy +1.
 
 ## Generator (not a freeze lock)
 
 | Preference | Status |
 |------------|--------|
-| Primary `gemma4:e2b` | **Pass 9 smoke OK** (2026-07-13): live `POST /api/ask` with diagnostics `generator_model=gemma4:e2b`, outcome=answered, DB citations, CE not degraded. Code defaults + `.env.example` + repo `.env` already preferred gemma; hub/pass-9 synced leftover `web/.env.local` qwen → gemma (Next loads `.env.local`). |
-| Pass 8c baseline | Live ask + golden eval ran on fallback **`qwen3.5:4b`** while gemma was mid-upgrade / absent at resume start. Keep as historical baseline; prefer gemma for operator default now that tag + smoke exist. |
+| Primary `gemma4:e2b` | Confirmed on paired Guide 02 run (`generator_models_seen`) |
+| Pass 8c baseline | **qwen3.5:4b** historical proxy / qwen-era only |
 
-## First honest baseline (2026-07-12 pass 8c)
+## Historical proxy baseline (2026-07-12 pass 8c) — NOT freeze evidence
 
-Source: `evals/last_run_summary.json` (`mecharag eval --golden evals/ --ask-url http://localhost:3000/api/ask`)
+| Metric | Value | Honesty |
+|--------|-------|---------|
+| n_cases | 5 | Too small; proxy era |
+| rrf_only_retrieval_hits (lexical FTS proxy) | 4 | **Not** RRF-only ask |
+| ce_or_ask_path_hits (answer-substring) | 5 | **Not** citation∩gold |
+| ce_vs_rrf_delta_hits | +1 | **Proxy theater — do not freeze on this** |
+| generator | qwen3.5:4b | Different era |
 
-| Metric | Value |
-|--------|-------|
-| n_cases | 5 |
-| recall_at_k_proxy (lexical FTS) | 0.8 |
-| citation_correctness_rate | 1.0 |
-| ask_http_ok | 5/5 |
-| rrf_only_retrieval_hits (proxy) | 4 |
-| ce_or_ask_path_hits | 5 |
-| ce_vs_rrf_delta_hits | +1 |
+## Guide 02 paired ask ablation results (2026-07-13)
+
+Source: `evals/last_run_summary.json` after:
+
+```bash
+# CE-on :3000 (FORCE unset) + RRF-only :3001 (MECHANIC_FORCE_RRF_ONLY=1)
+mecharag eval --golden evals/ \
+  --ask-url http://127.0.0.1:3000/api/ask \
+  --ask-url-rrf-only http://127.0.0.1:3001/api/ask
+```
+
+| Field | Value |
+|-------|-------|
+| Date / run | 2026-07-13 Guide 02 Implement pass 22 |
+| n_cases | 12 |
+| paired_cases_scored | 12 (0 asymmetric failures) |
+| generator | `gemma4:e2b` |
+| CE model | `Xenova/ms-marco-MiniLM-L-6-v2` |
+| CE runtime mode | `classification` |
+| rrf_only_ask_hits | 11 |
+| ce_ask_hits | 11 |
+| ce_vs_rrf_ask_delta_hits | **0** |
 | degrade_rate | 0.0 |
-| avg_ce_latency_ms | 183.4 |
+| avg_ce_latency_ms | 97.58 |
+| lexical_proxy_retrieval_hits | 7 (segregated; not lift) |
+| Status | **candidate** — flat delta; human freeze only |
 
 No invented public-release pass/fail thresholds.
-
-## Host note (pass 8c)
-
-Ollama inference was broken until app restart: client/server skew left a stuck **0.18.2** serve after a partial **0.31.2** upgrade (`unknown runner engine`). Restart → `0.31.2` fixed embeds/generate.

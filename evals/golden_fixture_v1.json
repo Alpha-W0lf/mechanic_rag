@@ -1,7 +1,18 @@
 {
-  "version": "1",
-  "description": "Minimal golden set for Guide 01 vertical slice. Grow to ≥30 before portfolio-complete claim.",
-  "debt": "Only 5 cases now; expand before release claims.",
+  "version": "2",
+  "description": "Guide 02 golden set for paired ask ablation (citation∩gold). Fixture-only: fixture:honda-s2000-demo.",
+  "n_cases_target_band": "10–15 for Guide 02 DoD; path to ≥30 below",
+  "path_to_30": [
+    "Add more positive specs from the same S2000 fixture (filter interval, radiator cap, coolant ratio, MTF fill procedure).",
+    "Add multi-vehicle fixtures when catalog grows (second synthetic vehicle) — still public fixtures only.",
+    "Add more hard misses / out-of-corpus questions (brake pad part numbers, OEM-only TSBs) expecting insufficient_evidence.",
+    "Add wiring-ish / procedure distractors once procedure sections exist in fixtures.",
+    "Add degrade-observation cases (operator notes when CE fails) without treating degrade as ablation.",
+    "Add negative polarity cases (wrong fluid type, never-mix) with explicit allowed evidence.",
+    "Split multi-hop / multi-section questions that require CE to prefer the right section over distractors.",
+    "Do not encode historical proxy ce_vs_rrf_delta_hits=+1 as baseline when adding cases."
+  ],
+  "debt": "Grow toward ≥30 before portfolio-complete / freeze claims. Guide 02 DoD does not require 30.",
   "cases": [
     {
       "id": "g01-oil-drain-torque",
@@ -42,6 +53,63 @@
       "allowed_section_paths": ["5 Valve Clearance > 5-1 Inspection", "5-1 Inspection"],
       "allowed_content_substrings": ["0.15–0.19 mm"],
       "notes": null
+    },
+    {
+      "id": "g06-coolant-capacity",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the coolant capacity including the reservoir?",
+      "allowed_section_paths": ["4 Cooling System > 4-1 Coolant", "4-1 Coolant"],
+      "allowed_content_substrings": ["5.8 liters"],
+      "notes": "Positive cooling-system spec"
+    },
+    {
+      "id": "g07-spark-plug-torque",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the spark plug torque specification?",
+      "allowed_section_paths": ["3 Spark Plugs > 3-1 Specification", "3-1 Specification"],
+      "allowed_content_substrings": ["18 N·m", "13 lbf·ft"],
+      "notes": "Second spark-plug field; distractor risk vs oil drain torque"
+    },
+    {
+      "id": "g08-mtf-capacity",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "How much manual transmission fluid does the gearbox hold?",
+      "allowed_section_paths": ["6 Transmission Fluid > 6-1 Specification", "6-1 Specification"],
+      "allowed_content_substrings": ["1.5 liters"],
+      "notes": null
+    },
+    {
+      "id": "g09-thermostat-open",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "At what temperature does the thermostat begin opening?",
+      "allowed_section_paths": ["4 Cooling System > 4-2 Thermostat", "4-2 Thermostat"],
+      "allowed_content_substrings": ["78–82 °C", "172–180 °F"],
+      "notes": "Multi-section cooling family; CE may prefer 4-2 over 4-1"
+    },
+    {
+      "id": "g10-hard-miss-abs-module",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the ABS module connector pinout for the S2000?",
+      "allowed_section_paths": [],
+      "allowed_content_substrings": [],
+      "expect_outcome": "insufficient_evidence",
+      "notes": "Hard miss / out-of-fixture; no allowed evidence — citation∩gold must miss; do not score lift from answer luck"
+    },
+    {
+      "id": "g11-clutch-fluid-type",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What brake fluid type is specified for the clutch hydraulic system?",
+      "allowed_section_paths": ["2 Clutch > 2-2 Hydraulic Fluid", "2-2 Hydraulic Fluid"],
+      "allowed_content_substrings": ["DOT 3", "DOT 4"],
+      "notes": "Negative-adjacent: never mix; evidence in hydraulic fluid section"
+    },
+    {
+      "id": "g12-exhaust-valve-clearance",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the cold exhaust valve clearance?",
+      "allowed_section_paths": ["5 Valve Clearance > 5-1 Inspection", "5-1 Inspection"],
+      "allowed_content_substrings": ["0.26–0.30 mm"],
+      "notes": "Same section as intake; multi-value distractor within one chunk"
     }
   ]
 }
