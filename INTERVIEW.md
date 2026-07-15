@@ -29,7 +29,7 @@ Public corpus boundary is **`fixtures/` only** (synthetic). Drive sync, Ford/PTS
 
 ## 5. Are embed/CE frozen? What does Guide 02 paired delta `0` mean?
 
-Embedding (`nomic-embed-text` @ 768) and CE (`Xenova/ms-marco-MiniLM-L-6-v2`) are **candidates**, not frozen. Guide 02 paired ask ablation (n=12, generator `gemma4:e2b`, citation∩gold) recorded `ce_vs_rrf_ask_delta_hits=0` — flat: CE did **not** improve hits vs forced RRF-only on this fixture set. That is honest evidence, not a license to invent lift.
+Embedding (`nomic-embed-text` @ 768) and CE (`Xenova/ms-marco-MiniLM-L-6-v2`) are **candidates**, not frozen. Guide 04 paired ask ablation (n=30, generator `gemma4:e2b`, citation∩gold) recorded `ce_vs_rrf_ask_delta_hits=0` — flat: CE did **not** improve hits vs forced RRF-only on this fixture set. That is honest evidence, not a license to invent lift.
 
 **Forbidden as lift / freeze evidence:** historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` (answer-substring era; no `_ask_` in the field name). If that short name appears, label it **historical proxy / non-evidence** only. Keep-with-justification is a human call — point at [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md); do not invent lift language or freeze theater.
 
@@ -39,16 +39,16 @@ Every ask requires a canonical **`vehicle_id`** — no all-vehicle fallback, no 
 
 ## 7. Is the eval suite “complete”? Where is path to ≥30?
 
-No. Guide 02 landed **≥10–15** fixture goldens plus the paired ask harness. Portfolio / freeze claims should wait on a stronger set; growth plan (still fixtures only) is [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md). Do not treat current n as “eval complete.”
+S2000 fixture golden count is **30** (Guide 04, g01–g30). Paired ask re-baseline at n=30 shows flat `ce_vs_rrf_ask_delta_hits=0` — CE remains **candidate**, not frozen. Deferred themes (second vehicle, wiring) are in [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md). Do not treat flat delta as lift or equate golden count with portfolio v1 Done.
 
 ## 8. Does packaging mean portfolio v1 / public flip / freeze?
 
-No. Root `GETTING_STARTED` + `INTERVIEW` are the stranger-clone + FAQ shell around an already-shippable vertical slice. They do **not** mean:
+No. Root `GETTING_STARTED` + `INTERVIEW` are the stranger-clone + FAQ shell around an already-shippable vertical slice. S2000 fixture ≥30 goldens **are** done (Guide 04 — see §7); that still does **not** mean:
 
 - portfolio v1 checklist complete
 - public flip ready
 - embed/CE frozen
-- ≥30 goldens done
+- second-vehicle / wiring eval themes complete
 
 See VISION §9 for honest checkbox status.
 

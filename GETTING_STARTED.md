@@ -114,10 +114,11 @@ If Next is down, `--retrieval-only` is an escape hatch only — full stranger sm
 | Packaging | Stranger-clone + FAQ shell — not portfolio v1 complete |
 | Public flip | **Not** ready |
 | Embed / CE | **Candidates** — not frozen (`evals/MODEL_FREEZE_STATUS.md`) |
-| Guide 02 paired ask | `ce_vs_rrf_ask_delta_hits=0` (n=12, gemma, citation∩gold) — honest flat; no invented lift |
+| Guide 02 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=12, gemma, citation∩gold) — honest flat; superseded as current evidence by Guide 04 |
+| Guide 04 paired ask (current) | `ce_vs_rrf_ask_delta_hits=0` (n=30, `gemma4:e2b`, citation∩gold) — honest flat; CE remains **candidate** (`evals/MODEL_FREEZE_STATUS.md`) |
 | Proxy theater | Historical `ce_vs_rrf_delta_hits=+1` / `n=5` is **forbidden** as lift |
 | Corpus | **Fixtures only** — no Drive / Ford / OEM PDFs in this repo |
-| ≥30 goldens | **Not** done — see `evals/PATH_TO_30.md` |
+| ≥30 goldens | **Done** for S2000 fixture path (Guide 04, g01–g30) — second vehicle / wiring still deferred (`evals/PATH_TO_30.md`) |
 
 ---
 

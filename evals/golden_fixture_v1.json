@@ -1,89 +1,135 @@
 {
   "version": "2",
-  "description": "Guide 02 golden set for paired ask ablation (citation∩gold). Fixture-only: fixture:honda-s2000-demo.",
-  "n_cases_target_band": "10–15 for Guide 02 DoD; path to ≥30 below",
+  "description": "Guide 04 golden set for paired ask ablation (citation\u2229gold). Fixture-only: fixture:honda-s2000-demo.",
+  "n_cases_target_band": "\u226530 for Guide 04 DoD; S2000 path complete",
   "path_to_30": [
-    "Add more positive specs from the same S2000 fixture (filter interval, radiator cap, coolant ratio, MTF fill procedure).",
-    "Add multi-vehicle fixtures when catalog grows (second synthetic vehicle) — still public fixtures only.",
-    "Add more hard misses / out-of-corpus questions (brake pad part numbers, OEM-only TSBs) expecting insufficient_evidence.",
-    "Add wiring-ish / procedure distractors once procedure sections exist in fixtures.",
-    "Add degrade-observation cases (operator notes when CE fails) without treating degrade as ablation.",
-    "Add negative polarity cases (wrong fluid type, never-mix) with explicit allowed evidence.",
-    "Split multi-hop / multi-section questions that require CE to prefer the right section over distractors.",
-    "Do not encode historical proxy ce_vs_rrf_delta_hits=+1 as baseline when adding cases."
+    "Guide 04 landed g01\u2013g30 on fixture:honda-s2000-demo (positives, hard misses, negative polarity, multi-section).",
+    "Deferred: second synthetic vehicle when catalog grows \u2014 still public fixtures only.",
+    "Deferred: wiring / procedure distractors once procedure sections exist in fixtures.",
+    "Deferred: degrade-observation cases (operator notes when CE fails) without treating degrade as ablation.",
+    "Paired ask re-baseline after golden growth: done 2026-07-14 (delta=0); do not encode historical proxy ce_vs_rrf_delta_hits=+1 as lift."
   ],
-  "debt": "Grow toward ≥30 before portfolio-complete / freeze claims. Guide 02 DoD does not require 30.",
+  "debt": "\u226530 S2000 fixture goldens met (Guide 04). Paired ask re-baseline at n=30 completed (ce_vs_rrf_ask_delta_hits=0; see last_run_summary.json + MODEL_FREEZE_STATUS.md). Still open: second vehicle, wiring corpus, formal embed/CE freeze, public flip.",
   "cases": [
     {
       "id": "g01-oil-drain-torque",
       "vehicle_id": "fixture:honda-s2000-demo",
       "question": "What is the oil drain plug torque?",
-      "allowed_section_paths": ["1 Engine Oil > 1-1 Specification", "1-1 Specification"],
-      "allowed_content_substrings": ["39 N·m", "29 lbf·ft"],
+      "allowed_section_paths": [
+        "1 Engine Oil > 1-1 Specification",
+        "1-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "39 N\u00b7m",
+        "29 lbf\u00b7ft"
+      ],
       "notes": "Torque answer must come from oil specification section"
     },
     {
       "id": "g02-oil-capacity",
       "vehicle_id": "fixture:honda-s2000-demo",
       "question": "What is the engine oil capacity with filter change?",
-      "allowed_section_paths": ["1 Engine Oil > 1-1 Specification", "1-1 Specification"],
-      "allowed_content_substrings": ["4.8 liters"],
+      "allowed_section_paths": [
+        "1 Engine Oil > 1-1 Specification",
+        "1-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "4.8 liters"
+      ],
       "notes": null
     },
     {
       "id": "g03-clutch-free-play",
       "vehicle_id": "fixture:honda-s2000-demo",
       "question": "What is the clutch pedal free play specification?",
-      "allowed_section_paths": ["2 Clutch > 2-1 Pedal Free Play", "2-1 Pedal Free Play"],
-      "allowed_content_substrings": ["9–17 mm", "0.35–0.67"],
+      "allowed_section_paths": [
+        "2 Clutch > 2-1 Pedal Free Play",
+        "2-1 Pedal Free Play"
+      ],
+      "allowed_content_substrings": [
+        "9\u201317 mm",
+        "0.35\u20130.67"
+      ],
       "notes": null
     },
     {
       "id": "g04-spark-plug-gap",
       "vehicle_id": "fixture:honda-s2000-demo",
       "question": "What electrode gap should spark plugs be set to?",
-      "allowed_section_paths": ["3 Spark Plugs > 3-1 Specification", "3-1 Specification"],
-      "allowed_content_substrings": ["1.0–1.1 mm"],
+      "allowed_section_paths": [
+        "3 Spark Plugs > 3-1 Specification",
+        "3-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "1.0\u20131.1 mm"
+      ],
       "notes": null
     },
     {
       "id": "g05-valve-clearance",
       "vehicle_id": "fixture:honda-s2000-demo",
       "question": "What is the cold intake valve clearance?",
-      "allowed_section_paths": ["5 Valve Clearance > 5-1 Inspection", "5-1 Inspection"],
-      "allowed_content_substrings": ["0.15–0.19 mm"],
+      "allowed_section_paths": [
+        "5 Valve Clearance > 5-1 Inspection",
+        "5-1 Inspection"
+      ],
+      "allowed_content_substrings": [
+        "0.15\u20130.19 mm"
+      ],
       "notes": null
     },
     {
       "id": "g06-coolant-capacity",
       "vehicle_id": "fixture:honda-s2000-demo",
       "question": "What is the coolant capacity including the reservoir?",
-      "allowed_section_paths": ["4 Cooling System > 4-1 Coolant", "4-1 Coolant"],
-      "allowed_content_substrings": ["5.8 liters"],
+      "allowed_section_paths": [
+        "4 Cooling System > 4-1 Coolant",
+        "4-1 Coolant"
+      ],
+      "allowed_content_substrings": [
+        "5.8 liters"
+      ],
       "notes": "Positive cooling-system spec"
     },
     {
       "id": "g07-spark-plug-torque",
       "vehicle_id": "fixture:honda-s2000-demo",
       "question": "What is the spark plug torque specification?",
-      "allowed_section_paths": ["3 Spark Plugs > 3-1 Specification", "3-1 Specification"],
-      "allowed_content_substrings": ["18 N·m", "13 lbf·ft"],
+      "allowed_section_paths": [
+        "3 Spark Plugs > 3-1 Specification",
+        "3-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "18 N\u00b7m",
+        "13 lbf\u00b7ft"
+      ],
       "notes": "Second spark-plug field; distractor risk vs oil drain torque"
     },
     {
       "id": "g08-mtf-capacity",
       "vehicle_id": "fixture:honda-s2000-demo",
       "question": "How much manual transmission fluid does the gearbox hold?",
-      "allowed_section_paths": ["6 Transmission Fluid > 6-1 Specification", "6-1 Specification"],
-      "allowed_content_substrings": ["1.5 liters"],
+      "allowed_section_paths": [
+        "6 Transmission Fluid > 6-1 Specification",
+        "6-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "1.5 liters"
+      ],
       "notes": null
     },
     {
       "id": "g09-thermostat-open",
       "vehicle_id": "fixture:honda-s2000-demo",
       "question": "At what temperature does the thermostat begin opening?",
-      "allowed_section_paths": ["4 Cooling System > 4-2 Thermostat", "4-2 Thermostat"],
-      "allowed_content_substrings": ["78–82 °C", "172–180 °F"],
+      "allowed_section_paths": [
+        "4 Cooling System > 4-2 Thermostat",
+        "4-2 Thermostat"
+      ],
+      "allowed_content_substrings": [
+        "78\u201382 \u00b0C",
+        "172\u2013180 \u00b0F"
+      ],
       "notes": "Multi-section cooling family; CE may prefer 4-2 over 4-1"
     },
     {
@@ -93,23 +139,262 @@
       "allowed_section_paths": [],
       "allowed_content_substrings": [],
       "expect_outcome": "insufficient_evidence",
-      "notes": "Hard miss / out-of-fixture; no allowed evidence — citation∩gold must miss; do not score lift from answer luck"
+      "notes": "Hard miss / out-of-fixture; no allowed evidence \u2014 citation\u2229gold must miss; do not score lift from answer luck"
     },
     {
       "id": "g11-clutch-fluid-type",
       "vehicle_id": "fixture:honda-s2000-demo",
       "question": "What brake fluid type is specified for the clutch hydraulic system?",
-      "allowed_section_paths": ["2 Clutch > 2-2 Hydraulic Fluid", "2-2 Hydraulic Fluid"],
-      "allowed_content_substrings": ["DOT 3", "DOT 4"],
+      "allowed_section_paths": [
+        "2 Clutch > 2-2 Hydraulic Fluid",
+        "2-2 Hydraulic Fluid"
+      ],
+      "allowed_content_substrings": [
+        "DOT 3",
+        "DOT 4"
+      ],
       "notes": "Negative-adjacent: never mix; evidence in hydraulic fluid section"
     },
     {
       "id": "g12-exhaust-valve-clearance",
       "vehicle_id": "fixture:honda-s2000-demo",
       "question": "What is the cold exhaust valve clearance?",
-      "allowed_section_paths": ["5 Valve Clearance > 5-1 Inspection", "5-1 Inspection"],
-      "allowed_content_substrings": ["0.26–0.30 mm"],
+      "allowed_section_paths": [
+        "5 Valve Clearance > 5-1 Inspection",
+        "5-1 Inspection"
+      ],
+      "allowed_content_substrings": [
+        "0.26\u20130.30 mm"
+      ],
       "notes": "Same section as intake; multi-value distractor within one chunk"
+    },
+    {
+      "id": "g13-oil-grade",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What engine oil viscosity and API grade are specified for normal operating temperatures?",
+      "allowed_section_paths": [
+        "1 Engine Oil > 1-1 Specification",
+        "1-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "SAE 10W-30",
+        "API SJ"
+      ],
+      "notes": "Positive oil spec; unused fixture seed"
+    },
+    {
+      "id": "g14-oil-filter-turn",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "After hand-tightening the oil filter, how much additional turn is required?",
+      "allowed_section_paths": [
+        "1 Engine Oil > 1-2 Oil Filter Replacement",
+        "1-2 Oil Filter Replacement"
+      ],
+      "allowed_content_substrings": [
+        "additional 3/4 turn"
+      ],
+      "notes": null
+    },
+    {
+      "id": "g15-spark-plug-type",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the specified spark plug type?",
+      "allowed_section_paths": [
+        "3 Spark Plugs > 3-1 Specification",
+        "3-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "NGK PFR7G-11"
+      ],
+      "notes": null
+    },
+    {
+      "id": "g16-spark-interval",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "At what mileage should spark plugs be replaced under normal conditions?",
+      "allowed_section_paths": [
+        "3 Spark Plugs > 3-2 Replacement Interval",
+        "3-2 Replacement Interval"
+      ],
+      "allowed_content_substrings": [
+        "105,000 miles"
+      ],
+      "notes": null
+    },
+    {
+      "id": "g17-coolant-mix",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What Honda coolant type and mixing ratio should be used?",
+      "allowed_section_paths": [
+        "4 Cooling System > 4-1 Coolant",
+        "4-1 Coolant"
+      ],
+      "allowed_content_substrings": [
+        "50/50",
+        "Type 2"
+      ],
+      "notes": "Both mix ratio and coolant type must appear in cited evidence"
+    },
+    {
+      "id": "g18-radiator-cap",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the radiator cap relief pressure specification?",
+      "allowed_section_paths": [
+        "4 Cooling System > 4-1 Coolant",
+        "4-1 Coolant"
+      ],
+      "allowed_content_substrings": [
+        "93\u2013123 kPa",
+        "13.5\u201317.8 psi"
+      ],
+      "notes": null
+    },
+    {
+      "id": "g19-thermostat-full-open",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "At what temperature is the thermostat fully open?",
+      "allowed_section_paths": [
+        "4 Cooling System > 4-2 Thermostat",
+        "4-2 Thermostat"
+      ],
+      "allowed_content_substrings": [
+        "95 \u00b0C",
+        "203 \u00b0F"
+      ],
+      "notes": "Distinct from g09 begin-opening temperature"
+    },
+    {
+      "id": "g20-mtf-fill",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "To what level should manual transmission fluid be filled with the vehicle level?",
+      "allowed_section_paths": [
+        "6 Transmission Fluid > 6-1 Specification",
+        "6-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "bottom of the filler hole"
+      ],
+      "notes": "Fill procedure; complements g08 capacity"
+    },
+    {
+      "id": "g21-clutch-pushrod",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What should be adjusted if clutch pedal free play is out of specification?",
+      "allowed_section_paths": [
+        "2 Clutch > 2-1 Pedal Free Play",
+        "2-1 Pedal Free Play"
+      ],
+      "allowed_content_substrings": [
+        "clutch master cylinder pushrod"
+      ],
+      "notes": "Adjustment cue in same section as free-play spec"
+    },
+    {
+      "id": "g22-spark-misfire-inspect",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "When should spark plugs be inspected earlier than the normal replacement interval?",
+      "allowed_section_paths": [
+        "3 Spark Plugs > 3-2 Replacement Interval",
+        "3-2 Replacement Interval"
+      ],
+      "allowed_content_substrings": [
+        "misfire DTCs"
+      ],
+      "notes": "Early inspection trigger"
+    },
+    {
+      "id": "g23-hard-miss-brake-pad-pn",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the OEM front brake pad part number for the S2000?",
+      "allowed_section_paths": [],
+      "allowed_content_substrings": [],
+      "expect_outcome": "insufficient_evidence",
+      "notes": "Hard miss / out-of-fixture; no brake section in demo manual"
+    },
+    {
+      "id": "g24-hard-miss-ecu-pinout",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the ECU connector pinout for the S2000?",
+      "allowed_section_paths": [],
+      "allowed_content_substrings": [],
+      "expect_outcome": "insufficient_evidence",
+      "notes": "Hard miss; distinct from g10 ABS module pinout"
+    },
+    {
+      "id": "g25-hard-miss-tsb-oil",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the Honda TSB number for excessive oil consumption on the S2000?",
+      "allowed_section_paths": [],
+      "allowed_content_substrings": [],
+      "expect_outcome": "insufficient_evidence",
+      "notes": "Hard miss / OEM-only TSB not in fixture"
+    },
+    {
+      "id": "g26-never-mix-clutch-fluid",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "Can different brake fluid types be mixed in the clutch hydraulic system?",
+      "allowed_section_paths": [
+        "2 Clutch > 2-2 Hydraulic Fluid",
+        "2-2 Hydraulic Fluid"
+      ],
+      "allowed_content_substrings": [
+        "Never mix fluid types"
+      ],
+      "notes": "Negative polarity; reinforces never-mix rule"
+    },
+    {
+      "id": "g27-wrong-oil-20w50",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "Is SAE 20W-50 the specified engine oil viscosity for normal operating temperatures?",
+      "allowed_section_paths": [
+        "1 Engine Oil > 1-1 Specification",
+        "1-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "SAE 10W-30"
+      ],
+      "notes": "Negative polarity; 20W-50 is wrong \u2014 gold is correct viscosity"
+    },
+    {
+      "id": "g28-never-atf-in-mtf",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "Can automatic transmission fluid be used instead of the specified gearbox lubricant?",
+      "allowed_section_paths": [
+        "6 Transmission Fluid > 6-1 Specification",
+        "6-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "Honda Manual Transmission Fluid",
+        "MTF"
+      ],
+      "notes": "Negative polarity; ATF \u2260 MTF"
+    },
+    {
+      "id": "g29-multi-thermo-vs-coolant",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the coolant system total capacity, and at what temperature does the thermostat become fully open?",
+      "allowed_section_paths": [
+        "4 Cooling System > 4-2 Thermostat",
+        "4-2 Thermostat"
+      ],
+      "allowed_content_substrings": [
+        "95 \u00b0C",
+        "203 \u00b0F"
+      ],
+      "notes": "Multi-section cooling family; gold prefers thermostat full-open over 4-1 capacity distractor"
+    },
+    {
+      "id": "g30-multi-spark-gap-vs-torque",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the spark plug electrode gap and installation torque?",
+      "allowed_section_paths": [
+        "3 Spark Plugs > 3-1 Specification",
+        "3-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "1.0\u20131.1 mm"
+      ],
+      "notes": "Multi-field spark spec in one section; gold prefers gap over torque distractor"
     }
   ]
 }
