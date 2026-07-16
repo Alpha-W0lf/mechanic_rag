@@ -2,11 +2,8 @@
 
 **Date:** 2026-07-15  
 **Repos:** `mechanic_rag`  
-**Status:** Refined (pass 59)  
-**Mode last used:** hub  
-**Prioritize SSOT:** `second_brain/docs/2026-07-15_prioritize_next_work_pass58_fan_in.md`  
-**Refine fan-in:** `second_brain/docs/2026-07-15_refine_context_pass59_fan_in.md`  
-**Role lens:** AI engineer (evals honesty)
+**Status:** Refined (pass 59); **decision locked 2026-07-16** — keep candidates + honesty note; keep reranker in stack  
+**Locks:** `second_brain/docs/2026-07-16_human_locks_pass60_fan_in.md`
 
 ## Problem
 
@@ -69,11 +66,12 @@ Guide 04 landed **30** S2000 fixture goldens and a paired-ask re-baseline with `
 
 ## Open decisions (human)
 
-- **H-ME-FZ**
-  - Options: (A) freeze embed+CE; (B) freeze embed only, CE candidate; (C) **keep-with-justification (MR2)** both candidates; (D) park.
-  - Recommendation: **(C) MR2 keep** for both embed and CE.
-  - Reasoning: `ce_vs_rrf_ask_delta_hits=0` on n=30 — freezing would overclaim “chosen models.” Keep documents honesty + retains CE as a demoable rerank seam / latency story without inventing lift.
-  - Tradeoffs: Interviewers may push “why keep CE if delta=0?” — answer is explicit in MR2 prose. Freezing would feel stronger in a one-liner but fails evidence bar.
+- **Plain title:** Should Mechanic lock (“freeze”) the embedding and rerank models, or leave them as candidates with a written honesty note? (id: H-ME-FZ)
+  - In plain terms: We ran 30 test questions. Adding the cross-encoder reranker did **not** improve how often citations hit the gold answer vs the simpler ranking path. “Freeze” would mean declaring these models officially chosen. That claim is not earned yet.
+  - Options: (A) freeze both models; (B) freeze embedding only; (C) leave both as candidates and write why we still keep the reranker in the stack; (D) park.
+  - Recommendation: **(C)** — leave both as candidates; write a short honesty note.
+  - Reasoning: Eval showed zero improvement from the reranker on this fixture set. Freezing would overclaim. Keeping the reranker as an optional step is still useful for demos and latency discussion if we say clearly it did not lift this metric.
+  - Tradeoffs: Interviewers may ask why keep a reranker with no lift — answer must be written. Freezing sounds stronger in a one-liner but fails the evidence bar.
 
 ## Evidence opened this pass
 
@@ -82,5 +80,5 @@ Guide 04 landed **30** S2000 fixture goldens and a paired-ask re-baseline with `
 
 ## Honest readiness
 
-- Ready for Write-dev-guide? **Yes as thin docs-only guide** once H-ME-FZ locked (recommendation above is not a lock).  
-- Context quality: sufficient; no further Gather needed for this slice.  
+- Ready for Write-dev-guide? **Yes** — thin docs-only guide to author the keep-with-justification note and Align honesty banners. Reranker stays in the architecture; do not claim citation lift.  
+- Context quality: sufficient.  
