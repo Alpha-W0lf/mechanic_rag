@@ -18,9 +18,18 @@ Do **not** flip status to frozen unless **all** are true and a human authors the
 
 If paired delta is flat/negative: leave **candidate**; human may write keep-with-justification (MR2) — do not invent lift language.
 
-### Keep-with-justification stub (for human edit — not authored as lift)
+### Keep-with-justification (Guide 05 — authored 2026-07-16)
 
-Paired ask ablation (2026-07-14, gemma4:e2b, CE classification, n=30) shows `ce_vs_rrf_ask_delta_hits=0`. CE did not improve citation∩gold hits vs forced RRF-only on this fixture set. Human may still keep MiniLM as MR2 candidate for latency/diversity reasons with written justification — do not claim lift from this run or from historical proxy +1.
+**Decision:** Keep embedding and cross-encoder as **candidates** (not frozen). Keep the cross-encoder **in the ranking pipeline**.
+
+**Evidence (Guide 04 paired ask):** n=30, generator `gemma4:e2b`, CE `Xenova/ms-marco-MiniLM-L-6-v2` in `classification` mode, `rrf_only_ask_hits=26`, `ce_ask_hits=26`, `ce_vs_rrf_ask_delta_hits=0`, `degrade_rate=0.0`, `avg_ce_latency_ms≈94.7` — see `evals/last_run_summary.json`.
+
+1. Paired-ask citation∩gold delta was **0** on n=30.  
+2. Models remain **candidates**, not frozen.  
+3. Cross-encoder **stays in the stack** for architecture completeness (hybrid → RRF → section dedup → CE N→K), demo of local rerank, latency measurement, and degrade-to-fusion reliability — not because it improved this metric.  
+4. **Do not** claim CE improved citation hits on this run. Historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` remains **forbidden** as lift or freeze evidence.
+
+Formal freeze still requires the human-only checklist above after stronger evidence.
 
 ## Generator (not a freeze lock)
 

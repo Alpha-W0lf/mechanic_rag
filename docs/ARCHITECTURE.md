@@ -490,10 +490,10 @@ Guide 01 vertical slice landed. This table is **post-slice**, not pre-implement.
 | Schema | `db/migrations/001_init.sql` (§6-shaped) | Grow catalog features as library sync lands |
 | Ranking | §7 order live; `section_dedup.ts`; CE with degrade; Guide 02 env ablation `MECHANIC_FORCE_RRF_ONLY` + paired ask fields | Formal embed/CE **freeze** (human-only after paired gemma evidence) |
 | Health | Liveness ≠ readiness | — |
-| Evals/tests | ≥10–15 golden cases + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold | Grow to ≥30 (`evals/PATH_TO_30.md`) |
+| Evals/tests | **≥30** S2000 fixture goldens + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 04 paired ask delta **0**; Guide 05 keep-with-justification | Formal embed/CE freeze (human-only) |
 | Generator | Default / smoke: `gemma4:e2b`; fallback `qwen3.5:4b` (pass 8c historical proxy baseline) | — |
 
-**Honesty line:** Guide 01 DoD met ≠ portfolio v1 success checklist complete. Embedding + CE remain **candidates** (`evals/MODEL_FREEZE_STATUS.md`) until human freeze. Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** true RRF-only ask ablation and is **not** freeze evidence — use Guide 02 paired ask fields instead.
+**Honesty line:** Guide 01 DoD met ≠ portfolio v1 success checklist complete. Embedding + CE remain **candidates** (`evals/MODEL_FREEZE_STATUS.md`); Guide 05 keep-with-justification authored (CE stays in stack; n=30 paired ask delta **0** — no lift claim). Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
 
 ---
 

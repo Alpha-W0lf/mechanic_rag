@@ -4,7 +4,7 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 05 — keep embedding + cross-encoder in stack; leave **candidate**; author keep-with-justification honesty (no freeze / no lift claim)  
 **Stage that authored this:** Write-dev-guide (pass 61); Refine-dev-guide (pass 62–64)  
-**Status:** Refined (pass 64 VERIFY — no material edits; scores held) — ready for Ready-check; **not implemented**
+**Status:** **Implemented** 2026-07-16 (Guide 05 keep-honesty docs Align)
 
 **Context SSOT:** `mechanic_rag/docs/2026-07-15_guide05_model_freeze_keep_context_summary.md`  
 **Locks:** `second_brain/docs/2026-07-16_human_locks_pass60_fan_in.md`  
@@ -73,12 +73,12 @@ Codify Tom’s lock in product docs:
 
 ## Acceptance criteria
 
-- [ ] `MODEL_FREEZE_STATUS.md` keep-with-justification section authored (not stub); includes all **required honesty sentences**  
-- [ ] Status tables still say **candidate** for embed + CE  
-- [ ] VISION / GETTING_STARTED / INTERVIEW state: reranker present; **no** proven citation lift on n=30  
-- [ ] Strike any stale “Grow to ≥30” / “freeze pending growth” contradictions if still present  
-- [ ] Verification `rg` finds no forbidden phrases in the honesty surfaces  
-- [ ] No ranking code changes required for DoD  
+- [x] `MODEL_FREEZE_STATUS.md` keep-with-justification section authored (not stub); includes all **required honesty sentences**  
+- [x] Status tables still say **candidate** for embed + CE  
+- [x] VISION / GETTING_STARTED / INTERVIEW state: reranker present; **no** proven citation lift on n=30  
+- [x] Strike any stale “Grow to ≥30” / “freeze pending growth” contradictions if still present  
+- [x] Verification `rg` finds no forbidden phrases in the honesty surfaces  
+- [x] No ranking code changes required for DoD  
 
 ---
 
@@ -88,20 +88,20 @@ All boxes start unchecked. **Do not check boxes in Write / Ready-check.**
 
 ### Phase A — Evidence anchor
 
-- [ ] **A1.** Quote exact fields from `evals/last_run_summary.json` into the keep note (n, hits, delta, CE model, mode).  
-- [ ] **A2.** Confirm `MODEL_FREEZE_STATUS.md` freeze checklist remains human-only.
+- [x] **A1.** Quote exact fields from `evals/last_run_summary.json` into the keep note (n, hits, delta, CE model, mode).  
+- [x] **A2.** Confirm `MODEL_FREEZE_STATUS.md` freeze checklist remains human-only.
 
 ### Phase B — Author honesty
 
-- [ ] **B1.** Replace keep stub with full paragraph(s) covering required honesty sentences + allowed themes.  
-- [ ] **B2.** Update VISION **§2** (portfolio slot honesty) and **§9** (success checklist CE/embed candidate rows).  
-- [ ] **B3.** Update GETTING_STARTED + INTERVIEW FAQ/banners for freeze vs keep.  
-- [ ] **B4.** Grep ARCHITECTURE for stale ≥30 / freeze theater; fix or strike.
+- [x] **B1.** Replace keep stub with full paragraph(s) covering required honesty sentences + allowed themes.  
+- [x] **B2.** Update VISION **§2** (portfolio slot honesty) and **§9** (success checklist CE/embed candidate rows).  
+- [x] **B3.** Update GETTING_STARTED + INTERVIEW FAQ/banners for freeze vs keep.  
+- [x] **B4.** Grep ARCHITECTURE for stale ≥30 / freeze theater; fix or strike.
 
 ### Phase C — Stop
 
-- [ ] **C1.** No code path changes unless a doc link is broken.  
-- [ ] **C2.** Stop. Do not start g10 residual in this guide.
+- [x] **C1.** No code path changes unless a doc link is broken.  
+- [x] **C2.** Stop. Do not start g10 residual in this guide.
 
 ---
 
