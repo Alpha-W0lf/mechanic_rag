@@ -3,8 +3,8 @@
 **Date:** 2026-07-16  
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 05 — keep embedding + cross-encoder in stack; leave **candidate**; author keep-with-justification honesty (no freeze / no lift claim)  
-**Stage that authored this:** Write-dev-guide (pass 61)  
-**Status:** Draft — ready for Refine-dev-guide / Ready-check; **not implemented**
+**Stage that authored this:** Write-dev-guide (pass 61); Refine-dev-guide (pass 62–64)  
+**Status:** Refined (pass 64 VERIFY — no material edits; scores held) — ready for Ready-check; **not implemented**
 
 **Context SSOT:** `mechanic_rag/docs/2026-07-15_guide05_model_freeze_keep_context_summary.md`  
 **Locks:** `second_brain/docs/2026-07-16_human_locks_pass60_fan_in.md`  
@@ -63,18 +63,21 @@ Codify Tom’s lock in product docs:
 |-----|----------------|
 | Embedding | Ollama `nomic-embed-text` @ 768 — **candidate** |
 | Cross-encoder | `Xenova/ms-marco-MiniLM-L-6-v2` — **candidate**, remains in pipeline |
-| Evidence cite | Guide 04 paired ask: n=30, citation∩gold hits 26 vs 26, delta **0** |
+| Evidence cite | Guide 04 paired ask: n=30, `rrf_only_ask_hits=26`, `ce_ask_hits=26`, delta **0** (`evals/last_run_summary.json`) |
 | Justification themes (allowed) | Architecture completeness; demo of N→K rerank; latency measurement; degrade-to-fusion reliability; future eval growth — **not** “improves citation hits on this set” |
-| Authoring | Agent may draft prose; Tom reviews before treating as final portfolio voice (Implement may land draft + mark “human-reviewed” when Tom signs off in chat) |
+| Required honesty sentences (must appear) | (1) Paired-ask citation∩gold delta was **0** on n=30. (2) Models remain **candidates**, not frozen. (3) Cross-encoder **stays in the stack** for sophistication / degrade path. (4) **Do not** claim CE improved citation hits on this run. |
+| Forbidden phrases | “frozen embedding”, “frozen CE”, “CE improves retrieval” / “CE lift” referring to the n=30 paired ask, citing historical proxy `+1` as proof |
+| Authoring | Implement agent drafts prose meeting the required sentences; Tom may edit voice later — DoD is honesty correctness, not perfect marketing prose |
 
 ---
 
 ## Acceptance criteria
 
-- [ ] `MODEL_FREEZE_STATUS.md` keep-with-justification section authored (not stub)  
+- [ ] `MODEL_FREEZE_STATUS.md` keep-with-justification section authored (not stub); includes all **required honesty sentences**  
 - [ ] Status tables still say **candidate** for embed + CE  
 - [ ] VISION / GETTING_STARTED / INTERVIEW state: reranker present; **no** proven citation lift on n=30  
 - [ ] Strike any stale “Grow to ≥30” / “freeze pending growth” contradictions if still present  
+- [ ] Verification `rg` finds no forbidden phrases in the honesty surfaces  
 - [ ] No ranking code changes required for DoD  
 
 ---
@@ -85,13 +88,13 @@ All boxes start unchecked. **Do not check boxes in Write / Ready-check.**
 
 ### Phase A — Evidence anchor
 
-- [ ] **A1.** Re-read `evals/last_run_summary.json` fields used in honesty prose.  
+- [ ] **A1.** Quote exact fields from `evals/last_run_summary.json` into the keep note (n, hits, delta, CE model, mode).  
 - [ ] **A2.** Confirm `MODEL_FREEZE_STATUS.md` freeze checklist remains human-only.
 
 ### Phase B — Author honesty
 
-- [ ] **B1.** Replace keep stub with full paragraph(s) covering: what was measured, delta=0, why CE stays, what we do **not** claim.  
-- [ ] **B2.** Update VISION §2/§9 (or equivalent) status rows.  
+- [ ] **B1.** Replace keep stub with full paragraph(s) covering required honesty sentences + allowed themes.  
+- [ ] **B2.** Update VISION **§2** (portfolio slot honesty) and **§9** (success checklist CE/embed candidate rows).  
 - [ ] **B3.** Update GETTING_STARTED + INTERVIEW FAQ/banners for freeze vs keep.  
 - [ ] **B4.** Grep ARCHITECTURE for stale ≥30 / freeze theater; fix or strike.
 
@@ -106,12 +109,12 @@ All boxes start unchecked. **Do not check boxes in Write / Ready-check.**
 
 ```bash
 # From mechanic_rag/
-rg -n 'frozen|candidate|delta|cross-encoder|rerank|lift' evals/MODEL_FREEZE_STATUS.md docs/VISION.md GETTING_STARTED.md INTERVIEW.md docs/ARCHITECTURE.md
-# Must NOT find claims that CE improved citation hits on the n=30 paired ask
-# Must find candidate + keep justification
+rg -n 'frozen|candidate|delta|cross-encoder|rerank|lift|proxy' evals/MODEL_FREEZE_STATUS.md docs/VISION.md GETTING_STARTED.md INTERVIEW.md docs/ARCHITECTURE.md
+# Must find: candidate, delta 0 / no lift, keep justification
+# Must NOT find: CE improved citation hits on n=30; freeze claims for embed/CE; proxy +1 as proof
 ```
 
-**DoD:** Honesty docs consistent; candidates unchanged; reranker still described as in-pipeline; no lift theater.
+**DoD:** Honesty docs consistent; candidates unchanged; reranker still described as in-pipeline; required sentences present; no lift theater.
 
 ---
 
@@ -120,7 +123,7 @@ rg -n 'frozen|candidate|delta|cross-encoder|rerank|lift' evals/MODEL_FREEZE_STAT
 | Risk | Mitigation |
 |------|------------|
 | Agent invents freeze | Soft pin forbids; Review checks status tables |
-| Soft language that implies lift | Explicit “delta 0 / no lift” sentence required |
+| Soft language that implies lift | Required “delta 0 / no lift” sentence |
 | Scope into ranking code | Hard stop docs-only |
 
 ### Rollback
@@ -146,6 +149,14 @@ Revert doc commits; restore stub if needed.
 
 ---
 
-## Ready for Refine-dev-guide?
+## Refine pass 62 notes
 
-**Yes** — thin docs-only guide; low blast radius.
+- Added required honesty sentences + forbidden phrases for executable DoD.  
+- Clarified agent may draft; correctness > marketing voice.
+
+---
+
+## Ready for Ready-check?
+
+**Yes.** Ready-check readiness score: **9.2 / 10**.  
+Not 10: Implement still authors the exact keep-note paragraph (required sentences pinned; voice craft remains). No ranking-code invent.
