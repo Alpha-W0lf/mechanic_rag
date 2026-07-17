@@ -33,6 +33,8 @@ Embedding (`nomic-embed-text` @ 768) and CE (`Xenova/ms-marco-MiniLM-L-6-v2`) ar
 
 **Guide 05 keep-with-justification:** We **keep** CE in the ranking stack (architecture completeness, N→K demo, latency, degrade-to-fusion) while leaving status **candidate**. See [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). **Do not** claim CE improved citation hits on the n=30 run.
 
+**Guide 06 formal freeze packaging:** Freeze remains **parked** (insufficient flat delta; Tom lock). See **Formal freeze packaging (Guide 06)** in [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md) — keep ≠ freeze.
+
 **Forbidden as lift / freeze evidence:** historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` (answer-substring era; no `_ask_` in the field name). If that short name appears, label it **historical proxy / non-evidence** only. Do not invent lift language or freeze theater.
 
 ## 6. Where do citations come from, and how does `vehicle_id` filter?
@@ -52,7 +54,7 @@ No. Root `GETTING_STARTED` + `INTERVIEW` are the stranger-clone + FAQ shell arou
 - embed/CE frozen
 - second-vehicle / wiring eval themes complete
 
-See VISION §9 for honest checkbox status.
+See VISION §9 for honest checkbox status. Public-flip packaging checklist (≠ flip): [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md).
 
 ## 9. What does g10 teach about citation∩gold vs `insufficient_evidence`?
 

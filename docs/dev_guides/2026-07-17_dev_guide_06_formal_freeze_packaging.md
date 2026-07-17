@@ -5,8 +5,8 @@
 **Work item:** Guide 06 — formal freeze packaging / public-flip checklist (docs)  
 **Stage that authored this:** Write-dev-guide (spoke)  
 **Last refined:** Refine-dev-guide (2026-07-17) — one pass  
-**Ready-check:** 2026-07-17 — **READY** for Implement (human Stage authorize required)  
-**Status:** **Ready-checked** — not Implemented; wait for Tom Stage: Implement  
+**Ready-check:** 2026-07-17 — **READY** for Implement  
+**Status:** **Implemented** 2026-07-17 (docs-only packaging); **Review next**  
 
 **Handoff:** `second_brain/docs/2026-07-17_spoke_mechanic_freeze_packaging_write_handoff.md`  
 **Context SSOT (prior):** `mechanic_rag/docs/2026-07-15_guide05_model_freeze_keep_context_summary.md`  
@@ -133,14 +133,14 @@ Land **executable packaging checklists** that separate three gates and keep docs
 
 ---
 
-## Acceptance criteria (Implement — unchecked until then)
+## Acceptance criteria (Implement)
 
-- [ ] `MODEL_FREEZE_STATUS.md` has **Formal freeze packaging (Guide 06)** section after keep-with-justification; states park + keep ≠ freeze; points at human-only checklist; no status→frozen.  
-- [ ] `docs/PUBLIC_FLIP_CHECKLIST.md` exists with the six minimum gates below; banner: checklist ≠ flip.  
-- [ ] INTERVIEW + GETTING_STARTED + README each gain **one** cross-link sentence (no FAQ rewrite theater).  
-- [ ] Status tables still **candidate**; VISION §9 freeze + public-flip still `- [ ]`.  
-- [ ] Required honesty sentences present; verification `rg` clean of forbidden positive claims.  
-- [ ] No ranking/eval/ingest code; no new LICENSE file.
+- [x] `MODEL_FREEZE_STATUS.md` has **Formal freeze packaging (Guide 06)** section after keep-with-justification; states park + keep ≠ freeze; points at human-only checklist; no status→frozen.  
+- [x] `docs/PUBLIC_FLIP_CHECKLIST.md` exists with the six minimum gates below; banner: checklist ≠ flip.  
+- [x] INTERVIEW + GETTING_STARTED + README each gain **one** cross-link sentence (no FAQ rewrite theater).  
+- [x] Status tables still **candidate**; VISION §9 freeze + public-flip still `- [ ]`.  
+- [x] Required honesty sentences present; verification `rg` clean of forbidden positive claims.  
+- [x] No ranking/eval/ingest code; no new LICENSE file.
 
 ---
 
@@ -150,44 +150,44 @@ All boxes start unchecked. **Do not check in Write / Refine / Ready-check.** Onl
 
 ### Phase A — Evidence re-anchor (read-only)
 
-- [ ] **A1.** Confirm `evals/last_run_summary.json`: `n_cases=30`, `ce_vs_rrf_ask_delta_hits=0`, hits 26/26, CE `Xenova/ms-marco-MiniLM-L-6-v2`, mode `classification`, generator `gemma4:e2b`.  
-- [ ] **A2.** Confirm `MODEL_FREEZE_STATUS.md`: **candidate** tables; keep-with-justification present; six-item human freeze checklist; proxy = non-evidence.  
-- [ ] **A3.** Confirm VISION §9 freeze + public-flip rows are `- [ ]`; do **not** flip.  
-- [ ] **A4.** If A1–A3 contradict locks → **STOP** for hub/human.
+- [x] **A1.** Confirm `evals/last_run_summary.json`: `n_cases=30`, `ce_vs_rrf_ask_delta_hits=0`, hits 26/26, CE `Xenova/ms-marco-MiniLM-L-6-v2`, mode `classification`, generator `gemma4:e2b`.  
+- [x] **A2.** Confirm `MODEL_FREEZE_STATUS.md`: **candidate** tables; keep-with-justification present; six-item human freeze checklist; proxy = non-evidence.  
+- [x] **A3.** Confirm VISION §9 freeze + public-flip rows are `- [ ]`; do **not** flip.  
+- [x] **A4.** If A1–A3 contradict locks → **STOP** for hub/human. (no contradiction)
 
 ### Phase B — Formal freeze packaging (docs)
 
-- [ ] **B1.** In `evals/MODEL_FREEZE_STATUS.md`, after Keep-with-justification, add **Formal freeze packaging (Guide 06)** that:  
+- [x] **B1.** In `evals/MODEL_FREEZE_STATUS.md`, after Keep-with-justification, add **Formal freeze packaging (Guide 06)** that:  
   - Points at the existing human-only freeze checklist (do not invent new metric gates).  
   - States n=30 / delta **0** is **insufficient** to freeze without new evidence **or** explicit Tom override.  
   - Defines freeze in interview language (portfolio lock of embed/CE IDs for ranking claims).  
   - States Guide 05 keep-with-justification **≠** freeze.  
   - Records Tom lock: freeze **parked**.  
-- [ ] **B2.** One-sentence cross-link from INTERVIEW §5 or §8 and from GETTING_STARTED honesty table → that section.  
-- [ ] **B3.** Do **not** change candidate → frozen.
+- [x] **B2.** One-sentence cross-link from INTERVIEW §5 or §8 and from GETTING_STARTED honesty table → that section.  
+- [x] **B3.** Do **not** change candidate → frozen.
 
 ### Phase C — Public-flip packaging checklist (docs)
 
-- [ ] **C1.** Create `docs/PUBLIC_FLIP_CHECKLIST.md` with banner “checklist ≠ public flip / v1 Done” and these **gates** (document current unmet status honestly):  
+- [x] **C1.** Create `docs/PUBLIC_FLIP_CHECKLIST.md` with banner “checklist ≠ public flip / v1 Done” and these **gates** (document current unmet status honestly):  
   1. Fixtures-only corpus; `scripts/checks/public_fail_closed.py` green; no OEM/Drive/Ford in git.  
   2. Stranger-clone path (GETTING_STARTED: Compose, env, Ollama, ingest, health, ask, eval smoke).  
   3. Honesty surfaces: candidates (or later human-frozen with checklist); no lift theater; no proxy `+1` as proof.  
   4. Formal freeze gate still **parked** — public flip remains blocked on a *separate* Tom lock (do not treat Guide 06 as resolving freeze or flip).  
   5. VISION §9 / README / INTERVIEW banners flip **only** after Tom locks public flip — not in this Implement.  
   6. No secrets in git; **LICENSE** currently absent — list as unmet prerequisite for a future flip; **do not** add LICENSE here.  
-- [ ] **C2.** Link `docs/PUBLIC_FLIP_CHECKLIST.md` from README and INTERVIEW §8 (one line each).  
-- [ ] **C3.** Do **not** check VISION §9 public-flip.
+- [x] **C2.** Link `docs/PUBLIC_FLIP_CHECKLIST.md` from README and INTERVIEW §8 (one line each).  
+- [x] **C3.** Do **not** check VISION §9 public-flip.
 
 ### Phase D — Align light surfaces (docs only)
 
-- [ ] **D1.** `rg` honesty surfaces for forbidden positive claims / automatic-freeze language; fix prose only.  
-- [ ] **D2.** ARCHITECTURE honesty: still candidates + Guide 05 keep; add one pointer to Guide 06 freeze packaging section + `PUBLIC_FLIP_CHECKLIST.md`.  
-- [ ] **D3.** Optional (not required for DoD): one-line VISION §9 footnote that packaging checklists exist — **without** checking boxes.
+- [x] **D1.** `rg` honesty surfaces for forbidden positive claims / automatic-freeze language; fix prose only.  
+- [x] **D2.** ARCHITECTURE honesty: still candidates + Guide 05 keep; add one pointer to Guide 06 freeze packaging section + `PUBLIC_FLIP_CHECKLIST.md`.  
+- [x] **D3.** Optional (not required for DoD): one-line VISION §9 footnote that packaging checklists exist — **without** checking boxes.
 
 ### Phase E — Stop
 
-- [ ] **E1.** No code path changes; no LICENSE file created.  
-- [ ] **E2.** Stop. No freeze authoring, no public-flip marketing, no ranking, no g10.
+- [x] **E1.** No code path changes; no LICENSE file created.  
+- [x] **E2.** Stop. No freeze authoring, no public-flip marketing, no ranking, no g10.
 
 ---
 
@@ -291,3 +291,13 @@ Revert Guide 06 doc commits; restore prior honesty surfaces. No schema/code roll
 **More Refine?** **No.**  
 **Implement now?** **No** — Ready-check stops for human approval (this stage).  
 **Do not flip VISION §9. Do not invent LICENSE. Candidates stay candidates. Freeze stays parked.**
+
+---
+
+## Implement notes (2026-07-17)
+
+- Phases A–E completed; acceptance criteria checked.  
+- Delivered: `Formal freeze packaging (Guide 06)` in `evals/MODEL_FREEZE_STATUS.md`; new `docs/PUBLIC_FLIP_CHECKLIST.md`; thin cross-links in INTERVIEW / GETTING_STARTED / README / ARCHITECTURE; VISION §9 footnote without flipping boxes.  
+- Verification: DoD `rg` + `test -f docs/PUBLIC_FLIP_CHECKLIST.md` + `test ! -f LICENSE` + §9 still `- [ ]`.  
+- No ranking code; candidates unchanged; freeze parked; no LICENSE invent.  
+- **Next:** Review implementation (Tom Stage authorize).

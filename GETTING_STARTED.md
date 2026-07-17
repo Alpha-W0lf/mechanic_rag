@@ -113,7 +113,8 @@ If Next is down, `--retrieval-only` is an escape hatch only — full stranger sm
 |-------|--------|
 | Packaging | Stranger-clone + FAQ shell — not portfolio v1 complete |
 | Public flip | **Not** ready |
-| Embed / CE | **Candidates** — not frozen; Guide 05 keep-with-justification (`evals/MODEL_FREEZE_STATUS.md`) — CE stays in pipeline; paired ask delta **0** on n=30 |
+| Embed / CE | **Candidates** — not frozen; Guide 05 keep-with-justification (`evals/MODEL_FREEZE_STATUS.md`) — CE stays in pipeline; paired ask delta **0** on n=30; Guide 06 freeze packaging **parked** (see Formal freeze packaging in that file) |
+| Public flip checklist | Packaging only — [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) (≠ flip / ≠ v1 Done) |
 | Guide 02 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=12, gemma, citation∩gold) — honest flat; superseded as current evidence by Guide 04 |
 | Guide 04 paired ask (current) | `ce_vs_rrf_ask_delta_hits=0` (n=30, `gemma4:e2b`, citation∩gold) — honest flat; CE remains **candidate** |
 | Proxy theater | Historical `ce_vs_rrf_delta_hits=+1` / `n=5` is **forbidden** as lift |

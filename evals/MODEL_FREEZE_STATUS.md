@@ -31,6 +31,20 @@ If paired delta is flat/negative: leave **candidate**; human may write keep-with
 
 Formal freeze still requires the human-only checklist above after stronger evidence.
 
+### Formal freeze packaging (Guide 06)
+
+**What “freeze” means (interview language):** Declaring embedding and/or CE model IDs **locked** for portfolio ranking claims — not merely “present in the ask path.”
+
+**Guide 05 keep-with-justification ≠ freeze.** Keeping CE in the stack with an honesty note is gate 1 (keep-in-stack). Formal freeze is gate 2 and remains **human-only**.
+
+**Current evidence is insufficient to freeze:** Guide 04 paired ask on n=30 recorded `ce_vs_rrf_ask_delta_hits=0` (hits 26/26). Flat delta does **not** earn a freeze claim without new paired-ask evidence **or** an explicit Tom override lock.
+
+**Tom lock (2026-07-17):** Formal freeze is **parked** until new evidence or explicit override. Status tables above stay **candidate**.
+
+**Before any human freeze:** complete the six-item **Freeze checklist (human-only)** in this file. Do **not** invent new metric gates here. Do **not** use historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` as freeze evidence.
+
+**Related:** Public-flip packaging checklist (gate 3, separate) → [`docs/PUBLIC_FLIP_CHECKLIST.md`](../docs/PUBLIC_FLIP_CHECKLIST.md). Checklist ≠ flip.
+
 ## Generator (not a freeze lock)
 
 | Preference | Status |
