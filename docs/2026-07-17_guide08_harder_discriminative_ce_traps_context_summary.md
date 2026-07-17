@@ -2,7 +2,10 @@
 
 **Date:** 2026-07-17  
 **Repos:** `mechanic_rag`  
-**Status:** Gather closed; **Write Guide 08 (W) + T1 locked** (pass 122) — see `docs/dev_guides/2026-07-17_dev_guide_08_harder_discriminative_ce_traps.md`  
+**Status:** Gather closed; Write done; **Ready-checked READY 9.0/10** (pass 122) — Implement needs hub authorize  
+**Handoff (Ready-check):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_ready_check_pass122_handoff.md`  
+**Ready-check note:** `mechanic_rag/docs/2026-07-17_guide08_ready_check_pass122_note.md`  
+**Guide:** `docs/dev_guides/2026-07-17_dev_guide_08_harder_discriminative_ce_traps.md`  
 **Mode last used:** spoke  
 **Handoff (Gather):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_gather_pass121_handoff.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_write_pass122_handoff.md`  

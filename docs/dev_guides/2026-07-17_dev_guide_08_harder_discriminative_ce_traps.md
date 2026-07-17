@@ -4,7 +4,8 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 08 — harder discriminative CE traps + synthetic confusable sections + paired-ask re-baseline  
 **Stage that authored this:** Write-dev-guide (pass 122)  
-**Status:** **Draft — Write complete** — stop for hub fan-in / Ready-check (do **not** Implement from this stage)  
+**Status:** **Ready-checked** (2026-07-17 pass 122) — **READY** for Implement (hub Stage authorize required; do **not** self-start)  
+**Handoff (Ready-check):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_ready_check_pass122_handoff.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-17_guide08_harder_discriminative_ce_traps_context_summary.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_write_pass122_handoff.md`  
 **Handoff (Gather):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_gather_pass121_handoff.md`  
@@ -213,7 +214,7 @@ fix = Path("fixtures/honda_s2000_demo/service_manual.txt").read_text()
 # rough: more ### than Guide 07 baseline of 10
 n_sec = len(re.findall(r"^### ", fix, re.M))
 assert 11 <= n_sec <= 13, f"expected +1..3 sections over 10, got {n_sec}"
-assert "synthetic" in fix.lower() or "demo" in fix.lower()
+assert "synthetic" in fix.lower()  # T1 sections must be labeled synthetic (not only legacy "demo" banner)
 g = json.load(open("evals/golden_fixture_v1.json"))
 cases = g["cases"]
 n = len(cases)
@@ -222,7 +223,8 @@ ids = [c["id"] for c in cases]
 assert len(ids) == len(set(ids))
 new = [c for c in cases if re.match(r"^g(39|4\d|5\d)", c["id"])]
 assert 5 <= len(new) <= 10, [c["id"] for c in new]
-old_qs = {c["question"].strip().lower() for c in cases if c not in new}
+new_ids = {c["id"] for c in new}
+old_qs = {c["question"].strip().lower() for c in cases if c["id"] not in new_ids}
 for c in new:
     assert c["vehicle_id"] == "fixture:honda-s2000-demo"
     assert c["allowed_content_substrings"] and c["allowed_section_paths"]
@@ -315,3 +317,28 @@ Revert fixture + golden + summary + honesty doc commits; re-ingest prior fixture
 - Soft inventories are illustrative; anti-paraphrase + section budget are binding.  
 - Flat after T1 remains an honest, shippable Implement outcome for the *evidence attempt*.  
 - Ready-check / Implement require separate Stage authorize (hub resume).
+
+---
+
+## Ready-check before code (pass 122)
+
+### Zoom-out
+
+| Check | Verdict |
+|-------|---------|
+| Context + guide aligned? | **Yes** — W + T1 locks match context; anti-paraphrase + Guide 07 failure mode addressed |
+| Evidence baseline current? | **Yes** — n=38, delta 0, helps/hurts 0, candidates, §9 unchecked, fixture 10 `###`, paired harness present |
+| Blast radius + rollback clear? | **Yes** — fixture/goldens/summary/MODEL_FREEZE/honesty; revert + re-ingest |
+| Edge cases planned? | **Yes** — flat/+/− delta; <5 traps STOP; no CE_TOP_K gaming; paraphrase reject |
+| Material refinements still required? | **No** — Ready-check microfix only: DoD requires `synthetic` label + id-based anti-dup check |
+
+### Implement readiness (binding score)
+
+| Track | Score | Why not 10 |
+|-------|-------|------------|
+| Guide 08 harder discriminative CE traps (T1-primary) | **9.0 / 10** | Exact T1 section wording/numbers + trap question craft remain Implement invent (soft). Twin Next ops proof is Implement runtime. Flat outcome still possible even with T1 — acceptable, not a readiness gap. Score not inflated. |
+
+**Explicit call: READY for Implement** — after hub authorizes `Stage: Implement`.  
+**More Refine?** **No.**  
+**Implement now?** **No** — this stage stops for human/hub approval.  
+**Do not freeze. Do not public-flip. Candidates stay candidates.**
