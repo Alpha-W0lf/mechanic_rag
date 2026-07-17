@@ -4,10 +4,11 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 07 — +5–10 discriminative trap goldens + paired-ask re-baseline (freeze-evidence path)  
 **Stage that authored this:** Write-dev-guide (pass 104)  
-**Status:** **Draft** — Write complete; not Refine / Ready-check / Implement  
-
+**Last refined:** Refine-dev-guide (pass 105b) — one pass  
+**Status:** **Refined** — Ready-check next; not Implemented  
+**Handoff (Refine):** `second_brain/docs/2026-07-17_spoke_mechanic_guide07_refine_pass105b_handoff.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-17_guide07_freeze_evidence_eval_context_summary.md`  
-**Handoff:** `second_brain/docs/2026-07-17_spoke_mechanic_guide07_write_pass104_handoff.md`  
+**Handoff (Write):** `second_brain/docs/2026-07-17_spoke_mechanic_guide07_write_pass104_handoff.md`  
 **Freeze SSOT:** `mechanic_rag/evals/MODEL_FREEZE_STATUS.md`  
 **Prerequisite:** Guide 04 n=30 + flat paired ask; Guide 05 keep-with-justification; Guide 06 packaging shippable.
 
@@ -81,35 +82,40 @@ Grow a **small band of discriminative fixture goldens** so paired-ask citation�
 | Pin | Locked default |
 |-----|----------------|
 | Path | **A** — discriminative trap growth + re-baseline |
-| New case count | **+5 to +10** (inclusive); prefer **+8** if fixture supports |
+| New case count | **+5 to +10** (inclusive); **default +8** when A2 finds ≥8 honest pairs |
 | Resulting n | **35–40** |
-| IDs | Continue `g31`… (no reuse of g01–g30) |
-| Case schema | Same as Guide 04: `id`, `question`, `vehicle_id`, `allowed_content_substrings`, `allowed_section_paths`, `notes` |
-| Trap mix (soft target) | ≥3 near-dup / multi-section; ≥2 lexical-trap / semantic-need; ≥1 multi-chunk distractor intent; **0 required** new empty-gold hard misses |
+| IDs | Continue `g31`… (no reuse of g01–g30 ids) |
+| `vehicle_id` | **`fixture:honda-s2000-demo`** on every new case |
+| Case schema | `id`, `question`, `vehicle_id`, `allowed_content_substrings`, `allowed_section_paths`, `notes` |
+| Gold shape (trap) | Prefer **one primary gold section** (tight `allowed_section_paths`); **do not** copy g29/g30 “multi-section both allowed” pattern — that reduces arm divergence |
+| Avoid theme clones | Do **not** rephrase g29 (thermo vs coolant multi-allow) or g30 (spark gap vs torque multi-allow) as “new” traps |
+| Trap mix (soft target) | ≥3 near-dup; ≥2 lexical-trap / semantic-need; ≥1 multi-chunk distractor intent; **0 required** new empty-gold hard misses |
 | Generator | `gemma4:e2b` |
 | CE | `Xenova/ms-marco-MiniLM-L-6-v2` via `transformers_js` / `classification` |
 | Embed | `nomic-embed-text` @ 768 — **candidate** (unchanged) |
-| Re-baseline | Twin Next (:3000 CE-on, :3001 `MECHANIC_FORCE_RRF_ONLY=1`) + `mecharag eval --golden evals/ --ask-url … --ask-url-rrf-only …` (see MODEL_FREEZE_STATUS) |
-| Freeze after run | **Human-only; no auto-freeze** — Tom reviews metrics later |
-| Public flip | **Out of scope** — do not claim ready / flip §9 |
-| Illustrative trap themes (rename OK) | See inventory below — Implement may substitute if counts + trap rules hold |
+| Re-baseline | Twin Next (:3000 CE-on, :3001 `MECHANIC_FORCE_RRF_ONLY=1`) + `mecharag eval --golden evals/ --ask-url … --ask-url-rrf-only …` |
+| CE-helps / CE-hurts | Count cases where `ask_ce.citation_gold_hit != ask_rrf_only.citation_gold_hit`; record both counts in MODEL_FREEZE_STATUS Guide 07 table |
+| Freeze after run | **Human-only; no auto-freeze** |
+| Public flip | **Out of scope** |
+| Corpus thinness | Fixture has ≥6 near-dup section pairs (oil/clutch/spark/cool/valve/MTF) — A3 stop is residual risk, not default expectation |
+| Illustrative inventory | Soft-default below — rename OK if pins hold |
 
 ### Soft-default trap inventory (illustrative — Implement may rename)
 
-Use **existing** fixture near-dups (cooling 4-1 vs 4-2; spark 3-1 vs 3-2; oil 1-1 vs 1-2; clutch 2-1 vs 2-2; valve intake vs exhaust; MTF vs clutch fluid wording). Prefer questions where lexical overlap with a **distractor** section is high but gold section is specific.
+Prefer questions with **high lexical overlap to a distractor section** but **one** gold section. Distinct from existing g29/g30 multi-allow cases.
 
-| Soft id | Trap class | Intent (plain) |
-|---------|------------|----------------|
-| `g31-trap-coolant-vs-thermo-open` | Near-dup | Ask open-temp in a way that pulls coolant capacity distractors |
-| `g32-trap-spark-torque-vs-gap` | Near-dup / lexical | Torque wording that overlaps gap/type chunks |
-| `g33-trap-oil-grade-vs-drain-torque` | Lexical | Grade/spec query that may cite torque chunk |
-| `g34-trap-clutch-play-vs-fluid` | Near-dup | Free-play vs hydraulic fluid family |
-| `g35-trap-exhaust-vs-intake-clearance` | Near-dup | Exhaust clearance with intake distractor |
-| `g36-trap-mtf-fill-vs-capacity` | Near-dup | Fill procedure vs capacity/spec wording |
-| `g37-trap-spark-interval-vs-type` | Lexical | Interval query vs type/spec distractor |
-| `g38-trap-radiator-cap-vs-coolant` | Multi-chunk | Cap pressure vs coolant mix/capacity noise |
+| Soft id | Trap class | Gold section (intent) | Distractor family |
+|---------|------------|----------------------|-------------------|
+| `g31-trap-thermo-full-open` | Near-dup | 4-2 Thermostat (95 °C full open) | 4-1 Coolant capacity/mix |
+| `g32-trap-spark-gap-only` | Lexical | 3-1 gap mm | 3-1 torque / 3-2 interval wording |
+| `g33-trap-oil-filter-turn` | Lexical | 1-2 “3/4 turn” | 1-1 drain torque / capacity |
+| `g34-trap-clutch-pushrod` | Near-dup | 2-1 pushrod adjust | 2-2 hydraulic fluid |
+| `g35-trap-exhaust-clearance` | Near-dup | 5-1 exhaust mm | 5-1 intake mm |
+| `g36-trap-mtf-filler-hole` | Near-dup | 6-1 fill-to-filler | 6-1 capacity liters / ATF confusion |
+| `g37-trap-spark-interval` | Lexical | 3-2 105k interval | 3-1 type/gap/torque |
+| `g38-trap-radiator-cap-psi` | Multi-chunk | 4-1 radiator cap kPa/psi | 4-1 capacity / 4-2 thermostat |
 
-If fixture cannot support 8 honest traps, stop at **≥5** and document why in notes / PATH debt — do **not** invent OEM facts.
+If fixture cannot support 8 honest traps, stop at **≥5** and document why — do **not** invent OEM facts; do **not** pad with empty-gold hard misses.
 
 ---
 
@@ -138,17 +144,18 @@ All boxes start unchecked. **Do not check in Write / Refine / Ready-check.** Onl
 
 ### Phase B — Author trap goldens
 
-- [ ] **B1.** Add **5–10** cases (`g31`…) with non-empty `allowed_content_substrings` + `allowed_section_paths` from fixture.  
-- [ ] **B2.** Each `notes` field states trap class (near-dup / lexical / multi-chunk) and intended distractor.  
-- [ ] **B3.** Update `golden_fixture_v1.json` debt / `n_cases` metadata if present; update `PATH_TO_30.md` debt line for discriminative band (still deferred: second vehicle / wiring).  
-- [ ] **B4.** Reject eval gaming: do not set gold to whatever CE already returns from a one-off probe without fixture-grounded substrings.
+- [ ] **B1.** Add **5–10** cases (`g31`…) with `vehicle_id=fixture:honda-s2000-demo`, non-empty golds from fixture; prefer **single primary** gold section.  
+- [ ] **B2.** Each `notes` field states trap class, intended distractor section, and that gold is single-primary (not g29/g30 multi-allow clone).  
+- [ ] **B3.** Update `golden_fixture_v1.json` debt / metadata; update `PATH_TO_30.md` for discriminative band (second vehicle / wiring still deferred).  
+- [ ] **B4.** Reject eval gaming: no CE-probe-as-gold without fixture-grounded substrings.  
 
 ### Phase C — Paired-ask re-baseline
 
 - [ ] **C1.** Run twin-process paired ask (CE-on + RRF-only) per MODEL_FREEZE_STATUS command pattern.  
 - [ ] **C2.** Write/overwrite `evals/last_run_summary.json` with full n (35–40).  
-- [ ] **C3.** Compute and record: `rrf_only_ask_hits`, `ce_ask_hits`, `ce_vs_rrf_ask_delta_hits`, degrade_rate, CE/model/mode/generator; count CE-helps / CE-hurts.  
-- [ ] **C4.** Update `MODEL_FREEZE_STATUS.md` Guide 07 evidence table; keep status **candidate**; keep freeze packaging **parked** language; **no freeze flip**.
+- [ ] **C3.** Record summary fields + **CE-helps** / **CE-hurts** counts:  
+  `helps = sum(ce_hit and not rrf_hit)`; `hurts = sum(rrf_hit and not ce_hit)` over paired cases in `last_run_summary.json`.  
+- [ ] **C4.** Update `MODEL_FREEZE_STATUS.md` Guide 07 evidence table (n, hits, delta, helps, hurts); keep status **candidate**; freeze packaging **parked**; **no freeze flip**.
 
 ### Phase D — Honesty Align (thin)
 
@@ -169,41 +176,46 @@ All boxes start unchecked. **Do not check in Write / Refine / Ready-check.** Onl
 ```bash
 # From mechanic_rag/
 python3 - <<'PY'
-import json
-g=json.load(open('evals/golden_fixture_v1.json'))
-n=len(g['cases'])
+import json, re
+g = json.load(open("evals/golden_fixture_v1.json"))
+cases = g["cases"]
+n = len(cases)
 assert 35 <= n <= 40, n
-ids=[c['id'] for c in g['cases']]
-assert len(ids)==len(set(ids))
-new=[c for c in g['cases'] if c['id']>='g31' or c['id'].startswith('g3')]
-# softer: count ids beyond g30
-beyond=[c for c in g['cases'] if c['id'] not in {f'g{i:02d}' for i in range(1,31)} and not c['id'].startswith('g0')]
-# prefer: any id matching g31+
-import re
-trap=[c for c in g['cases'] if re.match(r'g(3[1-9]|[4-9][0-9])', c['id'])]
-assert 5 <= len(trap) <= 10, [c['id'] for c in trap]
-for c in trap:
-    assert c.get('allowed_content_substrings'), c['id']
-    assert c.get('allowed_section_paths'), c['id']
-print('golden OK', n, 'traps', len(trap))
-d=json.load(open('evals/last_run_summary.json'))
-assert d['n_cases']==n
-assert 'ce_vs_rrf_ask_delta_hits' in d
-print('summary OK', d['n_cases'], d['ce_vs_rrf_ask_delta_hits'])
+ids = [c["id"] for c in cases]
+assert len(ids) == len(set(ids)), "duplicate ids"
+traps = [c for c in cases if re.match(r"^g(3[1-9]|[4-9]\d)", c["id"])]
+assert 5 <= len(traps) <= 10, [c["id"] for c in traps]
+for c in traps:
+    assert c.get("vehicle_id") == "fixture:honda-s2000-demo", c["id"]
+    assert c.get("allowed_content_substrings"), c["id"]
+    assert c.get("allowed_section_paths"), c["id"]
+d = json.load(open("evals/last_run_summary.json"))
+assert d["n_cases"] == n
+assert "ce_vs_rrf_ask_delta_hits" in d
+helps = hurts = 0
+for c in d.get("cases", []):
+    ce = (c.get("ask_ce") or {}).get("citation_gold_hit")
+    rrf = (c.get("ask_rrf_only") or {}).get("citation_gold_hit")
+    if ce and not rrf:
+        helps += 1
+    if rrf and not ce:
+        hurts += 1
+print("golden OK", n, "traps", len(traps), "delta", d["ce_vs_rrf_ask_delta_hits"], "helps", helps, "hurts", hurts)
 PY
 
 rg -n 'Formal embed/CE|Public flip' docs/VISION.md
 # Expect both still "- [ ]"
 
-rg -n 'candidate|ce_vs_rrf_ask_delta_hits|Guide 07|frozen' evals/MODEL_FREEZE_STATUS.md
-# Must find candidate; must NOT find status flipped to frozen for embed/CE
+rg -n 'candidate|Guide 07|ce_vs_rrf_ask_delta|helps|hurts|frozen' evals/MODEL_FREEZE_STATUS.md
+# Must find candidate + Guide 07 evidence; must NOT flip embed/CE to frozen
 
-test ! -f LICENSE || true  # Guide 07 must not create LICENSE
+# Guide 07 must not create LICENSE
+test ! -f LICENSE
 ```
 
-**DoD (Implement):** Trap band landed; paired re-baseline written; candidates + §9 freeze/public-flip unchanged; honesty matches numbers; no auto-freeze; no public-flip claim; no ranking redesign.
+**DoD (Implement):** Trap band landed; paired re-baseline written; helps/hurts reported; candidates + §9 freeze/public-flip unchanged; honesty matches numbers; no auto-freeze; no public-flip claim; no ranking redesign.
 
-**DoD (this Write):** This guide executable with pins, steps, DoD, blast, edges — **no** golden edits, **no** eval run.
+**DoD (Refine — this pass):** Pins tightened (single-primary gold, no g29/g30 clones, helps/hurts recipe, clean verify); Ready-check readiness scored; no Implement.
 
 ---
 
@@ -234,14 +246,16 @@ Revert golden + summary + doc commits; restore prior `last_run_summary.json` if 
 | Cannot author ≥5 honest traps | STOP for human — do not pad with hard misses |
 | Harness lacks paired fields | STOP — fix harness only if trivial + in-scope; else escalate |
 | Temptation to freeze embed-only mid-guide | Out of Path A DoD — needs Tom lock (path C), not silent |
+| Trap clones g29/g30 multi-allow | Reject — prefer single-primary gold; rename theme |
+| New traps still both-hit | Acceptable outcome; document helps=0; no freeze theater |
 
 ---
 
 ## Stop conditions
 
-- **Write-dev-guide:** Stop when this file is authored. Do **not** Implement / Refine / Ready-check unless Tom authorizes.  
+- **Refine-dev-guide:** Stop after this refine + numeric Ready-check readiness. Do **not** Implement.  
 - **Later Implement:** Stop when Phases A–E DoD met; never auto-freeze; never public-flip.  
-- **Stop for human if:** asked to invent freeze/lift/public flip; corpus invent; ranking redesign; LICENSE invent.
+- **Stop for human if:** invent freeze/lift/public flip; corpus invent; ranking redesign; LICENSE invent; A3 corpus-thin.
 
 ---
 
@@ -250,23 +264,30 @@ Revert golden + summary + doc commits; restore prior `last_run_summary.json` if 
 | Decision | Lock |
 |----------|------|
 | Path | **A** discriminative growth |
-| Size | **+5–10** traps |
+| Size | **+5–10** traps (default +8) |
 | Auto-freeze | **Forbidden** |
 | Public flip in Guide 07 | **Forbidden** |
 | Model status default | **Candidates** |
 
 ---
 
-## Open residuals (Refine / Ready-check — not Write blockers)
+## Refine pass 105b notes
 
-- Exact trap question wording (craft).  
-- Whether +5 vs +8 vs +10 after fixture inventory (within band).  
-- Post-run freeze bar if delta > 0 (Tom human — not auto).
+- Pinned **single-primary gold section** (avoid g29/g30 multi-allow clones that kill discriminability).  
+- Diversified soft inventory (full-open thermo, filter 3/4 turn, pushrod, exhaust clearance, filler hole, radiator cap psi).  
+- Executable **helps/hurts** recipe + cleaned DoD verify script (`vehicle_id` assert).  
+- Corpus-thin A3 demoted to residual risk (fixture has clear near-dup pairs).  
+- Soft residual remaining: exact question wording craft at Implement.
 
 ---
 
-## Ready for next stage? (non-binding Write guess)
+## Ready-check readiness (binding score)
 
-- **Ready for:** Refine-dev-guide (tighten trap inventory / DoD if needed).  
-- **Not ready for:** Implement until Refine + Ready-check + Stage authorize.  
-- **Guess Ready-check readiness after Refine:** ~8.8 / 10 — not 10 because Implement still invents exact questions and may hit corpus-thin A3.
+| Track | Score | Why not 10 |
+|-------|-------|------------|
+| Guide 07 freeze-evidence discriminative eval | **9.0 / 10** | Exact trap question/substring craft remains Implement invent (soft). Optional synthetic-section path if A3 trips. Not material pin invent — Ready-check next. |
+
+**Ready-check next?** **Yes.**  
+**More Refine?** **No.**  
+**Implement now?** **No** — Ready-check + Tom Stage authorize first.  
+**Freeze / public flip claimed?** **No.**
