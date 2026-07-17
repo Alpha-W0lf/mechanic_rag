@@ -2,10 +2,12 @@
 
 **Date:** 2026-07-17  
 **Repos:** `mechanic_rag`  
-**Status:** **Reviewed — shippable** (pass 129); Implement flat T1 evidence; freeze/public-flip unchecked  
+**Status:** **Aligned** (pass 130) + **Reviewed — shippable** (pass 129); Guide 08 T1 closed; freeze/public-flip unchecked  
+**Handoff (Align):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_align_pass130_handoff.md`  
 **Handoff (Review):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_review_pass129_handoff.md`  
 **Review note:** `mechanic_rag/docs/2026-07-17_guide08_review_pass129_note.md`  
-**Handoff (Implement):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_implement_pass124_handoff.md`
+**Handoff (Implement):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_implement_pass124_handoff.md`  
+**Guide:** `docs/dev_guides/2026-07-17_dev_guide_08_harder_discriminative_ce_traps.md`
 
 ### Outcome (Guide 08 T1 — current truth)
 
@@ -16,15 +18,15 @@
 | ce_vs_rrf_ask_delta_hits | **0** |
 | CE-helps / CE-hurts | **0 / 0** |
 | Embed / CE | **candidates** |
-| Soft residual | Still weakly discriminative for asymmetry; g44 both-miss |  
+| Soft residual | Weakly discriminative for asymmetry; g44 both-miss; Review shippable |
+
 **Mode last used:** spoke  
 **Handoff (Gather):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_gather_pass121_handoff.md`  
-**Handoff (Write):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_write_pass122_handoff.md`  
-**Prioritize:** `second_brain/docs/2026-07-17_prioritize_hub_pass121.md` (#2 Mechanic)
+**Handoff (Write):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_write_pass122_handoff.md`
 
-**Prior closed:** Guide 05 keep-with-justification; Guide 06 freeze/public-flip **packaging**; Guide 07 Path A traps + re-baseline (**Reviewed shippable** + Align).  
+**Prior closed:** Guide 05 keep; Guide 06 packaging; Guide 07 Path A; Guide 08 T1 (Review + Align).  
 **VISION §9:** Formal embed/CE freeze **unchecked**; public flip **unchecked**.  
-**Honesty:** Guide 07 `ce_vs_rrf_ask_delta_hits=0` (n=38; CE-helps=0 / CE-hurts=0). **Do not invent CE lift or freeze/public flip.**
+**Honesty:** Guide 08 `ce_vs_rrf_ask_delta_hits=0` (n=44; CE-helps=0 / CE-hurts=0). **Do not invent CE lift or freeze/public flip.**
 
 ---
 
@@ -32,7 +34,7 @@
 
 Mechanic’s freeze checklist is largely **process-satisfied**, but **evidence for locking** is still missing. Guide 07 Path A tried to create CE vs RRF asymmetry with +8 “discriminative” traps and failed:
 
-| Evidence (Guide 07 — current SSOT) | Value |
+| Evidence (Guide 07 — then-baseline; superseded by Guide 08) | Value |
 |------------------------------------|-------|
 | n_cases | 38 |
 | `ce_vs_rrf_ask_delta_hits` | **0** |
@@ -79,9 +81,9 @@ Without either (a) **harder, non-paraphrase traps** (likely needing **synthetic 
 ## Prior art (paths only)
 
 - `mechanic_rag/docs/VISION.md` (§9 freeze + public flip unchecked)  
-- `mechanic_rag/docs/ARCHITECTURE.md` (honesty line; n=38 flat)  
-- `mechanic_rag/evals/MODEL_FREEZE_STATUS.md` (Guide 07 current table; candidates; freeze parked)  
-- `mechanic_rag/evals/last_run_summary.json` (n=38; delta 0; helps/hurts 0)  
+- `mechanic_rag/docs/ARCHITECTURE.md` (honesty line; n=44 flat)
+- `mechanic_rag/evals/MODEL_FREEZE_STATUS.md` (Guide 08 current table; candidates; freeze parked)
+- `mechanic_rag/evals/last_run_summary.json` (n=44; delta 0; helps/hurts 0)
 - `mechanic_rag/evals/golden_fixture_v1.json` (g01–g38)  
 - `mechanic_rag/evals/PATH_TO_30.md`  
 - `mechanic_rag/fixtures/honda_s2000_demo/service_manual.txt` (~10 sections)  
@@ -179,56 +181,22 @@ Without either (a) **harder, non-paraphrase traps** (likely needing **synthetic 
 
 ## Open decisions (human)
 
-### 1. Write Guide 08 next, or park Mechanic agent work?
+**Closed (hub locks W + T1; Implement + Review + Align):** Path A/T1 delivered; n=44 flat; freeze remains parked; no auto-freeze. Soft residuals documented in Review note. No Guide 09 without new hub Prioritize.
 
-- **Plain title:** Should we author a Guide 08 for harder CE traps, or leave freeze parked and idle this spoke?  
-- **In plain terms:** Guide 07’s traps were too easy/paraphrased and still got zero CE-helps. We can try a stricter trap design (likely with new synthetic fixture text), or stop spending agent cycles until you override freeze or grow corpus elsewhere.  
-- **Options:**  
-  - **(W)** Write Guide 08 (hard traps; T1-primary).  
-  - **(P)** Park — no Write; freeze stays parked on existing honesty.  
-  - **(D)** Defer Write until second vehicle / wiring corpus exists.  
-- **Recommendation:** **(P) Park** as default portfolio move — unless you explicitly want another freeze-evidence attempt now.  
-- **Reasoning:** Prioritize #1 is Vehicle S9 with real ops proof; Guide 07 already falsified “more easy traps unlock lift” on this fixture. Another Write without T1 locks risks a second flat theater cycle. Parking preserves honesty without fake progress.  
-- **Tradeoffs:** (P) leaves §9 freeze open with no near-term evidence path. (W) costs Write→…→Implement twin eval time and may still be flat even with T1. (D) delays freeze evidence the longest but may yield better natural distractors.  
-- **Needs from you:** Lock **W / P / D**.
-
-### 2. If Write (W): allow synthetic confusable fixture sections?
-
-- **Plain title:** May Guide 08 add small synthetic near-dup sections to the S2000 fixture, or must traps use only existing text?  
-- **In plain terms:** Existing manual is thin; without new confusable sections, hard traps probably cannot create CE vs RRF citation disagreement.  
-- **Options:** (T1) allow 1–3 synthetic confusable sections; (T2) existing text only; (mix) T1 only if T2 inventory fails in Refine.  
-- **Recommendation:** **(T1)** if you lock Write — otherwise decision is N/A under Park.  
-- **Reasoning:** Guide 07 = T2-ish and failed; T1 is the honest next experiment on fixtures-only constraints.  
-- **Tradeoffs:** T1 is slightly more corpus invent (still synthetic/demo-labeled); T2 is safer legally/optically but likely flat again.  
-- **Needs from you:** If W, lock T1 / T2 / mix.
-
-### 3. Freeze bar after any future positive delta?
-
-- **Plain title:** If a future paired run shows CE-helps > 0, does that unlock freeze automatically?  
-- **In plain terms:** Positive lift is evidence for a human gate, not an automatic portfolio lock.  
-- **Options:** Keep Guide 07 bar (Tom lock after seeing numbers; no auto-freeze) vs require stronger thresholds.  
-- **Recommendation:** **Keep no-auto-freeze** — Tom authors freeze in a separate Stage.  
-- **Reasoning:** Interview honesty; avoids freeze theater on a single +1.  
-- **Tradeoffs:** Slower freeze narrative vs safer claims.  
-- **Needs from you:** Confirm or set a stricter bar (optional if Park).
+Gather-era open-decision prose below is **superseded** by Outcome + this closed section.
 
 ---
 
-## Evidence opened this pass
+## Evidence opened this pass (Gather — historical)
 
 - Handoff `2026-07-17_spoke_mechanic_guide08_gather_pass121_handoff.md`  
 - Prioritize hub pass 121; Align fan-in pass 119  
-- `VISION.md` §9; `ARCHITECTURE.md` honesty; `MODEL_FREEZE_STATUS.md` Guide 07 table  
-- `last_run_summary.json` (n=38, delta 0, helps/hurts 0)  
-- `golden_fixture_v1.json`; fixture `service_manual.txt` (10 `###` sections)  
-- Guide 07 / 06 / 05 paths; Guide 07 Review residual (near-paraphrase)  
-- Spot-check: citation counts vary per case; both-hit still dominates traps  
+- Then-baseline: n=38, delta 0 (superseded by Guide 08 n=44)  
 
 ---
 
-## Honest readiness
+## Honest readiness (Align pass 130)
 
-- **Ready for Write-dev-guide?** **Done** (pass 122) — guide authored.  
-- **Recommended next:** Ready-check before code (hub resume) — **not** Implement until Ready.  
-- **Not ready for Implement / freeze claim / public flip.**  
-- **Locks applied:** W + T1; no auto-freeze; freeze parked until Tom lock after evidence.
+- **Guide 08:** Closed (Reviewed shippable + Align). Live SSOT cites n=44 flat.  
+- **Not ready for freeze claim / public flip / Guide 09 invent.**  
+- **Next:** hub Prioritize or idle; freeze stays parked until stronger evidence or Tom override.

@@ -2,7 +2,7 @@
 
 **Status:** Active portfolio vision · **Guide 01 vertical slice done** · **Not** portfolio-complete / public-flip ready  
 **Created:** 2026-07-12  
-**Updated:** 2026-07-17 (Guide 08 Implement — n=44 flat honesty; freeze/public-flip still open)  
+**Updated:** 2026-07-17 (Align pass 130 — Guide 08 n=44 flat honesty; freeze/public-flip still open)  
 **Owner:** Tom  
 **Repo:** `mechanic_rag` (renamed from `mechainic_rag`; Python import package remains `mecharag`)  
 

@@ -112,7 +112,7 @@ Retained for history; **current** evidence is Guide 08 n=44 above.
 
 ## Guide 04 paired ask ablation results (2026-07-14) — superseded n
 
-Retained for history; **current** evidence is Guide 07 n=38 above.
+Retained for history; **current** evidence is Guide 08 n=44 above.
 
 | Field | Value |
 |-------|-------|

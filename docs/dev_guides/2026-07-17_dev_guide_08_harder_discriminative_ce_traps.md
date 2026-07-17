@@ -4,7 +4,8 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 08 — harder discriminative CE traps + synthetic confusable sections + paired-ask re-baseline  
 **Stage that authored this:** Write-dev-guide (pass 122)  
-**Status:** **Reviewed — shippable** (2026-07-17 pass 129) after honest flat T1 evidence; no freeze/public-flip  
+**Status:** **Aligned** (pass 130) · **Reviewed — shippable** (pass 129) — Guide 08 T1 closed; no freeze/public-flip  
+**Handoff (Align):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_align_pass130_handoff.md`  
 **Handoff (Review):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_review_pass129_handoff.md`  
 **Handoff (Implement):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_implement_pass124_handoff.md`  
 **Handoff (Ready-check):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_ready_check_pass122_handoff.md`  
@@ -367,3 +368,9 @@ Revert fixture + golden + summary + honesty doc commits; re-ingest prior fixture
 **Shippable as-is** (status + Review note only). Flat after T1 is an honest negative result for freeze evidence — **do not** invent lift or flip §9.
 
 **No Align self-start. No freeze. No public-flip.**
+
+---
+
+## Align-docs (pass 130)
+
+Live SSOT catch-up after Review shippable: VISION stamp, PATH_TO_30 re-baseline **completed**, MODEL_FREEZE Guide 04 “current” pointer → Guide 08 n=44, context **Aligned** + decisions closed. §9 freeze/public-flip remain `- [ ]`. No Guide 09 invent.
