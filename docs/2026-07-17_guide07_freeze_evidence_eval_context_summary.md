@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-17  
 **Repos:** `mechanic_rag`  
-**Status:** Draft (Gather pass 101)  
+**Status:** Draft (Gather pass 101); **Path A locked** Write pass 104 — see `docs/dev_guides/2026-07-17_dev_guide_07_freeze_evidence_discriminative_eval.md`  
 **Mode last used:** spoke  
 **Handoff:** `second_brain/docs/2026-07-17_spoke_mechanic_guide07_gather_pass101_handoff.md`
 
