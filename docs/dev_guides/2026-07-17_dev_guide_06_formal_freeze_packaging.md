@@ -6,7 +6,7 @@
 **Stage that authored this:** Write-dev-guide (spoke)  
 **Last refined:** Refine-dev-guide (2026-07-17) — one pass  
 **Ready-check:** 2026-07-17 — **READY** for Implement  
-**Status:** **Implemented** 2026-07-17 (docs-only packaging); **Review next**  
+**Status:** **Review shippable** 2026-07-17 (docs-only; freeze parked; §9 freeze/public-flip unchecked)  
 
 **Handoff:** `second_brain/docs/2026-07-17_spoke_mechanic_freeze_packaging_write_handoff.md`  
 **Context SSOT (prior):** `mechanic_rag/docs/2026-07-15_guide05_model_freeze_keep_context_summary.md`  
@@ -301,3 +301,27 @@ Revert Guide 06 doc commits; restore prior honesty surfaces. No schema/code roll
 - Verification: DoD `rg` + `test -f docs/PUBLIC_FLIP_CHECKLIST.md` + `test ! -f LICENSE` + §9 still `- [ ]`.  
 - No ranking code; candidates unchanged; freeze parked; no LICENSE invent.  
 - **Next:** Review implementation (Tom Stage authorize).
+
+---
+
+## Review implementation (2026-07-17)
+
+### Findings (tied to guide / QUALITY_STANDARD)
+
+| Finding | Severity | Disposition |
+|---------|----------|-------------|
+| VISION §9 freeze + public-flip still `- [ ]`; candidates unchanged; freeze packaging **parked**; `PUBLIC_FLIP_CHECKLIST.md` exists; no LICENSE | Pass | Matches locks + DoD |
+| Implement commit docs-only (no ranking/eval/ingest code) | Pass | Scope held |
+| Cross-links present; checklist ≠ flip banners honest | Pass | No status theater |
+| VISION packaging checked-row omitted Guide 06 checklist mention; “01–05” vs Guide 06 landed | Soft honesty | **Fixed** in Review (smallest prose) |
+| INTERVIEW still leads with “Guide 02 ablation” as packaging era phrasing | Soft residual | Pre-existing; out of Guide 06 DoD — **not** expanded |
+
+### Smallest refinement set
+
+1. VISION §9 packaging checked-row + “Do not equate” line mention Guide 06 packaging / 01–06 (applied).  
+2. No further must-fix.
+
+### Honest shippable call
+
+**Shippable as-is** (after the one VISION honesty microfix above).  
+Guide 06 DoD met; locks held; no Align-docs ceremony required beyond that honesty line.

@@ -154,13 +154,13 @@ Honest progress after Guide 01 (Align docs pass 10). Checked items = **path exis
 - [x] Hybrid → RRF → local CE + citations in API response (include `vehicle_id` / doc family) — Guide 01; CE/embed **candidates** not frozen
 - [x] ≥30 eval cases with documented metrics (incl. CE lift vs RRF-only or justified keep) — Guide 04: **30** S2000 fixture goldens + paired ask re-baseline (`ce_vs_rrf_ask_delta_hits=0`); Guide 05: **keep-with-justification** authored — candidates not frozen; CE remains in pipeline; no lift claim; proxy `+1`/`n=5` retired as freeze evidence
 - [x] Clone-and-run with fixtures (no OEM PDFs; Compose Postgres) — README Quick Start; fixtures only
-- [x] README + GETTING_STARTED + architecture + INTERVIEW — Guide 03 packaging landed (root GETTING_STARTED + INTERVIEW); Guide 04–05 honesty for n=30 + keep note; embed/CE freeze + public flip still open
+- [x] README + GETTING_STARTED + architecture + INTERVIEW — Guide 03 packaging landed (root GETTING_STARTED + INTERVIEW); Guide 04–05 honesty for n=30 + keep note; Guide 06 freeze/public-flip **packaging checklists** landed; embed/CE freeze + public flip still open
 - [x] Extensibility notes for multimodal **and** multi-vehicle library growth in architecture (not full private sync required)
 - [x] Minimal vehicle catalog (even if fixture-backed) — `vehicles` + fixture ingest
 - [ ] Formal embed/CE **freeze** (human-only; Guide 05 keep-with-justification ≠ freeze; Guide 06 packaging parked — see `evals/MODEL_FREEZE_STATUS.md`)
 - [ ] Public flip / portfolio “v1 Done” marketing claim (packaging checklist ≠ flip — see `docs/PUBLIC_FLIP_CHECKLIST.md`)
 
-**Do not equate Guide 01–05 path evidence with portfolio v1 complete.** §9 checked rows mean **capability path exists with evidence**, not that public release gates are closed. Guide 06 landed packaging checklists only — freeze and public flip remain unchecked.
+**Do not equate Guide 01–06 path evidence with portfolio v1 complete.** §9 checked rows mean **capability path exists with evidence**, not that public release gates are closed. Guide 06 landed packaging checklists only — freeze and public flip remain unchecked.
 
 ---
 
