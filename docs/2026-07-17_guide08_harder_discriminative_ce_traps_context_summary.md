@@ -2,9 +2,10 @@
 
 **Date:** 2026-07-17  
 **Repos:** `mechanic_rag`  
-**Status:** Draft (Gather pass 121)  
+**Status:** Gather closed; **Write Guide 08 (W) + T1 locked** (pass 122) — see `docs/dev_guides/2026-07-17_dev_guide_08_harder_discriminative_ce_traps.md`  
 **Mode last used:** spoke  
-**Handoff:** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_gather_pass121_handoff.md`  
+**Handoff (Gather):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_gather_pass121_handoff.md`  
+**Handoff (Write):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_write_pass122_handoff.md`  
 **Prioritize:** `second_brain/docs/2026-07-17_prioritize_hub_pass121.md` (#2 Mechanic)
 
 **Prior closed:** Guide 05 keep-with-justification; Guide 06 freeze/public-flip **packaging**; Guide 07 Path A traps + re-baseline (**Reviewed shippable** + Align).  
@@ -213,7 +214,7 @@ Without either (a) **harder, non-paraphrase traps** (likely needing **synthetic 
 
 ## Honest readiness
 
-- **Ready for Write-dev-guide?** **Conditional** — only if Tom locks **(W)** and preferably **(T1)**.  
-- **Recommended next:** **Park** Mechanic agent Write (**P**) until Tom locks otherwise — freeze stays parked; no CE lift invent.  
+- **Ready for Write-dev-guide?** **Done** (pass 122) — guide authored.  
+- **Recommended next:** Ready-check before code (hub resume) — **not** Implement until Ready.  
 - **Not ready for Implement / freeze claim / public flip.**  
-- **Gather quality:** Sufficient for the Write-vs-park decision; detailed trap inventory belongs in Write/Refine if W is locked.
+- **Locks applied:** W + T1; no auto-freeze; freeze parked until Tom lock after evidence.
