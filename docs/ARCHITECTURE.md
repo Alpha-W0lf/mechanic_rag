@@ -490,7 +490,7 @@ Guide 01 vertical slice landed. This table is **post-slice**, not pre-implement.
 | Schema | `db/migrations/001_init.sql` (§6-shaped) | Grow catalog features as library sync lands |
 | Ranking | §7 order live; `section_dedup.ts`; CE with degrade; Guide 02 env ablation `MECHANIC_FORCE_RRF_ONLY` + paired ask fields | Formal embed/CE **freeze** (human-only after paired gemma evidence) |
 | Health | Liveness ≠ readiness | — |
-| Evals/tests | **≥30** S2000 fixture goldens + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 04 paired ask delta **0**; Guide 05 keep-with-justification | Formal embed/CE freeze (human-only) |
+| Evals/tests | **n=38** S2000 fixture goldens (Guide 04 ≥30 + Guide 07 Path A +8 traps) + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 07 paired ask delta **0** / helps=0; Guide 05 keep-with-justification | Formal embed/CE freeze (human-only) |
 | Generator | Default / smoke: `gemma4:e2b`; fallback `qwen3.5:4b` (pass 8c historical proxy baseline) | — |
 
 **Honesty line:** Guide 01 DoD met ≠ portfolio v1 success checklist complete. Embedding + CE remain **candidates** (`evals/MODEL_FREEZE_STATUS.md`); Guide 05 keep-with-justification authored (CE stays in stack); Guide 07 Path A n=38 paired ask still delta **0** / helps=0 (no lift claim). Guide 06 formal freeze packaging is **parked** (same file); public-flip packaging checklist (≠ flip) is [`docs/PUBLIC_FLIP_CHECKLIST.md`](./PUBLIC_FLIP_CHECKLIST.md). Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
@@ -508,7 +508,7 @@ Order used by Write-dev-guide / Implement. Steps **1–7 done** for Guide 01; st
 5. ~~Vehicle-filtered vector + FTS → RRF → section dedup → local CE (N→K) with degrade-to-RRF~~
 6. ~~Ollama answer + validated citations~~
 7. ~~Health readiness + minimal tests/evals (incl. CE degrade unit tests + first baseline)~~
-8. Defer: doc archive, frontend polish, PrivateGold path beyond contract, true MMR, multimodal, Drive/Ford, hosted CE, formal model freeze ~~GETTING_STARTED/INTERVIEW packaging~~ (**packaging landed Guide 03**) ~~≥30 evals~~ (**≥30 S2000 goldens + paired ask landed Guide 04**; CE remains candidate)
+8. Defer: doc archive, frontend polish, PrivateGold path beyond contract, true MMR, multimodal, Drive/Ford, hosted CE, formal model freeze ~~GETTING_STARTED/INTERVIEW packaging~~ (**packaging landed Guide 03**) ~~≥30 evals~~ (**≥30 S2000 goldens Guide 04**; **Guide 07 Path A n=38 flat re-baseline** — CE remains candidate)
 
 ---
 

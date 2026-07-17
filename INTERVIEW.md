@@ -2,7 +2,7 @@
 
 Staff-interview gotchas for the **hybrid → RRF → section dedup → local CE** vertical slice. Contracts SSOT: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Product / why: [`docs/VISION.md`](docs/VISION.md). Freeze honesty: [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). Path to ≥30 goldens: [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md).
 
-This is packaging around a shippable Guide 01 path + honest Guide 02 ablation evidence — **not** portfolio v1 Done, **not** public-flip ready, **not** a model freeze.
+This is packaging around a shippable Guide 01 path + honest paired-ask ablation evidence (current: Guide 07 n=38, delta **0**) — **not** portfolio v1 Done, **not** public-flip ready, **not** a model freeze.
 
 ---
 

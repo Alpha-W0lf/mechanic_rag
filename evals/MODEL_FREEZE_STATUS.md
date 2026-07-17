@@ -13,7 +13,7 @@ Do **not** flip status to frozen unless **all** are true and a human authors the
 2. Shared hit predicate = cited `chunk_id` ∩ allowed evidence (not answer-substring alone).
 3. CE model id + **CE runtime mode** (`classification` vs `cosine`) recorded.
 4. Degrade rate recorded (and distinct from `ablation_rrf_only`).
-5. Golden set ≥30 on S2000 fixture (Guide 04 path complete).
+5. Golden set ≥30 on S2000 fixture (Guide 04 path complete; current evidence n=38 after Guide 07 Path A).
 6. **Forbidden:** freeze on proxy `ce_vs_rrf_delta_hits=+1` / `n=5` / lexical proxy alone.
 
 If paired delta is flat/negative: leave **candidate**; human may write keep-with-justification (MR2) — do not invent lift language.

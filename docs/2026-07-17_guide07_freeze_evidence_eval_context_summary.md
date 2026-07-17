@@ -2,18 +2,33 @@
 
 **Date:** 2026-07-17  
 **Repos:** `mechanic_rag`  
-**Status:** Draft (Gather pass 101); **Path A locked** Write pass 104 — see `docs/dev_guides/2026-07-17_dev_guide_07_freeze_evidence_discriminative_eval.md`  
+**Status:** **Closed** — Path A Implemented + Reviewed shippable; Align pass 116 refreshed live honesty to n=38 flat  
+**Guide:** `docs/dev_guides/2026-07-17_dev_guide_07_freeze_evidence_discriminative_eval.md` (**Reviewed — shippable**)  
 **Mode last used:** spoke  
-**Handoff:** `second_brain/docs/2026-07-17_spoke_mechanic_guide07_gather_pass101_handoff.md`
+**Handoff (Gather):** `second_brain/docs/2026-07-17_spoke_mechanic_guide07_gather_pass101_handoff.md`  
+**Handoff (Review):** `second_brain/docs/2026-07-17_spoke_mechanic_guide07_review_pass114_handoff.md`  
+**Handoff (Align):** `second_brain/docs/2026-07-17_spoke_mechanic_align_pass116_handoff.md`
 
 **Prior closed:** Guide 05 keep-with-justification; Guide 06 freeze/public-flip **packaging** (Review shippable).  
 **VISION §9:** Formal embed/CE freeze **unchecked**; public flip **unchecked**.
 
+### Outcome (Path A — current truth)
+
+| Field | Value |
+|-------|-------|
+| n_cases | **38** (g01–g30 + traps g31–g38) |
+| ce_vs_rrf_ask_delta_hits | **0** |
+| CE-helps / CE-hurts | **0 / 0** |
+| Embed / CE status | **candidates** (no freeze invent) |
+| Soft residual | Several traps near-paraphrase prior easy both-hit cases — weakly discriminative; future harder traps need separate authorize |
+
+Below: Gather-era problem framing (n=30 baseline that motivated Path A). Retained for history.
+
 ---
 
-## Problem
+## Problem (Gather baseline — superseded by Outcome above)
 
-Formal freeze is still **parked**. Guide 06 only landed packaging checklists — checklist ≠ freeze. Current paired-ask evidence on n=30 is **non-discriminative** for CE vs RRF:
+Formal freeze is still **parked**. Guide 06 only landed packaging checklists — checklist ≠ freeze. At Gather, paired-ask evidence on n=30 was **non-discriminative** for CE vs RRF:
 
 | Arm outcome (citation∩gold) | Count | IDs / note |
 |-----------------------------|-------|------------|
@@ -150,64 +165,37 @@ Target cases where arms **can** diverge — not more both-hit easy positives and
 
 ---
 
-## Recommended approach
+## Recommended approach (Gather — executed)
 
-1. **Do not claim freeze or public flip from this Gather.**  
-2. Prefer **Write-dev-guide next** for a **bounded freeze-evidence eval** guide:  
-   - Grow a small set of **discriminative** S2000 fixture goldens (target: cases designed so citation∩gold **can** differ across arms).  
-   - Re-run paired ask under pinned generator/CE/mode.  
-   - Update `last_run_summary.json` + `MODEL_FREEZE_STATUS.md` evidence tables.  
-   - **Freeze remains human-only** after the run — even if delta > 0.  
-   - If delta still 0: stay parked; no theater.  
-3. Alternative Write (if Tom rejects eval growth now): **docs-only** “freeze evidence bar unmet; stay parked” affirmation — thinner, no new goldens.  
-4. Default **not** to second-vehicle/wiring as Guide 07 DoD (larger blast; PATH_TO_30 deferred).  
+Path A was locked and delivered (Implement + Review). Outcome: n=38 flat; freeze stayed human-only / parked. Align pass 116 refreshed live SSOT honesty. No freeze invent; no public flip.
 
-**Write-dev-guide shape (recommended):** `docs/dev_guides/2026-07-17_dev_guide_07_freeze_evidence_discriminative_eval.md` (name flexible) — eval growth + re-baseline + honesty Align; **not** a freeze-flip guide.
 
 ---
 
-## Open decisions (human)
+## Decisions (human) — closed
 
-### 1. What should Guide 07 pursue?
+**Locked (Write pass 104):** Path **(A)**; **+5–10** traps (default +8); **no auto-freeze** even if delta > 0; no public-flip claim.
 
-- **Plain title:** Should the next Mechanic guide grow discriminative evals to try to unlock freeze evidence, or stay parked with docs-only honesty?  
-- **In plain terms:** Today CE never beats or loses to RRF on citation hits (30 cases, delta 0). We can either build harder tests where CE might help, or accept “still candidate / parked” without new runs.  
-- **Options:**  
-  - **(A)** Discriminative golden growth + paired re-baseline (S2000 fixtures first).  
-  - **(B)** Docs-only stay-parked / evidence-bar affirmation.  
-  - **(C)** Embed-only freeze path (CE stays candidate).  
-  - **(D)** Wait for second vehicle / wiring corpus before any freeze-evidence work.  
-- **Recommendation:** **(A)** — Write-dev-guide for bounded discriminative eval + re-baseline; freeze still human-gated after.  
-- **Reasoning:** Packaging (Guide 06) is done; the actual gap is non-discriminative goldens. Without (A), freeze can only happen via override theater or endless park.  
-- **Tradeoffs:** (A) costs eval authoring + twin-process re-baseline time; may still yield delta 0. (B) is cheapest but leaves §9 freeze open with no path. (C) is a partial claim. (D) delays freeze evidence on external corpus work.  
-- **Needs from you:** Lock A / B / C / D (or hybrid).
+**Outcome (Implement + Review):** n=**38**, `ce_vs_rrf_ask_delta_hits=**0**`, CE-helps=**0**, CE-hurts=**0**; embed/CE remain **candidates**; VISION §9 freeze + public flip still unchecked. Soft residual: trap near-paraphrase weakness (documented in Review / MODEL_FREEZE).
 
-### 2. If (A): how large / how strict?
-
-- **Plain title:** How many new discriminative cases and what freeze bar after the run?  
-- **In plain terms:** Do we add a handful of trap questions, or a larger set? After the run, does any positive delta unlock freeze, or do you want a minimum lift?  
-- **Options:** Small band (e.g. +5–10 cases) vs larger; freeze bar = any `delta>0` + Tom lock vs require stronger lift / larger n.  
-- **Recommendation:** Start **small band (+5–10)** discriminative cases; freeze bar = **Tom human lock after seeing the number** (do not auto-freeze on +1).  
-- **Reasoning:** Avoid eval gaming and large corpus invent; keep human judgment on freeze.  
-- **Tradeoffs:** Small band may still be flat; large band costs more and risks overfitting traps.  
-- **Needs from you:** Soft-pin size + “no auto-freeze” confirmation (or stricter bar).
+Gather-era open-decision prose is superseded by this section + Outcome table above.
 
 ---
 
-## Evidence opened this pass
+## Evidence opened this pass (Gather)
 
 - Handoff `2026-07-17_spoke_mechanic_guide07_gather_pass101_handoff.md`  
 - `VISION.md` §9 (freeze + public flip unchecked)  
 - `MODEL_FREEZE_STATUS.md` (checklist, keep, Guide 06 packaging, delta 0)  
 - Guide 05 context; Guide 06 refined/shippable guide  
 - `PATH_TO_30.md`; `golden_fixture_v1.json` debt/path notes  
-- `last_run_summary.json` analyzed: both_hit=26, both_miss=4, ce_only=0, rrf_only=0  
+- `last_run_summary.json` analyzed (then n=30): both_hit=26, both_miss=4, ce_only=0, rrf_only=0  
 - Guide 04 hard-miss table / non-goals  
 
 ---
 
-## Honest readiness
+## Honest readiness (Align pass 116)
 
-- **Ready for Write-dev-guide?** **Conditional Yes** — after Tom locks decision 1 (A/B/C/D). Context for the freeze-evidence gap is sufficient; Write shape depends on that lock.  
-- **Not ready for Implement / freeze claim / public flip.**  
-- **Gather quality:** Sufficient for decision + Write; fixture near-dup inventory can deepen in Write/Refine if (A).
+- **Guide 07 Path A:** Closed (Reviewed shippable). Live honesty surfaces aligned to n=38 flat.  
+- **Not ready for freeze claim / public flip** — flat after discriminative attempt; candidates stay candidates.  
+- **Next freeze-evidence work:** Separate human authorize (harder traps / corpus growth) — not auto-started from Align.
