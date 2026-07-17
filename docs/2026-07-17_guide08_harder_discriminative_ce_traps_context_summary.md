@@ -2,10 +2,10 @@
 
 **Date:** 2026-07-17  
 **Repos:** `mechanic_rag`  
-**Status:** **Implemented** (pass 124) — T1 + n=44 flat re-baseline; stop for Review  
-**Handoff (Implement):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_implement_pass124_handoff.md`  
-**Handoff (Ready-check):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_ready_check_pass122_handoff.md`  
-**Guide:** `docs/dev_guides/2026-07-17_dev_guide_08_harder_discriminative_ce_traps.md`
+**Status:** **Reviewed — shippable** (pass 129); Implement flat T1 evidence; freeze/public-flip unchecked  
+**Handoff (Review):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_review_pass129_handoff.md`  
+**Review note:** `mechanic_rag/docs/2026-07-17_guide08_review_pass129_note.md`  
+**Handoff (Implement):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_implement_pass124_handoff.md`
 
 ### Outcome (Guide 08 T1 — current truth)
 

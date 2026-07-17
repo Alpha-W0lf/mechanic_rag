@@ -4,7 +4,9 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 08 — harder discriminative CE traps + synthetic confusable sections + paired-ask re-baseline  
 **Stage that authored this:** Write-dev-guide (pass 122)  
-**Status:** **Implemented** (2026-07-17 pass 124) — T1 + paired re-baseline flat; stop for Review  
+**Status:** **Reviewed — shippable** (2026-07-17 pass 129) after honest flat T1 evidence; no freeze/public-flip  
+**Handoff (Review):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_review_pass129_handoff.md`  
+**Handoff (Implement):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_implement_pass124_handoff.md`  
 **Handoff (Ready-check):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_ready_check_pass122_handoff.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-17_guide08_harder_discriminative_ce_traps_context_summary.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_write_pass122_handoff.md`  
@@ -342,3 +344,26 @@ Revert fixture + golden + summary + honesty doc commits; re-ingest prior fixture
 **More Refine?** **No.**  
 **Implement now?** **No** — this stage stops for human/hub approval.  
 **Do not freeze. Do not public-flip. Candidates stay candidates.**
+
+---
+
+## Review implementation (pass 129)
+
+**Against:** Implement `9bca871` + guide DoD + QUALITY_STANDARD §5.
+
+### Findings
+
+| Finding | Severity | Disposition |
+|---------|----------|-------------|
+| DoD verify (13 `###`, synthetic label, n=44, g39–g44 substrings, no exact Q dups, delta 0, helps/hurts 0, §9 unchecked, candidates) | — | Pass |
+| Twin paired ask under gemma + CE classification | — | Pass |
+| No ranking redesign / no LICENSE / no freeze invent | — | Pass |
+| Flat delta after T1 | Expected / valid | Acceptable evidence attempt; freeze stays parked |
+| Soft: g39 token-overlap with g01 (~0.5 Jaccard); still distinct question + gold in new 1-3 | Soft residual | Documented — not blocking; not Guide 07-style near-paraphrase of same gold |
+| Soft: g44 both-miss (not CE-hurts) | Soft residual | Documented in MODEL_FREEZE; both arms fail ≠ asymmetry |
+
+### Shippable call
+
+**Shippable as-is** (status + Review note only). Flat after T1 is an honest negative result for freeze evidence — **do not** invent lift or flip §9.
+
+**No Align self-start. No freeze. No public-flip.**
