@@ -5,7 +5,8 @@
 **Work item:** Guide 06 — formal freeze packaging / public-flip checklist (docs)  
 **Stage that authored this:** Write-dev-guide (spoke)  
 **Last refined:** Refine-dev-guide (2026-07-17) — one pass  
-**Status:** **Refined** — Ready-check next; not Implemented  
+**Ready-check:** 2026-07-17 — **READY** for Implement (human Stage authorize required)  
+**Status:** **Ready-checked** — not Implemented; wait for Tom Stage: Implement  
 
 **Handoff:** `second_brain/docs/2026-07-17_spoke_mechanic_freeze_packaging_write_handoff.md`  
 **Context SSOT (prior):** `mechanic_rag/docs/2026-07-15_guide05_model_freeze_keep_context_summary.md`  
@@ -268,12 +269,25 @@ Revert Guide 06 doc commits; restore prior honesty surfaces. No schema/code roll
 
 ---
 
-## Ready-check readiness (binding score)
+## Ready-check before code (2026-07-17)
+
+### Zoom-out
+
+| Check | Verdict |
+|-------|---------|
+| Context + guide aligned? | **Yes** — Guide 05 keep context + `MODEL_FREEZE_STATUS` + Tom locks match refined Guide 06 pins |
+| Evidence still current? | **Yes** — verified n=30, delta 0, candidates, §9 `- [ ]`, fail-closed script present, `PUBLIC_FLIP_CHECKLIST.md` absent (to create), LICENSE absent (do not invent) |
+| Blast radius + rollback clear? | **Yes** — docs-only targets listed; rollback = revert doc commits |
+| Edge cases planned? | **Yes** — park override, §9 flip forbid, LICENSE invent, duplicate SSOT, proxy theater |
+| Material refinements still required? | **No** — craft residual only (exact B1/C1 prose + cross-link sentences) |
+
+### Implement readiness (binding score)
 
 | Track | Score | Why not 10 |
 |-------|-------|------------|
-| Guide 06 formal freeze packaging / public-flip checklist | **9.1 / 10** | Implement still authors exact B1/C1 prose and one-sentence cross-links (craft residual). Soft residual only — **not** material invent. Not 10 because prose voice and optional D3 footnote remain unwritten. |
+| Guide 06 formal freeze packaging / public-flip checklist | **9.1 / 10** | Exact section prose and one-sentence cross-links remain unwritten (craft residual). Soft only — not material invent. Optional D3 VISION footnote not required for DoD. Score not inflated from Refine verify. |
 
-**Ready-check next?** **Yes.**  
-**Implement next?** **No** — Ready-check first, then Tom Stage authorize Implement.  
-**More Refine needed?** **No** — one refine pass complete; further refine would be polish theater.
+**Explicit call: READY for Implement** — after Tom authorizes `Stage: Implement` in this spoke.  
+**More Refine?** **No.**  
+**Implement now?** **No** — Ready-check stops for human approval (this stage).  
+**Do not flip VISION §9. Do not invent LICENSE. Candidates stay candidates. Freeze stays parked.**
