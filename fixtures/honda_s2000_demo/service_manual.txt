@@ -17,6 +17,12 @@ Oil drain plug torque is 39 N·m (29 lbf·ft).
 7. Install a new oil filter; hand-tighten then turn an additional 3/4 turn.
 8. Refill with 4.8 liters of specified oil; run engine and check for leaks.
 
+### 1-3 Oil Filler Cap Torque
+(synthetic demo section — not OEM text; Guide 08 confusable trap corpus)
+Oil filler cap installation torque is 22 N·m (16 lbf·ft).
+Do not confuse filler-cap torque with the oil drain plug torque in 1-1 Specification.
+Hand-start the cap, then torque to the filler-cap value only.
+
 ## 2 Clutch
 
 ### 2-1 Pedal Free Play
@@ -38,6 +44,12 @@ Spark plug torque: 18 N·m (13 lbf·ft).
 Replace spark plugs every 105,000 miles (168,000 km) under normal conditions.
 Inspect earlier if misfire DTCs are present.
 
+### 3-3 Hot-Engine Spark Gap Inspection
+(synthetic demo section — not OEM text; Guide 08 confusable trap corpus)
+If electrode gap is checked on a hot engine during inspection only, the hot inspection gap window is 1.2–1.3 mm (0.047–0.051 in).
+This hot inspection figure is not the cold installation gap in 3-1 Specification.
+Always set plugs to the cold installation gap before installing new plugs.
+
 ## 4 Cooling System
 
 ### 4-1 Coolant
@@ -48,6 +60,11 @@ Radiator cap relief pressure is 93–123 kPa (0.95–1.25 kgf/cm², 13.5–17.8 
 ### 4-2 Thermostat
 Thermostat begins opening at 78–82 °C (172–180 °F).
 Fully open temperature is 95 °C (203 °F).
+
+### 4-3 Cooling Fan Switch Temperature
+(synthetic demo section — not OEM text; Guide 08 confusable trap corpus)
+Radiator cooling fan switch turns the fan ON at 91–94 °C (196–201 °F).
+Do not confuse fan-switch ON temperature with thermostat begin-open or fully-open temperatures in 4-2 Thermostat.
 
 ## 5 Valve Clearance
 

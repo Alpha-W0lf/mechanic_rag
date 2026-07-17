@@ -113,14 +113,15 @@ If Next is down, `--retrieval-only` is an escape hatch only — full stranger sm
 |-------|--------|
 | Packaging | Stranger-clone + FAQ shell — not portfolio v1 complete |
 | Public flip | **Not** ready |
-| Embed / CE | **Candidates** — not frozen; Guide 05 keep-with-justification (`evals/MODEL_FREEZE_STATUS.md`) — CE stays in pipeline; paired ask delta **0** on n=38 (Guide 07; helps=0/hurts=0); Guide 06 freeze packaging **parked** |
+| Embed / CE | **Candidates** — not frozen; Guide 05 keep-with-justification (`evals/MODEL_FREEZE_STATUS.md`) — CE stays in pipeline; paired ask delta **0** on n=44 (Guide 08 T1; helps=0/hurts=0); Guide 06 freeze packaging **parked** |
 | Public flip checklist | Packaging only — [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) (≠ flip / ≠ v1 Done) |
 | Guide 02 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=12, gemma, citation∩gold) — honest flat |
-| Guide 04 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=30) — superseded as current by Guide 07 |
-| Guide 07 paired ask (current) | `ce_vs_rrf_ask_delta_hits=0` (n=38, +8 traps, `gemma4:e2b`, citation∩gold; CE-helps=0 / CE-hurts=0) — honest flat after discriminative attempt; CE remains **candidate**; **no auto-freeze** |
+| Guide 04 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=30) |
+| Guide 07 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=38) — superseded as current by Guide 08 |
+| Guide 08 paired ask (current) | `ce_vs_rrf_ask_delta_hits=0` (n=44, T1 +6 traps, `gemma4:e2b`, citation∩gold; CE-helps=0 / CE-hurts=0) — honest flat after harder attempt; CE remains **candidate**; **no auto-freeze** |
 | Proxy theater | Historical `ce_vs_rrf_delta_hits=+1` / `n=5` is **forbidden** as lift |
 | Corpus | **Fixtures only** — no Drive / Ford / OEM PDFs in this repo |
-| ≥30 goldens | **Done** (Guide 04); discriminative band **+8** (Guide 07, n=38) — second vehicle / wiring still deferred (`evals/PATH_TO_30.md`) |
+| ≥30 goldens | **Done** (Guide 04); Guide 07–08 discriminative bands landed (n=44) — second vehicle / wiring still deferred (`evals/PATH_TO_30.md`) |
 
 ---
 

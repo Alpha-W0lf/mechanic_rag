@@ -4,7 +4,7 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 08 — harder discriminative CE traps + synthetic confusable sections + paired-ask re-baseline  
 **Stage that authored this:** Write-dev-guide (pass 122)  
-**Status:** **Ready-checked** (2026-07-17 pass 122) — **READY** for Implement (hub Stage authorize required; do **not** self-start)  
+**Status:** **Implemented** (2026-07-17 pass 124) — T1 + paired re-baseline flat; stop for Review  
 **Handoff (Ready-check):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_ready_check_pass122_handoff.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-17_guide08_harder_discriminative_ce_traps_context_summary.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_write_pass122_handoff.md`  
@@ -146,14 +146,14 @@ Implement may drop/rename rows as long as **+5–10** cases, anti-paraphrase, an
 
 ## Acceptance criteria (Implement — unchecked until then)
 
-- [ ] 1–3 synthetic confusable `###` sections added; demo/synthetic labeling present  
-- [ ] Fixture re-ingested; new chunks queryable  
-- [ ] +5–10 anti-paraphrase trap cases (`g39`…); schema valid; substrings in fixture  
-- [ ] Paired ask re-baseline; `last_run_summary.json` refreshed  
-- [ ] CE-helps / CE-hurts reported in MODEL_FREEZE Guide 08 table  
-- [ ] Status tables **candidate**; VISION §9 freeze + public-flip remain `- [ ]`  
-- [ ] Honesty surfaces updated for new n + delta (no lift/freeze/public-flip theater)  
-- [ ] No ranking code changes; no LICENSE invent; no public-flip claim  
+- [x] 1–3 synthetic confusable `###` sections added; demo/synthetic labeling present  
+- [x] Fixture re-ingested; new chunks queryable  
+- [x] +5–10 anti-paraphrase trap cases (`g39`…); schema valid; substrings in fixture  
+- [x] Paired ask re-baseline; `last_run_summary.json` refreshed  
+- [x] CE-helps / CE-hurts reported in MODEL_FREEZE Guide 08 table  
+- [x] Status tables **candidate**; VISION §9 freeze + public-flip remain `- [ ]`  
+- [x] Honesty surfaces updated for new n + delta (no lift/freeze/public-flip theater)  
+- [x] No ranking code changes; no LICENSE invent; no public-flip claim  
 
 ---
 
@@ -163,43 +163,43 @@ All boxes start unchecked. **Do not check in Write / Refine / Ready-check.** Onl
 
 ### Phase A — Re-anchor + anti-paraphrase audit
 
-- [ ] **A1.** Confirm baseline: n=38; delta 0; helps=0; hurts=0; candidates; §9 unchecked.  
-- [ ] **A2.** List existing questions that must **not** be paraphrased (at least Guide 07 residual pairs).  
-- [ ] **A3.** Confirm T1 budget: choose **1–3** confusable sections from soft inventory (or equivalent).  
-- [ ] **A4.** Do **not** flip VISION §9; do not change candidate→frozen.
+- [x] **A1.** Confirm baseline: n=38; delta 0; helps=0; hurts=0; candidates; §9 unchecked.  
+- [x] **A2.** List existing questions that must **not** be paraphrased (at least Guide 07 residual pairs).  
+- [x] **A3.** Confirm T1 budget: choose **1–3** confusable sections from soft inventory (or equivalent).  
+- [x] **A4.** Do **not** flip VISION §9; do not change candidate→frozen.
 
 ### Phase B — Synthetic confusable sections (T1)
 
-- [ ] **B1.** Edit `fixtures/honda_s2000_demo/service_manual.txt`: add chosen sections; keep heading style (`##` / `###`); include a one-line synthetic/demo note in section body or chapter banner.  
-- [ ] **B2.** Ensure each new section has **distinct** facts (numbers/procedures) that overlap lexically with a distractor.  
-- [ ] **B3.** Run `mecharag ingest --source fixtures` (expect hash change / new chunks).  
-- [ ] **B4.** Spot-check DB or ask smoke that new section paths appear.
+- [x] **B1.** Edit `fixtures/honda_s2000_demo/service_manual.txt`: add chosen sections; keep heading style (`##` / `###`); include a one-line synthetic/demo note in section body or chapter banner.  
+- [x] **B2.** Ensure each new section has **distinct** facts (numbers/procedures) that overlap lexically with a distractor.  
+- [x] **B3.** Run `mecharag ingest --source fixtures` (expect hash change / new chunks).  
+- [x] **B4.** Spot-check DB or ask smoke that new section paths appear.
 
 ### Phase C — Author harder trap goldens
 
-- [ ] **C1.** Add **5–10** cases `g39`… with single-primary gold; prefer gold in T1 sections.  
-- [ ] **C2.** Enforce anti-paraphrase rules; `notes` include disagreement rationale.  
-- [ ] **C3.** Update golden metadata / debt / `PATH_TO_30.md` for Guide 08 band.  
-- [ ] **C4.** Reject eval gaming: no CE-probe golds without fixture substrings.
+- [x] **C1.** Add **5–10** cases `g39`… with single-primary gold; prefer gold in T1 sections.  
+- [x] **C2.** Enforce anti-paraphrase rules; `notes` include disagreement rationale.  
+- [x] **C3.** Update golden metadata / debt / `PATH_TO_30.md` for Guide 08 band.  
+- [x] **C4.** Reject eval gaming: no CE-probe golds without fixture substrings.
 
 ### Phase D — Paired-ask re-baseline
 
-- [ ] **D1.** Twin Next (`:3000` CE-on, `:3001` `MECHANIC_FORCE_RRF_ONLY=1`).  
-- [ ] **D2.** `mecharag eval --golden evals/ --ask-url … --ask-url-rrf-only …` → overwrite `last_run_summary.json`.  
-- [ ] **D3.** Compute CE-helps / CE-hurts; record Guide 08 table in `MODEL_FREEZE_STATUS.md`; keep **candidate**; **no freeze flip**.  
-- [ ] **D4.** If delta still 0: refresh keep note that T1 attempt may still be weakly discriminative — **do not** invent lift.
+- [x] **D1.** Twin Next (`:3000` CE-on, `:3001` `MECHANIC_FORCE_RRF_ONLY=1`).  
+- [x] **D2.** `mecharag eval --golden evals/ --ask-url … --ask-url-rrf-only …` → overwrite `last_run_summary.json`.  
+- [x] **D3.** Compute CE-helps / CE-hurts; record Guide 08 table in `MODEL_FREEZE_STATUS.md`; keep **candidate**; **no freeze flip**.  
+- [x] **D4.** If delta still 0: refresh keep note that T1 attempt may still be weakly discriminative — **do not** invent lift.
 
 ### Phase E — Honesty Align (thin)
 
-- [ ] **E1.** Update INTERVIEW / GETTING_STARTED / README maturity lines for new n + delta.  
-- [ ] **E2.** Optional VISION §9 footnote — **without** checking freeze/public-flip.  
-- [ ] **E3.** Update Guide 08 context Outcome if present; ARCHITECTURE honesty if stale.  
-- [ ] **E4.** If delta > 0: report; still **no auto-freeze**; leave §9 unchecked.
+- [x] **E1.** Update INTERVIEW / GETTING_STARTED / README maturity lines for new n + delta.  
+- [x] **E2.** Optional VISION §9 footnote — **without** checking freeze/public-flip.  
+- [x] **E3.** Update Guide 08 context Outcome if present; ARCHITECTURE honesty if stale.  
+- [x] **E4.** If delta > 0: report; still **no auto-freeze**; leave §9 unchecked.
 
 ### Phase F — Stop
 
-- [ ] **F1.** No public-flip claim; no LICENSE invent; no ranking redesign.  
-- [ ] **F2.** Stop for Review. Freeze decision is a **separate** human Stage after metrics.
+- [x] **F1.** No public-flip claim; no LICENSE invent; no ranking redesign.  
+- [x] **F2.** Stop for Review. Freeze decision is a **separate** human Stage after metrics.
 
 ---
 

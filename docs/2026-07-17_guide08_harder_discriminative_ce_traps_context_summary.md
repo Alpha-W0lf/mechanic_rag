@@ -2,10 +2,21 @@
 
 **Date:** 2026-07-17  
 **Repos:** `mechanic_rag`  
-**Status:** Gather closed; Write done; **Ready-checked READY 9.0/10** (pass 122) — Implement needs hub authorize  
+**Status:** **Implemented** (pass 124) — T1 + n=44 flat re-baseline; stop for Review  
+**Handoff (Implement):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_implement_pass124_handoff.md`  
 **Handoff (Ready-check):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_ready_check_pass122_handoff.md`  
-**Ready-check note:** `mechanic_rag/docs/2026-07-17_guide08_ready_check_pass122_note.md`  
-**Guide:** `docs/dev_guides/2026-07-17_dev_guide_08_harder_discriminative_ce_traps.md`  
+**Guide:** `docs/dev_guides/2026-07-17_dev_guide_08_harder_discriminative_ce_traps.md`
+
+### Outcome (Guide 08 T1 — current truth)
+
+| Field | Value |
+|-------|-------|
+| n_cases | **44** |
+| T1 sections | +3 synthetic confusable `###` |
+| ce_vs_rrf_ask_delta_hits | **0** |
+| CE-helps / CE-hurts | **0 / 0** |
+| Embed / CE | **candidates** |
+| Soft residual | Still weakly discriminative for asymmetry; g44 both-miss |  
 **Mode last used:** spoke  
 **Handoff (Gather):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_gather_pass121_handoff.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-17_spoke_mechanic_guide08_write_pass122_handoff.md`  

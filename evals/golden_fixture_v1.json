@@ -1,16 +1,17 @@
 {
   "version": "2",
-  "description": "Guide 04–07 golden set for paired ask ablation (citation∩gold). Fixture-only: fixture:honda-s2000-demo. Guide 07 adds g31–g38 discriminative traps.",
-  "n_cases_target_band": "35–40 after Guide 07 (+5–10 traps); was ≥30 Guide 04",
+  "description": "Guide 04–08 golden set for paired ask ablation (citation∩gold). Fixture-only: fixture:honda-s2000-demo. Guide 08 adds T1 synthetic confusable sections + g39–g44 anti-paraphrase traps.",
+  "n_cases_target_band": "43–48 after Guide 08 (+5–10); was 38 Guide 07",
   "path_to_30": [
     "Guide 04 landed g01–g30 on fixture:honda-s2000-demo (positives, hard misses, negative polarity, multi-section).",
     "Deferred: second synthetic vehicle when catalog grows — still public fixtures only.",
     "Deferred: wiring / procedure distractors once procedure sections exist in fixtures.",
     "Deferred: degrade-observation cases (operator notes when CE fails) without treating degrade as ablation.",
     "Paired ask re-baseline after golden growth: done 2026-07-14 (delta=0); do not encode historical proxy ce_vs_rrf_delta_hits=+1 as lift.",
-    "Guide 07 Path A: +8 discriminative single-primary traps g31–g38 (near-dup/lexical/multi-chunk); paired re-baseline required; no auto-freeze."
+    "Guide 07 Path A: +8 discriminative single-primary traps g31–g38 (near-dup/lexical/multi-chunk); paired re-baseline required; no auto-freeze.",
+    "Guide 08 T1: +3 synthetic confusable ### sections + g39–g44 anti-paraphrase traps; paired re-baseline; no auto-freeze."
   ],
-  "debt": "Guide 04 ≥30 met; Guide 07 discriminative band g31–g38 landed (n=38). Still deferred: second vehicle, wiring corpus. Formal embed/CE freeze + public flip remain open (no auto-freeze).",
+  "debt": "Guide 04 ≥30; Guide 07 g31–g38; Guide 08 T1 + g39–g44 (n=44). Still deferred: second vehicle, wiring. Formal embed/CE freeze + public flip remain open (no auto-freeze).",
   "cases": [
     {
       "id": "g01-oil-drain-torque",
@@ -505,6 +506,90 @@
         "93–123 kPa"
       ],
       "notes": "Trap class: multi-chunk. Single-primary gold=4-1 radiator cap. Distractors: coolant capacity/mix and 4-2 thermostat temps."
+    },
+    {
+      "id": "g39-trap-filler-cap-torque",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What torque value is specified for installing the oil filler cap (not the drain plug)?",
+      "allowed_section_paths": [
+        "1 Engine Oil > 1-3 Oil Filler Cap Torque",
+        "1-3 Oil Filler Cap Torque"
+      ],
+      "allowed_content_substrings": [
+        "22 N·m",
+        "16 lbf·ft"
+      ],
+      "notes": "Trap class: confusable torque. Single-primary gold=1-3 synthetic filler-cap. Distractor: 1-1 drain 39 N·m. Ranking disagreement plausible via shared 'torque'/'oil' tokens. Not a g01 paraphrase."
+    },
+    {
+      "id": "g40-trap-fan-switch-temp",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "At what coolant temperature range does the radiator cooling fan switch turn the fan ON?",
+      "allowed_section_paths": [
+        "4 Cooling System > 4-3 Cooling Fan Switch Temperature",
+        "4-3 Cooling Fan Switch Temperature"
+      ],
+      "allowed_content_substrings": [
+        "91–94 °C",
+        "196–201 °F"
+      ],
+      "notes": "Trap class: confusable temp. Single-primary gold=4-3 synthetic fan switch. Distractor: 4-2 thermostat begin/full-open. Shared cooling/temperature tokens. Not g09/g19/g31."
+    },
+    {
+      "id": "g41-trap-hot-inspection-gap",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "If electrode gap is checked only during a hot-engine inspection, what millimeter window applies?",
+      "allowed_section_paths": [
+        "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
+        "3-3 Hot-Engine Spark Gap Inspection"
+      ],
+      "allowed_content_substrings": [
+        "1.2–1.3 mm",
+        "0.047–0.051"
+      ],
+      "notes": "Trap class: confusable gap. Single-primary gold=3-3 synthetic hot inspection. Distractor: 3-1 cold install gap 1.0–1.1 mm. Shared 'gap'/'electrode'. Not g04/g32."
+    },
+    {
+      "id": "g42-trap-drain-not-filler-torque",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "Which oil-system fastener uses the 39 N·m torque figure rather than the filler-cap torque?",
+      "allowed_section_paths": [
+        "1 Engine Oil > 1-1 Specification",
+        "1-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "Oil drain plug torque",
+        "39 N·m"
+      ],
+      "notes": "Trap class: lexical torque disambiguation. Single-primary gold=1-1 drain. Distractor: new 1-3 filler 22 N·m. Asks which fastener uses 39 — not 'what is drain torque' (g01)."
+    },
+    {
+      "id": "g43-trap-thermo-not-fan-switch",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "Which cooling temperature is the thermostat fully-open value, as distinct from the fan-switch ON band?",
+      "allowed_section_paths": [
+        "4 Cooling System > 4-2 Thermostat",
+        "4-2 Thermostat"
+      ],
+      "allowed_content_substrings": [
+        "95 °C",
+        "203 °F"
+      ],
+      "notes": "Trap class: near-dup temps. Single-primary gold=4-2 full open. Distractor: 4-3 fan 91–94 °C. Distinct from g19/g31 phrasing (asks distinction vs fan-switch)."
+    },
+    {
+      "id": "g44-trap-cold-install-gap-not-hot",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "Before installing new spark plugs, which gap window must be used instead of the hot-inspection window?",
+      "allowed_section_paths": [
+        "3 Spark Plugs > 3-1 Specification",
+        "3-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "1.0–1.1 mm",
+        "0.039–0.043"
+      ],
+      "notes": "Trap class: confusable gap disambiguation. Single-primary gold=3-1 cold install. Distractor: 3-3 hot 1.2–1.3 mm. Not a bare 'what gap' paraphrase of g04/g32."
     }
   ]
 }

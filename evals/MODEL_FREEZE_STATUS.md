@@ -1,9 +1,9 @@
-# Model freeze status (Guide 01 → Guide 07 evidence)
+# Model freeze status (Guide 01 → Guide 08 evidence)
 
 | Lock | Candidate in use | Status |
 |------|------------------|--------|
 | Embedding model + dim | Ollama `nomic-embed-text` @ 768 | **Smoke verified**. Still **candidate** until human freezes for portfolio claims. |
-| CE model + runtime | `Xenova/ms-marco-MiniLM-L-6-v2` via `transformers_js` (`classification` mode on 2026-07-17 Guide 07 paired run) | **Candidate** — paired ask delta **flat (0)** on n=38 (Guide 07 traps + baseline). **Not frozen.** Agent must not invent freeze. |
+| CE model + runtime | `Xenova/ms-marco-MiniLM-L-6-v2` via `transformers_js` (`classification` mode on 2026-07-17 Guide 08 paired run) | **Candidate** — paired ask delta **flat (0)** on n=44 (Guide 08 T1 + traps). **Not frozen.** Agent must not invent freeze. |
 
 ## Freeze checklist (human-only)
 
@@ -13,7 +13,7 @@ Do **not** flip status to frozen unless **all** are true and a human authors the
 2. Shared hit predicate = cited `chunk_id` ∩ allowed evidence (not answer-substring alone).
 3. CE model id + **CE runtime mode** (`classification` vs `cosine`) recorded.
 4. Degrade rate recorded (and distinct from `ablation_rrf_only`).
-5. Golden set ≥30 on S2000 fixture (Guide 04 path complete; current evidence n=38 after Guide 07 Path A).
+5. Golden set ≥30 on S2000 fixture (Guide 04 path complete; current evidence n=44 after Guide 08 T1).
 6. **Forbidden:** freeze on proxy `ce_vs_rrf_delta_hits=+1` / `n=5` / lexical proxy alone.
 
 If paired delta is flat/negative: leave **candidate**; human may write keep-with-justification (MR2) — do not invent lift language.
@@ -24,9 +24,11 @@ If paired delta is flat/negative: leave **candidate**; human may write keep-with
 
 **Evidence (Guide 04 paired ask):** n=30, generator `gemma4:e2b`, CE `Xenova/ms-marco-MiniLM-L-6-v2` in `classification` mode, `rrf_only_ask_hits=26`, `ce_ask_hits=26`, `ce_vs_rrf_ask_delta_hits=0`, `degrade_rate=0.0`, `avg_ce_latency_ms≈94.7`.
 
-**Evidence refresh (Guide 07 Path A — 2026-07-17):** n=38 (+8 single-primary traps g31–g38), same generator/CE/mode, `rrf_only_ask_hits=34`, `ce_ask_hits=34`, `ce_vs_rrf_ask_delta_hits=0`, **CE-helps=0**, **CE-hurts=0**, `degrade_rate=0.0`, `avg_ce_latency_ms≈103.5` — see `evals/last_run_summary.json`. All eight traps were both-hit; set remains weakly discriminative for citation∩gold asymmetry.
+**Evidence refresh (Guide 07 Path A — 2026-07-17):** n=38 (+8 traps g31–g38), `rrf_only_ask_hits=34`, `ce_ask_hits=34`, `ce_vs_rrf_ask_delta_hits=0`, CE-helps=0 / CE-hurts=0.
 
-1. Paired-ask citation∩gold delta was **0** on n=30 and again **0** on n=38 after Path A traps.  
+**Evidence refresh (Guide 08 T1 — 2026-07-17):** n=44 (+3 synthetic confusable `###` + g39–g44 anti-paraphrase traps), same generator/CE/mode, `rrf_only_ask_hits=39`, `ce_ask_hits=39`, `ce_vs_rrf_ask_delta_hits=0`, **CE-helps=0**, **CE-hurts=0**, `degrade_rate=0.0`, `avg_ce_latency_ms≈129.8` — see `evals/last_run_summary.json`. Traps: 5/6 both-hit, g44 both-miss; still **no** citation∩gold asymmetry.
+
+1. Paired-ask citation∩gold delta was **0** on n=30, n=38, and again **0** on n=44 after T1.  
 2. Models remain **candidates**, not frozen.  
 3. Cross-encoder **stays in the stack** for architecture completeness (hybrid → RRF → section dedup → CE N→K), demo of local rerank, latency measurement, and degrade-to-fusion reliability — not because it improved this metric.  
 4. **Do not** claim CE improved citation hits on these runs. Historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` remains **forbidden** as lift or freeze evidence.
@@ -39,9 +41,9 @@ Formal freeze still requires the human-only checklist above after stronger evide
 
 **Guide 05 keep-with-justification ≠ freeze.** Keeping CE in the stack with an honesty note is gate 1 (keep-in-stack). Formal freeze is gate 2 and remains **human-only**.
 
-**Current evidence is insufficient to freeze:** Guide 04 (n=30) and Guide 07 Path A (n=38, +traps) both recorded `ce_vs_rrf_ask_delta_hits=0` with CE-helps=0 / CE-hurts=0. Flat delta after a discriminative attempt does **not** earn a freeze claim without stronger asymmetry **or** an explicit Tom override lock.
+**Current evidence is insufficient to freeze:** Guide 04 (n=30), Guide 07 (n=38), and Guide 08 T1 (n=44) all recorded `ce_vs_rrf_ask_delta_hits=0` with CE-helps=0 / CE-hurts=0. Flat delta after T1 confusable sections does **not** earn a freeze claim without stronger asymmetry **or** an explicit Tom override lock.
 
-**Tom lock (2026-07-17):** Formal freeze is **parked** until new evidence or explicit override. Status tables above stay **candidate**. Guide 07 does **not** auto-freeze.
+**Tom lock (2026-07-17):** Formal freeze is **parked** until new evidence or explicit override. Status tables above stay **candidate**. Guide 07/08 do **not** auto-freeze.
 
 **Before any human freeze:** complete the six-item **Freeze checklist (human-only)** in this file. Do **not** invent new metric gates here. Do **not** use historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` as freeze evidence.
 
@@ -64,9 +66,9 @@ Formal freeze still requires the human-only checklist above after stronger evide
 | ce_vs_rrf_delta_hits | +1 | **Proxy theater — do not freeze on this** |
 | generator | qwen3.5:4b | Different era |
 
-## Guide 07 paired ask ablation results (2026-07-17) — current
+## Guide 08 paired ask ablation results (2026-07-17) — current
 
-Source: `evals/last_run_summary.json` after Path A traps (g31–g38) + twin-process paired ask:
+Source: `evals/last_run_summary.json` after T1 synthetic confusable sections + g39–g44 + twin-process paired ask:
 
 ```bash
 # CE-on :3000 (FORCE unset) + RRF-only :3001 (MECHANIC_FORCE_RRF_ONLY=1)
@@ -77,24 +79,36 @@ mecharag eval --golden evals/ \
 
 | Field | Value |
 |-------|-------|
-| Date / run | 2026-07-17 Guide 07 Implement |
-| n_cases | 38 |
-| paired_cases_scored | 38 (0 asymmetric failures) |
+| Date / run | 2026-07-17 Guide 08 Implement |
+| n_cases | 44 |
+| paired_cases_scored | 44 (0 asymmetric failures) |
 | generator | `gemma4:e2b` |
 | CE model | `Xenova/ms-marco-MiniLM-L-6-v2` |
 | CE runtime mode | `classification` |
-| rrf_only_ask_hits | 34 |
-| ce_ask_hits | 34 |
+| rrf_only_ask_hits | 39 |
+| ce_ask_hits | 39 |
 | ce_vs_rrf_ask_delta_hits | **0** |
 | CE-helps (CE hit, RRF miss) | **0** |
 | CE-hurts (RRF hit, CE miss) | **0** |
-| both_hit / both_miss | 34 / 4 |
-| trap band (g31–g38) | 8/8 both-hit |
-| trap design residual | Several traps paraphrase existing easy both-hit themes (e.g. g33≈g14, g34≈g21, g35≈g12) — Path A grew n and documented asymmetry opportunity, but did **not** produce CE-helps on this corpus |
+| both_hit / both_miss | 39 / 5 |
+| T1 sections | +3 synthetic confusable `###` (1-3, 3-3, 4-3) |
+| trap band (g39–g44) | 5 both-hit; g44 both-miss |
 | degrade_rate | 0.0 |
-| avg_ce_latency_ms | 103.5 |
-| lexical_proxy_retrieval_hits | 8 (segregated; not lift) |
-| Status | **candidate** — flat after discriminative attempt; **no auto-freeze** |
+| avg_ce_latency_ms | 129.8 |
+| Status | **candidate** — flat after T1 attempt; **no auto-freeze** |
+
+## Guide 07 paired ask ablation results (2026-07-17) — superseded n
+
+Retained for history; **current** evidence is Guide 08 n=44 above.
+
+| Field | Value |
+|-------|-------|
+| Date / run | 2026-07-17 Guide 07 Implement |
+| n_cases | 38 |
+| rrf_only_ask_hits / ce_ask_hits | 34 / 34 |
+| ce_vs_rrf_ask_delta_hits | **0** |
+| CE-helps / CE-hurts | 0 / 0 |
+| Status | **candidate** — flat; superseded by Guide 08 |
 
 ## Guide 04 paired ask ablation results (2026-07-14) — superseded n
 

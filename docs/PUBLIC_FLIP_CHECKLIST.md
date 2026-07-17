@@ -14,7 +14,7 @@
 |---|------|------------------------------|
 | 1 | Fixtures-only public corpus; `python scripts/checks/public_fail_closed.py fixtures` green; no OEM / Drive / Ford artifacts in git | **Path exists** (fixtures + fail-closed script). Re-run before any flip. Not a flip by itself. |
 | 2 | Stranger-clone path works per `GETTING_STARTED.md` (Compose, `web/.env.local`, Ollama, fixture ingest, health, ask, eval smoke) | **Path documented** (Guide 03). Operator must re-verify before flip. |
-| 3 | Honesty surfaces consistent: embed/CE **candidates** (or later human-frozen with freeze checklist); no CE lift theater on n=38 (Guide 07) or prior n=30; no proxy `ce_vs_rrf_delta_hits=+1` / `n=5` as proof | **Honest today** — candidates; paired ask delta **0** on n=38 (helps=0/hurts=0); Guide 05 keep note; Guide 07 Path A flat after traps. |
+| 3 | Honesty surfaces consistent: embed/CE **candidates** (or later human-frozen with freeze checklist); no CE lift theater on n=44 (Guide 08) or prior n=38/n=30; no proxy `ce_vs_rrf_delta_hits=+1` / `n=5` as proof | **Honest today** — candidates; paired ask delta **0** on n=44 (helps=0/hurts=0); Guide 05 keep note; Guide 08 T1 flat after confusable sections. |
 | 4 | Formal freeze gate | **Parked** (Tom 2026-07-17). Guide 07 flat evidence does **not** unpark. Public flip remains a **separate** Tom lock — Guide 06 does **not** resolve freeze or flip. |
 | 5 | VISION §9 / README / INTERVIEW banners | Flip **only after** Tom locks public flip. Guide 06 Implement must **not** check §9 public-flip. |
 | 6 | No secrets in git; LICENSE | Secrets: keep fail-closed. **LICENSE file currently absent** — unmet prerequisite for a future flip. **Do not invent LICENSE in Guide 06.** |
@@ -24,8 +24,8 @@
 ## Explicit non-claims
 
 - Embed + CE remain **candidates** unless Tom later freezes under the human-only freeze checklist.
-- Paired-ask citation∩gold delta was **0** on n=30 and again **0** on n=38 (Guide 07 Path A; CE-helps=0 / CE-hurts=0) — do **not** claim CE improved citation hits.
-- Guide 05 keep-with-justification **≠** formal freeze. Guide 07 flat after traps **≠** freeze.
+- Paired-ask citation∩gold delta was **0** on n=30, n=38, and n=44 (Guide 08 T1; CE-helps=0 / CE-hurts=0) — do **not** claim CE improved citation hits.
+- Guide 05 keep-with-justification **≠** formal freeze. Guide 07–08 flat after discriminative attempts **≠** freeze.
 - This file existing **≠** public flip ready / v1 Done.
 
 ## Deferred (non-blocking for fixtures-only flip narrative)
