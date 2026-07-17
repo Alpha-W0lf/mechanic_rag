@@ -40,7 +40,7 @@ A **public, product-shaped RAG** system over **automotive service documentation*
 | Slot | Proof |
 |------|--------|
 | Product RAG | End-to-end ask → retrieve → generate → citations (**Guide 01 path live**) |
-| Retrieval quality | Hybrid → RRF → local cross-encoder (N→K) + eval vs RRF-only (**path live**; ≥30 S2000 goldens + paired ask done Guide 04 with flat delta; Guide 05 **keep-with-justification** — embed/CE remain **candidates**, CE stays in stack; formal freeze still open) |
+| Retrieval quality | Hybrid → RRF → local cross-encoder (N→K) + eval vs RRF-only (**path live**; ≥30 S2000 goldens Guide 04; Guide 07 Path A +8 traps → n=38 paired ask still flat delta / helps=0; Guide 05 **keep-with-justification** — embed/CE remain **candidates**, CE stays in stack; formal freeze still open) |
 | Data engineering for RAG | Multi-vehicle catalog, ingest idempotency, status-aware corpus growth |
 | Engineering honesty | No fake candidates in product ask; candidates ≠ frozen models; slice ≠ “v1 complete” |
 
@@ -152,15 +152,15 @@ Honest progress after Guide 01 (Align docs pass 10). Checked items = **path exis
 
 - [x] Real retrieve path (no fake candidates) — Guide 01
 - [x] Hybrid → RRF → local CE + citations in API response (include `vehicle_id` / doc family) — Guide 01; CE/embed **candidates** not frozen
-- [x] ≥30 eval cases with documented metrics (incl. CE lift vs RRF-only or justified keep) — Guide 04: **30** S2000 fixture goldens + paired ask re-baseline (`ce_vs_rrf_ask_delta_hits=0`); Guide 05: **keep-with-justification** authored — candidates not frozen; CE remains in pipeline; no lift claim; proxy `+1`/`n=5` retired as freeze evidence
+- [x] ≥30 eval cases with documented metrics (incl. CE lift vs RRF-only or justified keep) — Guide 04: **30** S2000 fixture goldens + paired ask (`ce_vs_rrf_ask_delta_hits=0`); Guide 07 Path A: **+8** traps → **n=38**, re-baseline still flat (helps=0/hurts=0); Guide 05: **keep-with-justification** — candidates not frozen; CE remains in pipeline; no lift claim; proxy `+1`/`n=5` retired as freeze evidence
 - [x] Clone-and-run with fixtures (no OEM PDFs; Compose Postgres) — README Quick Start; fixtures only
-- [x] README + GETTING_STARTED + architecture + INTERVIEW — Guide 03 packaging landed (root GETTING_STARTED + INTERVIEW); Guide 04–05 honesty for n=30 + keep note; Guide 06 freeze/public-flip **packaging checklists** landed; embed/CE freeze + public flip still open
+- [x] README + GETTING_STARTED + architecture + INTERVIEW — Guide 03 packaging landed (root GETTING_STARTED + INTERVIEW); Guide 04–07 honesty for n/delta + keep note; Guide 06 freeze/public-flip **packaging checklists** landed; embed/CE freeze + public flip still open
 - [x] Extensibility notes for multimodal **and** multi-vehicle library growth in architecture (not full private sync required)
 - [x] Minimal vehicle catalog (even if fixture-backed) — `vehicles` + fixture ingest
-- [ ] Formal embed/CE **freeze** (human-only; Guide 05 keep-with-justification ≠ freeze; Guide 06 packaging parked — see `evals/MODEL_FREEZE_STATUS.md`)
+- [ ] Formal embed/CE **freeze** (human-only; Guide 05 keep-with-justification ≠ freeze; Guide 06 packaging parked; Guide 07 flat after traps ≠ freeze — see `evals/MODEL_FREEZE_STATUS.md`)
 - [ ] Public flip / portfolio “v1 Done” marketing claim (packaging checklist ≠ flip — see `docs/PUBLIC_FLIP_CHECKLIST.md`)
 
-**Do not equate Guide 01–06 path evidence with portfolio v1 complete.** §9 checked rows mean **capability path exists with evidence**, not that public release gates are closed. Guide 06 landed packaging checklists only — freeze and public flip remain unchecked.
+**Do not equate Guide 01–07 path evidence with portfolio v1 complete.** §9 checked rows mean **capability path exists with evidence**, not that public release gates are closed. Guide 07 landed a discriminative evidence attempt (still flat) — freeze and public flip remain unchecked.
 
 ---
 

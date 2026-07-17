@@ -52,7 +52,7 @@ mecharag eval --golden evals/
 - Public corpus = **`fixtures/` only** (synthetic). No OEM PDFs, Drive, or Ford.
 - Embedding + CE IDs are **candidates** (smoke-verified / provisional CE keep) — **not frozen** until human freeze for portfolio ranking claims (`evals/MODEL_FREEZE_STATUS.md`).
 - Generator default is **gemma4:e2b** (pass 9 smoke OK). Pass 8c eval baseline historically used **qwen3.5:4b**.
-- Eval set is **30** fixture cases on `fixture:honda-s2000-demo` (Guide 04); second vehicle / wiring themes still deferred (`evals/PATH_TO_30.md`).
+- Eval set is **38** fixture cases on `fixture:honda-s2000-demo` (Guide 04 + Guide 07 traps); paired ask `ce_vs_rrf_ask_delta_hits=0` (helps=0/hurts=0) — embed/CE still **candidates**; second vehicle / wiring still deferred (`evals/PATH_TO_30.md`).
 - Stale paths (`db/schema.sql`, `supabase/**`, deleted stub `web/app`) are non-authoritative.
 - Packaging: [`GETTING_STARTED.md`](GETTING_STARTED.md) (clone path) · [`INTERVIEW.md`](INTERVIEW.md) (FAQ) — Guide 03; still not portfolio v1 / public flip / freeze.
 - Public-flip packaging checklist (≠ flip): [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md). Formal freeze packaging (parked): [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).

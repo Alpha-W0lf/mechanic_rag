@@ -6,7 +6,8 @@
 **Stage that authored this:** Write-dev-guide (pass 104)  
 **Last refined:** Refine-dev-guide (pass 105b) — one pass  
 **Ready-check:** 2026-07-17 (pass 108) — **READY** for Implement (human Stage authorize required)  
-**Status:** **Ready-checked** — not Implemented; wait for Tom Stage: Implement  
+**Status:** **Implemented** (2026-07-17 pass 109) — Path A traps + paired re-baseline; stop for Review  
+**Handoff (Implement):** `second_brain/docs/2026-07-17_spoke_mechanic_guide07_implement_pass109_handoff.md`  
 **Handoff (Refine):** `second_brain/docs/2026-07-17_spoke_mechanic_guide07_refine_pass105b_handoff.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-17_guide07_freeze_evidence_eval_context_summary.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-17_spoke_mechanic_guide07_write_pass104_handoff.md`  
@@ -122,13 +123,13 @@ If fixture cannot support 8 honest traps, stop at **≥5** and document why — 
 
 ## Acceptance criteria (Implement — unchecked until then)
 
-- [ ] +5–10 new trap cases in `golden_fixture_v1.json`; schema valid; golds from fixture text  
-- [ ] Paired ask re-baseline completed; `last_run_summary.json` refreshed (n, hits, delta, CE id/mode, generator, degrade_rate)  
-- [ ] Report CE-helps / CE-hurts counts (asymmetric citation∩gold) in MODEL_FREEZE_STATUS or summary note  
-- [ ] Status tables remain **candidate**; VISION §9 freeze + public-flip remain `- [ ]`  
-- [ ] Honesty surfaces updated for new n + delta (no lift/freeze/public-flip theater)  
-- [ ] No ranking code changes unless harness bug blocked (unexpected — stop for human)  
-- [ ] No LICENSE invent; no public-flip claim  
+- [x] +5–10 new trap cases in `golden_fixture_v1.json`; schema valid; golds from fixture text  
+- [x] Paired ask re-baseline completed; `last_run_summary.json` refreshed (n, hits, delta, CE id/mode, generator, degrade_rate)  
+- [x] Report CE-helps / CE-hurts counts (asymmetric citation∩gold) in MODEL_FREEZE_STATUS or summary note  
+- [x] Status tables remain **candidate**; VISION §9 freeze + public-flip remain `- [ ]`  
+- [x] Honesty surfaces updated for new n + delta (no lift/freeze/public-flip theater)  
+- [x] No ranking code changes unless harness bug blocked (unexpected — stop for human)  
+- [x] No LICENSE invent; no public-flip claim  
 
 ---
 
@@ -138,37 +139,37 @@ All boxes start unchecked. **Do not check in Write / Refine / Ready-check.** Onl
 
 ### Phase A — Corpus + baseline re-anchor
 
-- [ ] **A1.** Confirm current n=30; last_run delta 0; CE-helps=0 / CE-hurts=0 (or recompute from `last_run_summary.json`).  
-- [ ] **A2.** Read `fixtures/honda_s2000_demo/service_manual.txt`; list near-dup section pairs usable for traps.  
-- [ ] **A3.** If fewer than 5 honest traps possible without inventing text → **STOP** for human (corpus too thin) or propose minimal synthetic fixture section (explicit Tom OK).  
-- [ ] **A4.** Do **not** flip VISION §9; do not change candidate→frozen.
+- [x] **A1.** Confirm current n=30; last_run delta 0; CE-helps=0 / CE-hurts=0 (or recompute from `last_run_summary.json`).  
+- [x] **A2.** Read `fixtures/honda_s2000_demo/service_manual.txt`; list near-dup section pairs usable for traps.  
+- [x] **A3.** If fewer than 5 honest traps possible without inventing text → **STOP** for human (corpus too thin) or propose minimal synthetic fixture section (explicit Tom OK).  
+- [x] **A4.** Do **not** flip VISION §9; do not change candidate→frozen.
 
 ### Phase B — Author trap goldens
 
-- [ ] **B1.** Add **5–10** cases (`g31`…) with `vehicle_id=fixture:honda-s2000-demo`, non-empty golds from fixture; prefer **single primary** gold section.  
-- [ ] **B2.** Each `notes` field states trap class, intended distractor section, and that gold is single-primary (not g29/g30 multi-allow clone).  
-- [ ] **B3.** Update `golden_fixture_v1.json` debt / metadata; update `PATH_TO_30.md` for discriminative band (second vehicle / wiring still deferred).  
-- [ ] **B4.** Reject eval gaming: no CE-probe-as-gold without fixture-grounded substrings.  
+- [x] **B1.** Add **5–10** cases (`g31`…) with `vehicle_id=fixture:honda-s2000-demo`, non-empty golds from fixture; prefer **single primary** gold section.  
+- [x] **B2.** Each `notes` field states trap class, intended distractor section, and that gold is single-primary (not g29/g30 multi-allow clone).  
+- [x] **B3.** Update `golden_fixture_v1.json` debt / metadata; update `PATH_TO_30.md` for discriminative band (second vehicle / wiring still deferred).  
+- [x] **B4.** Reject eval gaming: no CE-probe-as-gold without fixture-grounded substrings.  
 
 ### Phase C — Paired-ask re-baseline
 
-- [ ] **C1.** Run twin-process paired ask (CE-on + RRF-only) per MODEL_FREEZE_STATUS command pattern.  
-- [ ] **C2.** Write/overwrite `evals/last_run_summary.json` with full n (35–40).  
-- [ ] **C3.** Record summary fields + **CE-helps** / **CE-hurts** counts:  
+- [x] **C1.** Run twin-process paired ask (CE-on + RRF-only) per MODEL_FREEZE_STATUS command pattern.  
+- [x] **C2.** Write/overwrite `evals/last_run_summary.json` with full n (35–40).  
+- [x] **C3.** Record summary fields + **CE-helps** / **CE-hurts** counts:  
   `helps = sum(ce_hit and not rrf_hit)`; `hurts = sum(rrf_hit and not ce_hit)` over paired cases in `last_run_summary.json`.  
-- [ ] **C4.** Update `MODEL_FREEZE_STATUS.md` Guide 07 evidence table (n, hits, delta, helps, hurts); keep status **candidate**; freeze packaging **parked**; **no freeze flip**.
+- [x] **C4.** Update `MODEL_FREEZE_STATUS.md` Guide 07 evidence table (n, hits, delta, helps, hurts); keep status **candidate**; freeze packaging **parked**; **no freeze flip**.
 
 ### Phase D — Honesty Align (thin)
 
-- [ ] **D1.** Update INTERVIEW / GETTING_STARTED / README eval maturity lines for new n + delta (and “still not frozen”).  
-- [ ] **D2.** Optional: VISION §9 ≥30 row footnote that discriminative band landed — **without** checking freeze/public-flip.  
-- [ ] **D3.** If delta still 0: refresh keep-with-justification note that set remains non-/weakly-discriminative — **do not** invent lift.  
-- [ ] **D4.** If delta > 0: report number; still **no auto-freeze**; leave §9 unchecked pending Tom lock.
+- [x] **D1.** Update INTERVIEW / GETTING_STARTED / README eval maturity lines for new n + delta (and “still not frozen”).  
+- [x] **D2.** Optional: VISION §9 ≥30 row footnote that discriminative band landed — **without** checking freeze/public-flip.  
+- [x] **D3.** If delta still 0: refresh keep-with-justification note that set remains non-/weakly-discriminative — **do not** invent lift.  
+- [x] **D4.** N/A this run (delta=0) — §9 freeze/public-flip left unchecked; no auto-freeze.
 
 ### Phase E — Stop
 
-- [ ] **E1.** No public-flip claim; no LICENSE invent; no ranking redesign.  
-- [ ] **E2.** Stop for Review. Freeze decision is a **separate** human Stage after metrics.
+- [x] **E1.** No public-flip claim; no LICENSE invent; no ranking redesign.  
+- [x] **E2.** Stop for Review. Freeze decision is a **separate** human Stage after metrics.
 
 ---
 

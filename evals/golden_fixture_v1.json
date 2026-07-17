@@ -1,15 +1,16 @@
 {
   "version": "2",
-  "description": "Guide 04 golden set for paired ask ablation (citation\u2229gold). Fixture-only: fixture:honda-s2000-demo.",
-  "n_cases_target_band": "\u226530 for Guide 04 DoD; S2000 path complete",
+  "description": "Guide 04–07 golden set for paired ask ablation (citation∩gold). Fixture-only: fixture:honda-s2000-demo. Guide 07 adds g31–g38 discriminative traps.",
+  "n_cases_target_band": "35–40 after Guide 07 (+5–10 traps); was ≥30 Guide 04",
   "path_to_30": [
-    "Guide 04 landed g01\u2013g30 on fixture:honda-s2000-demo (positives, hard misses, negative polarity, multi-section).",
-    "Deferred: second synthetic vehicle when catalog grows \u2014 still public fixtures only.",
+    "Guide 04 landed g01–g30 on fixture:honda-s2000-demo (positives, hard misses, negative polarity, multi-section).",
+    "Deferred: second synthetic vehicle when catalog grows — still public fixtures only.",
     "Deferred: wiring / procedure distractors once procedure sections exist in fixtures.",
     "Deferred: degrade-observation cases (operator notes when CE fails) without treating degrade as ablation.",
-    "Paired ask re-baseline after golden growth: done 2026-07-14 (delta=0); do not encode historical proxy ce_vs_rrf_delta_hits=+1 as lift."
+    "Paired ask re-baseline after golden growth: done 2026-07-14 (delta=0); do not encode historical proxy ce_vs_rrf_delta_hits=+1 as lift.",
+    "Guide 07 Path A: +8 discriminative single-primary traps g31–g38 (near-dup/lexical/multi-chunk); paired re-baseline required; no auto-freeze."
   ],
-  "debt": "\u226530 S2000 fixture goldens met (Guide 04). Paired ask re-baseline at n=30 completed (ce_vs_rrf_ask_delta_hits=0; see last_run_summary.json + MODEL_FREEZE_STATUS.md). Still open: second vehicle, wiring corpus, formal embed/CE freeze, public flip.",
+  "debt": "Guide 04 ≥30 met; Guide 07 discriminative band g31–g38 landed (n=38). Still deferred: second vehicle, wiring corpus. Formal embed/CE freeze + public flip remain open (no auto-freeze).",
   "cases": [
     {
       "id": "g01-oil-drain-torque",
@@ -20,8 +21,8 @@
         "1-1 Specification"
       ],
       "allowed_content_substrings": [
-        "39 N\u00b7m",
-        "29 lbf\u00b7ft"
+        "39 N·m",
+        "29 lbf·ft"
       ],
       "notes": "Torque answer must come from oil specification section"
     },
@@ -47,8 +48,8 @@
         "2-1 Pedal Free Play"
       ],
       "allowed_content_substrings": [
-        "9\u201317 mm",
-        "0.35\u20130.67"
+        "9–17 mm",
+        "0.35–0.67"
       ],
       "notes": null
     },
@@ -61,7 +62,7 @@
         "3-1 Specification"
       ],
       "allowed_content_substrings": [
-        "1.0\u20131.1 mm"
+        "1.0–1.1 mm"
       ],
       "notes": null
     },
@@ -74,7 +75,7 @@
         "5-1 Inspection"
       ],
       "allowed_content_substrings": [
-        "0.15\u20130.19 mm"
+        "0.15–0.19 mm"
       ],
       "notes": null
     },
@@ -100,8 +101,8 @@
         "3-1 Specification"
       ],
       "allowed_content_substrings": [
-        "18 N\u00b7m",
-        "13 lbf\u00b7ft"
+        "18 N·m",
+        "13 lbf·ft"
       ],
       "notes": "Second spark-plug field; distractor risk vs oil drain torque"
     },
@@ -127,8 +128,8 @@
         "4-2 Thermostat"
       ],
       "allowed_content_substrings": [
-        "78\u201382 \u00b0C",
-        "172\u2013180 \u00b0F"
+        "78–82 °C",
+        "172–180 °F"
       ],
       "notes": "Multi-section cooling family; CE may prefer 4-2 over 4-1"
     },
@@ -139,7 +140,7 @@
       "allowed_section_paths": [],
       "allowed_content_substrings": [],
       "expect_outcome": "insufficient_evidence",
-      "notes": "Hard miss / out-of-fixture; no allowed evidence \u2014 citation\u2229gold must miss; do not score lift from answer luck"
+      "notes": "Hard miss / out-of-fixture; no allowed evidence — citation∩gold must miss; do not score lift from answer luck"
     },
     {
       "id": "g11-clutch-fluid-type",
@@ -164,7 +165,7 @@
         "5-1 Inspection"
       ],
       "allowed_content_substrings": [
-        "0.26\u20130.30 mm"
+        "0.26–0.30 mm"
       ],
       "notes": "Same section as intake; multi-value distractor within one chunk"
     },
@@ -244,8 +245,8 @@
         "4-1 Coolant"
       ],
       "allowed_content_substrings": [
-        "93\u2013123 kPa",
-        "13.5\u201317.8 psi"
+        "93–123 kPa",
+        "13.5–17.8 psi"
       ],
       "notes": null
     },
@@ -258,8 +259,8 @@
         "4-2 Thermostat"
       ],
       "allowed_content_substrings": [
-        "95 \u00b0C",
-        "203 \u00b0F"
+        "95 °C",
+        "203 °F"
       ],
       "notes": "Distinct from g09 begin-opening temperature"
     },
@@ -353,7 +354,7 @@
       "allowed_content_substrings": [
         "SAE 10W-30"
       ],
-      "notes": "Negative polarity; 20W-50 is wrong \u2014 gold is correct viscosity"
+      "notes": "Negative polarity; 20W-50 is wrong — gold is correct viscosity"
     },
     {
       "id": "g28-never-atf-in-mtf",
@@ -367,7 +368,7 @@
         "Honda Manual Transmission Fluid",
         "MTF"
       ],
-      "notes": "Negative polarity; ATF \u2260 MTF"
+      "notes": "Negative polarity; ATF ≠ MTF"
     },
     {
       "id": "g29-multi-thermo-vs-coolant",
@@ -378,8 +379,8 @@
         "4-2 Thermostat"
       ],
       "allowed_content_substrings": [
-        "95 \u00b0C",
-        "203 \u00b0F"
+        "95 °C",
+        "203 °F"
       ],
       "notes": "Multi-section cooling family; gold prefers thermostat full-open over 4-1 capacity distractor"
     },
@@ -392,9 +393,118 @@
         "3-1 Specification"
       ],
       "allowed_content_substrings": [
-        "1.0\u20131.1 mm"
+        "1.0–1.1 mm"
       ],
       "notes": "Multi-field spark spec in one section; gold prefers gap over torque distractor"
+    },
+    {
+      "id": "g31-trap-thermo-full-open",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "At what temperature is the thermostat fully open (not just beginning to open)?",
+      "allowed_section_paths": [
+        "4 Cooling System > 4-2 Thermostat",
+        "4-2 Thermostat"
+      ],
+      "allowed_content_substrings": [
+        "95 °C",
+        "203 °F"
+      ],
+      "notes": "Trap class: near-dup. Single-primary gold=4-2 full-open. Distractor: 4-1 coolant capacity/mix and begin-open temps. Not a g29 multi-allow clone."
+    },
+    {
+      "id": "g32-trap-spark-gap-only",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What electrode gap should be set on the spark plugs before installation?",
+      "allowed_section_paths": [
+        "3 Spark Plugs > 3-1 Specification",
+        "3-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "1.0–1.1 mm",
+        "0.039–0.043"
+      ],
+      "notes": "Trap class: lexical. Single-primary gold=3-1 gap. Distractors: torque/type and 3-2 interval wording. Not a g30 multi-field clone."
+    },
+    {
+      "id": "g33-trap-oil-filter-turn",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "After hand-tightening a new oil filter, how much additional turn is specified?",
+      "allowed_section_paths": [
+        "1 Engine Oil > 1-2 Oil Filter Replacement",
+        "1-2 Oil Filter Replacement"
+      ],
+      "allowed_content_substrings": [
+        "3/4 turn"
+      ],
+      "notes": "Trap class: lexical. Single-primary gold=1-2 filter turn. Distractors: 1-1 drain torque and capacity."
+    },
+    {
+      "id": "g34-trap-clutch-pushrod",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "If clutch pedal free play is out of specification, what should be adjusted?",
+      "allowed_section_paths": [
+        "2 Clutch > 2-1 Pedal Free Play",
+        "2-1 Pedal Free Play"
+      ],
+      "allowed_content_substrings": [
+        "clutch master cylinder pushrod",
+        "pushrod"
+      ],
+      "notes": "Trap class: near-dup. Single-primary gold=2-1 pushrod. Distractor: 2-2 hydraulic fluid."
+    },
+    {
+      "id": "g35-trap-exhaust-clearance",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the cold exhaust valve clearance specification?",
+      "allowed_section_paths": [
+        "5 Valve Clearance > 5-1 Inspection",
+        "5-1 Inspection"
+      ],
+      "allowed_content_substrings": [
+        "0.26–0.30 mm"
+      ],
+      "notes": "Trap class: near-dup. Single-primary gold=exhaust mm. Distractor: intake 0.15–0.19 mm in same section family."
+    },
+    {
+      "id": "g36-trap-mtf-filler-hole",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "How do you know the manual transmission is filled to the correct level?",
+      "allowed_section_paths": [
+        "6 Transmission Fluid > 6-1 Specification",
+        "6-1 Specification"
+      ],
+      "allowed_content_substrings": [
+        "bottom of the filler hole"
+      ],
+      "notes": "Trap class: near-dup. Single-primary gold=fill-to-filler. Distractors: 1.5 liter capacity and ATF confusion."
+    },
+    {
+      "id": "g37-trap-spark-interval",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "Under normal conditions, how often should spark plugs be replaced?",
+      "allowed_section_paths": [
+        "3 Spark Plugs > 3-2 Replacement Interval",
+        "3-2 Replacement Interval"
+      ],
+      "allowed_content_substrings": [
+        "105,000 miles",
+        "168,000 km"
+      ],
+      "notes": "Trap class: lexical. Single-primary gold=3-2 interval. Distractors: 3-1 type/gap/torque."
+    },
+    {
+      "id": "g38-trap-radiator-cap-psi",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the radiator cap relief pressure range in psi?",
+      "allowed_section_paths": [
+        "4 Cooling System > 4-1 Coolant",
+        "4-1 Coolant"
+      ],
+      "allowed_content_substrings": [
+        "13.5–17.8 psi",
+        "93–123 kPa"
+      ],
+      "notes": "Trap class: multi-chunk. Single-primary gold=4-1 radiator cap. Distractors: coolant capacity/mix and 4-2 thermostat temps."
     }
   ]
 }
