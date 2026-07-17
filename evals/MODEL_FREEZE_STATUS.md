@@ -1,4 +1,4 @@
-# Model freeze status (Guide 01 → Guide 04 evidence)
+# Model freeze status (Guide 01 → Guide 07 evidence)
 
 | Lock | Candidate in use | Status |
 |------|------------------|--------|
@@ -90,6 +90,7 @@ mecharag eval --golden evals/ \
 | CE-hurts (RRF hit, CE miss) | **0** |
 | both_hit / both_miss | 34 / 4 |
 | trap band (g31–g38) | 8/8 both-hit |
+| trap design residual | Several traps paraphrase existing easy both-hit themes (e.g. g33≈g14, g34≈g21, g35≈g12) — Path A grew n and documented asymmetry opportunity, but did **not** produce CE-helps on this corpus |
 | degrade_rate | 0.0 |
 | avg_ce_latency_ms | 103.5 |
 | lexical_proxy_retrieval_hits | 8 (segregated; not lift) |

@@ -27,7 +27,7 @@ Do not conflate degrade with ablation. Degrade rate and ablation diagnostics are
 
 Public corpus boundary is **`fixtures/` only** (synthetic). Drive sync, Ford/PTS bulk, and OEM PDFs live outside this repo so public git stays legally clean and stranger-cloneable. PrivateGold / Drive / Ford are deferred adapters — packaging must not claim they are in-product here. See ARCHITECTURE §5.
 
-## 5. Are embed/CE frozen? What does Guide 02 paired delta `0` mean?
+## 5. Are embed/CE frozen? What does paired ask delta `0` mean?
 
 Embedding (`nomic-embed-text` @ 768) and CE (`Xenova/ms-marco-MiniLM-L-6-v2`) are **candidates**, not frozen. Guide 07 paired ask ablation (n=38, +8 Path A traps, generator `gemma4:e2b`, citation∩gold) recorded `ce_vs_rrf_ask_delta_hits=0`, **CE-helps=0**, **CE-hurts=0** — still flat after a discriminative attempt. That is honest evidence, not a license to invent lift.
 

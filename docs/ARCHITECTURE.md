@@ -493,7 +493,7 @@ Guide 01 vertical slice landed. This table is **post-slice**, not pre-implement.
 | Evals/tests | **≥30** S2000 fixture goldens + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 04 paired ask delta **0**; Guide 05 keep-with-justification | Formal embed/CE freeze (human-only) |
 | Generator | Default / smoke: `gemma4:e2b`; fallback `qwen3.5:4b` (pass 8c historical proxy baseline) | — |
 
-**Honesty line:** Guide 01 DoD met ≠ portfolio v1 success checklist complete. Embedding + CE remain **candidates** (`evals/MODEL_FREEZE_STATUS.md`); Guide 05 keep-with-justification authored (CE stays in stack; n=30 paired ask delta **0** — no lift claim). Guide 06 formal freeze packaging is **parked** (same file); public-flip packaging checklist (≠ flip) is [`docs/PUBLIC_FLIP_CHECKLIST.md`](./PUBLIC_FLIP_CHECKLIST.md). Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
+**Honesty line:** Guide 01 DoD met ≠ portfolio v1 success checklist complete. Embedding + CE remain **candidates** (`evals/MODEL_FREEZE_STATUS.md`); Guide 05 keep-with-justification authored (CE stays in stack); Guide 07 Path A n=38 paired ask still delta **0** / helps=0 (no lift claim). Guide 06 formal freeze packaging is **parked** (same file); public-flip packaging checklist (≠ flip) is [`docs/PUBLIC_FLIP_CHECKLIST.md`](./PUBLIC_FLIP_CHECKLIST.md). Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
 
 ---
 
