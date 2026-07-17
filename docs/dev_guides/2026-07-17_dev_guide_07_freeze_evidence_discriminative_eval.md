@@ -5,7 +5,8 @@
 **Work item:** Guide 07 — +5–10 discriminative trap goldens + paired-ask re-baseline (freeze-evidence path)  
 **Stage that authored this:** Write-dev-guide (pass 104)  
 **Last refined:** Refine-dev-guide (pass 105b) — one pass  
-**Status:** **Refined** — Ready-check next; not Implemented  
+**Ready-check:** 2026-07-17 (pass 108) — **READY** for Implement (human Stage authorize required)  
+**Status:** **Ready-checked** — not Implemented; wait for Tom Stage: Implement  
 **Handoff (Refine):** `second_brain/docs/2026-07-17_spoke_mechanic_guide07_refine_pass105b_handoff.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-17_guide07_freeze_evidence_eval_context_summary.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-17_spoke_mechanic_guide07_write_pass104_handoff.md`  
@@ -291,3 +292,28 @@ Revert golden + summary + doc commits; restore prior `last_run_summary.json` if 
 **More Refine?** **No.**  
 **Implement now?** **No** — Ready-check + Tom Stage authorize first.  
 **Freeze / public flip claimed?** **No.**
+
+---
+
+## Ready-check before code (pass 108)
+
+### Zoom-out
+
+| Check | Verdict |
+|-------|---------|
+| Context + guide aligned? | **Yes** — Path A locks match context + refined pins (single-primary gold, +5–10, no auto-freeze) |
+| Evidence baseline current? | **Yes** — n=30, delta 0, candidates, §9 unchecked, fixture present (10 `###` sections), paired harness fields present |
+| Blast radius + rollback clear? | **Yes** — goldens/summary/MODEL_FREEZE/honesty docs; revert commits |
+| Edge cases planned? | **Yes** — flat/+/− delta; A3 thin; no g29/g30 clones; no auto-freeze |
+| Material refinements still required? | **No** — soft craft only (exact questions/substrings) |
+
+### Implement readiness (binding score)
+
+| Track | Score | Why not 10 |
+|-------|-------|------------|
+| Guide 07 freeze-evidence discriminative eval | **9.0 / 10** | Exact trap question + gold substring craft remains Implement invent (soft). Twin-process ops proof is Implement/Review runtime — not withheld. Score not inflated vs Refine. |
+
+**Explicit call: READY for Implement** — after Tom authorizes `Stage: Implement`.  
+**More Refine?** **No.**  
+**Implement now?** **No** — this stage stops for human approval.  
+**Do not freeze. Do not public-flip. Candidates stay candidates.**
