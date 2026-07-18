@@ -18,7 +18,7 @@
 Mechanic’s only remaining VISION §9 build gate is **public flip / portfolio “v1 Done.”**  
 `docs/PUBLIC_FLIP_CHECKLIST.md` gate 6 still fails: **no `LICENSE` file**. Checklist packaging ≠ flip. Freeze is already Met (Guide 09 override) and must **not** be rewritten as earned lift.
 
-Tom recommended lock (pass 153 handoff): **LICENSE = MIT**. Public flip remains a **separate** Tom gate after LICENSE lands + checklist re-verify.
+Tom lock (pass 154 Soft Adjust): **LICENSE = PolyForm Noncommercial 1.0.0** (supersedes pass-153 MIT recommendation). Public flip remains a **separate** Tom gate after LICENSE lands + checklist re-verify. Honesty: **source-available / non-commercial** — not OSI open source.
 
 ---
 
@@ -26,7 +26,7 @@ Tom recommended lock (pass 153 handoff): **LICENSE = MIT**. Public flip remains 
 
 - [ ] Written path: add MIT `LICENSE` → re-verify PUBLIC_FLIP gates 1–6 → Tom public-flip lock → VISION §9 public-flip `[x]` + banner Align  
 - [ ] Freeze honesty unchanged: Tom override; n=44 `ce_vs_rrf_ask_delta_hits=0`; no earned-lift claim  
-- [ ] LICENSE invent only under Tom MIT lock (Write/Implement — **not** this Gather)  
+- [ ] LICENSE invent only under Tom **PolyForm-NC 1.0.0** lock (Implement after Soft Adjust Write — not Gather)  
 - [ ] Public flip not auto-claimed when LICENSE appears  
 - [ ] Forbidden: PrivateGold / Drive / Ford / OEM PDFs; ranking redesign; reopening freeze as candidates  
 
@@ -82,14 +82,14 @@ Tom recommended lock (pass 153 handoff): **LICENSE = MIT**. Public flip remains 
 ## Recommended approach
 
 1. **Do not Implement LICENSE in Gather.** Prefer Write-dev-guide next (thin Guide 10).  
-2. **Pin LICENSE = MIT** (Tom recommended lock; matches AI KB public peer; SPDX-simple).  
-3. **Split delivery if needed** (recommended soft shape for Write):  
-   - **Guide 10a — LICENSE file + checklist gate 6 refresh** (docs/legal file only; §9 public-flip stays `[ ]`).  
-   - **Guide 10b — Public flip** (re-verify gates 1–2; Tom flip lock; check §9 public-flip; Align banners) — **only after** 10a Met **and** Tom flip authorize.  
-4. Or single Guide 10 with two Tom gates: (A) MIT LICENSE Implement, (B) flip authorize — Implement stops after LICENSE unless Tom explicitly authorizes flip in same delivery.  
-5. Keep freeze honesty frozen across all surfaces (override ≠ lift).
+2. **Pin LICENSE = PolyForm Noncommercial 1.0.0** (pass 154 Soft Adjust; SPDX `PolyForm-Noncommercial-1.0.0`).  
+3. **Split delivery (P1 locked):**  
+   - **Guide 10a — LICENSE file + checklist gate 6 refresh** (PolyForm-NC; §9 public-flip stays `[ ]`).  
+   - **Guide 10b — Public flip** — **only after** 10a Met **and** Tom flip authorize.  
+4. Keep freeze honesty frozen across all surfaces (override ≠ lift).  
+5. README honesty: source-available / non-commercial — not OSI open source / not MIT.
 
-**Gather lean:** Prefer **split 10a → 10b** so LICENSE can land without forcing marketing flip in the same commit.
+**Guide path (Soft Adjust):** `docs/dev_guides/2026-07-18_dev_guide_10a_polyform_nc_license_packaging.md`
 
 ---
 
