@@ -2,7 +2,7 @@
 
 Staff-interview gotchas for the **hybrid → RRF → section dedup → local CE** vertical slice. Contracts SSOT: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Product / why: [`docs/VISION.md`](docs/VISION.md). Freeze honesty: [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). Path to ≥30 goldens: [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md).
 
-This is packaging around a shippable Guide 01 path + honest paired-ask ablation evidence (current: Guide 08 n=44, delta **0**) — **not** portfolio v1 Done, **not** public-flip ready, **not** a model freeze.
+This is packaging around a shippable Guide 01 path + honest paired-ask ablation evidence (current: Guide 08 n=44, delta **0**) — embed/CE are **frozen (Tom override)** Guide 09 — **not** portfolio v1 Done, **not** public-flip ready, **not** an earned CE-lift freeze.
 
 ---
 
@@ -29,13 +29,13 @@ Public corpus boundary is **`fixtures/` only** (synthetic). Drive sync, Ford/PTS
 
 ## 5. Are embed/CE frozen? What does paired ask delta `0` mean?
 
-Embedding (`nomic-embed-text` @ 768) and CE (`Xenova/ms-marco-MiniLM-L-6-v2`) are **candidates**, not frozen. Guide 08 paired ask ablation (n=44, T1 synthetic confusable sections + g39–g44, generator `gemma4:e2b`, citation∩gold) recorded `ce_vs_rrf_ask_delta_hits=0`, **CE-helps=0**, **CE-hurts=0** — still flat after a harder discriminative attempt. That is honest evidence, not a license to invent lift.
+Embedding (`nomic-embed-text` @ 768) and CE (`Xenova/ms-marco-MiniLM-L-6-v2`) are **frozen by Tom override** (Guide 09 Path B) — **not** because CE proved lift. Guide 08 paired ask ablation (n=44, T1 synthetic confusable sections + g39–g44, generator `gemma4:e2b`, citation∩gold) recorded `ce_vs_rrf_ask_delta_hits=0`, **CE-helps=0**, **CE-hurts=0** — still flat after a harder discriminative attempt. That honesty survives the freeze.
 
-**Guide 05 keep-with-justification:** We **keep** CE in the ranking stack (architecture completeness, N→K demo, latency, degrade-to-fusion) while leaving status **candidate**. See [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). **Do not** claim CE improved citation hits on the n=30 / n=38 / n=44 runs.
+**Guide 05 keep-with-justification (historical):** We **kept** CE in the ranking stack while status was candidate. Guide 09 **supersedes status** → frozen by override; CE **stays in the stack**. See [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). **Do not** claim CE improved citation hits on the n=30 / n=38 / n=44 runs.
 
-**Guide 06 formal freeze packaging:** Freeze remains **parked** (flat after Guide 07–08; Tom lock). See **Formal freeze packaging (Guide 06)** in [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md) — keep ≠ freeze. Guide 08 does **not** auto-freeze.
+**Guide 06 → Guide 09:** Freeze was parked after flat Guide 07–08 evidence; Guide 09 Path B **unparked** via explicit Tom override. Keep ≠ freeze ≠ public flip. Guide 09 freeze **≠** public flip / v1 Done / LICENSE.
 
-**Forbidden as lift / freeze evidence:** historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` (answer-substring era; no `_ask_` in the field name). If that short name appears, label it **historical proxy / non-evidence** only. Do not invent lift language or freeze theater.
+**Forbidden as lift / freeze evidence:** historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` (answer-substring era; no `_ask_` in the field name); “earned freeze from ablation.” If that short proxy name appears, label it **historical proxy / non-evidence** only.
 
 ## 6. Where do citations come from, and how does `vehicle_id` filter?
 
@@ -43,16 +43,17 @@ Every ask requires a canonical **`vehicle_id`** — no all-vehicle fallback, no 
 
 ## 7. Is the eval suite “complete”? Where is path to ≥30?
 
-S2000 fixture golden count is **44** (Guide 04–07 + Guide 08 T1 traps g39–g44). Paired ask re-baseline at n=44 shows flat `ce_vs_rrf_ask_delta_hits=0` (helps=0 / hurts=0) — CE remains **candidate**, not frozen. Deferred themes (second vehicle, wiring) are in [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md). Do not treat flat delta as lift or equate golden count with portfolio v1 Done.
+S2000 fixture golden count is **44** (Guide 04–07 + Guide 08 T1 traps g39–g44). Paired ask re-baseline at n=44 shows flat `ce_vs_rrf_ask_delta_hits=0` (helps=0 / hurts=0). Embed/CE are **frozen (Tom override)** Guide 09 despite that flat delta. Deferred themes (second vehicle, wiring) are in [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md). Do not treat flat delta as lift or equate golden count / freeze with portfolio v1 Done.
 
 ## 8. Does packaging mean portfolio v1 / public flip / freeze?
 
-No. Root `GETTING_STARTED` + `INTERVIEW` are the stranger-clone + FAQ shell around an already-shippable vertical slice. S2000 fixture ≥30 goldens **are** done (Guide 04 — see §7); that still does **not** mean:
+No. Root `GETTING_STARTED` + `INTERVIEW` are the stranger-clone + FAQ shell around an already-shippable vertical slice. S2000 fixture ≥30 goldens **are** done (Guide 04 — see §7); Guide 09 freeze-override **is** done; that still does **not** mean:
 
 - portfolio v1 checklist complete
-- public flip ready
-- embed/CE frozen
+- public flip ready / v1 Done
+- earned CE lift from ablation
 - second-vehicle / wiring eval themes complete
+- LICENSE present (still unmet for public flip)
 
 See VISION §9 for honest checkbox status. Public-flip packaging checklist (≠ flip): [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md).
 

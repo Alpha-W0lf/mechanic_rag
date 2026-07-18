@@ -4,7 +4,9 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 09 — formal embed/CE **freeze via Tom override** (honest; no fake lift)  
 **Stage that authored this:** Write-dev-guide (pass 152)  
-**Status:** **Draft — Write complete** (not Implemented; freeze **not** Met until later Implement+Tom voice)  
+**Status:** **Implemented** 2026-07-18 (Guide 09 Path B freeze-override packaging) — freeze Met by Tom override; public flip **not** Met  
+**Ready-check:** `docs/2026-07-18_guide09_ready_check_pass152_note.md` (9.2/10)  
+**Handoff (Implement):** `second_brain/docs/2026-07-18_spoke_mechanic_implement_freeze_override_pass152_handoff.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-18_path_to_formal_freeze_public_flip_context_summary.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_freeze_override_pass152_handoff.md`  
 **Freeze SSOT:** `mechanic_rag/evals/MODEL_FREEZE_STATUS.md`  
@@ -115,47 +117,45 @@ Land **docs-only Path B freeze-override packaging** so portfolio formal freeze (
 
 ---
 
-## Acceptance criteria (for later Implement — unchecked at Write)
+## Acceptance criteria (Implement)
 
-- [ ] `MODEL_FREEZE_STATUS.md` Guide 09 override section authored; status tables say **frozen (Tom override)**  
-- [ ] All **required honesty sentences** present; n=44 delta **0** explicit  
-- [ ] VISION §9 freeze `[x]`; public-flip `[ ]`  
-- [ ] INTERVIEW / GETTING_STARTED / README / ARCHITECTURE honesty aligned (frozen by override; no lift)  
-- [ ] `PUBLIC_FLIP_CHECKLIST.md` gate 4 updated honestly; gates 5–6 still unmet for flip  
-- [ ] Verification `rg` finds no lift theater / no public-flip-ready claim  
-- [ ] No ranking/eval/fixture code; no LICENSE file created  
+- [x] `MODEL_FREEZE_STATUS.md` Guide 09 override section authored; status tables say **frozen (Tom override)**  
+- [x] All **required honesty sentences** present; n=44 delta **0** explicit  
+- [x] VISION §9 freeze `[x]`; public-flip `[ ]`  
+- [x] INTERVIEW / GETTING_STARTED / README / ARCHITECTURE honesty aligned (frozen by override; no lift)  
+- [x] `PUBLIC_FLIP_CHECKLIST.md` gate 4 updated honestly; gates 5–6 still unmet for flip  
+- [x] Verification `rg` finds no lift theater / no public-flip-ready claim  
+- [x] No ranking/eval/fixture code; no LICENSE file created  
 
 ---
 
 ## Ordered step checklist
 
-All boxes start unchecked. **Do not check boxes in Write / Ready-check.**
-
 ### Phase A — Evidence anchor
 
-- [ ] **A1.** Quote Guide 08 fields from `evals/last_run_summary.json` into the override section (n=44, hits 39/39, delta 0, helps/hurts 0, CE id/mode, generator).  
-- [ ] **A2.** Confirm human-only freeze checklist six items remain; note Path B = override unlock (flat delta + Tom lock), not lift unlock.  
-- [ ] **A3.** Confirm `test ! -f LICENSE` still true — document unmet for public flip only; do not invent LICENSE.
+- [x] **A1.** Quote Guide 08 fields from `evals/last_run_summary.json` into the override section (n=44, hits 39/39, delta 0, helps/hurts 0, CE id/mode, generator).  
+- [x] **A2.** Confirm human-only freeze checklist six items remain; note Path B = override unlock (flat delta + Tom lock), not lift unlock.  
+- [x] **A3.** Confirm `test ! -f LICENSE` still true — document unmet for public flip only; do not invent LICENSE.
 
 ### Phase B — Author override freeze
 
-- [ ] **B1.** Add **“Formal freeze — Tom override (Guide 09)”** section to `MODEL_FREEZE_STATUS.md` with required honesty sentences + date/lock cite (pass 152 Path B).  
-- [ ] **B2.** Flip top status table cells to **frozen (Tom override — flat delta; no lift claim)**. Remove “Agent must not invent freeze” once freeze is human-authorized and packaged.  
-- [ ] **B3.** Add supersession note under Guide 05 keep: status superseded by Guide 09; historical keep honesty retained.  
-- [ ] **B4.** Update Guide 06 packaging prose: freeze no longer “parked”; override landed; public flip still separate.
+- [x] **B1.** Add **“Formal freeze — Tom override (Guide 09)”** section to `MODEL_FREEZE_STATUS.md` with required honesty sentences + date/lock cite (pass 152 Path B).  
+- [x] **B2.** Flip top status table cells to **frozen (Tom override — flat delta; no lift claim)**. Remove “Agent must not invent freeze” once freeze is human-authorized and packaged.  
+- [x] **B3.** Add supersession note under Guide 05 keep: status superseded by Guide 09; historical keep honesty retained.  
+- [x] **B4.** Update Guide 06 packaging prose: freeze no longer “parked”; override landed; public flip still separate.
 
 ### Phase C — Align honesty surfaces
 
-- [ ] **C1.** VISION §2 portfolio slot + §9: check freeze row; leave public-flip unchecked; update banner/date honesty.  
-- [ ] **C2.** INTERVIEW §5–§8: frozen by override; n=44 delta 0; packaging ≠ public flip.  
-- [ ] **C3.** GETTING_STARTED + README maturity lines: candidates → frozen-by-override; no lift; no v1 Done.  
-- [ ] **C4.** ARCHITECTURE honesty / deferred-freeze lines: point at Guide 09 override; public flip still open.  
-- [ ] **C5.** `PUBLIC_FLIP_CHECKLIST.md` gate 3–4 honesty refresh only — **no** flip claim.
+- [x] **C1.** VISION §2 portfolio slot + §9: check freeze row; leave public-flip unchecked; update banner/date honesty.  
+- [x] **C2.** INTERVIEW §5–§8: frozen by override; n=44 delta 0; packaging ≠ public flip.  
+- [x] **C3.** GETTING_STARTED + README maturity lines: candidates → frozen-by-override; no lift; no v1 Done.  
+- [x] **C4.** ARCHITECTURE honesty / deferred-freeze lines: point at Guide 09 override; public flip still open.  
+- [x] **C5.** `PUBLIC_FLIP_CHECKLIST.md` gate 3–4 honesty refresh only — **no** flip claim.
 
 ### Phase D — Stop
 
-- [ ] **D1.** No code path changes; no golden/fixture edits; no LICENSE.  
-- [ ] **D2.** Stop. Do **not** start public-flip Implement or discriminative Guide 10.
+- [x] **D1.** No code path changes; no golden/fixture edits; no LICENSE.  
+- [x] **D2.** Stop. Do **not** start public-flip Implement or discriminative Guide 10.
 
 ---
 

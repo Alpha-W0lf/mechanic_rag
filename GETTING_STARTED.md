@@ -2,7 +2,7 @@
 
 Clone-depth operator path for the **hybrid → RRF → section dedup → local CE** vertical slice. Contracts: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Interview gotchas: [`INTERVIEW.md`](INTERVIEW.md). Skim + Quick Start: [`README.md`](README.md). Product why: [`docs/VISION.md`](docs/VISION.md).
 
-This is **not** portfolio v1 complete, **not** public-flip ready, **not** a model freeze. Public corpus = fixtures only.
+This is **not** portfolio v1 complete, **not** public-flip ready. Embed/CE are **frozen (Tom override)** Guide 09 with n=44 delta **0** honesty (not earned lift). Public corpus = fixtures only.
 
 ---
 
@@ -113,12 +113,12 @@ If Next is down, `--retrieval-only` is an escape hatch only — full stranger sm
 |-------|--------|
 | Packaging | Stranger-clone + FAQ shell — not portfolio v1 complete |
 | Public flip | **Not** ready |
-| Embed / CE | **Candidates** — not frozen; Guide 05 keep-with-justification (`evals/MODEL_FREEZE_STATUS.md`) — CE stays in pipeline; paired ask delta **0** on n=44 (Guide 08 T1; helps=0/hurts=0); Guide 06 freeze packaging **parked** |
-| Public flip checklist | Packaging only — [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) (≠ flip / ≠ v1 Done) |
+| Embed / CE | **Frozen (Tom override)** Guide 09 — flat delta; no lift claim (`evals/MODEL_FREEZE_STATUS.md`); CE stays in pipeline; paired ask delta **0** on n=44 (helps=0/hurts=0) |
+| Public flip checklist | Packaging only — [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) (≠ flip / ≠ v1 Done); LICENSE still absent |
 | Guide 02 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=12, gemma, citation∩gold) — honest flat |
 | Guide 04 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=30) |
 | Guide 07 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=38) — superseded as current by Guide 08 |
-| Guide 08 paired ask (current) | `ce_vs_rrf_ask_delta_hits=0` (n=44, T1 +6 traps, `gemma4:e2b`, citation∩gold; CE-helps=0 / CE-hurts=0) — honest flat after harder attempt; CE remains **candidate**; **no auto-freeze** |
+| Guide 08 paired ask (current) | `ce_vs_rrf_ask_delta_hits=0` (n=44, T1 +6 traps, `gemma4:e2b`, citation∩gold; CE-helps=0 / CE-hurts=0) — honest flat; freeze later via Guide 09 **override** (not auto-freeze from ablation) |
 | Proxy theater | Historical `ce_vs_rrf_delta_hits=+1` / `n=5` is **forbidden** as lift |
 | Corpus | **Fixtures only** — no Drive / Ford / OEM PDFs in this repo |
 | ≥30 goldens | **Done** (Guide 04); Guide 07–08 discriminative bands landed (n=44) — second vehicle / wiring still deferred (`evals/PATH_TO_30.md`) |

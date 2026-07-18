@@ -6,7 +6,7 @@ Guide 04 landed **30** fixture cases on `fixture:honda-s2000-demo` (g01–g30).
 
 **Guide 08 (T1):** +3 synthetic confusable `###` sections + **+6** anti-paraphrase traps (`g39`–`g44`); n=**44**. Paired ask re-baseline **completed** 2026-07-17 (`ce_vs_rrf_ask_delta_hits=0`; helps=0/hurts=0). **No auto-freeze.**
 
-**Path status:** S2000 ≥30 met; discriminative attempts Guide 07–08 landed (still flat). Formal embed/CE freeze + public flip still open.
+**Path status:** S2000 ≥30 met; discriminative attempts Guide 07–08 landed (still flat). Formal embed/CE freeze **Met** via Guide 09 Path B Tom override (delta 0 honesty). Public flip still open (LICENSE unmet).
 
 **Still deferred** (public fixtures only):
 

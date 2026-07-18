@@ -276,7 +276,7 @@ Provisional sizes (document defaults; **tune only with eval evidence** — do no
 3. Sort by **`ce_score`**; keep top **K** for context assembly.
 4. **Score-domain honesty:** do not reuse a single ambiguous `score` field across stages. Prefer distinct names (`rrf_score`, `ce_score`) in types, diagnostics, and logs. RRF and CE scores are **not** interchangeable or `[0,1]`-normalized unless a specific model documents that scale.
 5. **Module boundary:** CE model load/infer lives under `web/src/server/` (adapter). Keep `web/src/lib/retrieval/` free of ONNX/HTTP/model runtimes — pure fusion/dedup only.
-6. **Local CE preferred** (offline/privacy). Hosted Cohere/Voyage-as-default without N/K, degrade, and eval is **rejected**. Final CE model weights/runtime are **not** frozen here — lock after fixture benchmark with candidates named in the Write-dev-guide / vertical slice (same gate family as embedding model/dim).
+6. **Local CE preferred** (offline/privacy). Hosted Cohere/Voyage-as-default without N/K, degrade, and eval is **rejected**. Final CE model weights/runtime for portfolio claims are locked in `evals/MODEL_FREEZE_STATUS.md` (Guide 09 Path B Tom override — flat delta honesty).
 7. **Latency:** bound CE with a timeout; small K keeps cost/latency acceptable. Tradeoff vs RRF-only is accepted per portfolio decision note.
 
 ### 7.5 Degrade to RRF-only
@@ -488,12 +488,12 @@ Guide 01 vertical slice landed. This table is **post-slice**, not pre-implement.
 | Compose | `docker-compose.yml` Postgres+pgvector | — |
 | Ingest | `mecharag ingest --source fixtures` → local Postgres | PrivateGold production path |
 | Schema | `db/migrations/001_init.sql` (§6-shaped) | Grow catalog features as library sync lands |
-| Ranking | §7 order live; `section_dedup.ts`; CE with degrade; Guide 02 env ablation `MECHANIC_FORCE_RRF_ONLY` + paired ask fields | Formal embed/CE **freeze** (human-only after paired gemma evidence) |
+| Ranking | §7 order live; `section_dedup.ts`; CE with degrade; Guide 02 env ablation `MECHANIC_FORCE_RRF_ONLY` + paired ask fields | Public flip / LICENSE (separate) |
 | Health | Liveness ≠ readiness | — |
-| Evals/tests | **n=44** S2000 fixture goldens (Guide 04–08; T1 +3 synthetic confusable sections) + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 08 paired ask delta **0** / helps=0; Guide 05 keep-with-justification | Formal embed/CE freeze (human-only) |
+| Evals/tests | **n=44** S2000 fixture goldens (Guide 04–08; T1 +3 synthetic confusable sections) + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 08 paired ask delta **0** / helps=0; Guide 05 keep history; Guide 09 Path B freeze-override | Public flip (separate) |
 | Generator | Default / smoke: `gemma4:e2b`; fallback `qwen3.5:4b` (pass 8c historical proxy baseline) | — |
 
-**Honesty line:** Guide 01 DoD met ≠ portfolio v1 success checklist complete. Embedding + CE remain **candidates** (`evals/MODEL_FREEZE_STATUS.md`); Guide 05 keep-with-justification authored (CE stays in stack); Guide 08 T1 n=44 paired ask still delta **0** / helps=0 (no lift claim). Guide 06 formal freeze packaging is **parked** (same file); public-flip packaging checklist (≠ flip) is [`docs/PUBLIC_FLIP_CHECKLIST.md`](./PUBLIC_FLIP_CHECKLIST.md). Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
+**Honesty line:** Guide 01 DoD met ≠ portfolio v1 success checklist complete. Embedding + CE are **frozen (Tom override)** Guide 09 (`evals/MODEL_FREEZE_STATUS.md`) despite Guide 08 T1 n=44 paired ask delta **0** / helps=0 (**no** lift claim). Guide 05 keep history retained; public-flip packaging checklist (≠ flip) is [`docs/PUBLIC_FLIP_CHECKLIST.md`](./PUBLIC_FLIP_CHECKLIST.md). Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
 
 ---
 
@@ -508,7 +508,7 @@ Order used by Write-dev-guide / Implement. Steps **1–7 done** for Guide 01; st
 5. ~~Vehicle-filtered vector + FTS → RRF → section dedup → local CE (N→K) with degrade-to-RRF~~
 6. ~~Ollama answer + validated citations~~
 7. ~~Health readiness + minimal tests/evals (incl. CE degrade unit tests + first baseline)~~
-8. Defer: doc archive, frontend polish, PrivateGold path beyond contract, true MMR, multimodal, Drive/Ford, hosted CE, formal model freeze ~~GETTING_STARTED/INTERVIEW packaging~~ (**packaging landed Guide 03**) ~~≥30 evals~~ (**≥30 S2000 goldens Guide 04**; **Guide 08 T1 n=44 flat re-baseline** — CE remains candidate)
+8. Defer: doc archive, frontend polish, PrivateGold path beyond contract, true MMR, multimodal, Drive/Ford, hosted CE, ~~formal model freeze~~ (**Guide 09 Path B Tom override — frozen; n=44 delta 0 honesty**) ~~GETTING_STARTED/INTERVIEW packaging~~ (**packaging landed Guide 03**) ~~≥30 evals~~ (**≥30 S2000 goldens Guide 04**; **Guide 08 T1 n=44 flat re-baseline**)
 
 ---
 
@@ -517,7 +517,7 @@ Order used by Write-dev-guide / Implement. Steps **1–7 done** for Guide 01; st
 | ID | Resolution in this doc |
 |----|------------------------|
 | MR1 | §4 canonical `web/src/app` (**implemented**) |
-| MR2 | §7 ranking + lexical + **local CE (N→K)** + degrade + eval lift (**path live**; freeze pending) |
+| MR2 | §7 ranking + lexical + **local CE (N→K)** + degrade + eval lift (**path live**; models **frozen Tom override** Guide 09; delta 0 honesty) |
 | MR3 | §5.2 adapters (FixtureSource live; PrivateGold deferred) |
 | MR4 | §5.4 Gold / chunking / `vehicle_id` |
 | MR5 | §10 metrics now (incl. CE lift); thresholds later; first baseline recorded (n=5) |
@@ -526,6 +526,6 @@ Order used by Write-dev-guide / Implement. Steps **1–7 done** for Guide 01; st
 | GD1–GD5 | §5.1 Drive human-only; local Gold ingest |
 | P1 | §5.3 public fail-closed; private permissive |
 
-**Embedding model/dimension** and **CE model/runtime:** Guide 01 uses smoke-verified **candidates** (`nomic-embed-text@768`; Xenova MiniLM CE). **Not frozen** for portfolio ranking claims — see `evals/MODEL_FREEZE_STATUS.md`. Do not reopen as Supabase/cloud/hosted-reranker-default.
+**Embedding model/dimension** and **CE model/runtime:** **Frozen (Tom override)** Guide 09 — `nomic-embed-text@768`; Xenova MiniLM CE / `classification`. Paired-ask n=44 delta **0** (no lift claim). See `evals/MODEL_FREEZE_STATUS.md`. Do not reopen as Supabase/cloud/hosted-reranker-default.
 
 **Superseded:** Pass 2 “no neural/cross-encoder reranker in v1” — overridden 2026-07-12 by portfolio MR2 + `hybrid_rag_reranker_decision.md`.

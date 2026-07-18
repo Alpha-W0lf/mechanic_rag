@@ -1,8 +1,8 @@
 # Mechanic RAG — Portfolio Vision (v1)
 
-**Status:** Active portfolio vision · **Guide 01 vertical slice done** · **Not** portfolio-complete / public-flip ready  
+**Status:** Active portfolio vision · **Guide 01 vertical slice done** · Formal embed/CE **frozen (Tom override)** · **Not** portfolio-complete / public-flip ready  
 **Created:** 2026-07-12  
-**Updated:** 2026-07-17 (Align pass 130 — Guide 08 n=44 flat honesty; freeze/public-flip still open)  
+**Updated:** 2026-07-18 (Guide 09 Path B freeze-override; n=44 delta 0 honesty; public flip still open)  
 **Owner:** Tom  
 **Repo:** `mechanic_rag` (renamed from `mechainic_rag`; Python import package remains `mecharag`)  
 
@@ -40,9 +40,9 @@ A **public, product-shaped RAG** system over **automotive service documentation*
 | Slot | Proof |
 |------|--------|
 | Product RAG | End-to-end ask → retrieve → generate → citations (**Guide 01 path live**) |
-| Retrieval quality | Hybrid → RRF → local cross-encoder (N→K) + eval vs RRF-only (**path live**; ≥30 S2000 goldens Guide 04; Guide 07–08 discriminative attempts → n=44 paired ask still flat delta / helps=0; Guide 05 **keep-with-justification** — embed/CE remain **candidates**, CE stays in stack; formal freeze still open) |
+| Retrieval quality | Hybrid → RRF → local cross-encoder (N→K) + eval vs RRF-only (**path live**; ≥30 S2000 goldens Guide 04; Guide 07–08 discriminative attempts → n=44 paired ask still flat delta / helps=0; Guide 05 keep history; Guide 09 Path B — embed/CE **frozen (Tom override)**, CE stays in stack; **no** lift claim) |
 | Data engineering for RAG | Multi-vehicle catalog, ingest idempotency, status-aware corpus growth |
-| Engineering honesty | No fake candidates in product ask; candidates ≠ frozen models; slice ≠ “v1 complete” |
+| Engineering honesty | No fake candidates in product ask; frozen-by-override ≠ earned CE lift; slice ≠ “v1 complete” / public flip |
 
 ---
 
@@ -151,16 +151,16 @@ v1 is **text-only**, but architecture must **not paint us into a corner**.
 Honest progress after Guide 01 (Align docs pass 10). Checked items = **path exists with evidence**. Unchecked = still required before claiming portfolio v1 / public “done.”
 
 - [x] Real retrieve path (no fake candidates) — Guide 01
-- [x] Hybrid → RRF → local CE + citations in API response (include `vehicle_id` / doc family) — Guide 01; CE/embed **candidates** not frozen
-- [x] ≥30 eval cases with documented metrics (incl. CE lift vs RRF-only or justified keep) — Guide 04: **30**; Guide 07 Path A: n=**38** flat; Guide 08 T1: n=**44** flat (helps=0/hurts=0); Guide 05: **keep-with-justification** — candidates not frozen; CE remains in pipeline; no lift claim; proxy `+1`/`n=5` retired as freeze evidence
+- [x] Hybrid → RRF → local CE + citations in API response (include `vehicle_id` / doc family) — Guide 01; embed/CE later **frozen (Tom override)** Guide 09
+- [x] ≥30 eval cases with documented metrics (incl. CE lift vs RRF-only or justified keep) — Guide 04: **30**; Guide 07 Path A: n=**38** flat; Guide 08 T1: n=**44** flat (helps=0/hurts=0); Guide 05 keep history; CE remains in pipeline; **no** lift claim; proxy `+1`/`n=5` retired as freeze evidence
 - [x] Clone-and-run with fixtures (no OEM PDFs; Compose Postgres) — README Quick Start; fixtures only
-- [x] README + GETTING_STARTED + architecture + INTERVIEW — Guide 03 packaging; Guide 04–08 honesty for n/delta + keep note; Guide 06 freeze/public-flip **packaging checklists** landed; embed/CE freeze + public flip still open
+- [x] README + GETTING_STARTED + architecture + INTERVIEW — Guide 03 packaging; Guide 04–09 honesty for n/delta + freeze-override; Guide 06 public-flip **packaging checklist** landed; public flip still open
 - [x] Extensibility notes for multimodal **and** multi-vehicle library growth in architecture (not full private sync required)
 - [x] Minimal vehicle catalog (even if fixture-backed) — `vehicles` + fixture ingest
-- [ ] Formal embed/CE **freeze** (human-only; Guide 05 keep ≠ freeze; Guide 06 packaging parked; Guide 07–08 flat ≠ freeze — see `evals/MODEL_FREEZE_STATUS.md`)
-- [ ] Public flip / portfolio “v1 Done” marketing claim (packaging checklist ≠ flip — see `docs/PUBLIC_FLIP_CHECKLIST.md`)
+- [x] Formal embed/CE **freeze** — Guide 09 Path B **Tom override** (n=44 `ce_vs_rrf_ask_delta_hits=0`; frozen despite flat delta; **not** earned lift — see `evals/MODEL_FREEZE_STATUS.md`)
+- [ ] Public flip / portfolio “v1 Done” marketing claim (packaging checklist ≠ flip; LICENSE still unmet — see `docs/PUBLIC_FLIP_CHECKLIST.md`)
 
-**Do not equate Guide 01–08 path evidence with portfolio v1 complete.** §9 checked rows mean **capability path exists with evidence**, not that public release gates are closed. Guide 08 T1 landed a harder discriminative evidence attempt (still flat) — freeze and public flip remain unchecked.
+**Do not equate Guide 01–09 path evidence with portfolio v1 complete.** §9 checked rows mean **capability path exists with evidence**, not that public release is done. Guide 09 freezes models by **override** while paired-ask delta stays **0** — freeze ≠ public flip / v1 Done.
 
 ---
 

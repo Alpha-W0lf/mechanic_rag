@@ -2,7 +2,7 @@
 
 Personal, non-commercial **portfolio** project. Text-only RAG over automotive service documentation.
 
-**Status:** Guide 01 vertical slice implemented for local Compose + fixtures (pass 8c/9). **Not** portfolio-complete. **Not** public-flip ready. **Not** “v1 done.”
+**Status:** Guide 01 vertical slice implemented for local Compose + fixtures. Formal embed/CE **frozen (Tom override)** Guide 09. **Not** portfolio-complete. **Not** public-flip ready. **Not** “v1 done.”
 
 **SSOT:** [`docs/VISION.md`](docs/VISION.md) · [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`GETTING_STARTED.md`](GETTING_STARTED.md) · [`INTERVIEW.md`](INTERVIEW.md) · [`docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md`](docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md) · [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md)
 
@@ -11,7 +11,7 @@ Personal, non-commercial **portfolio** project. Text-only RAG over automotive se
 - Next.js App Router under **`web/src/app` only** (root `web/app` removed — no dual tree)
 - Compose **Postgres + pgvector** (no Supabase product path)
 - Offline Python CLI: **`mecharag ingest`** / **`mecharag eval`**
-- Host **Ollama** generator default **`gemma4:e2b`** (fallback `qwen3.5:4b`); embedding candidate `nomic-embed-text` @ 768
+- Host **Ollama** generator default **`gemma4:e2b`** (fallback `qwen3.5:4b`); embedding `nomic-embed-text` @ 768 (**frozen** Guide 09 override)
 - Ranking: vehicle-filtered vector + lexical → **RRF** → **section dedup (default on)** → local **CE** (degrade to RRF on failure)
 
 ### Quick Start
@@ -50,12 +50,12 @@ mecharag eval --golden evals/
 ### Honest limits
 
 - Public corpus = **`fixtures/` only** (synthetic). No OEM PDFs, Drive, or Ford.
-- Embedding + CE IDs are **candidates** (smoke-verified / provisional CE keep) — **not frozen** until human freeze for portfolio ranking claims (`evals/MODEL_FREEZE_STATUS.md`).
+- Embedding + CE IDs are **frozen (Tom override)** Guide 09 — paired ask n=44 delta **0** (helps=0/hurts=0); **not** earned lift (`evals/MODEL_FREEZE_STATUS.md`).
 - Generator default is **gemma4:e2b** (pass 9 smoke OK). Pass 8c eval baseline historically used **qwen3.5:4b**.
-- Eval set is **44** fixture cases on `fixture:honda-s2000-demo` (Guide 04–08; T1 synthetic confusable sections); paired ask `ce_vs_rrf_ask_delta_hits=0` (helps=0/hurts=0) — embed/CE still **candidates**; second vehicle / wiring still deferred (`evals/PATH_TO_30.md`).
+- Eval set is **44** fixture cases on `fixture:honda-s2000-demo` (Guide 04–08; T1 synthetic confusable sections); paired ask `ce_vs_rrf_ask_delta_hits=0` (helps=0/hurts=0); second vehicle / wiring still deferred (`evals/PATH_TO_30.md`).
 - Stale paths (`db/schema.sql`, `supabase/**`, deleted stub `web/app`) are non-authoritative.
-- Packaging: [`GETTING_STARTED.md`](GETTING_STARTED.md) (clone path) · [`INTERVIEW.md`](INTERVIEW.md) (FAQ) — Guide 03; still not portfolio v1 / public flip / freeze.
-- Public-flip packaging checklist (≠ flip): [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md). Formal freeze packaging (parked): [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
+- Packaging: [`GETTING_STARTED.md`](GETTING_STARTED.md) (clone path) · [`INTERVIEW.md`](INTERVIEW.md) (FAQ) — Guide 03; still not portfolio v1 / public flip / v1 Done.
+- Public-flip packaging checklist (≠ flip): [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md). Formal freeze (Guide 09 Tom override): [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
 
 ### Paired ask ablation eval (Guide 02)
 
