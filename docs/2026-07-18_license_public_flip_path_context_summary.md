@@ -2,25 +2,28 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag`  
-**Status:** **Closed (Guide 10a P1)** — PolyForm-NC LICENSE Met (Align pass 155); public flip still open  
+**Status:** **Closed (Guide 10a P1 + Guide 10b flip)** — PolyForm-NC LICENSE Met; fixtures-only public flip Met (Align pass 156)  
 **Mode last used:** spoke  
-**Handoff (Align):** `second_brain/docs/2026-07-18_spoke_mechanic_align_polyform_nc_pass155_handoff.md`  
+**Handoff (Align 10b):** `second_brain/docs/2026-07-18_spoke_mechanic_align_public_flip_pass156_handoff.md`  
+**Handoff (Align 10a):** `second_brain/docs/2026-07-18_spoke_mechanic_align_polyform_nc_pass155_handoff.md`  
 **Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_license_public_flip_pass153_handoff.md`  
-**Hub:** `second_brain/docs/2026-07-18_prioritize_hub_pass153.md`  
+**Hub:** `second_brain/docs/2026-07-18_prioritize_hub_pass156.md`  
 **Lens:** Portfolio packaging / open-source hygiene (not ranking/ML)
 
 **Prior closed:** Guide 09 Path B freeze-override — embed/CE **frozen (Tom override)**; n=44 delta **0** honesty.  
-**VISION §9 (live):** freeze `[x]` · public flip `[ ]` · LICENSE **Met** Guide 10a PolyForm-NC (source-available / non-commercial).
+**VISION §9 (live):** freeze `[x]` · public flip `[x]` (fixtures-only Guide 10b) · LICENSE **Met** Guide 10a PolyForm-NC (source-available / non-commercial).
 
-### Outcome (Guide 10a P1 — current truth)
+### Outcome (Guide 10a P1 + Guide 10b — current truth)
 
 | Field | Value |
 |-------|-------|
 | LICENSE | **PolyForm Noncommercial 1.0.0** (`PolyForm-Noncommercial-1.0.0`) — root `LICENSE` |
 | Honesty | Source-available / non-commercial — **not** OSI open source / **not** MIT |
-| VISION §9 public flip | `[ ]` (LICENSE Met ≠ flip) |
-| Implement / Review | `a36303f` / shippable `989828f` |
-| Guide | **Aligned / Closed** |
+| VISION §9 public flip | `[x]` fixtures-only Guide 10b |
+| Implement / Review (10a) | `a36303f` / shippable `989828f` |
+| Implement / Review (10b) | `d7f4c6d` / shippable `870e2ba` |
+| Guide 10a | **Aligned / Closed** |
+| Guide 10b | **Aligned / Closed** (this Align) |
 
 Below: Gather-era framing retained for history (MIT recommendation later Soft-Adjusted to PolyForm-NC).
 
@@ -67,7 +70,7 @@ Tom lock (pass 154 Soft Adjust): **LICENSE = PolyForm Noncommercial 1.0.0** (sup
 - `docs/PUBLIC_FLIP_CHECKLIST.md` — six gates; LICENSE unmet  
 - `docs/VISION.md` §9 — public flip unchecked; freeze checked Guide 09  
 - `evals/MODEL_FREEZE_STATUS.md` — frozen Tom override; n=44 delta 0  
-- `docs/2026-07-18_path_to_formal_freeze_public_flip_context_summary.md` — Guide 09 closed; flip still open  
+- `docs/2026-07-18_path_to_formal_freeze_public_flip_context_summary.md` — Guide 09 + 10a + 10b closed Outcome  
 - `docs/dev_guides/2026-07-18_dev_guide_09_tom_freeze_override_packaging.md` — Aligned / Closed  
 - `docs/dev_guides/2026-07-17_dev_guide_06_formal_freeze_packaging.md` — checklist ≠ flip  
 - `scripts/checks/public_fail_closed.py` — fixtures fail-closed  

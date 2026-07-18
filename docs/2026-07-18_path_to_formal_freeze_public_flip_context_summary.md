@@ -2,18 +2,19 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag`  
-**Status:** **Closed** — Guide 09 Path B Implement+Review+Align (pass 152); freeze Met by Tom override; public flip still open  
+**Status:** **Closed** — Guide 09 freeze + Guide 10a LICENSE + Guide 10b fixtures-only public flip Met (Align pass 156)  
 **Mode last used:** spoke  
-**Handoff (Align):** `second_brain/docs/2026-07-18_spoke_mechanic_align_freeze_override_pass152_handoff.md`  
+**Handoff (Align 10b):** `second_brain/docs/2026-07-18_spoke_mechanic_align_public_flip_pass156_handoff.md`  
+**Handoff (Align 09):** `second_brain/docs/2026-07-18_spoke_mechanic_align_freeze_override_pass152_handoff.md`  
 **Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_freeze_flip_pass151_handoff.md`  
-**Hub:** `second_brain/docs/2026-07-18_prioritize_hub_pass151.md`  
+**Hub:** `second_brain/docs/2026-07-18_prioritize_hub_pass156.md`  
 **Lens:** AI engineer (RAG eval honesty) + portfolio packaging  
-**Guide:** `docs/dev_guides/2026-07-18_dev_guide_09_tom_freeze_override_packaging.md`
+**Guide (flip):** `docs/dev_guides/2026-07-18_dev_guide_10b_public_flip_packaging.md`
 
-**VISION §9 (live after Guide 09 + 10a):** Formal embed/CE freeze **checked** (Tom override; n=44 delta 0); public flip / “v1 Done” **unchecked**; LICENSE **Met** Guide 10a PolyForm-NC (source-available / non-commercial — LICENSE Met ≠ flip).  
-**Honesty banner:** Checklist ≠ freeze ≠ LICENSE ≠ public flip. Flat paired-ask delta ≠ earned freeze. Guide 05 keep ≠ freeze. Guide 09 override freeze ≠ public flip.
+**VISION §9 (live):** Formal embed/CE freeze **checked** (Tom override; n=44 delta 0); public flip / “v1 Done” marketing **checked** (Guide 10b fixtures-only); LICENSE **Met** Guide 10a PolyForm-NC (source-available / non-commercial — **not** OSI).  
+**Honesty banner:** Checklist ≠ freeze ≠ LICENSE ≠ earned CE lift. Flat paired-ask delta ≠ earned freeze. Guide 10b flip ≠ PrivateGold/Drive complete.
 
-### Outcome (Guide 09 Path B — freeze; Guide 10a P1 — LICENSE)
+### Outcome (Guide 09 freeze · Guide 10a LICENSE · Guide 10b flip)
 
 | Field | Value |
 |-------|-------|
@@ -21,8 +22,8 @@
 | Embed / CE status | **Frozen (Tom override — flat delta; no lift claim)** |
 | Evidence | n=44, `ce_vs_rrf_ask_delta_hits=0`, helps=0/hurts=0 |
 | VISION §9 freeze | `[x]` |
-| VISION §9 public flip | `[ ]` |
-| LICENSE | **Met** — PolyForm-NC 1.0.0 Guide 10a (`a36303f`; Review `989828f`) |
+| VISION §9 public flip | `[x]` fixtures-only Guide 10b (`d7f4c6d`; Review `870e2ba`) |
+| LICENSE | **Met** — PolyForm-NC 1.0.0 Guide 10a (`a36303f`) |
 | Guide 09 Implement / Review | `531668d` / shippable `f699f75` |
 
 Below: Gather-era framing retained for history.

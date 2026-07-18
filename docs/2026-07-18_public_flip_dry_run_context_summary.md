@@ -2,10 +2,12 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag`  
-**Status:** **Implemented** — Guide 10b fixtures-only public flip Met (pass 156); freeze override + PolyForm-NC honesty retained  
+**Status:** **Aligned / Closed** — Guide 10b fixtures-only public flip Met (Align pass 156); freeze override + PolyForm-NC honesty retained  
 **Mode last used:** spoke  
-**Guide:** `docs/dev_guides/2026-07-18_dev_guide_10b_public_flip_packaging.md` (**Implemented**)  
-**Handoff (Implement):** `second_brain/docs/2026-07-18_spoke_mechanic_implement_public_flip_pass156_handoff.md`  
+**Guide:** `docs/dev_guides/2026-07-18_dev_guide_10b_public_flip_packaging.md` (**Aligned / Closed**)  
+**Align note:** `docs/2026-07-18_guide10b_align_public_flip_pass156_note.md`  
+**Handoff (Align):** `second_brain/docs/2026-07-18_spoke_mechanic_align_public_flip_pass156_handoff.md`  
+**Implement / Review:** `d7f4c6d` / shippable `870e2ba`  
 **Ready-check:** `docs/2026-07-18_guide10b_ready_check_public_flip_pass156_note.md` (9.2/10)  
 **Handoff (Ready):** `second_brain/docs/2026-07-18_spoke_mechanic_ready_public_flip_pass156_handoff.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_public_flip_pass156_handoff.md`  

@@ -4,8 +4,11 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 10b — tick VISION §9 **public flip / portfolio “v1 Done”** (fixtures-only) + banner Align; dry-run evidence required  
 **Stage that authored this:** Write-dev-guide (pass 156)  
-**Status:** **Implemented** 2026-07-18 (Guide 10b fixtures-only public flip) — §9 public flip Met; freeze override + PolyForm-NC honesty retained  
+**Status:** **Aligned / Closed** 2026-07-18 (Guide 10b fixtures-only public flip) — §9 public flip Met; freeze override + PolyForm-NC honesty retained  
 **Ready-check:** `docs/2026-07-18_guide10b_ready_check_public_flip_pass156_note.md` (9.2/10)  
+**Align note:** `docs/2026-07-18_guide10b_align_public_flip_pass156_note.md`  
+**Handoff (Align):** `second_brain/docs/2026-07-18_spoke_mechanic_align_public_flip_pass156_handoff.md`  
+**Implement:** `d7f4c6d` · **Review:** shippable `870e2ba`  
 **Handoff (Implement):** `second_brain/docs/2026-07-18_spoke_mechanic_implement_public_flip_pass156_handoff.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-18_public_flip_dry_run_context_summary.md`  
 **Handoff (Ready):** `second_brain/docs/2026-07-18_spoke_mechanic_ready_public_flip_pass156_handoff.md`  
@@ -210,6 +213,6 @@ Revert banner/§9 commits; restore “Not public-flip ready” honesty; leave LI
 
 ---
 
-## Implement / close
+## Align / close (pass 156)
 
-**Implemented** 2026-07-18 under lock A. §9 public flip Met (fixtures-only). S2 health/ask env gap soft-attested. Stop for Review when hub authorizes.
+**Aligned / Closed.** Ready (9.2) → Implement (`d7f4c6d`) → Review shippable (`870e2ba`) → Align. Fixtures-only public flip Met; freeze override + PolyForm-NC honesty retained.

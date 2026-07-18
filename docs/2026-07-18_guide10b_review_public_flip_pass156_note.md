@@ -27,11 +27,11 @@
 | Guide Phases A–D | **Pass** — Status **Implemented**; acceptance checked |
 | S2 env gap | **Pass** — Soft attestation documented; not blocked (lock S2) |
 
-### Soft residuals (not blocking — Align-only if hub authorizes)
+### Soft residuals — **cleared on Align pass 156**
 
-1. `INTERVIEW.md` §7 still says do not equate golden count / freeze with “portfolio v1 Done” — thin Align could rephrase now that fixtures-only flip Met.  
-2. Older Gather-era sections in freeze/LICENSE context summaries may still narrate “flip open” historically — Outcome banners already updated for 10b; cosmetic history only.  
-3. Guide Status still **Implemented** (not yet **Aligned / Closed**) — expected until Align.
+1. ~~`INTERVIEW.md` §7 “portfolio v1 Done” phrasing~~ → earned CE lift / PrivateGold distinction; flip Met Guide 10b.  
+2. ~~Gather-era “flip open” Outcome banners~~ → path/license/public_flip contexts show §9 flip `[x]`.  
+3. ~~Guide Status **Implemented**~~ → **Aligned / Closed**.
 
 ### Explicit non-claims
 
