@@ -4,7 +4,9 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 10a — add root **PolyForm Noncommercial License 1.0.0** `LICENSE`; refresh public-flip checklist gate 6 honesty; **no** public flip / VISION §9 marketing tick  
 **Stage that authored this:** Write-dev-guide (pass 153) · **Soft Adjust** Write (pass 154) — MIT → PolyForm-NC  
-**Status:** **Draft — Soft Adjust Write complete** (not Implemented; no `LICENSE` file yet)  
+**Status:** **Implemented** 2026-07-18 (Guide 10a PolyForm-NC LICENSE packaging) — LICENSE Met; public flip **not** Met  
+**Ready-check:** `docs/2026-07-18_guide10a_ready_check_polyform_nc_pass155_note.md` (9.2/10)  
+**Handoff (Implement):** `second_brain/docs/2026-07-18_spoke_mechanic_implement_polyform_nc_pass155_handoff.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-18_license_public_flip_path_context_summary.md`  
 **Decision note:** `second_brain/docs/2026-07-18_license_polyform_nc_decision_note.md`  
 **Handoff (Soft Adjust):** `second_brain/docs/2026-07-18_spoke_mechanic_soft_adjust_polyform_nc_pass154_handoff.md`  
@@ -37,7 +39,7 @@ Land **root PolyForm Noncommercial 1.0.0 LICENSE** so PUBLIC_FLIP checklist gate
 
 **Success signal (after Implement):** `test -f LICENSE` green; gate 6 says PolyForm-NC present; a reviewer cannot honestly believe “OSI open source,” “MIT,” “public flip ready,” or “v1 Done” from this guide alone.
 
-**This Soft Adjust Write does not Implement and does not add `LICENSE`.**
+**Soft Adjust Write (pass 154) did not Implement.** Implement (pass 155) added root `LICENSE` + honesty surfaces; public flip still open.
 
 ---
 
@@ -113,43 +115,41 @@ Land **root PolyForm Noncommercial 1.0.0 LICENSE** so PUBLIC_FLIP checklist gate
 
 ---
 
-## Acceptance criteria (for later Implement — unchecked at Soft Adjust)
+## Acceptance criteria (Implement)
 
-- [ ] Root `LICENSE` exists with **verbatim** PolyForm Noncommercial 1.0.0 text + pinned copyright/notice  
-- [ ] `docs/PUBLIC_FLIP_CHECKLIST.md` gate 6 honest (PolyForm-NC present; flip still separate)  
-- [ ] README / GETTING_STARTED / INTERVIEW: LICENSE present; **source-available / non-commercial** honesty; no MIT/OSI-open-source mislabel  
-- [ ] VISION §9 public-flip still `[ ]`; freeze still `[x]` with override honesty  
-- [ ] Verification commands pass; no ranking/code changes  
+- [x] Root `LICENSE` exists with **verbatim** PolyForm Noncommercial 1.0.0 text + pinned copyright/notice  
+- [x] `docs/PUBLIC_FLIP_CHECKLIST.md` gate 6 honest (PolyForm-NC present; flip still separate)  
+- [x] README / GETTING_STARTED / INTERVIEW: LICENSE present; **source-available / non-commercial** honesty; no MIT/OSI-open-source mislabel  
+- [x] VISION §9 public-flip still `[ ]`; freeze still `[x]` with override honesty  
+- [x] Verification commands pass; no ranking/code changes  
 
 ---
 
 ## Ordered step checklist
 
-All boxes start unchecked. **Do not check boxes in Soft Adjust Write / Ready-check.**
-
 ### Phase A — Anchor
 
-- [ ] **A1.** Confirm `test ! -f LICENSE` before create (or stop if unexpected LICENSE already exists — escalate Tom).  
-- [ ] **A2.** Confirm freeze surfaces still say **frozen (Tom override)** / n=44 delta 0 (no regression).  
-- [ ] **A3.** Confirm VISION §9 public-flip is `[ ]` before edits.  
-- [ ] **A4.** Fetch official PolyForm-NC 1.0.0 text (polyformproject.org or polyform-licenses tag `1.0.0`) for verbatim copy.
+- [x] **A1.** Confirm `test ! -f LICENSE` before create (or stop if unexpected LICENSE already exists — escalate Tom).  
+- [x] **A2.** Confirm freeze surfaces still say **frozen (Tom override)** / n=44 delta 0 (no regression).  
+- [x] **A3.** Confirm VISION §9 public-flip is `[ ]` before edits.  
+- [x] **A4.** Fetch official PolyForm-NC 1.0.0 text (polyformproject.org or polyform-licenses tag `1.0.0`) for verbatim copy.
 
 ### Phase B — Add PolyForm-NC LICENSE
 
-- [ ] **B1.** Create root `LICENSE` with **verbatim** PolyForm Noncommercial 1.0.0 body; include copyright/notice `Copyright (c) 2026 Tom Chacko` as required by the license’s notice practice.  
-- [ ] **B2.** `test -f LICENSE` and spot-check title line includes `PolyForm Noncommercial License 1.0.0` (not `MIT License`).
+- [x] **B1.** Create root `LICENSE` with **verbatim** PolyForm Noncommercial 1.0.0 body; include copyright/notice `Copyright (c) 2026 Tom Chacko` as required by the license’s notice practice.  
+- [x] **B2.** `test -f LICENSE` and spot-check title line includes `PolyForm Noncommercial License 1.0.0` (not `MIT License`).
 
 ### Phase C — Honesty Align (LICENSE only)
 
-- [ ] **C1.** Update `docs/PUBLIC_FLIP_CHECKLIST.md` gate 6 + explicit non-claims: LICENSE Met ≠ public flip; license is PolyForm-NC not MIT.  
-- [ ] **C2.** Thin updates: README / GETTING_STARTED / INTERVIEW — LICENSE present; **source-available / non-commercial**; public flip still open; commercial contact.  
-- [ ] **C3.** VISION: optional §9 public-flip **prose** note LICENSE Met (PolyForm-NC); **checkbox stays unchecked**.  
-- [ ] **C4.** Grep: no “MIT” as current license claim; no OSI “open source” as the license claim; no “public flip ready” / “v1 Done”; freeze override honesty intact.
+- [x] **C1.** Update `docs/PUBLIC_FLIP_CHECKLIST.md` gate 6 + explicit non-claims: LICENSE Met ≠ public flip; license is PolyForm-NC not MIT.  
+- [x] **C2.** Thin updates: README / GETTING_STARTED / INTERVIEW — LICENSE present; **source-available / non-commercial**; public flip still open; commercial contact.  
+- [x] **C3.** VISION: optional §9 public-flip **prose** note LICENSE Met (PolyForm-NC); **checkbox stays unchecked**.  
+- [x] **C4.** Grep: no “MIT” as current license claim; no OSI “open source” as the license claim; no “public flip ready” / “v1 Done”; freeze override honesty intact.
 
 ### Phase D — Stop
 
-- [ ] **D1.** No ranking/eval/fixture code; no Guide 10b; no §9 public-flip tick.  
-- [ ] **D2.** Stop for Review (after Ready-check → Implement authorize).
+- [x] **D1.** No ranking/eval/fixture code; no Guide 10b; no §9 public-flip tick.  
+- [x] **D2.** Stop for Review (after Ready-check → Implement authorize).
 
 ---
 

@@ -2,7 +2,7 @@
 
 Clone-depth operator path for the **hybrid → RRF → section dedup → local CE** vertical slice. Contracts: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Interview gotchas: [`INTERVIEW.md`](INTERVIEW.md). Skim + Quick Start: [`README.md`](README.md). Product why: [`docs/VISION.md`](docs/VISION.md).
 
-This is **not** portfolio v1 complete, **not** public-flip ready. Embed/CE are **frozen (Tom override)** Guide 09 with n=44 delta **0** honesty (not earned lift). Public corpus = fixtures only.
+This is **not** portfolio v1 complete, **not** public-flip ready. Embed/CE are **frozen (Tom override)** Guide 09 with n=44 delta **0** honesty (not earned lift). **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT). Public corpus = fixtures only.
 
 ---
 
@@ -114,7 +114,8 @@ If Next is down, `--retrieval-only` is an escape hatch only — full stranger sm
 | Packaging | Stranger-clone + FAQ shell — not portfolio v1 complete |
 | Public flip | **Not** ready |
 | Embed / CE | **Frozen (Tom override)** Guide 09 — flat delta; no lift claim (`evals/MODEL_FREEZE_STATUS.md`); CE stays in pipeline; paired ask delta **0** on n=44 (helps=0/hurts=0) |
-| Public flip checklist | Packaging only — [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) (≠ flip / ≠ v1 Done); LICENSE still absent |
+| Public flip checklist | Packaging only — [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) (≠ flip / ≠ v1 Done) |
+| License | **PolyForm Noncommercial 1.0.0** ([`LICENSE`](LICENSE), Guide 10a) — source-available / non-commercial; commercial use → contact copyright holder; **not** OSI open source / **not** MIT; LICENSE Met ≠ public flip |
 | Guide 02 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=12, gemma, citation∩gold) — honest flat |
 | Guide 04 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=30) |
 | Guide 07 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=38) — superseded as current by Guide 08 |

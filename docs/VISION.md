@@ -1,8 +1,8 @@
 # Mechanic RAG — Portfolio Vision (v1)
 
-**Status:** Active portfolio vision · **Guide 01 vertical slice done** · Formal embed/CE **frozen (Tom override)** · **Not** portfolio-complete / public-flip ready  
+**Status:** Active portfolio vision · **Guide 01 vertical slice done** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Not** portfolio-complete / public-flip ready  
 **Created:** 2026-07-12  
-**Updated:** 2026-07-18 (Guide 09 Path B freeze-override; n=44 delta 0 honesty; public flip still open)  
+**Updated:** 2026-07-18 (Guide 10a PolyForm-NC LICENSE; public flip still open)  
 **Owner:** Tom  
 **Repo:** `mechanic_rag` (renamed from `mechainic_rag`; Python import package remains `mecharag`)  
 
@@ -158,9 +158,9 @@ Honest progress after Guide 01 (Align docs pass 10). Checked items = **path exis
 - [x] Extensibility notes for multimodal **and** multi-vehicle library growth in architecture (not full private sync required)
 - [x] Minimal vehicle catalog (even if fixture-backed) — `vehicles` + fixture ingest
 - [x] Formal embed/CE **freeze** — Guide 09 Path B **Tom override** (n=44 `ce_vs_rrf_ask_delta_hits=0`; frozen despite flat delta; **not** earned lift — see `evals/MODEL_FREEZE_STATUS.md`)
-- [ ] Public flip / portfolio “v1 Done” marketing claim (packaging checklist ≠ flip; LICENSE still unmet — see `docs/PUBLIC_FLIP_CHECKLIST.md`)
+- [ ] Public flip / portfolio “v1 Done” marketing claim (packaging checklist ≠ flip; LICENSE Met Guide 10a PolyForm-NC — flip still separate Tom lock — see `docs/PUBLIC_FLIP_CHECKLIST.md`)
 
-**Do not equate Guide 01–09 path evidence with portfolio v1 complete.** §9 checked rows mean **capability path exists with evidence**, not that public release is done. Guide 09 freezes models by **override** while paired-ask delta stays **0** — freeze ≠ public flip / v1 Done.
+**Do not equate Guide 01–10a path evidence with portfolio v1 complete.** §9 checked rows mean **capability path exists with evidence**, not that public release is done. Guide 09 freezes models by **override** while paired-ask delta stays **0** — freeze ≠ public flip / v1 Done. Guide 10a LICENSE (source-available / non-commercial) ≠ public flip / OSI open source.
 
 ---
 

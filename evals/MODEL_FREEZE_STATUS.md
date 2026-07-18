@@ -49,7 +49,7 @@ Do **not** flip status to frozen unless **all** are true and a human authors the
 
 **Before any human freeze:** complete the six-item **Freeze checklist (human-only)** in this file (process fields). Path B override does **not** invent new metric gates and does **not** use historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` as freeze evidence.
 
-**Related:** Public-flip packaging checklist (gate 3, separate) → [`docs/PUBLIC_FLIP_CHECKLIST.md`](../docs/PUBLIC_FLIP_CHECKLIST.md). Checklist ≠ flip. Guide 09 freeze ≠ public flip / v1 Done / LICENSE.
+**Related:** Public-flip packaging checklist (gate 3, separate) → [`docs/PUBLIC_FLIP_CHECKLIST.md`](../docs/PUBLIC_FLIP_CHECKLIST.md). Checklist ≠ flip. Guide 09 freeze ≠ public flip / v1 Done. Guide 10a LICENSE (PolyForm-NC) Met ≠ flip.
 
 ### Formal freeze — Tom override (Guide 09)
 
@@ -76,7 +76,7 @@ Do **not** flip status to frozen unless **all** are true and a human authors the
 2. Models are **frozen by Tom override**, not because CE proved lift.  
 3. Cross-encoder **stays in the stack**.  
 4. **Do not** claim CE improved citation hits on these runs.  
-5. Guide 09 freeze **≠** public flip / portfolio v1 Done / LICENSE.
+5. Guide 09 freeze **≠** public flip / portfolio v1 Done. Guide 10a LICENSE Met ≠ public flip.
 
 **Unlock used:** Override unlock (flat delta + Tom Path B lock) — **not** lift unlock. **Forbidden:** “earned freeze from ablation”; proxy `+1` / `n=5` as proof.
 

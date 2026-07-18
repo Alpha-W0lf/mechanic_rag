@@ -2,7 +2,7 @@
 
 Staff-interview gotchas for the **hybrid → RRF → section dedup → local CE** vertical slice. Contracts SSOT: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Product / why: [`docs/VISION.md`](docs/VISION.md). Freeze honesty: [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). Path to ≥30 goldens: [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md).
 
-This is packaging around a shippable Guide 01 path + honest paired-ask ablation evidence (current: Guide 08 n=44, delta **0**) — embed/CE are **frozen (Tom override)** Guide 09 — **not** portfolio v1 Done, **not** public-flip ready, **not** an earned CE-lift freeze.
+This is packaging around a shippable Guide 01 path + honest paired-ask ablation evidence (current: Guide 08 n=44, delta **0**) — embed/CE are **frozen (Tom override)** Guide 09 — **not** portfolio v1 Done, **not** public-flip ready, **not** an earned CE-lift freeze. **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT).
 
 ---
 
@@ -47,13 +47,13 @@ S2000 fixture golden count is **44** (Guide 04–07 + Guide 08 T1 traps g39–g4
 
 ## 8. Does packaging mean portfolio v1 / public flip / freeze?
 
-No. Root `GETTING_STARTED` + `INTERVIEW` are the stranger-clone + FAQ shell around an already-shippable vertical slice. S2000 fixture ≥30 goldens **are** done (Guide 04 — see §7); Guide 09 freeze-override **is** done; that still does **not** mean:
+No. Root `GETTING_STARTED` + `INTERVIEW` are the stranger-clone + FAQ shell around an already-shippable vertical slice. S2000 fixture ≥30 goldens **are** done (Guide 04 — see §7); Guide 09 freeze-override **is** done; Guide 10a LICENSE **is** done (PolyForm-NC); that still does **not** mean:
 
 - portfolio v1 checklist complete
 - public flip ready / v1 Done
 - earned CE lift from ablation
 - second-vehicle / wiring eval themes complete
-- LICENSE present (still unmet for public flip)
+- OSI open source / MIT licensing (repo is **source-available / non-commercial** — see [`LICENSE`](LICENSE))
 
 See VISION §9 for honest checkbox status. Public-flip packaging checklist (≠ flip): [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md).
 
