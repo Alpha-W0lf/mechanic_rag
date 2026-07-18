@@ -25,11 +25,11 @@
 | Guide Phases A–D checked | **Pass** — guide status **Implemented**; acceptance criteria checked |
 | PUBLIC_FLIP gate 4 | **Pass** — “Resolved by Guide 09 Path B override”; gates 5–6 still unmet for flip |
 
-### Soft residuals (not blocking)
+### Soft residuals (not blocking) — **cleared on Align pass 152**
 
-1. `docs/ARCHITECTURE.md` still has generic phrasing (“pick candidates and freeze with evidence” in ranking-gate prose) — not a live status table; Align can tighten later if desired.  
-2. GETTING_STARTED Guide 08 row says “freeze later via Guide 09 override” (historical run narrative) — accurate; slightly awkward past-tense next to current frozen status, not contradictory.  
-3. README Quick Start still says `pull candidates:` for Ollama model pulls — operator wording, not freeze-status theater.
+1. ~~`docs/ARCHITECTURE.md` generic “pick candidates and freeze with evidence”~~ → points at Guide 09 frozen override.  
+2. ~~GETTING_STARTED Guide 08 “freeze later via Guide 09”~~ → “freeze later landed via Guide 09 Tom override.”  
+3. ~~README `pull candidates:`~~ → `pull models:` (operator wording).
 
 ### Explicit non-claims
 

@@ -118,7 +118,7 @@ If Next is down, `--retrieval-only` is an escape hatch only — full stranger sm
 | Guide 02 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=12, gemma, citation∩gold) — honest flat |
 | Guide 04 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=30) |
 | Guide 07 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=38) — superseded as current by Guide 08 |
-| Guide 08 paired ask (current) | `ce_vs_rrf_ask_delta_hits=0` (n=44, T1 +6 traps, `gemma4:e2b`, citation∩gold; CE-helps=0 / CE-hurts=0) — honest flat; freeze later via Guide 09 **override** (not auto-freeze from ablation) |
+| Guide 08 paired ask (evidence) | `ce_vs_rrf_ask_delta_hits=0` (n=44, T1 +6 traps, `gemma4:e2b`, citation∩gold; CE-helps=0 / CE-hurts=0) — honest flat; freeze later landed via Guide 09 **Tom override** (not auto-freeze from ablation) |
 | Proxy theater | Historical `ce_vs_rrf_delta_hits=+1` / `n=5` is **forbidden** as lift |
 | Corpus | **Fixtures only** — no Drive / Ford / OEM PDFs in this repo |
 | ≥30 goldens | **Done** (Guide 04); Guide 07–08 discriminative bands landed (n=44) — second vehicle / wiring still deferred (`evals/PATH_TO_30.md`) |

@@ -4,11 +4,13 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 09 — formal embed/CE **freeze via Tom override** (honest; no fake lift)  
 **Stage that authored this:** Write-dev-guide (pass 152)  
-**Status:** **Reviewed — shippable** 2026-07-18 (Guide 09 Path B freeze-override; Review note `docs/2026-07-18_guide09_review_pass152_note.md`) — freeze Met by Tom override; public flip **not** Met  
+**Status:** **Aligned / Closed** 2026-07-18 (Guide 09 Path B freeze-override slice) — freeze Met by Tom override; public flip **not** Met  
 **Ready-check:** `docs/2026-07-18_guide09_ready_check_pass152_note.md` (9.2/10)  
+**Handoff (Align):** `second_brain/docs/2026-07-18_spoke_mechanic_align_freeze_override_pass152_handoff.md`  
+**Align note:** `docs/2026-07-18_guide09_align_pass152_note.md`  
 **Handoff (Review):** `second_brain/docs/2026-07-18_spoke_mechanic_review_freeze_override_pass152_handoff.md`  
 **Handoff (Implement):** `second_brain/docs/2026-07-18_spoke_mechanic_implement_freeze_override_pass152_handoff.md`  
-**Implement:** `531668d`  
+**Implement:** `531668d` · **Review:** `f699f75`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-18_path_to_formal_freeze_public_flip_context_summary.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_freeze_override_pass152_handoff.md`  
 **Freeze SSOT:** `mechanic_rag/evals/MODEL_FREEZE_STATUS.md`  

@@ -22,7 +22,7 @@ docker compose up -d
 
 # 2. Env
 cp .env.example web/.env.local
-# ensure Ollama is running; pull candidates:
+# ensure Ollama is running; pull models:
 #   ollama pull nomic-embed-text
 #   ollama pull gemma4:e2b   # operator default; or OLLAMA_MODEL=qwen3.5:4b
 

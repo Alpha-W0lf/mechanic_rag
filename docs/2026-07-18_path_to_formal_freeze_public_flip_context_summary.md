@@ -2,13 +2,42 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag`  
-**Status:** Draft (Gather — pass 151 spoke)  
+**Status:** **Closed** — Guide 09 Path B Implement+Review+Align (pass 152); freeze Met by Tom override; public flip still open  
+**Mode last used:** spoke  
+**Handoff (Align):** `second_brain/docs/2026-07-18_spoke_mechanic_align_freeze_override_pass152_handoff.md`  
+**Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_freeze_flip_pass151_handoff.md`  
+**Hub:** `second_brain/docs/2026-07-18_prioritize_hub_pass151.md`  
+**Lens:** AI engineer (RAG eval honesty) + portfolio packaging  
+**Guide:** `docs/dev_guides/2026-07-18_dev_guide_09_tom_freeze_override_packaging.md`
+
+**VISION §9 (live after Guide 09):** Formal embed/CE freeze **checked** (Tom override; n=44 delta 0); public flip / “v1 Done” **unchecked** (LICENSE unmet).  
+**Honesty banner:** Checklist ≠ freeze ≠ public flip. Flat paired-ask delta ≠ earned freeze. Guide 05 keep ≠ freeze. Guide 09 override freeze ≠ public flip.
+
+### Outcome (Guide 09 Path B — current truth)
+
+| Field | Value |
+|-------|-------|
+| Freeze path | **B** — Tom override packaging |
+| Embed / CE status | **Frozen (Tom override — flat delta; no lift claim)** |
+| Evidence | n=44, `ce_vs_rrf_ask_delta_hits=0`, helps=0/hurts=0 |
+| VISION §9 freeze | `[x]` |
+| VISION §9 public flip | `[ ]` |
+| LICENSE | **Absent** (still open for flip) |
+| Implement / Review | `531668d` / shippable `f699f75` |
+
+Below: Gather-era framing retained for history.
+
+---
+
+**Date:** 2026-07-18  
+**Repos:** `mechanic_rag`  
+**Status (Gather-era):** Draft (Gather — pass 151 spoke) — superseded by Outcome above  
 **Mode last used:** spoke  
 **Handoff:** `second_brain/docs/2026-07-18_spoke_mechanic_gather_freeze_flip_pass151_handoff.md`  
 **Hub:** `second_brain/docs/2026-07-18_prioritize_hub_pass151.md`  
 **Lens:** AI engineer (RAG eval honesty) + portfolio packaging
 
-**VISION §9 (live):** Formal embed/CE freeze **unchecked**; public flip / “v1 Done” **unchecked**.  
+**VISION §9 (Gather-era):** Formal embed/CE freeze **unchecked**; public flip / “v1 Done” **unchecked**.  
 **Honesty banner:** Checklist ≠ freeze ≠ public flip. Flat paired-ask delta ≠ freeze. Guide 05 keep ≠ freeze.
 
 ---

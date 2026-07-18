@@ -307,7 +307,7 @@ If the reranker fails, **fail open to fused (+ optional dedup) order** — do no
 | Embedding model + dimension | Before claiming hybrid retrieval eval baseline |
 | CE model + runtime | Before claiming CE lift vs RRF-only |
 
-Architecture names the gates; Write-dev-guide / Implement pick candidates and freeze with evidence.
+Architecture names the gates. Portfolio model IDs are **frozen (Tom override)** in `evals/MODEL_FREEZE_STATUS.md` (Guide 09 Path B) despite n=44 flat paired-ask delta — not an earned-lift freeze.
 
 ---
 
