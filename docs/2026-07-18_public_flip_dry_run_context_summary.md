@@ -2,16 +2,18 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag`  
-**Status:** Draft (Gather — pass 156 spoke)  
+**Status:** **Write complete** — Guide 10b drafted (pass 156); Ready-check next; §9 public flip still `[ ]`  
 **Mode last used:** spoke  
-**Handoff:** `second_brain/docs/2026-07-18_spoke_mechanic_gather_public_flip_pass156_handoff.md`  
+**Guide (Write):** `docs/dev_guides/2026-07-18_dev_guide_10b_public_flip_packaging.md`  
+**Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_public_flip_pass156_handoff.md`  
+**Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_public_flip_pass156_handoff.md`  
 **Hub:** `second_brain/docs/2026-07-18_prioritize_hub_pass156.md`  
 **Checklist:** `docs/PUBLIC_FLIP_CHECKLIST.md`  
 **Lens:** Portfolio packaging / marketing honesty (not ranking/ML)
 
 **Prior closed:** Guide 09 freeze-override · Guide 10a PolyForm-NC LICENSE (Aligned / Closed `7c77563`).  
-**Tom (hub pass 156):** Unlocked public flip **intent** — still require **dry-run evidence** before Implement.  
-**VISION §9 (live this Gather):** freeze `[x]` · public flip `[ ]` · LICENSE Met (PolyForm-NC).
+**Tom / hub locks (pass 156):** **A** (standing Implement after Ready evidence) · **S2** (fail-closed + GETTING_STARTED; health/ask when env up).  
+**VISION §9 (live):** freeze `[x]` · public flip `[ ]` · LICENSE Met (PolyForm-NC).
 
 ---
 
@@ -95,13 +97,13 @@ Mechanic’s last VISION §9 build checkbox is **public flip / portfolio “v1 D
 
 ## Recommended approach
 
-1. **Do not Implement flip in Gather.**  
-2. **Next:** Write thin **Guide 10b — public flip packaging** (docs-only).  
-3. **Ready-check** must attach dry-run evidence (fail-closed OK + honesty greps; stranger-clone depth pinned).  
-4. **Implement only after** Ready + hub/Tom authorize (intent unlocked ≠ auto-Implement).  
+1. **Do not Implement flip in Gather/Write.**  
+2. **Guide 10b written** — `docs/dev_guides/2026-07-18_dev_guide_10b_public_flip_packaging.md` (locks **A** + **S2**).  
+3. **Ready-check** must attach dry-run evidence (fail-closed OK + honesty greps; S2 attestation).  
+4. **Implement** after Ready Met under standing authorize **A**.  
 5. Keep four-way separation: keep ≠ freeze ≠ LICENSE ≠ public flip.
 
-**Guide path (proposed):** `docs/dev_guides/2026-07-18_dev_guide_10b_public_flip_packaging.md`
+**Guide path:** `docs/dev_guides/2026-07-18_dev_guide_10b_public_flip_packaging.md`
 
 ---
 
@@ -182,7 +184,8 @@ Mechanic’s last VISION §9 build checkbox is **public flip / portfolio “v1 D
 
 ## Honest readiness
 
-- **Gather DoD:** Met — context written; decisions with recommendation + tradeoffs; **no** Implement; **no** silent flip.  
-- **Ready for Write dev guide?** **Yes** — thin Guide 10b public-flip packaging; pin dry-run DoD + honesty non-claims.  
-- **Not ready** for Implement until Write + Ready-check with attached dry-run evidence (+ Decision 1 authorize path).  
+- **Gather DoD:** Met (pass 156).  
+- **Write DoD:** Met — Guide 10b authored; locks A/S2 pinned; **no** Implement; §9 still `[ ]`.  
+- **Ready for Ready-check?** **Yes** — attach fresh fail-closed + honesty greps + S2 attestation.  
+- **Not ready** for Implement until Ready Met (then standing authorize A).  
 - **Freeze / LICENSE honesty:** unchanged — override ≠ lift; PolyForm-NC ≠ OSI.
