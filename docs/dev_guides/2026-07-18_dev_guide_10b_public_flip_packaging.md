@@ -4,8 +4,10 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 10b — tick VISION §9 **public flip / portfolio “v1 Done”** (fixtures-only) + banner Align; dry-run evidence required  
 **Stage that authored this:** Write-dev-guide (pass 156)  
-**Status:** **Draft — Write complete** (not Implemented; §9 public flip still `[ ]`)  
+**Status:** **Ready-check Met** 2026-07-18 (9.2/10) — not Implemented; §9 public flip still `[ ]`  
+**Ready-check:** `docs/2026-07-18_guide10b_ready_check_public_flip_pass156_note.md` (9.2/10 · fail-closed OK · S2 env gap noted)  
 **Context SSOT:** `mechanic_rag/docs/2026-07-18_public_flip_dry_run_context_summary.md`  
+**Handoff (Ready):** `second_brain/docs/2026-07-18_spoke_mechanic_ready_public_flip_pass156_handoff.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_public_flip_pass156_handoff.md`  
 **Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_public_flip_pass156_handoff.md`  
 **Prerequisite:** Guide 09 freeze-override **Aligned / Closed**; Guide 10a PolyForm-NC LICENSE **Aligned / Closed**; hub pass 156 locks **A** + **S2**
@@ -211,4 +213,4 @@ Revert banner/§9 commits; restore “Not public-flip ready” honesty; leave LI
 
 ## Ready for Ready-check?
 
-**Yes** — Guide 10b Write complete; locks A/S2 pinned; dry-run DoD explicit. Run Ready-check next (attach fresh fail-closed + honesty greps). Do **not** Implement until Ready Met.
+**Done** — Ready-check Met 9.2/10 (`docs/2026-07-18_guide10b_ready_check_public_flip_pass156_note.md`). Under lock **A**, Implement may proceed when hub/spoke starts Implement stage. Do **not** silent-flip from Ready alone.
