@@ -2,7 +2,7 @@
 
 Staff-interview gotchas for the **hybrid → RRF → section dedup → local CE** vertical slice. Contracts SSOT: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Product / why: [`docs/VISION.md`](docs/VISION.md). Freeze honesty: [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). Path to ≥30 goldens: [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md).
 
-This is packaging around a shippable Guide 01 path + honest paired-ask ablation evidence (current: Guide 08 n=44, delta **0**) — embed/CE are **frozen (Tom override)** Guide 09 — **not** portfolio v1 Done, **not** public-flip ready, **not** an earned CE-lift freeze. **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT).
+This is packaging around a shippable Guide 01 path + honest paired-ask ablation evidence (current: Guide 08 n=44, delta **0**) — embed/CE are **frozen (Tom override)** Guide 09 — **fixtures-only public flip Met** Guide 10b (portfolio “v1 Done” marketing) — **not** an earned CE-lift freeze — **not** OSI open source. **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT).
 
 ---
 
@@ -33,7 +33,7 @@ Embedding (`nomic-embed-text` @ 768) and CE (`Xenova/ms-marco-MiniLM-L-6-v2`) ar
 
 **Guide 05 keep-with-justification (historical):** We **kept** CE in the ranking stack while status was candidate. Guide 09 **supersedes status** → frozen by override; CE **stays in the stack**. See [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). **Do not** claim CE improved citation hits on the n=30 / n=38 / n=44 runs.
 
-**Guide 06 → Guide 09:** Freeze was parked after flat Guide 07–08 evidence; Guide 09 Path B **unparked** via explicit Tom override. Keep ≠ freeze ≠ public flip. Guide 09 freeze **≠** public flip / v1 Done / LICENSE.
+**Guide 06 → Guide 09 → Guide 10b:** Freeze was parked after flat Guide 07–08 evidence; Guide 09 Path B **unparked** via explicit Tom override. Keep ≠ freeze ≠ LICENSE ≠ public flip. Guide 09 freeze **≠** earned CE lift. Guide 10b fixtures-only flip **≠** earned CE lift / OSI open source.
 
 **Forbidden as lift / freeze evidence:** historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` (answer-substring era; no `_ask_` in the field name); “earned freeze from ablation.” If that short proxy name appears, label it **historical proxy / non-evidence** only.
 
@@ -47,15 +47,14 @@ S2000 fixture golden count is **44** (Guide 04–07 + Guide 08 T1 traps g39–g4
 
 ## 8. Does packaging mean portfolio v1 / public flip / freeze?
 
-No. Root `GETTING_STARTED` + `INTERVIEW` are the stranger-clone + FAQ shell around an already-shippable vertical slice. S2000 fixture ≥30 goldens **are** done (Guide 04 — see §7); Guide 09 freeze-override **is** done; Guide 10a LICENSE **is** done (PolyForm-NC); that still does **not** mean:
+**Fixtures-only public flip / “v1 Done” marketing is Met** (Guide 10b). Root `GETTING_STARTED` + `INTERVIEW` remain the stranger-clone + FAQ shell. That still does **not** mean:
 
-- portfolio v1 checklist complete
-- public flip ready / v1 Done
-- earned CE lift from ablation
-- second-vehicle / wiring eval themes complete
+- earned CE lift from ablation (freeze is Tom override; n=44 delta **0**)
 - OSI open source / MIT licensing (repo is **source-available / non-commercial** — see [`LICENSE`](LICENSE))
+- second-vehicle / wiring eval themes complete
+- PrivateGold / Drive / OEM corpus in this public repo
 
-See VISION §9 for honest checkbox status. Public-flip packaging checklist (≠ flip): [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md).
+See VISION §9. Checklist: [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md).
 
 ## 9. What does g10 teach about citation∩gold vs `insufficient_evidence`?
 

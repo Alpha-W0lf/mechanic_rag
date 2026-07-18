@@ -1,8 +1,8 @@
 # Mechanic RAG — Architecture (v1)
 
-**Status:** Binding contracts SSOT · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Not** portfolio-complete / public-flip ready  
+**Status:** Binding contracts SSOT · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
-**Updated:** 2026-07-18 (Align Guide 10a — LICENSE Met; public flip still open)  
+**Updated:** 2026-07-18 (Guide 10b fixtures-only public flip)  
 **Owner:** Tom  
 **Lenses:** Senior AI Engineer (primary); Data Engineer; Backend  
 
@@ -483,17 +483,17 @@ Guide 01 vertical slice landed. This table is **post-slice**, not pre-implement.
 | Area | Guide 01 today | Still open (portfolio v1 / later) |
 |------|----------------|-----------------------------------|
 | App tree | `web/src/app` only; root `web/app` gone | Do not recreate dual trees |
-| `/api/ask` | Real hybrid → RRF → section dedup → CE → Ollama + DB citations | Packaging polish; not public flip |
+| `/api/ask` | Real hybrid → RRF → section dedup → CE → Ollama + DB citations | Packaging polish; PrivateGold later |
 | Deps | `pg` + `@xenova/transformers` in `web/package.json`; Ollama via HTTP | — |
 | Compose | `docker-compose.yml` Postgres+pgvector | — |
 | Ingest | `mecharag ingest --source fixtures` → local Postgres | PrivateGold production path |
 | Schema | `db/migrations/001_init.sql` (§6-shaped) | Grow catalog features as library sync lands |
-| Ranking | §7 order live; `section_dedup.ts`; CE with degrade; Guide 02 env ablation `MECHANIC_FORCE_RRF_ONLY` + paired ask fields | Public flip (separate); LICENSE **Met** Guide 10a PolyForm-NC |
+| Ranking | §7 order live; `section_dedup.ts`; CE with degrade; Guide 02 env ablation `MECHANIC_FORCE_RRF_ONLY` + paired ask fields | LICENSE Met Guide 10a; fixtures-only public flip Met Guide 10b |
 | Health | Liveness ≠ readiness | — |
-| Evals/tests | **n=44** S2000 fixture goldens (Guide 04–08; T1 +3 synthetic confusable sections) + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 08 paired ask delta **0** / helps=0; Guide 05 keep history; Guide 09 Path B freeze-override | Public flip (separate) |
+| Evals/tests | **n=44** S2000 fixture goldens (Guide 04–08; T1 +3 synthetic confusable sections) + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 08 paired ask delta **0** / helps=0; Guide 05 keep history; Guide 09 Path B freeze-override | Second vehicle / wiring deferred; PrivateGold path |
 | Generator | Default / smoke: `gemma4:e2b`; fallback `qwen3.5:4b` (pass 8c historical proxy baseline) | — |
 
-**Honesty line:** Guide 01 DoD met ≠ portfolio v1 success checklist complete. Embedding + CE are **frozen (Tom override)** Guide 09 (`evals/MODEL_FREEZE_STATUS.md`) despite Guide 08 T1 n=44 paired ask delta **0** / helps=0 (**no** lift claim). Guide 05 keep history retained; **LICENSE** PolyForm-NC 1.0.0 Met Guide 10a (source-available / non-commercial — **not** OSI open source / **not** MIT; LICENSE Met ≠ flip); public-flip packaging checklist (≠ flip) is [`docs/PUBLIC_FLIP_CHECKLIST.md`](./PUBLIC_FLIP_CHECKLIST.md). Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
+**Honesty line:** Guide 01 DoD met + Guide 10b **fixtures-only public flip** Met ≠ earned CE lift / ≠ OSI open source / ≠ PrivateGold complete. Embedding + CE are **frozen (Tom override)** Guide 09 (`evals/MODEL_FREEZE_STATUS.md`) despite Guide 08 T1 n=44 paired ask delta **0** / helps=0 (**no** lift claim). Guide 05 keep history retained; **LICENSE** PolyForm-NC 1.0.0 Met Guide 10a (source-available / non-commercial — **not** OSI open source / **not** MIT); public-flip checklist Met Guide 10b → [`docs/PUBLIC_FLIP_CHECKLIST.md`](./PUBLIC_FLIP_CHECKLIST.md). Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
 
 ---
 

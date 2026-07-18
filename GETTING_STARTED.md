@@ -2,7 +2,7 @@
 
 Clone-depth operator path for the **hybrid → RRF → section dedup → local CE** vertical slice. Contracts: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Interview gotchas: [`INTERVIEW.md`](INTERVIEW.md). Skim + Quick Start: [`README.md`](README.md). Product why: [`docs/VISION.md`](docs/VISION.md).
 
-This is **not** portfolio v1 complete, **not** public-flip ready. Embed/CE are **frozen (Tom override)** Guide 09 with n=44 delta **0** honesty (not earned lift). **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT). Public corpus = fixtures only.
+This is the stranger-clone path for a **fixtures-only** portfolio public flip (Guide 10b). Embed/CE are **frozen (Tom override)** Guide 09 with n=44 delta **0** honesty (not earned lift). **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT). Public corpus = fixtures only.
 
 ---
 
@@ -111,11 +111,11 @@ If Next is down, `--retrieval-only` is an escape hatch only — full stranger sm
 
 | Topic | Truth |
 |-------|--------|
-| Packaging | Stranger-clone + FAQ shell — not portfolio v1 complete |
-| Public flip | **Not** ready |
+| Packaging | Stranger-clone + FAQ shell — fixtures-only public flip Met Guide 10b |
+| Public flip | **Met** Guide 10b (fixtures-only) — not earned CE lift; not OSI open source; not PrivateGold/Drive |
 | Embed / CE | **Frozen (Tom override)** Guide 09 — flat delta; no lift claim (`evals/MODEL_FREEZE_STATUS.md`); CE stays in pipeline; paired ask delta **0** on n=44 (helps=0/hurts=0) |
-| Public flip checklist | Packaging only — [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) (≠ flip / ≠ v1 Done) |
-| License | **PolyForm Noncommercial 1.0.0** ([`LICENSE`](LICENSE), Guide 10a) — source-available / non-commercial; commercial use → contact copyright holder; **not** OSI open source / **not** MIT; LICENSE Met ≠ public flip |
+| Public flip checklist | [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) — Guide 10b Met |
+| License | **PolyForm Noncommercial 1.0.0** ([`LICENSE`](LICENSE), Guide 10a) — source-available / non-commercial; commercial use → contact copyright holder; **not** OSI open source / **not** MIT |
 | Guide 02 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=12, gemma, citation∩gold) — honest flat |
 | Guide 04 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=30) |
 | Guide 07 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=38) — superseded as current by Guide 08 |

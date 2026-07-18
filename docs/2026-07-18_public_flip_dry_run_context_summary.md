@@ -2,18 +2,21 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag`  
-**Status:** **Write complete** — Guide 10b drafted (pass 156); Ready-check next; §9 public flip still `[ ]`  
+**Status:** **Implemented** — Guide 10b fixtures-only public flip Met (pass 156); freeze override + PolyForm-NC honesty retained  
 **Mode last used:** spoke  
-**Guide (Write):** `docs/dev_guides/2026-07-18_dev_guide_10b_public_flip_packaging.md`  
+**Guide:** `docs/dev_guides/2026-07-18_dev_guide_10b_public_flip_packaging.md` (**Implemented**)  
+**Handoff (Implement):** `second_brain/docs/2026-07-18_spoke_mechanic_implement_public_flip_pass156_handoff.md`  
+**Ready-check:** `docs/2026-07-18_guide10b_ready_check_public_flip_pass156_note.md` (9.2/10)  
+**Handoff (Ready):** `second_brain/docs/2026-07-18_spoke_mechanic_ready_public_flip_pass156_handoff.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_public_flip_pass156_handoff.md`  
 **Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_public_flip_pass156_handoff.md`  
 **Hub:** `second_brain/docs/2026-07-18_prioritize_hub_pass156.md`  
 **Checklist:** `docs/PUBLIC_FLIP_CHECKLIST.md`  
 **Lens:** Portfolio packaging / marketing honesty (not ranking/ML)
 
-**Prior closed:** Guide 09 freeze-override · Guide 10a PolyForm-NC LICENSE (Aligned / Closed `7c77563`).  
-**Tom / hub locks (pass 156):** **A** (standing Implement after Ready evidence) · **S2** (fail-closed + GETTING_STARTED; health/ask when env up).  
-**VISION §9 (live):** freeze `[x]` · public flip `[ ]` · LICENSE Met (PolyForm-NC).
+**Prior closed:** Guide 09 freeze-override · Guide 10a PolyForm-NC LICENSE.  
+**Tom / hub locks (pass 156):** **A** · **S2**.  
+**VISION §9 (live):** freeze `[x]` · public flip `[x]` (fixtures-only Guide 10b) · LICENSE Met (PolyForm-NC).
 
 ---
 

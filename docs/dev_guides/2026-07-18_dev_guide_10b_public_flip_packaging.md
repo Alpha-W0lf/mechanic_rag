@@ -4,13 +4,14 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 10b — tick VISION §9 **public flip / portfolio “v1 Done”** (fixtures-only) + banner Align; dry-run evidence required  
 **Stage that authored this:** Write-dev-guide (pass 156)  
-**Status:** **Ready-check Met** 2026-07-18 (9.2/10) — not Implemented; §9 public flip still `[ ]`  
-**Ready-check:** `docs/2026-07-18_guide10b_ready_check_public_flip_pass156_note.md` (9.2/10 · fail-closed OK · S2 env gap noted)  
+**Status:** **Implemented** 2026-07-18 (Guide 10b fixtures-only public flip) — §9 public flip Met; freeze override + PolyForm-NC honesty retained  
+**Ready-check:** `docs/2026-07-18_guide10b_ready_check_public_flip_pass156_note.md` (9.2/10)  
+**Handoff (Implement):** `second_brain/docs/2026-07-18_spoke_mechanic_implement_public_flip_pass156_handoff.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-18_public_flip_dry_run_context_summary.md`  
 **Handoff (Ready):** `second_brain/docs/2026-07-18_spoke_mechanic_ready_public_flip_pass156_handoff.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_public_flip_pass156_handoff.md`  
 **Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_public_flip_pass156_handoff.md`  
-**Prerequisite:** Guide 09 freeze-override **Aligned / Closed**; Guide 10a PolyForm-NC LICENSE **Aligned / Closed**; hub pass 156 locks **A** + **S2**
+**Prerequisite:** Guide 09 freeze-override **Aligned / Closed**; Guide 10a PolyForm-NC LICENSE **Aligned / Closed**; hub pass 156 locks **A** + **S2** · Ready Met under lock A
 
 **Tom / hub locks (pass 156 — do not reopen):**
 
@@ -81,7 +82,7 @@ Land an **honest fixtures-only public flip**: check VISION §9 public-flip row a
 
 | Pin | Locked default |
 |-----|----------------|
-| VISION §9 public flip | Change `- [ ]` → `- [x]` **only** at Implement after Ready Met |
+| VISION §9 public flip | `- [x]` at Implement after Ready Met (Guide 10b) |
 | Banner claim | Fixtures-only **public flip** / portfolio **“v1 Done”** marketing — must co-state: freeze = Tom override (not lift); PolyForm-NC = source-available / non-commercial (not OSI / not MIT) |
 | Forbidden positive claims | “earned CE lift”; “OSI open source”; “MIT”; implying PrivateGold/Drive/OEM in public git |
 | PUBLIC_FLIP gate 5 | Update to flip Met (Guide 10b) after Implement; refresh date |
@@ -103,47 +104,45 @@ Land an **honest fixtures-only public flip**: check VISION §9 public-flip row a
 
 ---
 
-## Acceptance criteria (for later Implement — unchecked at Write)
+## Acceptance criteria (Implement)
 
-- [ ] Ready note attaches fail-closed OK + honesty greps + S2 attestation (health/ask or env gap)  
-- [ ] VISION §9 public flip `[x]` with fixtures-only + honesty prose  
-- [ ] README / GETTING_STARTED / INTERVIEW / VISION / ARCHITECTURE banners Align (flip Met; no CE-lift / OSI mislabel)  
-- [ ] `PUBLIC_FLIP_CHECKLIST.md` gate 5 updated; non-claims retain override + PolyForm-NC honesty  
-- [ ] Verification commands pass; no ranking/code changes  
+- [x] Ready note attaches fail-closed OK + honesty greps + S2 attestation (health/ask or env gap)  
+- [x] VISION §9 public flip `[x]` with fixtures-only + honesty prose  
+- [x] README / GETTING_STARTED / INTERVIEW / VISION / ARCHITECTURE banners Align (flip Met; no CE-lift / OSI mislabel)  
+- [x] `PUBLIC_FLIP_CHECKLIST.md` gate 5 updated; non-claims retain override + PolyForm-NC honesty  
+- [x] Verification commands pass; no ranking/code changes  
 
 ---
 
 ## Ordered step checklist
 
-All boxes start unchecked. **Do not check boxes in Write / Ready-check.**
-
 ### Phase A — Ready dry-run (before Implement)
 
-- [ ] **A1.** Run `python3 scripts/checks/public_fail_closed.py fixtures` — must OK / exit 0. Attach evidence to Ready note.  
-- [ ] **A2.** Honesty greps: freeze Tom override + n=44 delta 0; PolyForm-NC / source-available; §9 public flip still `[ ]` pre-Implement.  
-- [ ] **A3.** S2: attest GETTING_STARTED path still matches reality (read steps 1–8).  
-- [ ] **A4.** S2 optional runtime: if Compose + Ollama + Next available, run health + one ask from GETTING_STARTED; else record **env gap** (do not fake).  
-- [ ] **A5.** Confirm `.env` / `web/.env.local` not tracked (`git ls-files`).  
-- [ ] **A6.** Ready-check score ≥ Ready bar; attach A1–A5 evidence. Under lock **A**, Ready Met ⇒ Implement authorized.
+- [x] **A1.** Run `python3 scripts/checks/public_fail_closed.py fixtures` — must OK / exit 0. Attach evidence to Ready note.  
+- [x] **A2.** Honesty greps: freeze Tom override + n=44 delta 0; PolyForm-NC / source-available; §9 public flip still `[ ]` pre-Implement.  
+- [x] **A3.** S2: attest GETTING_STARTED path still matches reality (read steps 1–8).  
+- [x] **A4.** S2 optional runtime: if Compose + Ollama + Next available, run health + one ask from GETTING_STARTED; else record **env gap** (do not fake).  
+- [x] **A5.** Confirm `.env` / `web/.env.local` not tracked (`git ls-files`).  
+- [x] **A6.** Ready-check score ≥ Ready bar; attach A1–A5 evidence. Under lock **A**, Ready Met ⇒ Implement authorized.
 
 ### Phase B — Tick public flip
 
-- [ ] **B1.** VISION §9: check public-flip row; prose = fixtures-only flip; freeze = override not lift; PolyForm-NC ≠ OSI.  
-- [ ] **B2.** VISION status banner: portfolio public flip Met (fixtures-only) while retaining freeze/LICENSE honesty.  
-- [ ] **B3.** Update `docs/PUBLIC_FLIP_CHECKLIST.md` gate 5 (+ date); keep explicit non-claims.
+- [x] **B1.** VISION §9: check public-flip row; prose = fixtures-only flip; freeze = override not lift; PolyForm-NC ≠ OSI.  
+- [x] **B2.** VISION status banner: portfolio public flip Met (fixtures-only) while retaining freeze/LICENSE honesty.  
+- [x] **B3.** Update `docs/PUBLIC_FLIP_CHECKLIST.md` gate 5 (+ date); keep explicit non-claims.
 
 ### Phase C — Banner Align
 
-- [ ] **C1.** README — remove “Not public-flip ready”; claim fixtures-only flip / v1 Done marketing **with** honesty clauses.  
-- [ ] **C2.** GETTING_STARTED Honesty table — Public flip Met (fixtures-only); retain freeze + LICENSE rows.  
-- [ ] **C3.** INTERVIEW — packaging FAQ: flip Met; still not earned CE lift; still not OSI open source.  
-- [ ] **C4.** ARCHITECTURE status / deferred rows — public flip Met; LICENSE already Met Guide 10a.  
-- [ ] **C5.** Grep: no “earned CE lift” / OSI-open-source-as-license positive claims; freeze override intact.
+- [x] **C1.** README — remove “Not public-flip ready”; claim fixtures-only flip / v1 Done marketing **with** honesty clauses.  
+- [x] **C2.** GETTING_STARTED Honesty table — Public flip Met (fixtures-only); retain freeze + LICENSE rows.  
+- [x] **C3.** INTERVIEW — packaging FAQ: flip Met; still not earned CE lift; still not OSI open source.  
+- [x] **C4.** ARCHITECTURE status / deferred rows — public flip Met; LICENSE already Met Guide 10a.  
+- [x] **C5.** Grep: no “earned CE lift” / OSI-open-source-as-license positive claims; freeze override intact.
 
 ### Phase D — Stop
 
-- [ ] **D1.** No ranking/eval/fixture/OEM changes; no LICENSE rewrite.  
-- [ ] **D2.** Stop for Review (after Implement). Align docs if Review finds soft residuals.
+- [x] **D1.** No ranking/eval/fixture/OEM changes; no LICENSE rewrite.  
+- [x] **D2.** Stop for Review (after Implement). Align docs if Review finds soft residuals.
 
 ---
 
@@ -211,6 +210,6 @@ Revert banner/§9 commits; restore “Not public-flip ready” honesty; leave LI
 
 ---
 
-## Ready for Ready-check?
+## Implement / close
 
-**Done** — Ready-check Met 9.2/10 (`docs/2026-07-18_guide10b_ready_check_public_flip_pass156_note.md`). Under lock **A**, Implement may proceed when hub/spoke starts Implement stage. Do **not** silent-flip from Ready alone.
+**Implemented** 2026-07-18 under lock A. §9 public flip Met (fixtures-only). S2 health/ask env gap soft-attested. Stop for Review when hub authorizes.

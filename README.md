@@ -2,7 +2,7 @@
 
 Personal, non-commercial **portfolio** project. Text-only RAG over automotive service documentation.
 
-**Status:** Guide 01 vertical slice implemented for local Compose + fixtures. Formal embed/CE **frozen (Tom override)** Guide 09. **License:** PolyForm Noncommercial 1.0.0 — **source-available / non-commercial** (not OSI open source; not MIT). **Not** portfolio-complete. **Not** public-flip ready. **Not** “v1 done.”
+**Status:** Guide 01 vertical slice implemented for local Compose + fixtures. Formal embed/CE **frozen (Tom override)** Guide 09. **License:** PolyForm Noncommercial 1.0.0 — **source-available / non-commercial** (not OSI open source; not MIT). **Fixtures-only public flip Met** Guide 10b (portfolio “v1 Done” marketing). **Not** earned CE lift. **Not** PrivateGold/Drive complete.
 
 **SSOT:** [`docs/VISION.md`](docs/VISION.md) · [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`GETTING_STARTED.md`](GETTING_STARTED.md) · [`INTERVIEW.md`](INTERVIEW.md) · [`LICENSE`](LICENSE) · [`docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md`](docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md) · [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md)
 
@@ -54,9 +54,9 @@ mecharag eval --golden evals/
 - Generator default is **gemma4:e2b** (pass 9 smoke OK). Pass 8c eval baseline historically used **qwen3.5:4b**.
 - Eval set is **44** fixture cases on `fixture:honda-s2000-demo` (Guide 04–08; T1 synthetic confusable sections); paired ask `ce_vs_rrf_ask_delta_hits=0` (helps=0/hurts=0); second vehicle / wiring still deferred (`evals/PATH_TO_30.md`).
 - Stale paths (`db/schema.sql`, `supabase/**`, deleted stub `web/app`) are non-authoritative.
-- Packaging: [`GETTING_STARTED.md`](GETTING_STARTED.md) (clone path) · [`INTERVIEW.md`](INTERVIEW.md) (FAQ) — Guide 03; still not portfolio v1 / public flip / v1 Done.
-- **License:** [`LICENSE`](LICENSE) — PolyForm Noncommercial 1.0.0 (Guide 10a). Source-available · non-commercial OK · contact copyright holder for commercial use. **Not** OSI open source / **not** MIT. LICENSE Met ≠ public flip.
-- Public-flip packaging checklist (≠ flip): [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md). Formal freeze (Guide 09 Tom override): [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
+- Packaging: [`GETTING_STARTED.md`](GETTING_STARTED.md) (clone path) · [`INTERVIEW.md`](INTERVIEW.md) (FAQ) — Guide 03; **fixtures-only public flip Met** Guide 10b (still not earned CE lift / not OSI open source).
+- **License:** [`LICENSE`](LICENSE) — PolyForm Noncommercial 1.0.0 (Guide 10a). Source-available · non-commercial OK · contact copyright holder for commercial use. **Not** OSI open source / **not** MIT.
+- Public-flip checklist (Guide 10b Met): [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md). Formal freeze (Guide 09 Tom override): [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
 
 ### Paired ask ablation eval (Guide 02)
 
