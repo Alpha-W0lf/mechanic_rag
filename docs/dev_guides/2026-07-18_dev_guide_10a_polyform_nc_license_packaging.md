@@ -4,8 +4,11 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 10a — add root **PolyForm Noncommercial License 1.0.0** `LICENSE`; refresh public-flip checklist gate 6 honesty; **no** public flip / VISION §9 marketing tick  
 **Stage that authored this:** Write-dev-guide (pass 153) · **Soft Adjust** Write (pass 154) — MIT → PolyForm-NC  
-**Status:** **Implemented** 2026-07-18 (Guide 10a PolyForm-NC LICENSE packaging) — LICENSE Met; public flip **not** Met  
+**Status:** **Aligned / Closed** 2026-07-18 (Guide 10a PolyForm-NC LICENSE packaging) — LICENSE Met; public flip **not** Met  
 **Ready-check:** `docs/2026-07-18_guide10a_ready_check_polyform_nc_pass155_note.md` (9.2/10)  
+**Align note:** `docs/2026-07-18_guide10a_align_polyform_nc_pass155_note.md`  
+**Handoff (Align):** `second_brain/docs/2026-07-18_spoke_mechanic_align_polyform_nc_pass155_handoff.md`  
+**Implement:** `a36303f` · **Review:** shippable `989828f`  
 **Handoff (Implement):** `second_brain/docs/2026-07-18_spoke_mechanic_implement_polyform_nc_pass155_handoff.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-18_license_public_flip_path_context_summary.md`  
 **Decision note:** `second_brain/docs/2026-07-18_license_polyform_nc_decision_note.md`  
@@ -228,6 +231,6 @@ Delete `LICENSE`; revert doc commits; restore “LICENSE absent” honesty.
 
 ---
 
-## Ready for Ready-check?
+## Align / close (pass 155)
 
-**Yes** — Soft Adjust complete; PolyForm-NC + P1 locked; placements pinned. Residual craft: exact README commercial-contact sentence at Implement. Re-run Ready-check before Implement (prior MIT Ready score is stale).
+**Aligned / Closed.** Soft Adjust → Ready (9.2) → Implement (`a36303f`) → Review shippable (`989828f`) → Align. LICENSE Met (PolyForm-NC); public flip / Guide 10b **out of Met**.

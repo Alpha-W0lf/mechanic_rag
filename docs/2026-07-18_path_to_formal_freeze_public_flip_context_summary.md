@@ -10,10 +10,10 @@
 **Lens:** AI engineer (RAG eval honesty) + portfolio packaging  
 **Guide:** `docs/dev_guides/2026-07-18_dev_guide_09_tom_freeze_override_packaging.md`
 
-**VISION §9 (live after Guide 09):** Formal embed/CE freeze **checked** (Tom override; n=44 delta 0); public flip / “v1 Done” **unchecked** (LICENSE unmet).  
-**Honesty banner:** Checklist ≠ freeze ≠ public flip. Flat paired-ask delta ≠ earned freeze. Guide 05 keep ≠ freeze. Guide 09 override freeze ≠ public flip.
+**VISION §9 (live after Guide 09 + 10a):** Formal embed/CE freeze **checked** (Tom override; n=44 delta 0); public flip / “v1 Done” **unchecked**; LICENSE **Met** Guide 10a PolyForm-NC (source-available / non-commercial — LICENSE Met ≠ flip).  
+**Honesty banner:** Checklist ≠ freeze ≠ LICENSE ≠ public flip. Flat paired-ask delta ≠ earned freeze. Guide 05 keep ≠ freeze. Guide 09 override freeze ≠ public flip.
 
-### Outcome (Guide 09 Path B — current truth)
+### Outcome (Guide 09 Path B — freeze; Guide 10a P1 — LICENSE)
 
 | Field | Value |
 |-------|-------|
@@ -22,8 +22,8 @@
 | Evidence | n=44, `ce_vs_rrf_ask_delta_hits=0`, helps=0/hurts=0 |
 | VISION §9 freeze | `[x]` |
 | VISION §9 public flip | `[ ]` |
-| LICENSE | **Absent** (still open for flip) |
-| Implement / Review | `531668d` / shippable `f699f75` |
+| LICENSE | **Met** — PolyForm-NC 1.0.0 Guide 10a (`a36303f`; Review `989828f`) |
+| Guide 09 Implement / Review | `531668d` / shippable `f699f75` |
 
 Below: Gather-era framing retained for history.
 

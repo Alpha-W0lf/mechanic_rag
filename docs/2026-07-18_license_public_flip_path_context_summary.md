@@ -2,21 +2,34 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag`  
-**Status:** Draft (Gather — pass 153 spoke)  
+**Status:** **Closed (Guide 10a P1)** — PolyForm-NC LICENSE Met (Align pass 155); public flip still open  
 **Mode last used:** spoke  
-**Handoff:** `second_brain/docs/2026-07-18_spoke_mechanic_gather_license_public_flip_pass153_handoff.md`  
+**Handoff (Align):** `second_brain/docs/2026-07-18_spoke_mechanic_align_polyform_nc_pass155_handoff.md`  
+**Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_license_public_flip_pass153_handoff.md`  
 **Hub:** `second_brain/docs/2026-07-18_prioritize_hub_pass153.md`  
 **Lens:** Portfolio packaging / open-source hygiene (not ranking/ML)
 
 **Prior closed:** Guide 09 Path B freeze-override — embed/CE **frozen (Tom override)**; n=44 delta **0** honesty.  
-**VISION §9 (live):** freeze `[x]` · public flip `[ ]` · LICENSE **absent**.
+**VISION §9 (live):** freeze `[x]` · public flip `[ ]` · LICENSE **Met** Guide 10a PolyForm-NC (source-available / non-commercial).
+
+### Outcome (Guide 10a P1 — current truth)
+
+| Field | Value |
+|-------|-------|
+| LICENSE | **PolyForm Noncommercial 1.0.0** (`PolyForm-Noncommercial-1.0.0`) — root `LICENSE` |
+| Honesty | Source-available / non-commercial — **not** OSI open source / **not** MIT |
+| VISION §9 public flip | `[ ]` (LICENSE Met ≠ flip) |
+| Implement / Review | `a36303f` / shippable `989828f` |
+| Guide | **Aligned / Closed** |
+
+Below: Gather-era framing retained for history (MIT recommendation later Soft-Adjusted to PolyForm-NC).
 
 ---
 
 ## Problem
 
 Mechanic’s only remaining VISION §9 build gate is **public flip / portfolio “v1 Done.”**  
-`docs/PUBLIC_FLIP_CHECKLIST.md` gate 6 still fails: **no `LICENSE` file**. Checklist packaging ≠ flip. Freeze is already Met (Guide 09 override) and must **not** be rewritten as earned lift.
+`docs/PUBLIC_FLIP_CHECKLIST.md` gate 6 **LICENSE** was unmet at Gather; Guide 10a P1 landed PolyForm-NC. Checklist packaging ≠ flip. Freeze is already Met (Guide 09 override) and must **not** be rewritten as earned lift.
 
 Tom lock (pass 154 Soft Adjust): **LICENSE = PolyForm Noncommercial 1.0.0** (supersedes pass-153 MIT recommendation). Public flip remains a **separate** Tom gate after LICENSE lands + checklist re-verify. Honesty: **source-available / non-commercial** — not OSI open source.
 

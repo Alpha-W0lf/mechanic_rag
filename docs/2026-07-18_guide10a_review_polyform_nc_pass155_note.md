@@ -28,10 +28,10 @@
 | Guide Phases A–D / acceptance | **Pass** — Status **Implemented**; acceptance + A–D checked |
 | Forbidden positive claims | **Pass** — MIT / OSI-open-source / public-flip-ready / v1 Done / earned CE lift appear only as **negations** |
 
-### Soft residuals (not blocking — Align-only if hub authorizes)
+### Soft residuals — **cleared on Align pass 155**
 
-1. `docs/ARCHITECTURE.md` deferred row still says `Public flip / LICENSE (separate)` — LICENSE is now Met; thin Align could split “LICENSE Met Guide 10a / public flip separate.”  
-2. Guide Soft Adjust historical “Ready for Ready-check?” footer — stale relative to Implemented status; cosmetic only.
+1. ~~`docs/ARCHITECTURE.md` “Public flip / LICENSE (separate)”~~ → LICENSE Met Guide 10a / public flip separate.  
+2. ~~Guide Soft Adjust “Ready for Ready-check?” footer~~ → Align / close block.
 
 ### Explicit non-claims
 
