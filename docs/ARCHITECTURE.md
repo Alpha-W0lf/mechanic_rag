@@ -1,6 +1,6 @@
 # Mechanic RAG — Architecture (v1)
 
-**Status:** Binding contracts SSOT · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · Guide 11–**14** **PrivateGoldSource** (fixture + Soft Adjust synthetic + **live Soft Adjust pilot**) · **Not** dual-product Done · **Not** friend Drive Soft Adjust Review Met · **Not** earned CE lift · **Not** OSI open source  
+**Status:** Binding contracts SSOT · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · Guide 11–**15** **PrivateGoldSource** (fixture + Soft Adjust synthetic + live Soft Adjust pilot + **Soft Adjust ask smoke**) · **Not** dual-product Done · **Not** friend Drive Soft Adjust Review Met · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
 **Updated:** 2026-07-18 (Guide 10b fixtures-only public flip)  
 **Owner:** Tom  
@@ -132,7 +132,7 @@ One versioned **NormalizedDocumentManifest** interface; two adapters:
 | Adapter | Input | Trust |
 |---------|-------|-------|
 | **`FixtureSource`** | Allowlisted paths under `fixtures/` only | Public-safe; CI/release must reject PDFs, private roots, `private_oem`, and non-allowlisted classes |
-| **`PrivateGoldSource`** | Configured local Gold root via `MECHANIC_PRIVATE_GOLD_ROOT` / `--root` (outside default `fixtures/`) | **Guide 11–12** fixture Met. **Guide 13** Soft Adjust synthetic `cat:`/`private_oem` + required `gold_status`. **Guide 14 Soft Adjust live pilot:** map Vehicle `present_only_receipt.json` → `gold_status.json` (`mecharag receipt-to-gold-status`); ingest/load local live emit (e.g. `cat:2017-f-150`) — **not** friend rclone Review Met / dual-product Done / Ford PTS. **Never** Drive (GD2). |
+| **`PrivateGoldSource`** | Configured local Gold root via `MECHANIC_PRIVATE_GOLD_ROOT` / `--root` (outside default `fixtures/`) | **Guide 11–12** fixture Met. **Guide 13** Soft Adjust synthetic `cat:`/`private_oem` + required `gold_status`. **Guide 14 Soft Adjust live pilot:** map Vehicle `present_only_receipt.json` → `gold_status.json` (`mecharag receipt-to-gold-status`); ingest/load local live emit (e.g. `cat:2017-f-150`). **Guide 15 Soft Adjust ask smoke:** synthetic `cat:demo-synthetic-f150` through `/api/ask` (unit/contract Met; HTTP when stack up) — incomplete Gold may yield `insufficient_evidence` — **not** friend rclone Review Met / dual-product Done / Ford PTS / live F-150 upsert Met. **Never** Drive (GD2). |
 
 Downstream chunk/embed/upsert code is shared. Do **not** use a single adapter toggled by a dangerous “trust mode” flag that can point public defaults at private roots.
 
@@ -483,17 +483,17 @@ Guide 01 vertical slice landed. This table is **post-slice**, not pre-implement.
 | Area | Guide 01 today | Still open (portfolio v1 / later) |
 |------|----------------|-----------------------------------|
 | App tree | `web/src/app` only; root `web/app` gone | Do not recreate dual trees |
-| `/api/ask` | Real hybrid → RRF → section dedup → CE → Ollama + DB citations | Packaging polish; live Soft Adjust OEM ingest |
+| `/api/ask` | Real hybrid → RRF → section dedup → CE → Ollama + DB citations; **Guide 15 Soft Adjust ask smoke** (synthetic Soft Adjust vehicle) | Packaging polish; live Soft Adjust full-corpus upsert (ops) |
 | Deps | `pg` + `@xenova/transformers` in `web/package.json`; Ollama via HTTP | — |
 | Compose | `docker-compose.yml` Postgres+pgvector | — |
 | Ingest | `mecharag ingest --source fixtures`; **private-gold** Guide 11–**14** (fixture + Soft Adjust synthetic + live Soft Adjust pilot) | Friend Drive Soft Adjust Review Met / dual-product Done (out) |
 | Schema | `db/migrations/001_init.sql` (§6-shaped) | Grow catalog features as library sync lands |
 | Ranking | §7 order live; `section_dedup.ts`; CE with degrade; Guide 02 env ablation `MECHANIC_FORCE_RRF_ONLY` + paired ask fields | LICENSE Met Guide 10a; fixtures-only public flip Met Guide 10b |
 | Health | Liveness ≠ readiness | — |
-| Evals/tests | **n=44** S2000 fixture goldens (Guide 04–08; T1 +3 synthetic confusable sections) + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 08 paired ask delta **0** / helps=0; Guide 05 keep history; Guide 09 Path B freeze-override; Guide 11 PrivateGold unit tests | Second vehicle / wiring deferred; live Soft Adjust OEM ingest |
+| Evals/tests | **n=44** S2000 fixture goldens (Guide 04–08; T1 +3 synthetic confusable sections) + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 08 paired ask delta **0** / helps=0; Guide 05 keep history; Guide 09 Path B freeze-override; Guide 11–15 PrivateGold / Soft Adjust ask unit tests | Soft Adjust golden suite (E2) deferred; live Soft Adjust full upsert ops |
 | Generator | Default / smoke: `gemma4:e2b`; fallback `qwen3.5:4b` (pass 8c historical proxy baseline) | — |
 
-**Honesty line:** Guide 01 DoD met + Guide 10b **fixtures-only public flip** Met ≠ earned CE lift / ≠ OSI open source / ≠ dual-product Done. Guide 11–**14** **PrivateGoldSource** Met: fixture multi-vehicle + Soft Adjust synthetic present-only + **Guide 14 live Soft Adjust pilot** (receipt→`gold_status`; local Vehicle `out/live` emit) ≠ friend Drive Soft Adjust Review Met ≠ Ford PTS ≠ Drive ingest. Embedding + CE are **frozen (Tom override)** Guide 09 (`evals/MODEL_FREEZE_STATUS.md`) despite Guide 08 T1 n=44 paired ask delta **0** / helps=0 (**no** lift claim). Guide 05 keep history retained; **LICENSE** PolyForm-NC 1.0.0 Met Guide 10a (source-available / non-commercial — **not** OSI open source / **not** MIT); public-flip checklist Met Guide 10b → [`docs/PUBLIC_FLIP_CHECKLIST.md`](./PUBLIC_FLIP_CHECKLIST.md). Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
+**Honesty line:** Guide 01 DoD met + Guide 10b **fixtures-only public flip** Met ≠ earned CE lift / ≠ OSI open source / ≠ dual-product Done. Guide 11–**15** **PrivateGoldSource** Met: fixture multi-vehicle + Soft Adjust synthetic present-only + **Guide 14 live Soft Adjust pilot** (receipt→`gold_status`; local Vehicle `out/live` emit) + **Guide 15 Soft Adjust ask smoke** (synthetic `cat:demo-synthetic-f150`; incomplete Gold may return `insufficient_evidence`) ≠ friend Drive Soft Adjust Review Met ≠ Ford PTS ≠ Drive ingest ≠ live Soft Adjust full-corpus upsert Met. Embedding + CE are **frozen (Tom override)** Guide 09 (`evals/MODEL_FREEZE_STATUS.md`) despite Guide 08 T1 n=44 paired ask delta **0** / helps=0 (**no** lift claim). Guide 05 keep history retained; **LICENSE** PolyForm-NC 1.0.0 Met Guide 10a (source-available / non-commercial — **not** OSI open source / **not** MIT); public-flip checklist Met Guide 10b → [`docs/PUBLIC_FLIP_CHECKLIST.md`](./PUBLIC_FLIP_CHECKLIST.md). Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
 
 ---
 
@@ -518,7 +518,7 @@ Order used by Write-dev-guide / Implement. Steps **1–7 done** for Guide 01; st
 |----|------------------------|
 | MR1 | §4 canonical `web/src/app` (**implemented**) |
 | MR2 | §7 ranking + lexical + **local CE (N→K)** + degrade + eval lift (**path live**; models **frozen Tom override** Guide 09; delta 0 honesty) |
-| MR3 | §5.2 adapters (FixtureSource live; PrivateGoldSource Guide 11–14 fixture + Soft Adjust synthetic + live Soft Adjust pilot Met; friend Drive Review out) |
+| MR3 | §5.2 adapters (FixtureSource live; PrivateGoldSource Guide 11–15 fixture + Soft Adjust synthetic + live Soft Adjust pilot + Soft Adjust ask smoke Met; friend Drive Review out) |
 | MR4 | §5.4 Gold / chunking / `vehicle_id` |
 | MR5 | §10 metrics now (incl. CE lift); thresholds later; first baseline recorded (n=5) |
 | D3/D4/D10/D12 | §2 stack |

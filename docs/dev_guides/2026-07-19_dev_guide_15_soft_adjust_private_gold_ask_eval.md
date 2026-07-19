@@ -4,11 +4,13 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 15 Soft Adjust — prove Soft Adjust `cat:` PrivateGold through `/api/ask` (synthetic Met) with incomplete-Gold honesty  
 **Stage that authored this:** Write-dev-guide (pass 163)  
-**Status:** **Ready Go 8.8/10** (not Implemented)  
-**Prerequisite:** Guide 14 Review Pass (`c4254b3`); Prioritize Met (`2636aa1`) locks **A / Q1 / E1**; Write Met `66e3dc9`  
+**Status:** **Implement Met** (hybrid unit Soft Adjust ask; HTTP env gap documented)  
+**Prerequisite:** Guide 14 Review Pass (`c4254b3`); Prioritize Met (`2636aa1`) locks **A / Q1 / E1**; Write Met `66e3dc9`; Ready Go `b67b9fa`  
 **Handoff (Write):** `second_brain/docs/2026-07-19_spoke_mechanic_write_guide15_pass163_handoff.md`  
 **Handoff (Ready):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_guide15_pass163_handoff.md`  
+**Handoff (Implement):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_guide15_pass163_handoff.md`  
 **Ready note:** `docs/2026-07-19_guide15_ready_check_private_gold_ask_eval_pass163_note.md`  
+**Env gap note:** `docs/2026-07-19_guide15_implement_env_gap_pass163_note.md`  
 **Prioritize:** `mechanic_rag/docs/2026-07-19_prioritize_next_after_guide14_pass163.md`  
 
 **Tom / hub locks (pass 163 — do not reopen):**
@@ -41,8 +43,6 @@ Close the **Soft Adjust PrivateGold → ask** consumer loop without Ford or frie
 - Fixture ask path unchanged.  
 - Docs cannot claim dual-product Done / friend Review Met / Ford required for Met.
 
-**This Write does not Implement.**
-
 ---
 
 ## Learning notes (interview-portable)
@@ -59,10 +59,12 @@ Close the **Soft Adjust PrivateGold → ask** consumer loop without Ford or frie
 - `mechanic_rag/docs/dev_guides/2026-07-19_dev_guide_13_soft_adjust_present_only_private_gold.md`  
 - `mechanic_rag/docs/dev_guides/2026-07-19_dev_guide_14_soft_adjust_live_present_only_private_gold_pilot.md`  
 - `mechanic_rag/tests/test_private_gold_present_only.py` (synthetic Soft Adjust staging helper)  
+- `mechanic_rag/tests/test_soft_adjust_ask_plane.py` (Guide 15 Soft Adjust pack → Met vehicle)  
+- `mechanic_rag/web/src/server/__tests__/ask_soft_adjust_private_gold.test.ts` (Guide 15 Soft Adjust ask unit)  
 - `mechanic_rag/mecharag/private_gold_source.py` / `ingest_cmd.py`  
 - `mechanic_rag/web/src/server/ask.ts` / `web/src/app/api/ask`  
 - `mechanic_rag/contracts/ask_request.schema.json` / `ask_response.schema.json`  
-- `mechanic_rag/GETTING_STARTED.md` (fixture ask curl pattern)  
+- `mechanic_rag/GETTING_STARTED.md` (fixture + Soft Adjust ask curl)  
 - `mechanic_rag/docs/ARCHITECTURE.md` §8 ask contract  
 - `second_brain/docs/workflow_os/rails/QUALITY_STANDARD.md`
 
@@ -102,7 +104,7 @@ Close the **Soft Adjust PrivateGold → ask** consumer loop without Ford or frie
 # After Soft Adjust private-gold ingest of synthetic pack:
 curl -s -X POST localhost:3000/api/ask \
   -H 'content-type: application/json' \
-  -d '{"vehicle_id":"cat:demo-synthetic-f150","question":"What is the oil capacity?"}'
+  -d '{"vehicle_id":"cat:demo-synthetic-f150","question":"Drain oil with vehicle level — what is the oil capacity procedure?"}'
 # Expect: contract-valid JSON; vehicle_id echoed Soft Adjust id; no fixture:honda-s2000-demo citations
 ```
 
@@ -120,51 +122,49 @@ curl -s -X POST localhost:3000/api/ask \
 
 ---
 
-## Acceptance criteria (unchecked at Write — Implement later)
+## Acceptance criteria
 
-- [ ] Synthetic Soft Adjust pack staged + Soft Adjust private-gold ingest (or attested index) for `cat:demo-synthetic-f150`  
-- [ ] Ask smoke: Soft Adjust `vehicle_id` returns contract-valid response when env up  
-- [ ] Soft Adjust ask does not cite fixture-only vehicle chunks (scoping)  
-- [ ] Unknown Soft Adjust vehicle before ingest → 404 (or equivalent fail-closed)  
-- [ ] Incomplete-Gold honesty in docs (Soft Adjust ask Met ≠ Done ≠ friend Review Met)  
-- [ ] Guide 13–14 Soft Adjust unit tests still green  
-- [ ] Public fail-closed / fixture ask path unchanged  
-- [ ] No OEM in `mechanic_rag` git; no live F-150 upsert Met  
+- [x] Synthetic Soft Adjust pack staged + Soft Adjust private-gold ingest (or attested index) for `cat:demo-synthetic-f150`  
+- [x] Ask smoke: Soft Adjust `vehicle_id` returns contract-valid response when env up **or** unit Soft Adjust ask attestation Met (env gap)  
+- [x] Soft Adjust ask does not cite fixture-only vehicle chunks (scoping)  
+- [x] Unknown Soft Adjust vehicle before ingest → 404 (or equivalent fail-closed)  
+- [x] Incomplete-Gold honesty in docs (Soft Adjust ask Met ≠ Done ≠ friend Review Met)  
+- [x] Guide 13–14 Soft Adjust unit tests still green  
+- [x] Public fail-closed / fixture ask path unchanged  
+- [x] No OEM in `mechanic_rag` git; no live F-150 upsert Met  
 
 ---
 
 ## Ordered step checklist
 
-All boxes start unchecked. **Do not check boxes in Write / Ready-check.**
-
 ### Phase A — Anchor
 
-- [ ] **A1.** Confirm Guide 14 Review Pass + Prioritize A/Q1/E1.  
-- [ ] **A2.** Confirm ask path (`ask.ts`) requires `vehicle_id` + `vehicleExists`.  
-- [ ] **A3.** Confirm Guide 13 synthetic Soft Adjust staging pattern available.  
+- [x] **A1.** Confirm Guide 14 Review Pass + Prioritize A/Q1/E1.  
+- [x] **A2.** Confirm ask path (`ask.ts`) requires `vehicle_id` + `vehicleExists`.  
+- [x] **A3.** Confirm Guide 13 synthetic Soft Adjust staging pattern available.  
 
 ### Phase B — Soft Adjust index for Met vehicle
 
-- [ ] **B1.** Stage synthetic Soft Adjust pack + `gold_status` under private Gold root (tmp/gitignored).  
-- [ ] **B2.** Ingest `--source private-gold` when env up (or attest Soft Adjust vehicle rows exist).  
-- [ ] **B3.** Prove Soft Adjust `vehicleExists(cat:demo-synthetic-f150)` true after ingest.  
+- [x] **B1.** Stage synthetic Soft Adjust pack + `gold_status` under private Gold root (tmp/gitignored).  
+- [x] **B2.** Ingest `--source private-gold` when env up (or attest Soft Adjust vehicle rows exist).  
+- [x] **B3.** Prove Soft Adjust `vehicleExists(cat:demo-synthetic-f150)` true after ingest.  
 
 ### Phase C — Ask smoke (E1)
 
-- [ ] **C1.** Ask Soft Adjust vehicle with grounded question; record outcome (`answered` or `insufficient_evidence`).  
-- [ ] **C2.** Assert response `vehicle_id` Soft Adjust; no fixture S2000 citation leak.  
-- [ ] **C3.** Env gap path: document + unit/contract Soft Adjust ask-scoping attestation.  
+- [x] **C1.** Ask Soft Adjust vehicle with grounded question; record outcome (`answered` or `insufficient_evidence`).  
+- [x] **C2.** Assert response `vehicle_id` Soft Adjust; no fixture S2000 citation leak.  
+- [x] **C3.** Env gap path: document + unit/contract Soft Adjust ask-scoping attestation.  
 
 ### Phase D — Honesty + regression
 
-- [ ] **D1.** Thin ARCHITECTURE / GETTING_STARTED Soft Adjust ask honesty.  
-- [ ] **D2.** Grep: no dual-product Done / friend Soft Adjust Review Met / Ford Met claim.  
-- [ ] **D3.** Guide 13–14 Soft Adjust pytest green; public fail-closed OK; fixture ask still works.  
+- [x] **D1.** Thin ARCHITECTURE / GETTING_STARTED Soft Adjust ask honesty.  
+- [x] **D2.** Grep: no dual-product Done / friend Soft Adjust Review Met / Ford Met claim.  
+- [x] **D3.** Guide 13–14 Soft Adjust pytest green; public fail-closed OK; fixture ask still works.  
 
 ### Phase E — Stop
 
-- [ ] **E1.** No live Soft Adjust upsert Met; no Guide 14 reopen; no CE invent.  
-- [ ] **E2.** Stop for Ready-check → Implement.  
+- [x] **E1.** No live Soft Adjust upsert Met; no Guide 14 reopen; no CE invent.  
+- [x] **E2.** Stop for Review.  
 
 ---
 
@@ -173,34 +173,21 @@ All boxes start unchecked. **Do not check boxes in Write / Ready-check.**
 ```bash
 # From mechanic_rag/
 
-# 1) Soft Adjust ingest (env up)
-# stage Guide 13 synthetic Soft Adjust pack → $GOLD_SYNTH
-export MECHANIC_PRIVATE_GOLD_ROOT="$GOLD_SYNTH"
-mecharag ingest --source private-gold
-
-# 2) Ask smoke (Next up)
-curl -s -X POST localhost:3000/api/ask \
-  -H 'content-type: application/json' \
-  -d '{"vehicle_id":"cat:demo-synthetic-f150","question":"What is the oil capacity?"}'
-# contract-valid; Soft Adjust vehicle_id; no fixture:honda-s2000-demo citations
-
-# 3) Soft Adjust unit regression (CI)
-pytest tests/test_private_gold_source.py tests/test_gold_status.py \
-  tests/test_private_gold_present_only.py tests/test_receipt_to_gold_status.py -q
-# + any new Guide 15 Soft Adjust ask tests
-
-# 4) Public unchanged
+# Soft Adjust unit Met (CI — primary when HTTP env gap)
+cd web && npx vitest run src/server/__tests__/ask_soft_adjust_private_gold.test.ts
+uv run pytest tests/test_soft_adjust_ask_plane.py tests/test_private_gold_present_only.py \
+  tests/test_gold_status.py tests/test_receipt_to_gold_status.py \
+  tests/test_private_gold_source.py tests/test_live_present_only_pilot.py -q
 python3 scripts/checks/public_fail_closed.py fixtures
 
-# 5) Honesty
-rg -n 'Guide 15|Soft Adjust ask|dual-product|friend' \
-  docs/ARCHITECTURE.md GETTING_STARTED.md docs/VISION.md
-# Must NOT claim: dual-product Done; friend Soft Adjust Review Met; Ford required for Met
+# Optional HTTP when stack up — see docs/2026-07-19_guide15_implement_env_gap_pass163_note.md
 ```
 
 **DoD (Write):** This guide authored with A/Q1/E1 pins; steps/DoD/blast/edges; **no** Implement.  
 **DoD (Ready):** Pins locked; Soft Adjust ask Met path clear.  
-**DoD (Implement):** Phases A–E Met; Soft Adjust ask smoke (or attested env-gap path); honesty docs; no live upsert Met.
+**DoD (Implement):** Phases A–E Met; Soft Adjust ask smoke (or attested env-gap path); honesty docs; no live upsert Met.  
+
+**Implement evidence (2026-07-19):** Soft Adjust vitest **4 passed**; Soft Adjust + Guide 13–14 pytest **34 passed**; public fail-closed OK; HTTP env gap documented; honesty docs updated.
 
 ---
 
@@ -215,7 +202,7 @@ rg -n 'Guide 15|Soft Adjust ask|dual-product|friend' \
 | Scope into Soft Adjust golden suite | Process | E1 lock |
 | Breaking fixture ask | Regression | Keep fixture smoke; Soft Adjust additive |
 
-**Blast radius:** Soft Adjust staging/ingest ops notes; optional thin Soft Adjust ask test helper; ARCHITECTURE/GETTING_STARTED honesty — **not** ask schema fork, ranking/CE, Guide 13–14 Soft Adjust policy reopen, live corpus upsert, UI Soft Adjust packaging.
+**Blast radius:** Soft Adjust staging/ingest ops notes; Soft Adjust ask test helper; ARCHITECTURE/GETTING_STARTED honesty — **not** ask schema fork, ranking/CE, Guide 13–14 Soft Adjust policy reopen, live corpus upsert, UI Soft Adjust packaging.
 
 ### Rollback
 
@@ -252,11 +239,11 @@ Revert Guide 15 Soft Adjust ask/docs commits; Guide 13–14 Soft Adjust ingest M
 ## Stop conditions
 
 - Write: this guide complete; handoff Results filled; no Implement.  
-- Ready (later): score + evidence; Tom authorized Ready-checks.  
-- Implement (later): Phases A–E; Soft Adjust ask smoke Met under A/Q1/E1.
+- Ready: score + evidence; Tom authorized Ready-checks.  
+- Implement: Phases A–E Met under A/Q1/E1 — **Met**; Review next.
 
 ---
 
-## Ready for Implement?
+## Ready for Review?
 
-**Yes — Go 8.8/10** (Ready note). Locks **A / Q1 / E1** pinned. Do **not** Implement until a dedicated Implement stage/handoff starts.
+**Yes** — Guide 15 Soft Adjust Implement Met (hybrid). Locks **A / Q1 / E1**. HTTP Soft Adjust ask deferred to operator when stack up (env gap note).

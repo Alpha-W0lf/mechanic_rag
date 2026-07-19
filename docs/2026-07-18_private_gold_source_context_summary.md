@@ -2,13 +2,14 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag` (+ read `second_brain` Contract 7.2 / Guide 10 / Soft Adjust live RAG)  
-**Status:** **Guide 15 Soft Adjust Ready Go 8.8/10** · Implement next (ask/eval Soft Adjust A/Q1/E1)  
+**Status:** **Guide 15 Soft Adjust Implement Met** · Review next (ask/eval Soft Adjust A/Q1/E1)  
 **Mode last used:** spoke  
-**Guide 15:** `docs/dev_guides/2026-07-19_dev_guide_15_soft_adjust_private_gold_ask_eval.md` (Write `66e3dc9`)  
+**Guide 15:** `docs/dev_guides/2026-07-19_dev_guide_15_soft_adjust_private_gold_ask_eval.md` (Write `66e3dc9` · Ready `b67b9fa`)  
 **Ready note (G15):** `docs/2026-07-19_guide15_ready_check_private_gold_ask_eval_pass163_note.md`  
+**Env gap (G15):** `docs/2026-07-19_guide15_implement_env_gap_pass163_note.md`  
 **Guide 14:** `docs/dev_guides/2026-07-19_dev_guide_14_soft_adjust_live_present_only_private_gold_pilot.md` (Review Pass `c4254b3`)  
 **Prioritize (after G14):** `docs/2026-07-19_prioritize_next_after_guide14_pass163.md` (`2636aa1`)  
-**Handoff (Ready G15):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_guide15_pass163_handoff.md`  
+**Handoff (Implement G15):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_guide15_pass163_handoff.md`  
 **Vehicle Soft Adjust #7:** Review Pass `005560b`  
 **Lens:** AI engineer (RAG ingest adapters) + data engineering (Gold → index)
 
@@ -17,9 +18,9 @@
 | Item | Value |
 |------|-------|
 | Mode | spoke |
-| Stage | **Ready-check Guide 15 Soft Adjust ask/eval** |
-| Will write | Ready note + handoff Results (no Implement) |
-| Will not | Implement this stage · Ford · rclone · dual-product Done · live Soft Adjust upsert Met |
+| Stage | **Implement Guide 15 Soft Adjust ask/eval** |
+| Will write | Soft Adjust ask unit + honesty docs + env gap (no live upsert) |
+| Will not | Ford · rclone · dual-product Done · live Soft Adjust upsert Met · Soft Adjust golden suite |
 
 **Prioritize → Write:** Guide 12 authored — `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md` (Write complete; Ready-check next). Locks A/N1/S1.
 
