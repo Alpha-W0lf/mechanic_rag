@@ -92,6 +92,23 @@ def main(argv: list[str] | None = None) -> int:
         help="Skip paired CE-on vs RRF-only asks even if --ask-url-rrf-only is set",
     )
 
+    map_p = sub.add_parser(
+        "receipt-to-gold-status",
+        help=(
+            "Guide 14 Soft Adjust: map present_only_receipt.json → gold_status.json"
+        ),
+    )
+    map_p.add_argument(
+        "receipt",
+        type=str,
+        help="Path to present_only_receipt.json",
+    )
+    map_p.add_argument(
+        "--out",
+        default=None,
+        help="Output gold_status.json path (default: sibling of receipt)",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "ingest":
@@ -102,6 +119,13 @@ def main(argv: list[str] | None = None) -> int:
         from mecharag.eval_cmd import run_eval
 
         return run_eval(args)
+    if args.command == "receipt-to-gold-status":
+        from mecharag.receipt_to_gold_status import main as map_main
+
+        argv_map = [args.receipt]
+        if args.out:
+            argv_map.extend(["--out", args.out])
+        return map_main(argv_map)
     parser.error(f"unknown command: {args.command}")
     return 2
 

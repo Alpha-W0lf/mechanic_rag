@@ -64,7 +64,7 @@ export MECHANIC_PRIVATE_GOLD_ROOT=/path/to/local/gold   # required; never defaul
 mecharag ingest --source private-gold
 ```
 
-Unset `MECHANIC_PRIVATE_GOLD_ROOT` fail-closes (no silent fixtures fallthrough). Guide 11 Met = `fixture:` pack under that root. **Guide 12:** stage ≥2 distinct `fixture:` vehicles and optionally a root `gold_status.json` with `zero_gap=false` / `publishable=false` (sidecar is not Contract 7.2). **Guide 13 Soft Adjust:** local `cat:` / `private_oem` packs require `gold_status.json` with present-only / incomplete honesty (`friend_publish_eligible` rejected on Soft Adjust path). Met is **synthetic** present-only under tmp/private root — **not** live OEM / Ford PTS / friend rclone Review Met / dual-product Done. Never Drive as ingest (GD2).
+Unset `MECHANIC_PRIVATE_GOLD_ROOT` fail-closes (no silent fixtures fallthrough). Guide 11 Met = `fixture:` pack under that root. **Guide 12:** stage ≥2 distinct `fixture:` vehicles and optionally a root `gold_status.json` with `zero_gap=false` / `publishable=false` (sidecar is not Contract 7.2). **Guide 13 Soft Adjust:** local `cat:` / `private_oem` packs require `gold_status.json` with present-only / incomplete honesty (`friend_publish_eligible` rejected on Soft Adjust path). **Guide 14 Soft Adjust live pilot:** map Vehicle `present_only_receipt.json` → `gold_status.json` via `mecharag receipt-to-gold-status`, then Soft Adjust-load local live emit (e.g. `cat:2017-f-150` under Vehicle builder `out/live/`) — **not** friend rclone Review Met / dual-product Done / Ford PTS; no OEM committed to this repo. Never Drive as ingest (GD2).
 
 ### 5. Public fail-closed check
 
@@ -122,7 +122,7 @@ If Next is down, `--retrieval-only` is an escape hatch only — full stranger sm
 |-------|--------|
 | Packaging | Stranger-clone + FAQ shell — fixtures-only public flip Met Guide 10b |
 | Public flip | **Met** Guide 10b (fixtures-only) — not earned CE lift; not OSI open source; not Drive |
-| PrivateGold | Guide 11–12 fixture Met + Guide 13 Soft Adjust **synthetic** present-only (`cat:` / `private_oem` + required `gold_status`) — not friend Drive Soft Adjust Review Met; not dual-product Done; no OEM in git |
+| PrivateGold | Guide 11–13 fixture/synthetic Soft Adjust Met + Guide 14 Soft Adjust **live pilot** (receipt→`gold_status`; local Vehicle `out/live`) — not friend Drive Soft Adjust Review Met; not dual-product Done; no OEM in git |
 | Embed / CE | **Frozen (Tom override)** Guide 09 — flat delta; no lift claim (`evals/MODEL_FREEZE_STATUS.md`); CE stays in pipeline; paired ask delta **0** on n=44 (helps=0/hurts=0) |
 | Public flip checklist | [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) — Guide 10b Met |
 | License | **PolyForm Noncommercial 1.0.0** ([`LICENSE`](LICENSE), Guide 10a) — source-available / non-commercial; commercial use → contact copyright holder; **not** OSI open source / **not** MIT |
