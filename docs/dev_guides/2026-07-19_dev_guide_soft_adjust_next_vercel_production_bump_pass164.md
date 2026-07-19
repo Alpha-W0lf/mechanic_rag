@@ -4,11 +4,13 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Soft Adjust — bump `next` / `eslint-config-next` to clear Vercel vulnerability gate; prove CI + **Vercel Production** deploy success  
 **Stage that authored this:** Write-dev-guide (pass 164b)  
-**Status:** **Ready Go 9.0/10** (not Implemented)  
-**Prerequisite:** CI modality Review Pass (`8ee6fbc`); Prioritize Met (`3ceff7a`) locks **A / N1 / G1**; Write Met `a96dd12`  
+**Status:** **Implement Met** (next@15.5.20 · eslint-config-next@15.5.20; local build green — CI/Vercel attestation in Implement note)  
+**Prerequisite:** CI modality Review Pass (`8ee6fbc`); Prioritize Met (`3ceff7a`) locks **A / N1 / G1**; Write Met `a96dd12`; Ready Go `244f22b`  
 **Handoff (Write):** `second_brain/docs/2026-07-19_spoke_mechanic_write_next_vercel_bump_pass164b_handoff.md`  
 **Handoff (Ready):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_next_vercel_bump_pass164b_handoff.md`  
+**Handoff (Implement):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_next_vercel_bump_pass164b_handoff.md`  
 **Ready note:** `docs/2026-07-19_ready_check_next_vercel_production_bump_pass164b_note.md`  
+**Implement note:** `docs/2026-07-19_implement_next_vercel_production_bump_pass164b_note.md`  
 **Prioritize:** `mechanic_rag/docs/2026-07-19_prioritize_next_after_ci_modality_pass164.md`  
 **CI modality Review:** `docs/2026-07-19_review_ci_modality_type_conflict_pass164_note.md`  
 
@@ -105,37 +107,35 @@ Restore **deployed** Production doneness after CI modality Met:
 
 ---
 
-## Acceptance criteria (unchecked at Write — Implement later)
+## Acceptance criteria
 
-- [ ] `next` + `eslint-config-next` ≥15.5.16 (prefer latest 15.5.x) in `web/package.json` + lockfile  
-- [ ] Local `pnpm run build` green  
-- [ ] Targeted vitest green  
+- [x] `next` + `eslint-config-next` ≥15.5.16 (prefer latest 15.5.x) in `web/package.json` + lockfile  
+- [x] Local `pnpm run build` green  
+- [x] Targeted vitest green  
 - [ ] GHA CI green on bump commit  
 - [ ] Vercel Production deploy **success** attested for bump SHA  
-- [ ] No Guide 16 / PrivateGold / Done claim drift  
+- [x] No Guide 16 / PrivateGold / Done claim drift  
 
 ---
 
 ## Ordered step checklist
 
-All boxes start unchecked. **Do not check boxes in Write / Ready-check.**
-
 ### Phase A — Anchor
 
-- [ ] **A1.** Confirm Prioritize A/N1/G1 + CI modality Pass.  
-- [ ] **A2.** Record current `next` / `eslint-config-next` versions.  
-- [ ] **A3.** Resolve target version: latest 15.5.x ≥15.5.16 at Implement time.  
+- [x] **A1.** Confirm Prioritize A/N1/G1 + CI modality Pass.  
+- [x] **A2.** Record current `next` / `eslint-config-next` versions.  
+- [x] **A3.** Resolve target version: latest 15.5.x ≥15.5.16 at Implement time.  
 
 ### Phase B — Bump
 
-- [ ] **B1.** Bump both packages in `web/`; refresh lockfile.  
-- [ ] **B2.** Fix only compile/type errors forced by the bump (smallest).  
-- [ ] **B3.** No Soft Adjust PrivateGold / ranking / CE edits.  
+- [x] **B1.** Bump both packages in `web/`; refresh lockfile.  
+- [x] **B2.** Fix only compile/type errors forced by the bump (smallest).  
+- [x] **B3.** No Soft Adjust PrivateGold / ranking / CE edits.  
 
 ### Phase C — Verify local + CI
 
-- [ ] **C1.** `pnpm run build` in `web/`.  
-- [ ] **C2.** Targeted vitest green.  
+- [x] **C1.** `pnpm run build` in `web/`.  
+- [x] **C2.** Targeted vitest green.  
 - [ ] **C3.** Commit/push; wait for GHA CI success.  
 
 ### Phase D — Vercel Production
@@ -146,8 +146,8 @@ All boxes start unchecked. **Do not check boxes in Write / Ready-check.**
 
 ### Phase E — Stop
 
-- [ ] **E1.** Thin docs only if needed; no Done claim.  
-- [ ] **E2.** Stop for Ready-check → Implement (Write stops here).  
+- [x] **E1.** Thin docs only if needed; no Done claim.  
+- [ ] **E2.** Stop for Review after CI + Vercel attested.  
 
 ---
 
