@@ -2,15 +2,15 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag` (+ read `second_brain` Contract 7.2 / Guide 10 / Soft Adjust live RAG)  
-**Status:** **Guide 15 Soft Adjust Review Pass** · Prioritize / Align next if desired  
+**Status:** **Guide 15 Soft Adjust Review Pass** · **Prioritize → idle_ok** (build residuals parked)  
 **Mode last used:** spoke  
-**Guide 15:** `docs/dev_guides/2026-07-19_dev_guide_15_soft_adjust_private_gold_ask_eval.md` (Implement `cb11b04` · Review Pass)  
+**Guide 15:** `docs/dev_guides/2026-07-19_dev_guide_15_soft_adjust_private_gold_ask_eval.md` (Implement `cb11b04` · Review Pass `6e1fc4b`)  
 **Review note (G15):** `docs/2026-07-19_guide15_review_private_gold_ask_eval_pass163_note.md`  
+**Prioritize (after G15):** `docs/2026-07-19_prioritize_next_after_guide15_pass163.md`  
 **Ready note (G15):** `docs/2026-07-19_guide15_ready_check_private_gold_ask_eval_pass163_note.md`  
 **Env gap (G15):** `docs/2026-07-19_guide15_implement_env_gap_pass163_note.md`  
 **Guide 14:** `docs/dev_guides/2026-07-19_dev_guide_14_soft_adjust_live_present_only_private_gold_pilot.md` (Review Pass `c4254b3`)  
-**Prioritize (after G14):** `docs/2026-07-19_prioritize_next_after_guide14_pass163.md` (`2636aa1`)  
-**Handoff (Review G15):** `second_brain/docs/2026-07-19_spoke_mechanic_review_guide15_pass163_handoff.md`  
+**Handoff (Prioritize after G15):** `second_brain/docs/2026-07-19_spoke_mechanic_prioritize_after_g15_pass163_handoff.md`  
 **Vehicle Soft Adjust #7:** Review Pass `005560b`  
 **Lens:** AI engineer (RAG ingest adapters) + data engineering (Gold → index)
 
@@ -19,9 +19,9 @@
 | Item | Value |
 |------|-------|
 | Mode | spoke |
-| Stage | **Review Guide 15 Soft Adjust ask/eval** |
-| Will write | Review note + Status Align (no Soft/Hard Adjust code) |
-| Will not | Ford · rclone · dual-product Done · live Soft Adjust upsert Met · Guide 16 Write |
+| Stage | **Prioritize next after Guide 15 Pass** |
+| Will write | Prioritize artifact (idle_ok recommendation) |
+| Will not | Write Guide 16 · Ford · rclone · dual-product Done · Implement |
 
 **Prioritize → Write:** Guide 12 authored — `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md` (Write complete; Ready-check next). Locks A/N1/S1.
 
