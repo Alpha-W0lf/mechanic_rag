@@ -418,7 +418,7 @@ Broken existing `test_*.py` files are non-authoritative until rewritten against 
 
 v1 ships **text only**. To avoid painting into a corner:
 
-1. Chunk/retrieval types include `modality` (`text` now; `image` / `table` later).
+1. Chunk/retrieval types: `content_modality` on chunks (`text` now; `image` / `table` later); retriever hits use a separate channel field `modality` (`vector` / `lexical` / `fusion`) — do not overload one key.
 2. Schema may reserve nullable secondary embedding columns or separate tables — **do not implement** image extraction, storage, or visual API fields in v1.
 3. Fusion stays modality-agnostic: ranked ID lists in → ranked list out (CE still scores text pairs in v1; multimodal CE is post-v1).
 4. Multimodal research docs remain post-v1 proposals, not DoD.
