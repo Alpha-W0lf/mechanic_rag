@@ -24,7 +24,10 @@
 
 ## CI / Vercel
 
-Filled after push (see handoff Results).
+| Check | Result |
+|-------|--------|
+| GHA CI | **success** — https://github.com/Alpha-W0lf/mechanic_rag/actions/runs/29708023598 on `95ca4d7` |
+| Vercel Production | **success** — deployment `5515177537` · SHA `95ca4d7` · “Deployment has completed” |
 
 ## Out of scope held
 

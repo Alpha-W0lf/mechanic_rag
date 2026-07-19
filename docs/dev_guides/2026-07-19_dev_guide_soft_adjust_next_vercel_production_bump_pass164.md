@@ -4,7 +4,7 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Soft Adjust — bump `next` / `eslint-config-next` to clear Vercel vulnerability gate; prove CI + **Vercel Production** deploy success  
 **Stage that authored this:** Write-dev-guide (pass 164b)  
-**Status:** **Implement Met** (next@15.5.20 · eslint-config-next@15.5.20; local build green — CI/Vercel attestation in Implement note)  
+**Status:** **Implement Met** (`next@15.5.20`; GHA + Vercel Production success on `95ca4d7`)  
 **Prerequisite:** CI modality Review Pass (`8ee6fbc`); Prioritize Met (`3ceff7a`) locks **A / N1 / G1**; Write Met `a96dd12`; Ready Go `244f22b`  
 **Handoff (Write):** `second_brain/docs/2026-07-19_spoke_mechanic_write_next_vercel_bump_pass164b_handoff.md`  
 **Handoff (Ready):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_next_vercel_bump_pass164b_handoff.md`  
@@ -112,8 +112,8 @@ Restore **deployed** Production doneness after CI modality Met:
 - [x] `next` + `eslint-config-next` ≥15.5.16 (prefer latest 15.5.x) in `web/package.json` + lockfile  
 - [x] Local `pnpm run build` green  
 - [x] Targeted vitest green  
-- [ ] GHA CI green on bump commit  
-- [ ] Vercel Production deploy **success** attested for bump SHA  
+- [x] GHA CI green on bump commit  
+- [x] Vercel Production deploy **success** attested for bump SHA  
 - [x] No Guide 16 / PrivateGold / Done claim drift  
 
 ---
@@ -136,18 +136,18 @@ Restore **deployed** Production doneness after CI modality Met:
 
 - [x] **C1.** `pnpm run build` in `web/`.  
 - [x] **C2.** Targeted vitest green.  
-- [ ] **C3.** Commit/push; wait for GHA CI success.  
+- [x] **C3.** Commit/push; wait for GHA CI success.  
 
 ### Phase D — Vercel Production
 
-- [ ] **D1.** Locate Production deployment for bump SHA.  
-- [ ] **D2.** Attest `state=success` (not failure with Next vuln message).  
-- [ ] **D3.** If still vuln-gated on latest 15.5.x → document gap; stop for human N2 lock (do not silent-jump to 16).  
+- [x] **D1.** Locate Production deployment for bump SHA.  
+- [x] **D2.** Attest `state=success` (not failure with Next vuln message).  
+- [x] **D3.** If still vuln-gated on latest 15.5.x → document gap; stop for human N2 lock (do not silent-jump to 16).  
 
 ### Phase E — Stop
 
 - [x] **E1.** Thin docs only if needed; no Done claim.  
-- [ ] **E2.** Stop for Review after CI + Vercel attested.  
+- [x] **E2.** Stop for Review after CI + Vercel attested.  
 
 ---
 
@@ -223,6 +223,6 @@ Revert bump commit; Production may stay blocked on vuln gate until re-bumped.
 
 ---
 
-## Ready for Implement?
+## Ready for Review?
 
-**Yes — Go 9.0/10** (Ready note). Locks **A / N1 / G1** pinned. Do **not** Implement until a dedicated Implement stage/handoff starts.
+**Yes** — Implement Met under A/N1/G1. Vercel Production promote success attested. Review next.
