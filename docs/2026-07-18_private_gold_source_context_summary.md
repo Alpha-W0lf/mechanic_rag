@@ -2,14 +2,14 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag` (+ read `second_brain` Contract 7.2 / Guide 10 / Soft Adjust live RAG)  
-**Status:** **Guide 13 Soft Adjust Review Pass** · **Prioritize next → Guide 14 live Soft Adjust pilot (A/L1/B1)**  
+**Status:** **Guide 14 Soft Adjust Write complete** — Ready-check next (A/L1/B1)  
 **Mode last used:** spoke  
 **Guide 12:** `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md`  
 **Guide 13:** `docs/dev_guides/2026-07-19_dev_guide_13_soft_adjust_present_only_private_gold.md`  
+**Guide 14 (Write):** `docs/dev_guides/2026-07-19_dev_guide_14_soft_adjust_live_present_only_private_gold_pilot.md`  
 **Prioritize (after G13):** `docs/2026-07-19_prioritize_next_after_guide13_pass163.md`  
-**Ready note (G13):** `docs/2026-07-19_guide13_ready_check_present_only_private_gold_pass163_note.md`  
 **Review note (G13):** `docs/2026-07-19_guide13_review_present_only_private_gold_pass163_note.md`  
-**Handoff (Prioritize after G13):** `second_brain/docs/2026-07-19_spoke_mechanic_prioritize_after_g13_pass163_handoff.md`  
+**Handoff (Write G14):** `second_brain/docs/2026-07-19_spoke_mechanic_write_guide14_pass163_handoff.md`  
 **Vehicle Soft Adjust #7:** Review Pass `005560b`  
 **Lens:** AI engineer (RAG ingest adapters) + data engineering (Gold → index)
 
@@ -18,9 +18,9 @@
 | Item | Value |
 |------|-------|
 | Mode | spoke |
-| Stage | **Prioritize next after Guide 13 Pass** |
-| Will write | Prioritize artifact (this pass) |
-| Will not | Write/Implement Guide 14 this stage · Ford · rclone · dual-product Done |
+| Stage | **Guide 14 Soft Adjust Write complete** |
+| Will write | Guide 14 (done this pass) |
+| Will not | Implement G14 · Ford · rclone · dual-product Done · Guide 15 |
 
 **Prioritize → Write:** Guide 12 authored — `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md` (Write complete; Ready-check next). Locks A/N1/S1.
 
