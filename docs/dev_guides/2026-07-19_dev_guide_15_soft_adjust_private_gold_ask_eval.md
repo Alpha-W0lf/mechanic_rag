@@ -4,13 +4,15 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 15 Soft Adjust — prove Soft Adjust `cat:` PrivateGold through `/api/ask` (synthetic Met) with incomplete-Gold honesty  
 **Stage that authored this:** Write-dev-guide (pass 163)  
-**Status:** **Implement Met** (hybrid unit Soft Adjust ask; HTTP env gap documented)  
-**Prerequisite:** Guide 14 Review Pass (`c4254b3`); Prioritize Met (`2636aa1`) locks **A / Q1 / E1**; Write Met `66e3dc9`; Ready Go `b67b9fa`  
+**Status:** **Review Pass** (Soft Adjust ask/eval Met — hybrid unit; HTTP env gap documented)  
+**Prerequisite:** Guide 14 Review Pass (`c4254b3`); Prioritize Met (`2636aa1`) locks **A / Q1 / E1**; Write Met `66e3dc9`; Ready Go `b67b9fa`; Implement `cb11b04`  
 **Handoff (Write):** `second_brain/docs/2026-07-19_spoke_mechanic_write_guide15_pass163_handoff.md`  
 **Handoff (Ready):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_guide15_pass163_handoff.md`  
 **Handoff (Implement):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_guide15_pass163_handoff.md`  
+**Handoff (Review):** `second_brain/docs/2026-07-19_spoke_mechanic_review_guide15_pass163_handoff.md`  
 **Ready note:** `docs/2026-07-19_guide15_ready_check_private_gold_ask_eval_pass163_note.md`  
 **Env gap note:** `docs/2026-07-19_guide15_implement_env_gap_pass163_note.md`  
+**Review note:** `docs/2026-07-19_guide15_review_private_gold_ask_eval_pass163_note.md`  
 **Prioritize:** `mechanic_rag/docs/2026-07-19_prioritize_next_after_guide14_pass163.md`  
 
 **Tom / hub locks (pass 163 — do not reopen):**
@@ -246,4 +248,4 @@ Revert Guide 15 Soft Adjust ask/docs commits; Guide 13–14 Soft Adjust ingest M
 
 ## Ready for Review?
 
-**Yes** — Guide 15 Soft Adjust Implement Met (hybrid). Locks **A / Q1 / E1**. HTTP Soft Adjust ask deferred to operator when stack up (env gap note).
+**Review Pass** — see `docs/2026-07-19_guide15_review_private_gold_ask_eval_pass163_note.md`. Locks **A / Q1 / E1**. HTTP Soft Adjust ask remains optional operator when stack up.
