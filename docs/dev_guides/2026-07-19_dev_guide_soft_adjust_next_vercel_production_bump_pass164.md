@@ -4,13 +4,15 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Soft Adjust — bump `next` / `eslint-config-next` to clear Vercel vulnerability gate; prove CI + **Vercel Production** deploy success  
 **Stage that authored this:** Write-dev-guide (pass 164b)  
-**Status:** **Implement Met** (`next@15.5.20`; GHA + Vercel Production success on `95ca4d7`)  
-**Prerequisite:** CI modality Review Pass (`8ee6fbc`); Prioritize Met (`3ceff7a`) locks **A / N1 / G1**; Write Met `a96dd12`; Ready Go `244f22b`  
+**Status:** **Review Pass** (`next@15.5.20`; GHA + Vercel Production success on `95ca4d7`)  
+**Prerequisite:** CI modality Review Pass (`8ee6fbc`); Prioritize Met (`3ceff7a`) locks **A / N1 / G1**; Write Met `a96dd12`; Ready Go `244f22b`; Implement `95ca4d7`  
 **Handoff (Write):** `second_brain/docs/2026-07-19_spoke_mechanic_write_next_vercel_bump_pass164b_handoff.md`  
 **Handoff (Ready):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_next_vercel_bump_pass164b_handoff.md`  
 **Handoff (Implement):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_next_vercel_bump_pass164b_handoff.md`  
+**Handoff (Review):** `second_brain/docs/2026-07-19_spoke_mechanic_review_next_vercel_bump_pass164b_handoff.md`  
 **Ready note:** `docs/2026-07-19_ready_check_next_vercel_production_bump_pass164b_note.md`  
 **Implement note:** `docs/2026-07-19_implement_next_vercel_production_bump_pass164b_note.md`  
+**Review note:** `docs/2026-07-19_review_next_vercel_production_bump_pass164b_note.md`  
 **Prioritize:** `mechanic_rag/docs/2026-07-19_prioritize_next_after_ci_modality_pass164.md`  
 **CI modality Review:** `docs/2026-07-19_review_ci_modality_type_conflict_pass164_note.md`  
 
@@ -225,4 +227,4 @@ Revert bump commit; Production may stay blocked on vuln gate until re-bumped.
 
 ## Ready for Review?
 
-**Yes** — Implement Met under A/N1/G1. Vercel Production promote success attested. Review next.
+**Review Pass** — see `docs/2026-07-19_review_next_vercel_production_bump_pass164b_note.md`. Deploy Soft Adjust **idle_ok**.

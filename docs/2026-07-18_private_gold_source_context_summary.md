@@ -2,12 +2,13 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag` (+ read `second_brain` Contract 7.2 / Guide 10 / Soft Adjust live RAG)  
-**Status:** **Soft Adjust Next/Vercel Write complete** · Ready-check next (A/N1/G1)  
+**Status:** **Soft Adjust Next/Vercel Review Pass** · **deploy Soft Adjust idle_ok** (A/N1/G1 Met)  
 **Mode last used:** spoke  
-**Soft Adjust Next/Vercel guide:** `docs/dev_guides/2026-07-19_dev_guide_soft_adjust_next_vercel_production_bump_pass164.md`  
+**Soft Adjust Next/Vercel guide:** `docs/dev_guides/2026-07-19_dev_guide_soft_adjust_next_vercel_production_bump_pass164.md` (Implement `95ca4d7` · Review Pass)  
+**Review note (Next/Vercel):** `docs/2026-07-19_review_next_vercel_production_bump_pass164b_note.md`  
 **Prioritize (after CI modality):** `docs/2026-07-19_prioritize_next_after_ci_modality_pass164.md` (`3ceff7a`)  
 **CI modality:** Implement `43ffc4f` · Review Pass `8ee6fbc`  
-**Handoff (Write Next/Vercel):** `second_brain/docs/2026-07-19_spoke_mechanic_write_next_vercel_bump_pass164b_handoff.md`  
+**Handoff (Review Next/Vercel):** `second_brain/docs/2026-07-19_spoke_mechanic_review_next_vercel_bump_pass164b_handoff.md`  
 **Guide 15 Soft Adjust:** Review Pass `6e1fc4b` (product plane Met)  
 **Vehicle Soft Adjust #7:** Review Pass `005560b`  
 **Lens:** AI engineer (RAG ingest adapters) + data engineering (Gold → index)
@@ -17,9 +18,9 @@
 | Item | Value |
 |------|-------|
 | Mode | spoke |
-| Stage | **Write Soft Adjust Next/Vercel Production bump** |
-| Will write | Soft Adjust guide only (no Implement) |
-| Will not | Implement · Guide 16 invent · friend Gold · Vehicle/LEMON |
+| Stage | **Review Soft Adjust Next/Vercel Production bump** |
+| Will write | Review note + Status Align (no Soft/Hard Adjust code) |
+| Will not | Guide 16 invent · Next 16 · Vehicle/LEMON |
 
 **Prioritize → Write:** Guide 12 authored — `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md` (Write complete; Ready-check next). Locks A/N1/S1.
 
