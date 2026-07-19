@@ -4,9 +4,11 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Soft Adjust — bump `next` / `eslint-config-next` to clear Vercel vulnerability gate; prove CI + **Vercel Production** deploy success  
 **Stage that authored this:** Write-dev-guide (pass 164b)  
-**Status:** **Draft — Write complete** (not Implemented)  
-**Prerequisite:** CI modality Review Pass (`8ee6fbc`); Prioritize Met (`3ceff7a`) locks **A / N1 / G1**  
+**Status:** **Ready Go 9.0/10** (not Implemented)  
+**Prerequisite:** CI modality Review Pass (`8ee6fbc`); Prioritize Met (`3ceff7a`) locks **A / N1 / G1**; Write Met `a96dd12`  
 **Handoff (Write):** `second_brain/docs/2026-07-19_spoke_mechanic_write_next_vercel_bump_pass164b_handoff.md`  
+**Handoff (Ready):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_next_vercel_bump_pass164b_handoff.md`  
+**Ready note:** `docs/2026-07-19_ready_check_next_vercel_production_bump_pass164b_note.md`  
 **Prioritize:** `mechanic_rag/docs/2026-07-19_prioritize_next_after_ci_modality_pass164.md`  
 **CI modality Review:** `docs/2026-07-19_review_ci_modality_type_conflict_pass164_note.md`  
 
@@ -82,7 +84,7 @@ Restore **deployed** Production doneness after CI modality Met:
 | From | `next@15.4.6` · `eslint-config-next@15.4.6` |
 | Floor | **≥15.5.16** |
 | Prefer at Implement | Latest **15.5.x** on npm at Implement time (Write snapshot: **15.5.20** available) |
-| Commands | `cd web && pnpm add next@<ver> eslint-config-next@<ver> -D` (or equivalent) then lockfile refresh |
+| Commands | `cd web && pnpm add next@<ver>` (dependency) + `pnpm add -D eslint-config-next@<ver>` (devDependency); refresh lockfile — **do not** demote `next` to `-D` |
 | Local verify | `pnpm run build` + `npx vitest run` (ranking + Soft Adjust ask + ablation at minimum) |
 | CI verify | GHA workflow success on bump commit |
 | Vercel Met | Production deployment for bump SHA: **`state=success`** (gh api deployments/statuses or Vercel dashboard) |
@@ -153,7 +155,8 @@ All boxes start unchecked. **Do not check boxes in Write / Ready-check.**
 
 ```bash
 # From mechanic_rag/web/
-pnpm add next@15.5.20 eslint-config-next@15.5.20   # or latest 15.5.x ≥15.5.16
+pnpm add next@15.5.20                    # dependency (or latest 15.5.x ≥15.5.16)
+pnpm add -D eslint-config-next@15.5.20   # devDependency (same version)
 pnpm run build
 npx vitest run src/lib/retrieval/__tests__/ranking.test.ts \
   src/server/__tests__/ask_soft_adjust_private_gold.test.ts \
@@ -220,6 +223,6 @@ Revert bump commit; Production may stay blocked on vuln gate until re-bumped.
 
 ---
 
-## Ready for Ready-check?
+## Ready for Implement?
 
-**Yes** — Soft Adjust Write complete; locks **A / N1 / G1** pinned; deploy Met path explicit. Do **not** Implement until Ready Met.
+**Yes — Go 9.0/10** (Ready note). Locks **A / N1 / G1** pinned. Do **not** Implement until a dedicated Implement stage/handoff starts.
