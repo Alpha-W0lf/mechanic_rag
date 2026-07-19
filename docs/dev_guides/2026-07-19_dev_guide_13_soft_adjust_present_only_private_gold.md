@@ -4,10 +4,12 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 13 Soft Adjust — allow **local** `cat:` / `private_oem` PrivateGold ingest when `gold_status.json` honesty says present-only / incomplete  
 **Stage that authored this:** Write-dev-guide (pass 163)  
-**Status:** **Implement Met** (Soft Adjust synthetic present-only; not dual-product Done)  
-**Prerequisite:** Guide 12 Review Pass (`e336f7d`); Vehicle Soft Adjust #7 Review Pass (`005560b`); Ready Go `f3f75e9`  
+**Status:** **Review Pass** (Soft Adjust synthetic present-only; not dual-product Done)  
+**Prerequisite:** Guide 12 Review Pass (`e336f7d`); Vehicle Soft Adjust #7 Review Pass (`005560b`); Ready Go `f3f75e9`; Implement `4f1db07`  
 **Handoff (Write):** `second_brain/docs/2026-07-19_spoke_mechanic_write_guide13_pass163_handoff.md`  
 **Handoff (Implement):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_guide13_pass163_handoff.md`  
+**Handoff (Review):** `second_brain/docs/2026-07-19_spoke_mechanic_review_guide13_pass163_handoff.md`  
+**Review note:** `docs/2026-07-19_guide13_review_present_only_private_gold_pass163_note.md`  
 **Prioritize context:** Guide 12 Soft Adjust follow-on; hub morning no-Ford path  
 
 **Tom / hub locks (pass 163 — do not reopen):**
@@ -253,4 +255,4 @@ Revert Guide 13 Soft Adjust commits; Guide 11/12 fixture behavior remains.
 
 ## Ready for Ready-check?
 
-**Write Met** → Ready Go `f3f75e9` → **Implement Met** this pass. Next: Review implementation.
+**Write Met** → Ready Go `f3f75e9` → Implement `4f1db07` → **Review Pass** this pass.
