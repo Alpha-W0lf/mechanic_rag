@@ -2,22 +2,15 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag` (+ read `second_brain` Contract 7.2 / Guide 10 / Soft Adjust live RAG)  
-**Status:** **Review Pass** (Guide 11) · **Guide 12 Write complete** — Ready-check next  
+**Status:** **Review Pass** (Guide 11) · **Guide 12 Ready Met 9.0/10** — Implement next (dedicated stage)  
 **Mode last used:** spoke  
 **Guide 11:** `docs/dev_guides/2026-07-18_dev_guide_11_private_gold_source.md`  
-**Guide 12 (Write):** `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md`  
+**Guide 12:** `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md`  
+**Ready note (G12):** `docs/2026-07-19_guide12_ready_check_multi_vehicle_private_gold_pass163_note.md`  
 **Prioritize:** `docs/2026-07-19_prioritize_next_after_guide11_pass163.md` (`35ffa92`)  
-**Ready note (G11):** `docs/2026-07-19_guide11_ready_check_private_gold_source_pass163_note.md`  
-**Review note (G11):** `docs/2026-07-19_guide11_review_private_gold_source_pass163_note.md`  
+**Handoff (Ready G12):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_guide12_pass163_handoff.md`  
 **Handoff (Write G12):** `second_brain/docs/2026-07-19_spoke_mechanic_write_guide12_pass163_handoff.md`  
 **Handoff (Prioritize):** `second_brain/docs/2026-07-19_spoke_mechanic_prioritize_next_after_g11_pass163_handoff.md`  
-**Handoff (Review G11):** `second_brain/docs/2026-07-19_spoke_mechanic_review_guide11_pass163_handoff.md`  
-**Handoff (Implement G11):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_guide11_pass163_handoff.md`  
-**Handoff (Ready G11):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_guide11_pass163_handoff.md`  
-**Handoff (Write G11):** `second_brain/docs/2026-07-18_spoke_mechanic_write_private_gold_source_pass163_handoff.md`  
-**Handoff (Gather G11):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_private_gold_source_pass163_handoff.md`  
-**Hub lock:** `second_brain/docs/2026-07-19_hub_decision_lock_mechanic_private_gold_write_pass163.md` (A + N1)  
-**Hub:** `second_brain/docs/2026-07-19_prioritize_morning_no_ford_gap_registry_pass163.md`  
 **Lens:** AI engineer (RAG ingest adapters) + data engineering (Gold → index)
 
 ### Declare
@@ -25,9 +18,9 @@
 | Item | Value |
 |------|-------|
 | Mode | spoke |
-| Stage | **Guide 12 Write complete** |
-| Will write | Guide 12 (done this pass) |
-| Will not | Implement G12 · Guide 13 Soft Adjust · Ford · dual-product Done |
+| Stage | **Guide 12 Ready Met** |
+| Will write | Ready artifact (done this pass) |
+| Will not | Implement in Ready stage · Guide 13 Soft Adjust · Ford |
 
 **Prioritize → Write:** Guide 12 authored — `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md` (Write complete; Ready-check next). Locks A/N1/S1.
 
