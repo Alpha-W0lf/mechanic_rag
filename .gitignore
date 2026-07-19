@@ -45,6 +45,10 @@ rag_input/**
 !rag_input/.gitkeep
 *.pdf
 
+# Local PrivateGold Met staging (Guide 11) — never commit OEM / private trees
+/tmp_private_gold*/
+/private_gold_met/
+
 # VSCode
 .vscode/
 

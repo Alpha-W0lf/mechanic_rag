@@ -2,10 +2,11 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag` (+ read `second_brain` Contract 7.2 / Guide 10 / Soft Adjust live RAG)  
-**Status:** **Ready Met** — Guide 11 Ready Go **8.8/10** (pass 163); PrivateGoldSource **not** Implemented  
+**Status:** **Implement Met** — Guide 11 PrivateGoldSource fixture-first (pass 163); Review next; live Soft Adjust still parked  
 **Mode last used:** spoke  
-**Guide (Write):** `docs/dev_guides/2026-07-18_dev_guide_11_private_gold_source.md` (`7c46018`)  
+**Guide:** `docs/dev_guides/2026-07-18_dev_guide_11_private_gold_source.md`  
 **Ready note:** `docs/2026-07-19_guide11_ready_check_private_gold_source_pass163_note.md`  
+**Handoff (Implement):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_guide11_pass163_handoff.md`  
 **Handoff (Ready):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_guide11_pass163_handoff.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_private_gold_source_pass163_handoff.md`  
 **Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_private_gold_source_pass163_handoff.md`  
@@ -18,9 +19,9 @@
 | Item | Value |
 |------|-------|
 | Mode | spoke |
-| Stage | **Ready Met** (Write Met earlier) |
-| Will write | Ready artifact (done this pass) |
-| Will not | Implement in Ready stage · public-flip changes · live Soft Adjust Review |
+| Stage | **Implement Met** |
+| Will write | Adapter + CLI + tests + honesty (done) |
+| Will not | Live Soft Adjust · public-flip · Drive · ranking |
 
 **Live honesty (pass 163):** Guide 10 **fixture** RAG Gold emit Met / closed. Soft Adjust **live** RAG emit Implement Met (`2017-f-150` present-only) but **Review parked**. Hub locked **A** + **N1** for Guide 11 Write.
 
@@ -36,12 +37,12 @@ Without PrivateGoldSource, dual-product Done stays blocked on the **consumer** s
 
 ## Acceptance criteria
 
-- [ ] Written path: thin Mechanic Guide for `PrivateGoldSource` + CLI `--source` private-gold (or equivalent) reading **local Gold root** outside git  
-- [ ] Fixture-first Met: ingest Contract 7.2–valid synthetic / Guide-10-shaped Gold (`fixture:` or documented synthetic `cat:` pack) without OEM bytes in git  
-- [ ] Live path readiness explicit: Soft Adjust live Gold ingest **blocked** until Soft Adjust Review/Align Met + hub unlock (pass 163 park)  
-- [ ] Public fail-closed unchanged: `FixtureSource` / public flip honesty unchanged; no Drive as ingest (GD2)  
-- [ ] Shared chunk → embed → upsert reused; no ranking/CE reopen; freeze override honesty retained  
-- [ ] No invent; no public-flip checkbox / banner changes unless a thin non-claim note  
+- [x] Written path: thin Mechanic Guide for `PrivateGoldSource` + CLI `--source` private-gold reading **local Gold root** outside git  
+- [x] Fixture-first Met: ingest Contract 7.2–valid synthetic / Guide-10-shaped Gold (`fixture:`) without OEM bytes in git  
+- [x] Live path readiness explicit: Soft Adjust live Gold ingest **blocked** until Soft Adjust Review/Align Met + hub unlock (pass 163 park)  
+- [x] Public fail-closed unchanged: `FixtureSource` / public flip honesty unchanged; no Drive as ingest (GD2)  
+- [x] Shared chunk → embed → upsert reused; no ranking/CE reopen; freeze override honesty retained  
+- [x] No invent; no public-flip checkbox / banner changes unless a thin non-claim note  
 
 ---
 
@@ -97,7 +98,7 @@ Without PrivateGoldSource, dual-product Done stays blocked on the **consumer** s
 | Guide 10 fixture assemble | **Met / closed** | Fixture-first Gold available as ingest input |
 | Soft Adjust live assemble (`2017-f-150`) | **Implement Met; Review parked** | Live Gold on disk/gitignored out may exist — **do not** claim consumer Met on it yet |
 | `FixtureSource` + `mecharag ingest --source fixtures` | **Live** | Pattern to mirror |
-| `PrivateGoldSource` | **Unbuilt** | This work item |
+| `PrivateGoldSource` | **Guide 11 Met (fixture-first)** | Live Soft Adjust OEM still deferred |
 | Public flip Guide 10b | **Met** | Leave alone; ≠ PrivateGold Done |
 | Drive as Mechanic ingest | **Forbidden (GD2)** | Out forever for this adapter |
 
@@ -195,8 +196,9 @@ Without PrivateGoldSource, dual-product Done stays blocked on the **consumer** s
 ## Honest readiness
 
 - **Gather DoD:** Met (pass 163).  
-- **Write DoD:** Met — Guide 11 authored; locks A/N1 pinned; **no** Implement.  
-- **Ready DoD:** Met — **READY** score **8.8/10**; see Ready note.  
-- **Ready for Implement?** **Yes** under A/N1 (dedicated Implement stage).  
+- **Write DoD:** Met — Guide 11 authored; locks A/N1 pinned.  
+- **Ready DoD:** Met — **READY** score **8.8/10**.  
+- **Implement DoD:** Met — PrivateGoldSource + CLI + tests + honesty; Met ingest `inserted=1`.  
+- **Ready for Review?** **Yes**.  
 - **Not ready** for live OEM Soft Adjust until Soft Adjust Review/Align + hub unlock.  
-- **Public flip:** unchanged Met; ≠ PrivateGold Done.
+- **Public flip:** unchanged Met; ≠ PrivateGold Done / ≠ dual-product Done.

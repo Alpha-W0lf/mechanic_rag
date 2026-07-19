@@ -57,6 +57,15 @@ mecharag ingest --source fixtures
 
 Compose must be up and `DATABASE_URL` correct **before** ingest.
 
+**PrivateGoldSource (Guide 11, optional / local only):** fixture-first Contract 7.2 ingest from a configured local Gold root — **not** the stranger public path.
+
+```bash
+export MECHANIC_PRIVATE_GOLD_ROOT=/path/to/local/gold   # required; never default fixtures/
+mecharag ingest --source private-gold
+```
+
+Unset `MECHANIC_PRIVATE_GOLD_ROOT` fail-closes (no silent fixtures fallthrough). Guide 11 Met = `fixture:` pack under that root. Live Soft Adjust (`cat:` / OEM) is **not** Met. PrivateGold fixture Met ≠ dual-product Done ≠ public flip change. Never Drive as ingest (GD2).
+
 ### 5. Public fail-closed check
 
 ```bash
@@ -112,7 +121,8 @@ If Next is down, `--retrieval-only` is an escape hatch only — full stranger sm
 | Topic | Truth |
 |-------|--------|
 | Packaging | Stranger-clone + FAQ shell — fixtures-only public flip Met Guide 10b |
-| Public flip | **Met** Guide 10b (fixtures-only) — not earned CE lift; not OSI open source; not PrivateGold/Drive |
+| Public flip | **Met** Guide 10b (fixtures-only) — not earned CE lift; not OSI open source; not Drive |
+| PrivateGold | Guide 11 **fixture-first** Met (`private-gold` + `MECHANIC_PRIVATE_GOLD_ROOT`) — not live Soft Adjust; not dual-product Done |
 | Embed / CE | **Frozen (Tom override)** Guide 09 — flat delta; no lift claim (`evals/MODEL_FREEZE_STATUS.md`); CE stays in pipeline; paired ask delta **0** on n=44 (helps=0/hurts=0) |
 | Public flip checklist | [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) — Guide 10b Met |
 | License | **PolyForm Noncommercial 1.0.0** ([`LICENSE`](LICENSE), Guide 10a) — source-available / non-commercial; commercial use → contact copyright holder; **not** OSI open source / **not** MIT |

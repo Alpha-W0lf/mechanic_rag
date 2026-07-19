@@ -13,16 +13,26 @@ def main(argv: list[str] | None = None) -> int:
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
-    ingest_p = sub.add_parser("ingest", help="Ingest fixtures (or allowlisted source)")
+    ingest_p = sub.add_parser(
+        "ingest",
+        help="Ingest fixtures or private Gold (PrivateGoldSource)",
+    )
     ingest_p.add_argument(
         "--source",
         default="fixtures",
-        help="Source adapter name (fixtures). Default: fixtures",
+        help=(
+            "Source adapter: fixtures | private-gold "
+            "(aliases: FixtureSource, PrivateGoldSource, private_gold). "
+            "Default: fixtures"
+        ),
     )
     ingest_p.add_argument(
         "--root",
         default=None,
-        help="Fixture root directory (default: FIXTURE_ROOT or ./fixtures)",
+        help=(
+            "Root directory: FIXTURE_ROOT/./fixtures for fixtures; "
+            "MECHANIC_PRIVATE_GOLD_ROOT for private-gold (required if unset)"
+        ),
     )
     ingest_p.add_argument(
         "--database-url",

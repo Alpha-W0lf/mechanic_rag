@@ -4,7 +4,7 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 11 — implement **`PrivateGoldSource`** adapter + CLI ingest from a **local Gold root** (GD2); fixture-first Met  
 **Stage that authored this:** Write-dev-guide (pass 163)  
-**Status:** **Ready Met (8.8/10)** — not Implemented; Ready note `docs/2026-07-19_guide11_ready_check_private_gold_source_pass163_note.md`  
+**Status:** **Implemented (pass 163)** — fixture-first Met; Review next; Ready note `docs/2026-07-19_guide11_ready_check_private_gold_source_pass163_note.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-18_private_gold_source_context_summary.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_private_gold_source_pass163_handoff.md`  
 **Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_private_gold_source_pass163_handoff.md`  
@@ -34,8 +34,6 @@ Land Mechanic’s missing **MR3** private adapter so library Contract **7.2** RA
 5. **Stop.** No ranking/CE reopen; no public-flip edits; no Drive client.
 
 **Success signal (after Implement):** `mecharag ingest --source private-gold` inserts ≥1 document from a Contract 7.2 `fixture:` release under `MECHANIC_PRIVATE_GOLD_ROOT`; `FixtureSource` / public fail-closed unchanged; a reviewer cannot honestly believe live Soft Adjust Review Met or Drive-as-ingest.
-
-**This Write does not Implement.**
 
 ---
 
@@ -112,12 +110,12 @@ Land Mechanic’s missing **MR3** private adapter so library Contract **7.2** RA
 
 ## Acceptance criteria (for later Implement — unchecked at Write)
 
-- [ ] `PrivateGoldSource` module discover/load/validate Contract 7.2 releases  
-- [ ] `mecharag ingest --source private-gold` requires `MECHANIC_PRIVATE_GOLD_ROOT` (or explicit `--root`); unset → fail closed  
-- [ ] Met: ingest ≥1 `fixture:` document from staged Contract 7.2 pack under private root (hash/idempotent skip OK on re-run)  
-- [ ] `FixtureSource` + public fail-closed unchanged  
-- [ ] Thin honesty docs: fixture-first Met ≠ live Soft Adjust ≠ dual-product Done  
-- [ ] Verification commands pass; no ranking/public-flip/LICENSE invent  
+- [x] `PrivateGoldSource` module discover/load/validate Contract 7.2 releases  
+- [x] `mecharag ingest --source private-gold` requires `MECHANIC_PRIVATE_GOLD_ROOT` (or explicit `--root`); unset → fail closed  
+- [x] Met: ingest ≥1 `fixture:` document from staged Contract 7.2 pack under private root (hash/idempotent skip OK on re-run)  
+- [x] `FixtureSource` + public fail-closed unchanged  
+- [x] Thin honesty docs: fixture-first Met ≠ live Soft Adjust ≠ dual-product Done  
+- [x] Verification commands pass; no ranking/public-flip/LICENSE invent  
 
 ---
 
@@ -127,34 +125,34 @@ All boxes start unchecked. **Do not check boxes in Write / Ready-check.**
 
 ### Phase A — Anchor
 
-- [ ] **A1.** Confirm `PrivateGoldSource` absent; `ingest_cmd` fixtures-only gate present.  
-- [ ] **A2.** Confirm Contract 7.2 validator + field inventory exist.  
-- [ ] **A3.** Confirm live Soft Adjust Review still parked (out of Met).  
-- [ ] **A4.** Stage Met Gold pack under gitignored private root (N1 `fixture:` Contract 7.2).  
+- [x] **A1.** Confirm `PrivateGoldSource` absent; `ingest_cmd` fixtures-only gate present.  
+- [x] **A2.** Confirm Contract 7.2 validator + field inventory exist.  
+- [x] **A3.** Confirm live Soft Adjust Review still parked (out of Met).  
+- [x] **A4.** Stage Met Gold pack under gitignored private root (N1 `fixture:` Contract 7.2).  
 
 ### Phase B — Adapter
 
-- [ ] **B1.** Implement `mecharag/private_gold_source.py`: discover releases; load documents; resolve `text_path`; validate hashes/sizes; enforce path-under-root.  
-- [ ] **B2.** For Met: require `vehicle_id` `^fixture:`; reject path escape; reject hash mismatch.  
-- [ ] **B3.** Map each document to flat upsert manifest + units with `text`.  
+- [x] **B1.** Implement `mecharag/private_gold_source.py`: discover releases; load documents; resolve `text_path`; validate hashes/sizes; enforce path-under-root.  
+- [x] **B2.** For Met: require `vehicle_id` `^fixture:`; reject path escape; reject hash mismatch.  
+- [x] **B3.** Map each document to flat upsert manifest + units with `text`.  
 
 ### Phase C — CLI wiring
 
-- [ ] **C1.** Extend `ingest_cmd` / `__main__` for `--source private-gold`.  
-- [ ] **C2.** Resolve root from `--root` or `MECHANIC_PRIVATE_GOLD_ROOT`; fail closed if missing.  
-- [ ] **C3.** Reuse `chunk_manifest_units` → embed → `upsert_document_version` (per-doc isolation retained).  
+- [x] **C1.** Extend `ingest_cmd` / `__main__` for `--source private-gold`.  
+- [x] **C2.** Resolve root from `--root` or `MECHANIC_PRIVATE_GOLD_ROOT`; fail closed if missing.  
+- [x] **C3.** Reuse `chunk_manifest_units` → embed → `upsert_document_version` (per-doc isolation retained).  
 
 ### Phase D — Prove Met + honesty
 
-- [ ] **D1.** Targeted tests (unset env; happy load; optional Compose ingest).  
-- [ ] **D2.** Run Met ingest once; log inserted/skipped.  
-- [ ] **D3.** Thin ARCHITECTURE / GETTING_STARTED honesty (adapter exists; live Soft Adjust out; public flip unchanged).  
-- [ ] **D4.** Grep: no Drive-as-ingest claim; no “dual-product Done”; no Soft Adjust Review Met claim.  
+- [x] **D1.** Targeted tests (unset env; happy load; optional Compose ingest).  
+- [x] **D2.** Run Met ingest once; log inserted/skipped.  
+- [x] **D3.** Thin ARCHITECTURE / GETTING_STARTED honesty (adapter exists; live Soft Adjust out; public flip unchanged).  
+- [x] **D4.** Grep: no Drive-as-ingest claim; no “dual-product Done”; no Soft Adjust Review Met claim.  
 
 ### Phase E — Stop
 
-- [ ] **E1.** No ranking/CE/LICENSE/§9 flip changes.  
-- [ ] **E2.** Stop for Review after Implement (Ready-check first).  
+- [x] **E1.** No ranking/CE/LICENSE/§9 flip changes.  
+- [x] **E2.** Stop for Review after Implement (Ready-check first).  
 
 ---
 
@@ -180,6 +178,12 @@ rg -n 'PrivateGoldSource|private-gold|MECHANIC_PRIVATE_GOLD_ROOT|dual-product|So
   docs/ARCHITECTURE.md GETTING_STARTED.md docs/VISION.md
 # Must NOT claim: live Soft Adjust Review Met; Drive ingest; dual-product Done from Guide 11 alone
 ```
+
+**Implement evidence (pass 163):**
+- Fail-closed unset env → exit **2**
+- Met ingest staged `vehicle_rag_gold/valid/` → `inserted=1` (`fixture-s2000-oil-service`)
+- `pytest tests/test_private_gold_source.py` → **8 passed** (with contract tests **25 passed**)
+- `public_fail_closed.py fixtures` → **OK**
 
 **DoD (Ready):** Guide pins locked; Met pack path clear; blast/edges explicit; §9/public flip unchanged.
 
@@ -237,10 +241,10 @@ Do **not** Implement these in Guide 11.
 
 - Write: this guide complete; handoff Results filled; no Implement.  
 - Ready (later): score + evidence; Tom authorized Ready-checks.  
-- Implement (later): Phases A–E DoD met; fixture-first only.
+- Implement: Phases A–E DoD met; fixture-first only — **Met**; Review next.
 
 ---
 
-## Ready for Ready-check?
+## Ready for Review?
 
-**Yes** — Guide 11 Write complete; locks A/N1 pinned; Met pack + CLI pins explicit. Run Ready-check next. Do **not** Implement until Ready Met.
+**Yes** — Implement DoD Met under A/N1. Live Soft Adjust remains parked / out of Met.
