@@ -1,8 +1,8 @@
 # Mechanic RAG — Portfolio Vision (v1)
 
-**Status:** Active portfolio vision · **Guide 01 vertical slice done** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · Guide 11 **PrivateGoldSource fixture-first Met** · **Not** live Soft Adjust / dual-product Done · **Not** earned CE lift · **Not** OSI open source  
+**Status:** Active portfolio vision · **Guide 01 vertical slice done** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · Guide 11–**12** **PrivateGoldSource** fixture Met (multi-vehicle + optional `gold_status`) · **Not** live Soft Adjust / dual-product Done · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
-**Updated:** 2026-07-19 (Guide 11 PrivateGoldSource fixture-first)  
+**Updated:** 2026-07-19 (Guide 12 multi-vehicle PrivateGold)  
 **Owner:** Tom  
 **Repo:** `mechanic_rag` (renamed from `mechainic_rag`; Python import package remains `mecharag`)  
 
@@ -42,7 +42,7 @@ A **public, product-shaped RAG** system over **automotive service documentation*
 | Product RAG | End-to-end ask → retrieve → generate → citations (**Guide 01 path live**) |
 | Retrieval quality | Hybrid → RRF → local cross-encoder (N→K) + eval vs RRF-only (**path live**; ≥30 S2000 goldens Guide 04; Guide 07–08 discriminative attempts → n=44 paired ask still flat delta / helps=0; Guide 05 keep history; Guide 09 Path B — embed/CE **frozen (Tom override)**, CE stays in stack; **no** lift claim) |
 | Data engineering for RAG | Multi-vehicle catalog, ingest idempotency, status-aware corpus growth |
-| Engineering honesty | No fake candidates in product ask; frozen-by-override ≠ earned CE lift; fixtures-only flip ≠ OSI open source; Guide 11 PrivateGold fixture-first ≠ live Soft Adjust / dual-product Done |
+| Engineering honesty | No fake candidates in product ask; frozen-by-override ≠ earned CE lift; fixtures-only flip ≠ OSI open source; Guide 11–12 PrivateGold fixture Met ≠ live Soft Adjust / dual-product Done |
 
 ---
 
@@ -148,7 +148,7 @@ v1 is **text-only**, but architecture must **not paint us into a corner**.
 
 ## 9. Success (portfolio v1)
 
-Honest progress after Guide 01 (Align docs pass 10). Checked items = **path exists with evidence**. Portfolio **fixtures-only public flip / “v1 Done” marketing** Met Guide 10b — still **not** earned CE lift, **not** OSI open source, **not** Drive-as-ingest / live Soft Adjust / dual-product Done (Guide 11 PrivateGoldSource is fixture-first only).
+Honest progress after Guide 01 (Align docs pass 10). Checked items = **path exists with evidence**. Portfolio **fixtures-only public flip / “v1 Done” marketing** Met Guide 10b — still **not** earned CE lift, **not** OSI open source, **not** Drive-as-ingest / live Soft Adjust / dual-product Done (Guide 11–12 PrivateGoldSource is fixture-first / multi-vehicle status-aware only).
 
 - [x] Real retrieve path (no fake candidates) — Guide 01
 - [x] Hybrid → RRF → local CE + citations in API response (include `vehicle_id` / doc family) — Guide 01; embed/CE later **frozen (Tom override)** Guide 09
@@ -160,7 +160,7 @@ Honest progress after Guide 01 (Align docs pass 10). Checked items = **path exis
 - [x] Formal embed/CE **freeze** — Guide 09 Path B **Tom override** (n=44 `ce_vs_rrf_ask_delta_hits=0`; frozen despite flat delta; **not** earned lift — see `evals/MODEL_FREEZE_STATUS.md`)
 - [x] Public flip / portfolio “v1 Done” marketing claim — Guide 10b **fixtures-only** (fail-closed OK; S2 attestation; freeze = Tom override not lift; PolyForm-NC ≠ OSI — see `docs/PUBLIC_FLIP_CHECKLIST.md`)
 
-**§9 checked rows mean capability + fixtures-only public flip packaging exist with evidence.** Guide 09 freezes models by **override** while paired-ask delta stays **0** — freeze ≠ earned CE lift. Guide 10a LICENSE is source-available / non-commercial — **not** OSI open source. Guide 10b flip ≠ Drive / second-vehicle themes. Guide 11 PrivateGoldSource fixture-first Met ≠ live Soft Adjust Review Met ≠ dual-product Done.
+**§9 checked rows mean capability + fixtures-only public flip packaging exist with evidence.** Guide 09 freezes models by **override** while paired-ask delta stays **0** — freeze ≠ earned CE lift. Guide 10a LICENSE is source-available / non-commercial — **not** OSI open source. Guide 10b flip ≠ Drive / second-vehicle themes. Guide 11–**12** PrivateGoldSource fixture Met (multi-vehicle + optional `gold_status` / `zero_gap=false`) ≠ live Soft Adjust Review Met ≠ dual-product Done.
 
 ---
 

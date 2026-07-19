@@ -2,10 +2,12 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag` (+ read `second_brain` Contract 7.2 / Guide 10 / Soft Adjust live RAG)  
-**Status:** **Guide 12 Implement Met** — multi-vehicle PrivateGold + gold_status (pass 163); Review next  
+**Status:** **Guide 12 Review Pass** — multi-vehicle PrivateGold + gold_status (pass 163); Align Status done; Guide 13 Soft Adjust still out  
 **Mode last used:** spoke  
 **Guide 12:** `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md`  
+**Review note (G12):** `docs/2026-07-19_guide12_review_multi_vehicle_private_gold_pass163_note.md`  
 **Ready note (G12):** `docs/2026-07-19_guide12_ready_check_multi_vehicle_private_gold_pass163_note.md`  
+**Handoff (Review G12):** `second_brain/docs/2026-07-19_spoke_mechanic_review_guide12_pass163_handoff.md`  
 **Handoff (Implement G12):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_guide12_pass163_handoff.md`  
 **Prioritize:** `docs/2026-07-19_prioritize_next_after_guide11_pass163.md`  
 **Lens:** AI engineer (RAG ingest adapters) + data engineering (Gold → index)
@@ -15,8 +17,8 @@
 | Item | Value |
 |------|-------|
 | Mode | spoke |
-| Stage | **Guide 12 Implement Met** |
-| Will write | Adapter extend + tests + honesty (done) |
+| Stage | **Guide 12 Review Pass** |
+| Will write | Review note + Status Align (done) |
 | Will not | Guide 13 Soft Adjust · Ford · dual-product Done |
 
 **Prioritize → Write:** Guide 12 authored — `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md` (Write complete; Ready-check next). Locks A/N1/S1.
@@ -191,9 +193,7 @@ Without PrivateGoldSource, dual-product Done stays blocked on the **consumer** s
 
 ## Honest readiness
 
-- **Gather / Write / Ready / Implement / Review (Guide 11):** Met / Pass.  
-- **Guide 12 Write / Ready:** Met (9.0/10 Go).  
-- **Guide 12 Implement DoD:** Met — `22e75cd` (multi-vehicle + gold_status).  
-- **Ready for Review (G12)?** **Yes**.  
+- **Guide 11:** Gather → Review Pass Met.  
+- **Guide 12 Write / Ready / Implement / Review:** Met — **Pass** (shippable).  
 - **Not ready** for live OEM Soft Adjust / dual-product Done.  
 - **Public flip:** unchanged Met.

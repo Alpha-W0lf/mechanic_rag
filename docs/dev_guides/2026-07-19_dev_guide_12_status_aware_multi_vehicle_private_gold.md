@@ -4,7 +4,7 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 12 — ≥2 `fixture:` vehicles under private Gold root + optional status sidecar honesty (`zero_gap=false`)  
 **Stage that authored this:** Write-dev-guide (pass 163)  
-**Status:** **Implemented (pass 163)** — multi-vehicle fixture Met + gold_status sidecar; Review next; Ready note `docs/2026-07-19_guide12_ready_check_multi_vehicle_private_gold_pass163_note.md`  
+**Status:** **Review Pass (pass 163)** — multi-vehicle fixture Met + gold_status; shippable; Ready note `docs/2026-07-19_guide12_ready_check_multi_vehicle_private_gold_pass163_note.md` · Review note `docs/2026-07-19_guide12_review_multi_vehicle_private_gold_pass163_note.md`  
 **Prioritize SSOT:** `mechanic_rag/docs/2026-07-19_prioritize_next_after_guide11_pass163.md` (`35ffa92`)  
 **Prerequisite:** Guide 11 PrivateGoldSource Review Pass (`5becff8` / Implement `b509ac0`)  
 **Handoff (Write):** `second_brain/docs/2026-07-19_spoke_mechanic_write_guide12_pass163_handoff.md`  

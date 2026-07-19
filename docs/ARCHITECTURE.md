@@ -1,6 +1,6 @@
 # Mechanic RAG — Architecture (v1)
 
-**Status:** Binding contracts SSOT · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · Guide 11 **PrivateGoldSource fixture-first Met** · **Not** live Soft Adjust / dual-product Done · **Not** earned CE lift · **Not** OSI open source  
+**Status:** Binding contracts SSOT · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · Guide 11–**12** **PrivateGoldSource** fixture Met (multi-vehicle + `gold_status`) · **Not** live Soft Adjust / dual-product Done · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
 **Updated:** 2026-07-18 (Guide 10b fixtures-only public flip)  
 **Owner:** Tom  
