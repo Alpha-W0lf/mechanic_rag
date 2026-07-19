@@ -191,10 +191,9 @@ Without PrivateGoldSource, dual-product Done stays blocked on the **consumer** s
 
 ## Honest readiness
 
-- **Gather DoD:** Met (pass 163).  
-- **Write DoD:** Met — Guide 11 authored; locks A/N1 pinned.  
-- **Ready DoD:** Met — **READY** score **8.8/10**.  
-- **Implement DoD:** Met — `b509ac0`.  
-- **Review DoD:** **Pass** — shippable; Status Align applied.  
-- **Not ready** for live OEM Soft Adjust until Soft Adjust Review/Align + hub unlock.  
-- **Public flip:** unchanged Met; Guide 11 fixture-first ≠ dual-product Done.
+- **Gather / Write / Ready / Implement / Review (Guide 11):** Met / Pass.  
+- **Guide 12 Write / Ready:** Met (9.0/10 Go).  
+- **Guide 12 Implement DoD:** Met — `22e75cd` (multi-vehicle + gold_status).  
+- **Ready for Review (G12)?** **Yes**.  
+- **Not ready** for live OEM Soft Adjust / dual-product Done.  
+- **Public flip:** unchanged Met.
