@@ -2,18 +2,22 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag` (+ read `second_brain` Contract 7.2 / Guide 10 / Soft Adjust live RAG)  
-**Status:** **Review Pass** — Guide 11 PrivateGoldSource fixture-first (pass 163); Align Status done; live Soft Adjust still parked  
+**Status:** **Review Pass** (Guide 11) · **Guide 12 Write complete** — Ready-check next  
 **Mode last used:** spoke  
-**Guide:** `docs/dev_guides/2026-07-18_dev_guide_11_private_gold_source.md`  
-**Ready note:** `docs/2026-07-19_guide11_ready_check_private_gold_source_pass163_note.md`  
-**Review note:** `docs/2026-07-19_guide11_review_private_gold_source_pass163_note.md`  
-**Handoff (Review):** `second_brain/docs/2026-07-19_spoke_mechanic_review_guide11_pass163_handoff.md`  
-**Handoff (Implement):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_guide11_pass163_handoff.md`  
-**Handoff (Ready):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_guide11_pass163_handoff.md`  
-**Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_private_gold_source_pass163_handoff.md`  
-**Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_private_gold_source_pass163_handoff.md`  
+**Guide 11:** `docs/dev_guides/2026-07-18_dev_guide_11_private_gold_source.md`  
+**Guide 12 (Write):** `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md`  
+**Prioritize:** `docs/2026-07-19_prioritize_next_after_guide11_pass163.md` (`35ffa92`)  
+**Ready note (G11):** `docs/2026-07-19_guide11_ready_check_private_gold_source_pass163_note.md`  
+**Review note (G11):** `docs/2026-07-19_guide11_review_private_gold_source_pass163_note.md`  
+**Handoff (Write G12):** `second_brain/docs/2026-07-19_spoke_mechanic_write_guide12_pass163_handoff.md`  
+**Handoff (Prioritize):** `second_brain/docs/2026-07-19_spoke_mechanic_prioritize_next_after_g11_pass163_handoff.md`  
+**Handoff (Review G11):** `second_brain/docs/2026-07-19_spoke_mechanic_review_guide11_pass163_handoff.md`  
+**Handoff (Implement G11):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_guide11_pass163_handoff.md`  
+**Handoff (Ready G11):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_guide11_pass163_handoff.md`  
+**Handoff (Write G11):** `second_brain/docs/2026-07-18_spoke_mechanic_write_private_gold_source_pass163_handoff.md`  
+**Handoff (Gather G11):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_private_gold_source_pass163_handoff.md`  
 **Hub lock:** `second_brain/docs/2026-07-19_hub_decision_lock_mechanic_private_gold_write_pass163.md` (A + N1)  
-**Hub:** `second_brain/docs/2026-07-18_prioritize_hub_pass163.md`  
+**Hub:** `second_brain/docs/2026-07-19_prioritize_morning_no_ford_gap_registry_pass163.md`  
 **Lens:** AI engineer (RAG ingest adapters) + data engineering (Gold → index)
 
 ### Declare
@@ -21,11 +25,11 @@
 | Item | Value |
 |------|-------|
 | Mode | spoke |
-| Stage | **Review Pass** |
-| Will write | Review note + Status Align (done) |
-| Will not | Scope expand · live Soft Adjust · ranking |
+| Stage | **Guide 12 Write complete** |
+| Will write | Guide 12 (done this pass) |
+| Will not | Implement G12 · Guide 13 Soft Adjust · Ford · dual-product Done |
 
-**Live honesty (pass 163):** Guide 10 **fixture** RAG Gold emit Met / closed. Soft Adjust **live** RAG emit Implement Met (`2017-f-150` present-only) but **Review parked**. Hub locked **A** + **N1** for Guide 11 Write.
+**Prioritize → Write:** Guide 12 authored — `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md` (Write complete; Ready-check next). Locks A/N1/S1.
 
 ---
 
