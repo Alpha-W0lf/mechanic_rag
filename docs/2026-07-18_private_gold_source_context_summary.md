@@ -2,10 +2,13 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag` (+ read `second_brain` Contract 7.2 / Guide 10 / Soft Adjust live RAG)  
-**Status:** Draft (Gather — pass 163 spoke)  
+**Status:** **Write complete** — Guide 11 drafted (pass 163); Ready-check next; PrivateGoldSource **not** Implemented  
 **Mode last used:** spoke  
-**Handoff:** `second_brain/docs/2026-07-18_spoke_mechanic_gather_private_gold_source_pass163_handoff.md`  
-**Hub:** `second_brain/docs/2026-07-18_prioritize_hub_pass163.md` (build residual toward dual-product Done; live RAG Review **parked**)  
+**Guide (Write):** `docs/dev_guides/2026-07-18_dev_guide_11_private_gold_source.md`  
+**Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_private_gold_source_pass163_handoff.md`  
+**Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_private_gold_source_pass163_handoff.md`  
+**Hub lock:** `second_brain/docs/2026-07-19_hub_decision_lock_mechanic_private_gold_write_pass163.md` (A + N1)  
+**Hub:** `second_brain/docs/2026-07-18_prioritize_hub_pass163.md`  
 **Lens:** AI engineer (RAG ingest adapters) + data engineering (Gold → index)
 
 ### Declare
@@ -13,11 +16,11 @@
 | Item | Value |
 |------|-------|
 | Mode | spoke |
-| Stage | **Gather context only** |
-| Will write | This context summary; handoff Results |
-| Will not | Write guide body · Implement · public-flip changes · Drive ingest · live Soft Adjust Review |
+| Stage | **Write complete** (Gather Met earlier) |
+| Will write | Guide 11 (done this pass) |
+| Will not | Implement · public-flip changes · live Soft Adjust Review |
 
-**Live honesty (pass 163):** Guide 10 **fixture** RAG Gold emit Met / closed. Soft Adjust **live** RAG emit Implement Met (`2017-f-150` present-only) but **Review parked** until friend Drive Gold quality Soft Adjusts / Tom pass-163 locks land. PrivateGoldSource Gather must therefore pin a **fixture-first** Met path and treat live Gold as a **gated** Soft Adjust after Review/Align.
+**Live honesty (pass 163):** Guide 10 **fixture** RAG Gold emit Met / closed. Soft Adjust **live** RAG emit Implement Met (`2017-f-150` present-only) but **Review parked**. Hub locked **A** + **N1** for Guide 11 Write.
 
 ---
 
@@ -189,8 +192,9 @@ Without PrivateGoldSource, dual-product Done stays blocked on the **consumer** s
 
 ## Honest readiness
 
-- **Gather DoD:** Met — context written; decisions with recommendation + tradeoffs; **no** Implement; **no** public-flip invent.  
-- **Ready for Write dev guide?** **Yes** — lean Guide 11 PrivateGoldSource (fixture-first), pending Decision 1 = A (or Tom override).  
-- **Not ready** for Implement until Write + Ready-check.  
-- **Not ready** for live OEM PrivateGold Soft Adjust until Soft Adjust Review/Align + hub unlock.  
+- **Gather DoD:** Met (pass 163).  
+- **Write DoD:** Met — Guide 11 authored; locks A/N1 pinned; **no** Implement.  
+- **Ready for Ready-check?** **Yes** — Tom authorized Ready-checks; hub may chain.  
+- **Not ready** for Implement until Ready Met.  
+- **Not ready** for live OEM Soft Adjust until Soft Adjust Review/Align + hub unlock.  
 - **Public flip:** unchanged Met; ≠ PrivateGold Done.
