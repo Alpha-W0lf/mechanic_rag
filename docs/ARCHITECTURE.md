@@ -1,6 +1,6 @@
 # Mechanic RAG — Architecture (v1)
 
-**Status:** Binding contracts SSOT · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · **Not** earned CE lift · **Not** OSI open source  
+**Status:** Binding contracts SSOT · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · Guide 11 **PrivateGoldSource fixture-first Met** · **Not** live Soft Adjust / dual-product Done · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
 **Updated:** 2026-07-18 (Guide 10b fixtures-only public flip)  
 **Owner:** Tom  
@@ -483,7 +483,7 @@ Guide 01 vertical slice landed. This table is **post-slice**, not pre-implement.
 | Area | Guide 01 today | Still open (portfolio v1 / later) |
 |------|----------------|-----------------------------------|
 | App tree | `web/src/app` only; root `web/app` gone | Do not recreate dual trees |
-| `/api/ask` | Real hybrid → RRF → section dedup → CE → Ollama + DB citations | Packaging polish; PrivateGold later |
+| `/api/ask` | Real hybrid → RRF → section dedup → CE → Ollama + DB citations | Packaging polish; live Soft Adjust OEM ingest |
 | Deps | `pg` + `@xenova/transformers` in `web/package.json`; Ollama via HTTP | — |
 | Compose | `docker-compose.yml` Postgres+pgvector | — |
 | Ingest | `mecharag ingest --source fixtures` → local Postgres; **`private-gold`** Guide 11 fixture-first Met | Live Soft Adjust OEM Gold ingest (parked Review) |

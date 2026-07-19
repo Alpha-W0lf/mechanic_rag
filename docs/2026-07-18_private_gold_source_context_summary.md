@@ -2,10 +2,12 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag` (+ read `second_brain` Contract 7.2 / Guide 10 / Soft Adjust live RAG)  
-**Status:** **Implement Met** — Guide 11 PrivateGoldSource fixture-first (pass 163); Review next; live Soft Adjust still parked  
+**Status:** **Review Pass** — Guide 11 PrivateGoldSource fixture-first (pass 163); Align Status done; live Soft Adjust still parked  
 **Mode last used:** spoke  
 **Guide:** `docs/dev_guides/2026-07-18_dev_guide_11_private_gold_source.md`  
 **Ready note:** `docs/2026-07-19_guide11_ready_check_private_gold_source_pass163_note.md`  
+**Review note:** `docs/2026-07-19_guide11_review_private_gold_source_pass163_note.md`  
+**Handoff (Review):** `second_brain/docs/2026-07-19_spoke_mechanic_review_guide11_pass163_handoff.md`  
 **Handoff (Implement):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_guide11_pass163_handoff.md`  
 **Handoff (Ready):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_guide11_pass163_handoff.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_private_gold_source_pass163_handoff.md`  
@@ -19,9 +21,9 @@
 | Item | Value |
 |------|-------|
 | Mode | spoke |
-| Stage | **Implement Met** |
-| Will write | Adapter + CLI + tests + honesty (done) |
-| Will not | Live Soft Adjust · public-flip · Drive · ranking |
+| Stage | **Review Pass** |
+| Will write | Review note + Status Align (done) |
+| Will not | Scope expand · live Soft Adjust · ranking |
 
 **Live honesty (pass 163):** Guide 10 **fixture** RAG Gold emit Met / closed. Soft Adjust **live** RAG emit Implement Met (`2017-f-150` present-only) but **Review parked**. Hub locked **A** + **N1** for Guide 11 Write.
 
@@ -198,7 +200,7 @@ Without PrivateGoldSource, dual-product Done stays blocked on the **consumer** s
 - **Gather DoD:** Met (pass 163).  
 - **Write DoD:** Met — Guide 11 authored; locks A/N1 pinned.  
 - **Ready DoD:** Met — **READY** score **8.8/10**.  
-- **Implement DoD:** Met — PrivateGoldSource + CLI + tests + honesty; Met ingest `inserted=1`.  
-- **Ready for Review?** **Yes**.  
+- **Implement DoD:** Met — `b509ac0`.  
+- **Review DoD:** **Pass** — shippable; Status Align applied.  
 - **Not ready** for live OEM Soft Adjust until Soft Adjust Review/Align + hub unlock.  
-- **Public flip:** unchanged Met; ≠ PrivateGold Done / ≠ dual-product Done.
+- **Public flip:** unchanged Met; Guide 11 fixture-first ≠ dual-product Done.

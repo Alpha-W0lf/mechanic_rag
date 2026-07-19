@@ -76,7 +76,7 @@ Do **not** flip status to frozen unless **all** are true and a human authors the
 2. Models are **frozen by Tom override**, not because CE proved lift.  
 3. Cross-encoder **stays in the stack**.  
 4. **Do not** claim CE improved citation hits on these runs.  
-5. Guide 09 freeze **≠** earned CE lift. Guide 10a LICENSE ≠ OSI open source. Guide 10b fixtures-only flip Met **≠** earned CE lift / PrivateGold complete.
+5. Guide 09 freeze **≠** earned CE lift. Guide 10a LICENSE ≠ OSI open source. Guide 10b fixtures-only flip Met **≠** earned CE lift. Guide 11 PrivateGoldSource fixture-first Met **≠** live Soft Adjust / dual-product Done.
 
 **Unlock used:** Override unlock (flat delta + Tom Path B lock) — **not** lift unlock. **Forbidden:** “earned freeze from ablation”; proxy `+1` / `n=5` as proof.
 
