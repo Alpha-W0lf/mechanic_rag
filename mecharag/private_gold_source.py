@@ -15,6 +15,8 @@ if str(_VALIDATE_DIR) not in sys.path:
 
 from validate_manifest import validate_manifest  # noqa: E402
 
+from mecharag.gold_status import SIDECAR_BASENAME
+
 FIXTURE_ID_RE = re.compile(r"^fixture:[A-Za-z0-9._-]+$")
 MET_RIGHTS = frozenset({"synthetic_fixture", "redistributable"})
 DRIVE_LIKE = re.compile(r"^(https?://|gdrive:|drive:)", re.IGNORECASE)
@@ -70,6 +72,8 @@ class PrivateGoldSource:
         for path in sorted(self.gold_root.glob("**/*.json")):
             if path in seen:
                 continue
+            if path.name == SIDECAR_BASENAME:
+                continue
             if "template" in path.name.lower():
                 continue
             try:
@@ -114,6 +118,10 @@ class PrivateGoldSource:
         for release in self.discover():
             docs.extend(self.load_release(release))
         return docs
+
+    def distinct_vehicle_ids(self, docs: list[PrivateGoldDocument] | None = None) -> set[str]:
+        documents = docs if docs is not None else self.load_all()
+        return {str(d.manifest["vehicle_id"]) for d in documents}
 
     def _enforce_n1_met(self, doc: dict[str, Any]) -> None:
         vid = str(doc.get("vehicle_id", ""))

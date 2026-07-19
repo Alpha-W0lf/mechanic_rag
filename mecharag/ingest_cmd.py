@@ -14,6 +14,11 @@ from mecharag.chunking import chunk_manifest_units
 from mecharag.db_upsert import upsert_document_version
 from mecharag.embedder import OllamaEmbedder
 from mecharag.fixture_source import FixtureSource, FixtureSourceError
+from mecharag.gold_status import (
+    GoldStatusError,
+    collect_gold_status,
+    honesty_log_message,
+)
 from mecharag.private_gold_source import PrivateGoldSource, PrivateGoldSourceError
 
 logger = logging.getLogger(__name__)
@@ -135,14 +140,24 @@ def _ingest_private_gold(args, run_id: str, database_url: str) -> int:
     try:
         root = _resolve_private_gold_root(args)
         source = PrivateGoldSource(root)
+        releases = source.discover()
+        for path, status in collect_gold_status(root, release_paths=releases):
+            logger.info("%s", honesty_log_message(status, path))
         documents = source.load_all()
-    except PrivateGoldSourceError as exc:
+    except (PrivateGoldSourceError, GoldStatusError) as exc:
         logger.error("%s", exc)
         return 2
 
     if not documents:
         logger.error("no Contract 7.2 documents under %s", root)
         return 1
+
+    vehicle_ids = {str(d.manifest["vehicle_id"]) for d in documents}
+    logger.info(
+        "private-gold vehicles=%s count=%s",
+        sorted(vehicle_ids),
+        len(vehicle_ids),
+    )
 
     embedder = OllamaEmbedder()
     inserted = skipped = failed = 0
@@ -172,8 +187,9 @@ def _ingest_private_gold(args, run_id: str, database_url: str) -> int:
                     else:
                         skipped += 1
                     logger.info(
-                        "doc=%s hash=%s status=%s chunks=%s",
+                        "doc=%s vehicle=%s hash=%s status=%s chunks=%s",
                         doc.manifest["document_id"],
+                        doc.manifest["vehicle_id"],
                         doc.manifest["content_hash"][:12],
                         status,
                         len(drafts),
@@ -190,10 +206,11 @@ def _ingest_private_gold(args, run_id: str, database_url: str) -> int:
         return 1
 
     logger.info(
-        "ingest done run_id=%s inserted=%s skipped=%s failed=%s",
+        "ingest done run_id=%s inserted=%s skipped=%s failed=%s vehicles=%s",
         run_id,
         inserted,
         skipped,
         failed,
+        len(vehicle_ids),
     )
     return 0 if failed == 0 else 1

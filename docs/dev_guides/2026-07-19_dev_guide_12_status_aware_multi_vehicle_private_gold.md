@@ -4,7 +4,7 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 12 — ≥2 `fixture:` vehicles under private Gold root + optional status sidecar honesty (`zero_gap=false`)  
 **Stage that authored this:** Write-dev-guide (pass 163)  
-**Status:** **Ready Met (9.0/10 Go)** — not Implemented; Ready note `docs/2026-07-19_guide12_ready_check_multi_vehicle_private_gold_pass163_note.md`  
+**Status:** **Implemented (pass 163)** — multi-vehicle fixture Met + gold_status sidecar; Review next; Ready note `docs/2026-07-19_guide12_ready_check_multi_vehicle_private_gold_pass163_note.md`  
 **Prioritize SSOT:** `mechanic_rag/docs/2026-07-19_prioritize_next_after_guide11_pass163.md` (`35ffa92`)  
 **Prerequisite:** Guide 11 PrivateGoldSource Review Pass (`5becff8` / Implement `b509ac0`)  
 **Handoff (Write):** `second_brain/docs/2026-07-19_spoke_mechanic_write_guide12_pass163_handoff.md`  
@@ -34,8 +34,6 @@ Prove PrivateGold **consumer** doneness beyond Guide 11’s single-vehicle Met:
 5. **Stop.** No Guide 13 Soft Adjust; no ranking/CE; no Ford; no Vehicle Soft Adjust #7 wait.
 
 **Success signal (after Implement):** Ingest under private root yields **≥2** distinct `fixture:` vehicles in DB (insert or idempotent skip OK); when sidecar present with `zero_gap=false`, logs/honesty docs make incompleteness unmistakable; missing sidecar does **not** fail Met; `FixtureSource` / public fail-closed unchanged.
-
-**This Write does not Implement.**
 
 ---
 
@@ -120,15 +118,15 @@ Prove PrivateGold **consumer** doneness beyond Guide 11’s single-vehicle Met:
 
 ## Acceptance criteria (unchecked at Write — Implement later)
 
-- [ ] Private Gold root stages ≥2 distinct `fixture:` vehicles (P1 or P2)  
-- [ ] `mecharag ingest --source private-gold` indexes ≥2 vehicles (insert/skip OK)  
-- [ ] Optional `gold_status.json` loaded when present; basename skipped by discover  
-- [ ] Missing sidecar does not fail Met  
-- [ ] Sidecar with `zero_gap=false` does not block ingest; honesty logged / docs clear  
-- [ ] Guide 11 N1 gates retained (`cat:` / `private_oem` still rejected)  
-- [ ] `FixtureSource` + public fail-closed unchanged  
-- [ ] Thin honesty docs; no dual-product Done / Soft Adjust Review Met / Drive ingest claim  
-- [ ] Targeted tests green; no ranking/OEM/Ford invent  
+- [x] Private Gold root stages ≥2 distinct `fixture:` vehicles (P1 or P2)  
+- [x] `mecharag ingest --source private-gold` indexes ≥2 vehicles (insert/skip OK)  
+- [x] Optional `gold_status.json` loaded when present; basename skipped by discover  
+- [x] Missing sidecar does not fail Met  
+- [x] Sidecar with `zero_gap=false` does not block ingest; honesty logged / docs clear  
+- [x] Guide 11 N1 gates retained (`cat:` / `private_oem` still rejected)  
+- [x] `FixtureSource` + public fail-closed unchanged  
+- [x] Thin honesty docs; no dual-product Done / Soft Adjust Review Met / Drive ingest claim  
+- [x] Targeted tests green; no ranking/OEM/Ford invent  
 
 ---
 
@@ -138,33 +136,33 @@ All boxes start unchecked. **Do not check boxes in Write / Ready-check.**
 
 ### Phase A — Anchor
 
-- [ ] **A1.** Confirm Guide 11 adapter live (`private_gold_source.py`, private-gold CLI).  
-- [ ] **A2.** Confirm program fixtures are single-vehicle today — multi-vehicle pack must be staged (not assumed present).  
-- [ ] **A3.** Confirm locks A/N1/S1; Guide 13 Soft Adjust out.  
+- [x] **A1.** Confirm Guide 11 adapter live (`private_gold_source.py`, private-gold CLI).  
+- [x] **A2.** Confirm program fixtures are single-vehicle today — multi-vehicle pack must be staged (not assumed present).  
+- [x] **A3.** Confirm locks A/N1/S1; Guide 13 Soft Adjust out.  
 
 ### Phase B — Multi-vehicle pack
 
-- [ ] **B1.** Build staging helper or test fixture: ≥2 `fixture:` vehicles under tmp/private root (P1 or P2).  
-- [ ] **B2.** Validate each release with `validate_manifest.py --profile library --no-allowlist` (or equivalent).  
-- [ ] **B3.** Add Met `gold_status.json` with `zero_gap=false` (honesty path).  
+- [x] **B1.** Build staging helper or test fixture: ≥2 `fixture:` vehicles under tmp/private root (P1 or P2).  
+- [x] **B2.** Validate each release with `validate_manifest.py --profile library --no-allowlist` (or equivalent).  
+- [x] **B3.** Add Met `gold_status.json` with `zero_gap=false` (honesty path).  
 
 ### Phase C — Status-aware load
 
-- [ ] **C1.** Implement sidecar load (optional); skip `gold_status.json` in discover.  
-- [ ] **C2.** Wire INFO honesty log on ingest when sidecar present.  
-- [ ] **C3.** Keep Guide 11 N1 reject for `cat:` / `private_oem`.  
+- [x] **C1.** Implement sidecar load (optional); skip `gold_status.json` in discover.  
+- [x] **C2.** Wire INFO honesty log on ingest when sidecar present.  
+- [x] **C3.** Keep Guide 11 N1 reject for `cat:` / `private_oem`.  
 
 ### Phase D — Prove Met + honesty
 
-- [ ] **D1.** Unit tests: two-vehicle load; discover skips sidecar; missing sidecar OK; `zero_gap=false` does not raise.  
-- [ ] **D2.** Met ingest once (Compose if up) — ≥2 vehicles inserted/skipped.  
-- [ ] **D3.** Thin ARCHITECTURE / GETTING_STARTED honesty.  
-- [ ] **D4.** Grep: no dual-product Done; no Soft Adjust Review Met; no Drive ingest; no OEM in git.  
+- [x] **D1.** Unit tests: two-vehicle load; discover skips sidecar; missing sidecar OK; `zero_gap=false` does not raise.  
+- [x] **D2.** Met ingest once (Compose if up) — ≥2 vehicles inserted/skipped.  
+- [x] **D3.** Thin ARCHITECTURE / GETTING_STARTED honesty.  
+- [x] **D4.** Grep: no dual-product Done; no Soft Adjust Review Met; no Drive ingest; no OEM in git.  
 
 ### Phase E — Stop
 
-- [ ] **E1.** No Guide 13 Soft Adjust / ranking / LICENSE / §9 flip.  
-- [ ] **E2.** Stop for Ready-check → Implement (authorized Ready-checks).  
+- [x] **E1.** No Guide 13 Soft Adjust / ranking / LICENSE / §9 flip.  
+- [x] **E2.** Stop for Ready-check → Implement (authorized Ready-checks).  
 
 ---
 
@@ -192,6 +190,12 @@ rg -n 'Guide 12|multi-vehicle|gold_status|zero_gap|dual-product|Soft Adjust' \
   docs/ARCHITECTURE.md GETTING_STARTED.md docs/VISION.md
 # Must NOT claim: dual-product Done; Soft Adjust Review Met; Drive ingest; OEM corpus
 ```
+
+**Implement evidence (pass 163):**
+- Staged P1 multi-vehicle pack (`fixture:demo-s2000-ap1` + `fixture:demo-miata-nb`) + root `gold_status.json` (`zero_gap=false`)
+- Met ingest: `vehicles=2` (`inserted=1` miata, `skipped=1` s2000 idempotent); honesty INFO logged
+- `pytest tests/test_gold_status.py tests/test_private_gold_source.py` → **16 passed**
+- `public_fail_closed.py fixtures` → **OK**
 
 **DoD (Write):** This guide authored with A/N1/S1; steps/DoD/blast/edges; **no** Implement.  
 **DoD (Ready):** Pins locked; Met pack path clear; blast/edges explicit.  
@@ -246,10 +250,10 @@ Do **not** Implement in Guide 12.
 
 - Write: this guide complete; handoff Results filled; no Implement.  
 - Ready (later): score + evidence; Tom authorized Ready-checks.  
-- Implement (later): Phases A–E; fixture-first only.
+- Implement: Phases A–E; fixture-first only — **Met**; Review next.
 
 ---
 
-## Ready for Ready-check?
+## Ready for Review?
 
-**Yes** — Guide 12 Write complete; locks A/N1/S1 pinned; multi-vehicle + optional sidecar Met path explicit. Do **not** Implement until Ready Met.
+**Yes** — Implement DoD Met under A/N1/S1. Guide 13 Soft Adjust remains out.
