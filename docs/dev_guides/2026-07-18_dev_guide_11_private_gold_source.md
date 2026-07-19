@@ -4,7 +4,7 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 11 — implement **`PrivateGoldSource`** adapter + CLI ingest from a **local Gold root** (GD2); fixture-first Met  
 **Stage that authored this:** Write-dev-guide (pass 163)  
-**Status:** **Draft — Write complete** (not Implemented)  
+**Status:** **Ready Met (8.8/10)** — not Implemented; Ready note `docs/2026-07-19_guide11_ready_check_private_gold_source_pass163_note.md`  
 **Context SSOT:** `mechanic_rag/docs/2026-07-18_private_gold_source_context_summary.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_private_gold_source_pass163_handoff.md`  
 **Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_private_gold_source_pass163_handoff.md`  

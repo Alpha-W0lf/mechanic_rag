@@ -2,9 +2,11 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag` (+ read `second_brain` Contract 7.2 / Guide 10 / Soft Adjust live RAG)  
-**Status:** **Write complete** — Guide 11 drafted (pass 163); Ready-check next; PrivateGoldSource **not** Implemented  
+**Status:** **Ready Met** — Guide 11 Ready Go **8.8/10** (pass 163); PrivateGoldSource **not** Implemented  
 **Mode last used:** spoke  
-**Guide (Write):** `docs/dev_guides/2026-07-18_dev_guide_11_private_gold_source.md`  
+**Guide (Write):** `docs/dev_guides/2026-07-18_dev_guide_11_private_gold_source.md` (`7c46018`)  
+**Ready note:** `docs/2026-07-19_guide11_ready_check_private_gold_source_pass163_note.md`  
+**Handoff (Ready):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_guide11_pass163_handoff.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-18_spoke_mechanic_write_private_gold_source_pass163_handoff.md`  
 **Handoff (Gather):** `second_brain/docs/2026-07-18_spoke_mechanic_gather_private_gold_source_pass163_handoff.md`  
 **Hub lock:** `second_brain/docs/2026-07-19_hub_decision_lock_mechanic_private_gold_write_pass163.md` (A + N1)  
@@ -16,9 +18,9 @@
 | Item | Value |
 |------|-------|
 | Mode | spoke |
-| Stage | **Write complete** (Gather Met earlier) |
-| Will write | Guide 11 (done this pass) |
-| Will not | Implement · public-flip changes · live Soft Adjust Review |
+| Stage | **Ready Met** (Write Met earlier) |
+| Will write | Ready artifact (done this pass) |
+| Will not | Implement in Ready stage · public-flip changes · live Soft Adjust Review |
 
 **Live honesty (pass 163):** Guide 10 **fixture** RAG Gold emit Met / closed. Soft Adjust **live** RAG emit Implement Met (`2017-f-150` present-only) but **Review parked**. Hub locked **A** + **N1** for Guide 11 Write.
 
@@ -194,7 +196,7 @@ Without PrivateGoldSource, dual-product Done stays blocked on the **consumer** s
 
 - **Gather DoD:** Met (pass 163).  
 - **Write DoD:** Met — Guide 11 authored; locks A/N1 pinned; **no** Implement.  
-- **Ready for Ready-check?** **Yes** — Tom authorized Ready-checks; hub may chain.  
-- **Not ready** for Implement until Ready Met.  
+- **Ready DoD:** Met — **READY** score **8.8/10**; see Ready note.  
+- **Ready for Implement?** **Yes** under A/N1 (dedicated Implement stage).  
 - **Not ready** for live OEM Soft Adjust until Soft Adjust Review/Align + hub unlock.  
 - **Public flip:** unchanged Met; ≠ PrivateGold Done.
