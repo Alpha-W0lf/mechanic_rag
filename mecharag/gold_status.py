@@ -1,4 +1,4 @@
-"""Optional PrivateGold status sidecar (Guide 12 — S1, no Contract 7.2 fork)."""
+"""PrivateGold status sidecar (Guide 12 S1 + Guide 13 Soft Adjust gates)."""
 
 from __future__ import annotations
 
@@ -71,6 +71,35 @@ def collect_gold_status(
     return out
 
 
+def require_soft_adjust_status(
+    statuses: list[tuple[Path, dict[str, Any]]],
+) -> tuple[Path, dict[str, Any]]:
+    """Authorize Guide 13 Soft Adjust present-only ingest (fail closed).
+
+    Ready preference: reject ``friend_publish_eligible=true`` on Soft Adjust path
+    (friend / zero-gap publish remains out of Guide 13 Met).
+    """
+    if not statuses:
+        raise GoldStatusError(
+            "Soft Adjust present-only requires gold_status.json "
+            "(missing sidecar; fail closed)"
+        )
+    path, status = statuses[0]
+    if status.get("friend_publish_eligible") is True:
+        raise GoldStatusError(
+            "Guide 13 Soft Adjust rejects friend_publish_eligible=true "
+            f"(path={path}; friend path out of Met)"
+        )
+    present_only = status.get("present_only") is True
+    zero_gap_false = status.get("zero_gap") is False
+    if not (present_only or zero_gap_false):
+        raise GoldStatusError(
+            "Soft Adjust requires present_only=true or zero_gap=false "
+            f"(path={path})"
+        )
+    return path, status
+
+
 def honesty_log_message(status: dict[str, Any], path: Path) -> str:
     """Single INFO line — incomplete Gold must be unmistakable."""
     parts = [
@@ -80,9 +109,18 @@ def honesty_log_message(status: dict[str, Any], path: Path) -> str:
         f"publishable={status.get('publishable')!r}",
         f"present_only={status.get('present_only')!r}",
         f"complete_library={status.get('complete_library')!r}",
+        f"friend_publish_eligible={status.get('friend_publish_eligible')!r}",
     ]
     notes = status.get("notes")
     if notes:
         parts.append(f"notes={notes!r}")
     parts.append("honesty: incomplete/status-aware PrivateGold ≠ dual-product Done")
     return " ".join(parts)
+
+
+def soft_adjust_honesty_log_message(status: dict[str, Any], path: Path) -> str:
+    """INFO line for Soft Adjust present-only ingest."""
+    return (
+        f"Soft Adjust present-only ingest {honesty_log_message(status, path)} "
+        "≠ friend Soft Adjust Review Met ≠ dual-product Done"
+    )

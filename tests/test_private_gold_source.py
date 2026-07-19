@@ -74,14 +74,15 @@ def test_drive_url_root_rejected() -> None:
         PrivateGoldSource("gdrive://bucket/path")
 
 
-def test_reject_private_oem_for_met(gold_root: Path) -> None:
+def test_reject_cat_without_gold_status(gold_root: Path) -> None:
+    """Guide 13 Soft Adjust: cat:/private_oem without sidecar fail-closes."""
     manifest_path = gold_root / "minimal_manifest.json"
     raw = json.loads(manifest_path.read_text(encoding="utf-8"))
     raw["documents"][0]["vehicle_id"] = "cat:2017-f-150"
     raw["documents"][0]["rights_class"] = "private_oem"
     manifest_path.write_text(json.dumps(raw), encoding="utf-8")
     source = PrivateGoldSource(gold_root)
-    with pytest.raises(PrivateGoldSourceError, match="rejects private_oem/cat"):
+    with pytest.raises(PrivateGoldSourceError, match="requires gold_status"):
         source.load_all()
 
 

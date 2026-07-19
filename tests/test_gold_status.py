@@ -164,11 +164,21 @@ def test_load_optional_sidecar_none_when_missing(tmp_path: Path) -> None:
     assert load_optional_sidecar(tmp_path / SIDECAR_BASENAME) is None
 
 
-def test_n1_still_rejects_cat(multi_gold: Path) -> None:
+def test_soft_adjust_cat_allowed_with_status(multi_gold: Path) -> None:
+    """Guide 13: cat:/private_oem OK when Guide 12-style incomplete sidecar present."""
     manifest = multi_gold / "miata" / "normalized_document_manifest.json"
     raw = json.loads(manifest.read_text(encoding="utf-8"))
     raw["documents"][0]["vehicle_id"] = "cat:live-miata"
     raw["documents"][0]["rights_class"] = "private_oem"
     manifest.write_text(json.dumps(raw), encoding="utf-8")
-    with pytest.raises(PrivateGoldSourceError, match="rejects private_oem/cat"):
-        PrivateGoldSource(multi_gold).load_all()
+    # Existing multi_gold sidecar is present_only + zero_gap=false (no friend).
+    docs = PrivateGoldSource(multi_gold).load_all()
+    vids = {d.manifest["vehicle_id"] for d in docs}
+    assert "cat:live-miata" in vids
+    assert VEHICLE_A in vids
+
+
+def test_honesty_log_includes_friend_publish_eligible(multi_gold: Path) -> None:
+    path, status = collect_gold_status(multi_gold)[0]
+    msg = honesty_log_message(status, path)
+    assert "friend_publish_eligible=" in msg

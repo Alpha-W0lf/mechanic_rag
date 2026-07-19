@@ -15,9 +15,15 @@ if str(_VALIDATE_DIR) not in sys.path:
 
 from validate_manifest import validate_manifest  # noqa: E402
 
-from mecharag.gold_status import SIDECAR_BASENAME
+from mecharag.gold_status import (
+    SIDECAR_BASENAME,
+    GoldStatusError,
+    collect_gold_status,
+    require_soft_adjust_status,
+)
 
 FIXTURE_ID_RE = re.compile(r"^fixture:[A-Za-z0-9._-]+$")
+CAT_ID_RE = re.compile(r"^cat:[A-Za-z0-9._-]+$")
 MET_RIGHTS = frozenset({"synthetic_fixture", "redistributable"})
 DRIVE_LIKE = re.compile(r"^(https?://|gdrive:|drive:)", re.IGNORECASE)
 
@@ -34,11 +40,18 @@ class PrivateGoldDocument:
     manifest: dict[str, Any]
 
 
+def _is_soft_adjust_doc(doc: dict[str, Any]) -> bool:
+    vid = str(doc.get("vehicle_id", ""))
+    rights = str(doc.get("rights_class", ""))
+    return vid.startswith("cat:") or rights == "private_oem"
+
+
 class PrivateGoldSource:
     """Discover/load Contract 7.2 releases under a configured local Gold root.
 
-    Guide 11 Met (N1): ``fixture:`` + synthetic/redistributable only.
-    ``private_oem`` / ``cat:`` rejected until Soft Adjust follow-on.
+    Guide 11/12 Met (N1): ``fixture:`` + synthetic/redistributable (sidecar optional).
+    Guide 13 Soft Adjust: ``cat:`` + ``private_oem`` only with authorizing
+    ``gold_status.json`` (present-only / incomplete; not friend-publish).
     """
 
     def __init__(self, gold_root: Path | str) -> None:
@@ -48,6 +61,7 @@ class PrivateGoldSource:
                 f"Drive/URL roots forbidden (GD2): {gold_root}"
             )
         self.gold_root = Path(gold_root).expanduser().resolve()
+        self.last_soft_adjust_status: tuple[Path, dict[str, Any]] | None = None
 
     def _ensure_under_root(self, path: Path) -> Path:
         resolved = path.resolve()
@@ -68,7 +82,7 @@ class PrivateGoldSource:
             self.gold_root.glob("**/normalized_document_manifest.json")
         )
         found: list[Path] = list(preferred)
-        seen = set(preferred)
+        seen: set[Path] = set(preferred)
         for path in sorted(self.gold_root.glob("**/*.json")):
             if path in seen:
                 continue
@@ -108,36 +122,55 @@ class PrivateGoldSource:
         for doc in documents:
             if not isinstance(doc, dict):
                 raise PrivateGoldSourceError("documents[] entry must be object")
-            self._enforce_n1_met(doc)
+            self._enforce_doc_identity(doc)
             flat = self._to_flat_manifest(raw, doc, base_dir)
             out.append(PrivateGoldDocument(release_path=path, manifest=flat))
         return out
 
     def load_all(self) -> list[PrivateGoldDocument]:
+        self.last_soft_adjust_status = None
+        releases = self.discover()
         docs: list[PrivateGoldDocument] = []
-        for release in self.discover():
+        for release in releases:
             docs.extend(self.load_release(release))
+        if any(_is_soft_adjust_doc(d.manifest) for d in docs):
+            try:
+                statuses = collect_gold_status(
+                    self.gold_root, release_paths=releases
+                )
+                self.last_soft_adjust_status = require_soft_adjust_status(statuses)
+            except GoldStatusError as exc:
+                raise PrivateGoldSourceError(str(exc)) from exc
         return docs
 
-    def distinct_vehicle_ids(self, docs: list[PrivateGoldDocument] | None = None) -> set[str]:
+    def distinct_vehicle_ids(
+        self, docs: list[PrivateGoldDocument] | None = None
+    ) -> set[str]:
         documents = docs if docs is not None else self.load_all()
         return {str(d.manifest["vehicle_id"]) for d in documents}
 
-    def _enforce_n1_met(self, doc: dict[str, Any]) -> None:
+    def _enforce_doc_identity(self, doc: dict[str, Any]) -> None:
         vid = str(doc.get("vehicle_id", ""))
         rights = str(doc.get("rights_class", ""))
-        if vid.startswith("cat:") or rights == "private_oem":
-            raise PrivateGoldSourceError(
-                "Guide 11 Met rejects private_oem/cat: "
-                f"(vehicle_id={vid!r}, rights_class={rights!r}); Soft Adjust later"
-            )
+        if _is_soft_adjust_doc(doc):
+            if not CAT_ID_RE.match(vid):
+                raise PrivateGoldSourceError(
+                    "Soft Adjust requires vehicle_id ^cat:…, "
+                    f"got {vid!r} (rights_class={rights!r})"
+                )
+            if rights != "private_oem":
+                raise PrivateGoldSourceError(
+                    "Soft Adjust requires rights_class=private_oem, "
+                    f"got {rights!r} (vehicle_id={vid!r})"
+                )
+            return
         if not FIXTURE_ID_RE.match(vid):
             raise PrivateGoldSourceError(
-                f"Guide 11 Met requires vehicle_id ^fixture:…, got {vid!r}"
+                f"Guide 11/12 Met requires vehicle_id ^fixture:…, got {vid!r}"
             )
         if rights not in MET_RIGHTS:
             raise PrivateGoldSourceError(
-                f"Guide 11 Met rights_class not allowlisted: {rights!r}"
+                f"Guide 11/12 Met rights_class not allowlisted: {rights!r}"
             )
 
     def _to_flat_manifest(

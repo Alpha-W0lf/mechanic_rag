@@ -18,6 +18,7 @@ from mecharag.gold_status import (
     GoldStatusError,
     collect_gold_status,
     honesty_log_message,
+    soft_adjust_honesty_log_message,
 )
 from mecharag.private_gold_source import PrivateGoldSource, PrivateGoldSourceError
 
@@ -144,6 +145,11 @@ def _ingest_private_gold(args, run_id: str, database_url: str) -> int:
         for path, status in collect_gold_status(root, release_paths=releases):
             logger.info("%s", honesty_log_message(status, path))
         documents = source.load_all()
+        if source.last_soft_adjust_status is not None:
+            sa_path, sa_status = source.last_soft_adjust_status
+            logger.info(
+                "%s", soft_adjust_honesty_log_message(sa_status, sa_path)
+            )
     except (PrivateGoldSourceError, GoldStatusError) as exc:
         logger.error("%s", exc)
         return 2
