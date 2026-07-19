@@ -4,10 +4,12 @@
 **Repo:** `mechanic_rag` (+ read Vehicle live emit under `second_brain`)  
 **Work item:** Guide 14 Soft Adjust — ingest **live** Vehicle RAG Gold emit (`cat:` / `private_oem`) via Guide 13 Soft Adjust after mapping `present_only_receipt.json` → `gold_status.json`  
 **Stage that authored this:** Write-dev-guide (pass 163)  
-**Status:** **Implement Met** (Soft Adjust live pilot; not dual-product Done)  
-**Prerequisite:** Guide 13 Review Pass (`845528f`); Prioritize Met (`8974653`) locks **A / L1 / B1**; Ready Go `20cbd15`  
+**Status:** **Review Pass** (Soft Adjust live pilot; not dual-product Done)  
+**Prerequisite:** Guide 13 Review Pass (`845528f`); Prioritize Met (`8974653`) locks **A / L1 / B1**; Ready Go `20cbd15`; Implement `3695d84`  
 **Handoff (Write):** `second_brain/docs/2026-07-19_spoke_mechanic_write_guide14_pass163_handoff.md`  
 **Handoff (Implement):** `second_brain/docs/2026-07-19_spoke_mechanic_implement_guide14_pass163_handoff.md`  
+**Handoff (Review):** `second_brain/docs/2026-07-19_spoke_mechanic_review_guide14_pass163_handoff.md`  
+**Review note:** `docs/2026-07-19_guide14_review_live_present_only_private_gold_pass163_note.md`  
 **Prioritize:** `mechanic_rag/docs/2026-07-19_prioritize_next_after_guide13_pass163.md`  
 
 **Tom / hub locks (pass 163 — do not reopen):**
@@ -264,4 +266,4 @@ Revert Guide 14 mapper/docs commits; Guide 13 Soft Adjust remains Met.
 
 ## Ready for Ready-check?
 
-**Write Met** → Ready Go `20cbd15` → **Implement Met** this pass. Next: Review implementation.
+**Write Met** → Ready Go `20cbd15` → Implement `3695d84` → **Review Pass** this pass.
