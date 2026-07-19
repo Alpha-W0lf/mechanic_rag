@@ -11,7 +11,8 @@ export type RetrievedChunk = {
   content: string;
   vehicle_id?: string;
   doc_family?: string;
-  modality?: 'text' | 'image' | 'table';
+  /** Content kind (text / image / table) — not the retriever channel. */
+  content_modality?: 'text' | 'image' | 'table';
 };
 
 /** Vector or lexical hit before fusion. Scores are retriever-native, not [0,1]. */
