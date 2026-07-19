@@ -4,9 +4,11 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Guide 15 Soft Adjust — prove Soft Adjust `cat:` PrivateGold through `/api/ask` (synthetic Met) with incomplete-Gold honesty  
 **Stage that authored this:** Write-dev-guide (pass 163)  
-**Status:** **Draft — Write complete** (not Implemented)  
-**Prerequisite:** Guide 14 Review Pass (`c4254b3`); Prioritize Met (`2636aa1`) locks **A / Q1 / E1**  
+**Status:** **Ready Go 8.8/10** (not Implemented)  
+**Prerequisite:** Guide 14 Review Pass (`c4254b3`); Prioritize Met (`2636aa1`) locks **A / Q1 / E1**; Write Met `66e3dc9`  
 **Handoff (Write):** `second_brain/docs/2026-07-19_spoke_mechanic_write_guide15_pass163_handoff.md`  
+**Handoff (Ready):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_guide15_pass163_handoff.md`  
+**Ready note:** `docs/2026-07-19_guide15_ready_check_private_gold_ask_eval_pass163_note.md`  
 **Prioritize:** `mechanic_rag/docs/2026-07-19_prioritize_next_after_guide14_pass163.md`  
 
 **Tom / hub locks (pass 163 — do not reopen):**
@@ -255,6 +257,6 @@ Revert Guide 15 Soft Adjust ask/docs commits; Guide 13–14 Soft Adjust ingest M
 
 ---
 
-## Ready for Ready-check?
+## Ready for Implement?
 
-**Yes** — Guide 15 Soft Adjust Write complete; locks **A / Q1 / E1** pinned; Soft Adjust ask Met path explicit. Do **not** Implement until Ready Met.
+**Yes — Go 8.8/10** (Ready note). Locks **A / Q1 / E1** pinned. Do **not** Implement until a dedicated Implement stage/handoff starts.

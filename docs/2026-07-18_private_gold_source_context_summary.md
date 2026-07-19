@@ -2,13 +2,13 @@
 
 **Date:** 2026-07-18  
 **Repos:** `mechanic_rag` (+ read `second_brain` Contract 7.2 / Guide 10 / Soft Adjust live RAG)  
-**Status:** **Guide 15 Soft Adjust Write complete** · Ready-check next (ask/eval Soft Adjust A/Q1/E1)  
+**Status:** **Guide 15 Soft Adjust Ready Go 8.8/10** · Implement next (ask/eval Soft Adjust A/Q1/E1)  
 **Mode last used:** spoke  
-**Guide 15:** `docs/dev_guides/2026-07-19_dev_guide_15_soft_adjust_private_gold_ask_eval.md`  
+**Guide 15:** `docs/dev_guides/2026-07-19_dev_guide_15_soft_adjust_private_gold_ask_eval.md` (Write `66e3dc9`)  
+**Ready note (G15):** `docs/2026-07-19_guide15_ready_check_private_gold_ask_eval_pass163_note.md`  
 **Guide 14:** `docs/dev_guides/2026-07-19_dev_guide_14_soft_adjust_live_present_only_private_gold_pilot.md` (Review Pass `c4254b3`)  
 **Prioritize (after G14):** `docs/2026-07-19_prioritize_next_after_guide14_pass163.md` (`2636aa1`)  
-**Review note (G14):** `docs/2026-07-19_guide14_review_live_present_only_private_gold_pass163_note.md`  
-**Handoff (Write G15):** `second_brain/docs/2026-07-19_spoke_mechanic_write_guide15_pass163_handoff.md`  
+**Handoff (Ready G15):** `second_brain/docs/2026-07-19_spoke_mechanic_ready_guide15_pass163_handoff.md`  
 **Vehicle Soft Adjust #7:** Review Pass `005560b`  
 **Lens:** AI engineer (RAG ingest adapters) + data engineering (Gold → index)
 
@@ -17,9 +17,9 @@
 | Item | Value |
 |------|-------|
 | Mode | spoke |
-| Stage | **Write Guide 15 Soft Adjust ask/eval** |
-| Will write | Guide 15 only (no Implement) |
-| Will not | Implement · Ford · rclone · dual-product Done · live Soft Adjust upsert Met |
+| Stage | **Ready-check Guide 15 Soft Adjust ask/eval** |
+| Will write | Ready note + handoff Results (no Implement) |
+| Will not | Implement this stage · Ford · rclone · dual-product Done · live Soft Adjust upsert Met |
 
 **Prioritize → Write:** Guide 12 authored — `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md` (Write complete; Ready-check next). Locks A/N1/S1.
 
