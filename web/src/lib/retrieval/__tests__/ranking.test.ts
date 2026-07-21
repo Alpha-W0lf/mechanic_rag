@@ -6,7 +6,11 @@ import type { RetrieverHit, RrfResult } from '@/lib/retrieval/types';
 import {
   applyCeScores,
   FakeCrossEncoder,
+  logitsToPairScores,
   rerankWithDegrade,
+  sortScoredChunkIds,
+  summarizeCeScores,
+  CE_SCORE_DEGENERATE_EPS,
 } from '@/server/cross_encoder';
 import {
   assembleContext,
@@ -134,6 +138,81 @@ describe('CE degrade', () => {
   it('ignores unknown chunk ids from CE', () => {
     const ranked = applyCeScores(base, [{ chunk_id: 'nope', ce_score: 9 }], 2);
     expect(ranked).toBeNull();
+  });
+
+  it('sortScoredChunkIds returns full CE order without slicing to K', () => {
+    const scores = [
+      { chunk_id: 'a', ce_score: 1.0 },
+      { chunk_id: 'b', ce_score: 9.0 },
+    ];
+    const full = sortScoredChunkIds(base, scores);
+    expect(full).toEqual(['b', 'a']);
+    const sliced = applyCeScores(base, scores, 1);
+    expect(sliced?.map((r) => r.chunk_id)).toEqual(['b']);
+  });
+
+  it('success path exposes full ce_ranked_chunk_ids and score summary', async () => {
+    const ce = new FakeCrossEncoder('success');
+    const result = await rerankWithDegrade('torque', base, ce, {
+      topN: 20,
+      topK: 1,
+      timeoutMs: 1000,
+    });
+    expect(result.results).toHaveLength(1);
+    expect(result.ce_ranked_chunk_ids).toEqual(['b', 'a']);
+    expect(result.pre_ce_shortlist_chunk_ids).toEqual(['a', 'b']);
+    expect(result.ce_score_summary?.ce_score_degenerate).toBe(false);
+  });
+});
+
+describe('CE logits helpers', () => {
+  it('maps flat logits to pair scores and sorts by raw numeric order', () => {
+    const scores = logitsToPairScores([8.66, -11.24], 2);
+    expect(scores[0]).toBeCloseTo(8.66);
+    expect(scores[1]).toBeCloseTo(-11.24);
+    const ids = sortScoredChunkIds(
+      [
+        {
+          chunk_id: 'neg',
+          document_id: 'd',
+          content: 'x',
+          section_path: 'A',
+          modality: 'fusion',
+          rrf_score: 0.1,
+        },
+        {
+          chunk_id: 'pos',
+          document_id: 'd',
+          content: 'y',
+          section_path: 'B',
+          modality: 'fusion',
+          rrf_score: 0.09,
+        },
+      ],
+      [
+        { chunk_id: 'neg', ce_score: scores[1]! },
+        { chunk_id: 'pos', ce_score: scores[0]! },
+      ],
+    );
+    expect(ids).toEqual(['pos', 'neg']);
+  });
+
+  it('extracts first label from [batch, labels] tensor-shaped data', () => {
+    const scores = logitsToPairScores(
+      { data: [8.66, 0.1, -11.24, 0.2], dims: [2, 2] },
+      2,
+    );
+    expect(scores).toEqual([8.66, -11.24]);
+  });
+
+  it('marks near-constant scores as degenerate', () => {
+    const summary = summarizeCeScores([1.0, 1.0 + CE_SCORE_DEGENERATE_EPS / 2]);
+    expect(summary?.ce_score_degenerate).toBe(true);
+    const ok = summarizeCeScores([8.66, -11.24]);
+    expect(ok?.ce_score_degenerate).toBe(false);
+    expect(ok!.ce_score_max - ok!.ce_score_min).toBeGreaterThan(
+      CE_SCORE_DEGENERATE_EPS,
+    );
   });
 });
 

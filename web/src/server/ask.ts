@@ -210,6 +210,10 @@ export async function handleAsk(
 
     // Ablation: intentional RRF(+dedup)-only — distinct from natural CE degrade.
     let finalChunks: Array<RrfResult | CeResult> = fused.slice(0, ceTopK);
+    const preCeShortlistIds = fused.slice(0, ceTopN).map((c) => c.chunk_id);
+    let preCeShortlistChunkIds: string[] | undefined = preCeShortlistIds;
+    let ceRankedChunkIds: string[] | undefined = preCeShortlistIds;
+    let ceScoreSummary: Record<string, unknown> | undefined;
     if (forceRrfOnly) {
       const flags = rankingDiagnosticFlags({
         forceRrfOnly: true,
@@ -220,7 +224,7 @@ export async function handleAsk(
       ceModel = 'skipped_ablation';
       ceRuntimeMode = undefined;
       // Do not create/call CE when ablating (opts.ce still available for tests
-      // when FORCE is unset).
+      // when FORCE is unset). Rank metrics use RRF shortlist order on both arms.
     } else {
       const ce = opts?.ce ?? (await createCrossEncoderFromEnv().catch(() => null));
       if (!ce) {
@@ -248,6 +252,11 @@ export async function handleAsk(
         rerankDegraded = flags.rerank_degraded;
         ceLatencyMs = rerank.ce_latency_ms;
         ceError = rerank.ce_error;
+        preCeShortlistChunkIds = rerank.pre_ce_shortlist_chunk_ids;
+        ceRankedChunkIds = rerank.ce_ranked_chunk_ids;
+        if (rerank.ce_score_summary) {
+          ceScoreSummary = { ...rerank.ce_score_summary };
+        }
       }
     }
 
@@ -292,6 +301,9 @@ export async function handleAsk(
       ce_error: ceError,
       ce_runtime_mode: ceRuntimeMode,
       chunk_ids: usedChunkIds,
+      pre_ce_shortlist_chunk_ids: preCeShortlistChunkIds,
+      ce_ranked_chunk_ids: ceRankedChunkIds,
+      ...(ceScoreSummary ?? {}),
       embedding_model: embeddingModel,
       generator_model: generatorModel,
       ce_model: ceModel,
@@ -320,6 +332,9 @@ export async function handleAsk(
             ce_error: ceError,
             ce_runtime_mode: ceRuntimeMode,
             chunk_ids: usedChunkIds,
+            pre_ce_shortlist_chunk_ids: preCeShortlistChunkIds,
+            ce_ranked_chunk_ids: ceRankedChunkIds,
+            ...(ceScoreSummary ?? {}),
             embedding_model: embeddingModel,
             generator_model: generatorModel,
             ce_model: ceModel,

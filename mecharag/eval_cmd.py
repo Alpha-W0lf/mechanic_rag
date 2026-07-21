@@ -13,6 +13,11 @@ import psycopg
 import requests
 from dotenv import load_dotenv
 
+from mecharag.eval_rank_metrics import (
+    aggregate_rank_summary_fields,
+    rank_metrics_for_paired_case,
+)
+
 logger = logging.getLogger(__name__)
 
 
@@ -75,6 +80,17 @@ def run_eval(args) -> int:
     generator_models: set[str] = set()
     ce_models: set[str] = set()
     ce_runtime_modes: set[str] = set()
+    # Rank-aware experiment aggregates (MRR / Recall@k) — not freeze lift
+    rank_mrr_rrf: list[float] = []
+    rank_mrr_ce: list[float] = []
+    rank_r1_rrf: list[int] = []
+    rank_r1_ce: list[int] = []
+    rank_r3_rrf: list[int] = []
+    rank_r3_ce: list[int] = []
+    gold_in_rrf_top_k_hits = 0
+    rank_metric_cases_scored = 0
+    rank_metric_cases_skipped = 0
+    ce_top_k = int(os.getenv("CE_TOP_K") or "8")
 
     with psycopg.connect(database_url) as conn:
         for case in cases:
@@ -128,10 +144,32 @@ def run_eval(args) -> int:
                             ce_ask_hits += 1
                         if ask_rrf.get("citation_gold_hit"):
                             rrf_only_ask_hits += 1
+                        rank_row = rank_metrics_for_paired_case(
+                            conn,
+                            case,
+                            ask_ce,
+                            ask_rrf,
+                            ce_top_k,
+                            _chunk_matches_gold,
+                        )
+                        case_row["rank_metrics"] = rank_row
+                        if rank_row.get("skipped"):
+                            rank_metric_cases_skipped += 1
+                        else:
+                            rank_metric_cases_scored += 1
+                            rank_mrr_rrf.append(float(rank_row["gold_mrr_rrf"]))
+                            rank_mrr_ce.append(float(rank_row["gold_mrr_ce"]))
+                            rank_r1_rrf.append(int(rank_row["gold_recall_at_1_rrf"]))
+                            rank_r1_ce.append(int(rank_row["gold_recall_at_1_ce"]))
+                            rank_r3_rrf.append(int(rank_row["gold_recall_at_3_rrf"]))
+                            rank_r3_ce.append(int(rank_row["gold_recall_at_3_ce"]))
+                            if rank_row.get("gold_in_rrf_top_k"):
+                                gold_in_rrf_top_k_hits += 1
                     else:
                         # Asymmetric / flap: do not inflate delta
                         asymmetric_failures += 1
                         case_row["paired_asymmetric_failure"] = True
+                        rank_metric_cases_skipped += 1
                 elif ask_ce.get("ok") and ask_ce.get("citation_gold_hit"):
                     # Single-arm run: record CE hits only; delta undefined
                     ce_ask_hits += 1
@@ -163,6 +201,18 @@ def run_eval(args) -> int:
         "rrf_only_ask_hits": rrf_only_ask_hits if paired else None,
         "ce_ask_hits": ce_ask_hits if not args.retrieval_only else None,
         "ce_vs_rrf_ask_delta_hits": delta,
+        **aggregate_rank_summary_fields(
+            paired=paired,
+            rank_mrr_rrf=rank_mrr_rrf,
+            rank_mrr_ce=rank_mrr_ce,
+            rank_r1_rrf=rank_r1_rrf,
+            rank_r1_ce=rank_r1_ce,
+            rank_r3_rrf=rank_r3_rrf,
+            rank_r3_ce=rank_r3_ce,
+            gold_in_rrf_top_k_hits=gold_in_rrf_top_k_hits,
+            rank_metric_cases_scored=rank_metric_cases_scored,
+            rank_metric_cases_skipped=rank_metric_cases_skipped,
+        ),
         # Lexical FTS proxy — segregated; never used as CE lift
         "lexical_proxy_retrieval_hits": lexical_proxy_hits,
         "recall_at_k_lexical_proxy": round(recall_lexical, 4),
@@ -178,12 +228,11 @@ def run_eval(args) -> int:
             "ce": "candidate pending lock (MiniLM / transformers_js); freeze only after paired ask evidence + human",
         },
         "historical_proxy_note": (
-            "Pass-8c qwen-era proxy fields (rrf_only_retrieval_hits / "
-            "ce_vs_rrf_delta_hits=+1 / n=5) are NOT freeze evidence."
+            "Pass-8c proxy ce_vs_rrf_delta_hits=+1 / n=5 is NOT freeze evidence."
         ),
         "note": (
-            "No invented public-release thresholds. "
-            "ce_vs_rrf_ask_delta_hits uses citation∩gold on both arms only."
+            "Citation∩gold delta is smoke; gold_mrr_*/gold_recall_at_* are the "
+            "CE experiment signal (not auto-freeze). Cosine ≠ CE lift."
         ),
         "cases": per_case,
     }
@@ -205,12 +254,10 @@ _STOP = {
 
 
 def _lexical_query_from_question(question: str) -> str:
-    """Mirror web lexical_query.ts — simple config keeps stopwords."""
     import re
 
     tokens = re.sub(r"[^a-z0-9.\-/\s]", " ", question.lower()).split()
-    kept = [t for t in tokens if len(t) >= 2 and t not in _STOP]
-    return " ".join(kept)
+    return " ".join(t for t in tokens if len(t) >= 2 and t not in _STOP)
 
 
 def _chunk_matches_gold(
@@ -221,10 +268,7 @@ def _chunk_matches_gold(
 ) -> bool:
     ok_sub = any(s in (content or "") for s in substrings) if substrings else False
     ok_sec = (
-        any(
-            section_path and (sp == section_path or sp in section_path)
-            for sp in sections
-        )
+        any(section_path and (sp == section_path or sp in section_path) for sp in sections)
         if sections
         else False
     )
@@ -346,4 +390,11 @@ def _eval_case_ask(
         "outcome": data.get("outcome"),
         "cited_chunk_ids": [c.get("chunk_id") for c in citations],
         "cited_section_paths": [c.get("section_path") for c in citations],
+        "pre_ce_shortlist_chunk_ids": diagnostics.get("pre_ce_shortlist_chunk_ids"),
+        "ce_ranked_chunk_ids": diagnostics.get("ce_ranked_chunk_ids"),
+        "ce_score_min": diagnostics.get("ce_score_min"),
+        "ce_score_max": diagnostics.get("ce_score_max"),
+        "ce_score_mean": diagnostics.get("ce_score_mean"),
+        "ce_score_variance": diagnostics.get("ce_score_variance"),
+        "ce_score_degenerate": diagnostics.get("ce_score_degenerate"),
     }

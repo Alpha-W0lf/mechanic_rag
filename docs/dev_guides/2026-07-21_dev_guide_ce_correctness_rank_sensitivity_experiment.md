@@ -4,8 +4,9 @@
 **Repo:** `mechanic_rag`  
 **Work item:** Bounded cross-encoder (CE) correctness probe + rank-aware sensitivity metrics  
 **Stage that authored this:** Write-dev-guide (pass 164n spoke)  
-**Status:** **Write complete — not Implemented**  
+**Status:** **Implement Met** (2026-07-21 pass 164n) — see `docs/2026-07-21_implement_ce_correctness_rank_sensitivity_experiment_pass164n_note.md`  
 **Handoff (Write):** `second_brain/docs/2026-07-21_spoke_mechanic_ce_experiment_write_dev_guide_pass164n_handoff.md`  
+**Handoff (Implement):** `second_brain/docs/2026-07-21_spoke_mechanic_ce_implement_pass164n_handoff.md`  
 **Critical review SSOT:** `second_brain/docs/2026-07-21_reranking_robustness_critical_review_pass164n.md`  
 **Freeze SSOT:** `mechanic_rag/evals/MODEL_FREEZE_STATUS.md`  
 **Architecture SSOT:** `mechanic_rag/docs/ARCHITECTURE.md` (§7 ranking, §10 eval)
@@ -176,18 +177,19 @@ For a ranked `chunk_id` list `L` and case gold (allowed sections/substrings):
 
 ## Verification / Definition of Done
 
-- [ ] `cross_encoder.ts` classification path uses `text_pair` + raw logits (code reviewable).
-- [ ] Unit tests: fake CE / degrade / ablation unchanged in spirit; logit-based scoring covered.
-- [ ] Diagnostics (when enabled) expose score summary + pre-CE / CE-ranked chunk id lists without chunk bodies.
-- [ ] `eval_cmd.py` emits rank-aware aggregates **and** keeps citation∩gold smoke fields.
-- [ ] At least one operator or documented probe shows **non-degenerate** CE score variance in `classification` mode (or Explicit fail written if still degenerate).
-- [ ] `gold_in_rrf_top_k_*` present in summary after a paired run (or skipped count explained).
-- [ ] No model swap; no paid API; no private OEM; no Guide 16 invent.
-- [ ] No freeze lift language; `MODEL_FREEZE_STATUS.md` honesty preserved.
-- [ ] No commit/push unless a later human-authorized handoff says so.
+- [x] `cross_encoder.ts` classification path uses `text_pair` + raw logits (code reviewable).
+- [x] Unit tests: fake CE / degrade / ablation unchanged in spirit; logit-based scoring covered.
+- [x] Diagnostics (when enabled) expose score summary + pre-CE / CE-ranked chunk id lists without chunk bodies.
+- [x] `eval_cmd.py` emits rank-aware aggregates **and** keeps citation∩gold smoke fields.
+- [x] At least one operator or documented probe shows **non-degenerate** CE score variance in `classification` mode (or Explicit fail written if still degenerate).
+- [x] `gold_in_rrf_top_k_*` present in summary after a paired run (or skipped count explained). *(Fields + skip counter shipped; live twin-process paired n=44 deferred to Review/operator — see Implement note.)*
+- [x] No model swap; no paid API; no private OEM; no Guide 16 invent.
+- [x] No freeze lift language; `MODEL_FREEZE_STATUS.md` honesty preserved.
+- [x] No commit/push unless a later human-authorized handoff says so. *(Left to hub.)*
 
 **Write-stage DoD (this pass only):** this guide exists with steps, DoD, blast radius, edge cases; handoff Results updated; **no code**.
 
+**Implement-stage DoD:** Met 2026-07-21 — evidence `docs/2026-07-21_implement_ce_correctness_rank_sensitivity_experiment_pass164n_note.md`.
 ---
 
 ## Blast radius and risks
