@@ -109,6 +109,40 @@ def main(argv: list[str] | None = None) -> int:
         help="Output gold_status.json path (default: sibling of receipt)",
     )
 
+    garage_p = sub.add_parser(
+        "garage-emit",
+        help="Personal garage PDF → Contract 7.2 RAG Gold (init/sync/emit)",
+    )
+    # Remaining argv after 'garage-emit' are parsed by garage_emit.cli
+    garage_p.add_argument(
+        "garage_argv",
+        nargs=argparse.REMAINDER,
+        help="Subcommand args: init | sync-bronze | emit …",
+    )
+
+    embed_p = sub.add_parser(
+        "embed-images",
+        help="M2: batch CLIP page embeds into chunk_image_embeddings ([m2] extra)",
+    )
+    embed_p.add_argument("--database-url", default=None)
+    embed_p.add_argument("--garage-root", default=None)
+    embed_p.add_argument(
+        "--vehicle-prefix",
+        action="append",
+        default=None,
+        help="Repeatable LIKE prefix (default: cat:%%)",
+    )
+    embed_p.add_argument("--limit-pages", type=int, default=None)
+    embed_p.add_argument("--batch-size", type=int, default=4)
+    embed_p.add_argument("--force", action="store_true")
+    embed_p.add_argument("--dry-run", action="store_true")
+
+    clip_q = sub.add_parser(
+        "clip-query",
+        help="M2: CLIP text-tower embed for ask image channel ([m2] extra)",
+    )
+    clip_q.add_argument("--text", required=True)
+
     args = parser.parse_args(argv)
 
     if args.command == "ingest":
@@ -126,6 +160,21 @@ def main(argv: list[str] | None = None) -> int:
         if args.out:
             argv_map.extend(["--out", args.out])
         return map_main(argv_map)
+    if args.command == "garage-emit":
+        from mecharag.garage_emit.cli import main as garage_main
+
+        rest = list(args.garage_argv)
+        if rest and rest[0] == "--":
+            rest = rest[1:]
+        return garage_main(rest)
+    if args.command == "embed-images":
+        from mecharag.embed_images_cmd import run_embed
+
+        return run_embed(args)
+    if args.command == "clip-query":
+        from mecharag.clip_query import main as clip_main
+
+        return clip_main(["--text", args.text])
     parser.error(f"unknown command: {args.command}")
     return 2
 

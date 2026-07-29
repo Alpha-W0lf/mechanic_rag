@@ -1,6 +1,6 @@
 import { lexicalQueryFromQuestion } from '@/lib/retrieval/lexical_query';
 import type { RetrieverHit } from '@/lib/retrieval/types';
-import { query } from './db';
+import { query, withClient } from './db';
 
 export type ChunkRow = {
   chunk_id: string;
@@ -12,6 +12,7 @@ export type ChunkRow = {
   page_start: number | null;
   page_end: number | null;
   document_name: string | null;
+  provenance: unknown;
 };
 
 export async function vehicleExists(vehicleId: string): Promise<boolean> {
@@ -59,6 +60,7 @@ export async function vectorSearch(
     vehicle_id: row.vehicle_id,
     doc_family: row.doc_family,
     modality: 'vector' as const,
+    retrieve_channel: 'text_vector' as const,
     retriever_score: Number(row.distance),
   }));
 }
@@ -103,8 +105,75 @@ export async function lexicalSearch(
     vehicle_id: row.vehicle_id,
     doc_family: row.doc_family,
     modality: 'lexical' as const,
+    retrieve_channel: 'lexical' as const,
     retriever_score: Number(row.rank),
   }));
+}
+
+/**
+ * Image-channel ANN over chunk_image_embeddings (CLIP 512-d).
+ * Returns empty when index has no rows for the vehicle (degrade).
+ *
+ * Garage is multi-vehicle: HNSW + post-filter on vehicle_id can return 0 rows
+ * at default ef_search when another vehicle dominates the index. Raise
+ * hnsw.ef_search for this query only (session-local).
+ */
+export async function imageSearch(
+  vehicleId: string,
+  embedding: number[],
+  topN: number,
+  docFamily?: string,
+): Promise<RetrieverHit[]> {
+  if (!embedding.length) return [];
+  const params: unknown[] = [vehicleId, `[${embedding.join(',')}]`, topN];
+  let familyClause = '';
+  if (docFamily) {
+    familyClause = 'AND c.doc_family = $4';
+    params.push(docFamily);
+  }
+  const efSearch = Number(process.env.MECHANIC_IMAGE_HNSW_EF_SEARCH || 200);
+  return withClient(async (client) => {
+    await client.query('BEGIN');
+    try {
+      await client.query(`SELECT set_config('hnsw.ef_search', $1, true)`, [
+        String(Number.isFinite(efSearch) && efSearch > 0 ? efSearch : 200),
+      ]);
+      const res = await client.query<ChunkRow & { distance: number }>(
+        `
+        SELECT c.chunk_id, c.document_id, c.vehicle_id, c.doc_family, c.content,
+               c.section_path, c.page_start, c.page_end, d.document_name,
+               (cie.embedding <=> $2::vector) AS distance
+        FROM chunk_image_embeddings cie
+        JOIN chunks c ON c.chunk_id = cie.chunk_id
+        JOIN documents d ON d.id = c.document_pk
+        WHERE cie.vehicle_id = $1
+          AND cie.embedding_dim = 512
+          ${familyClause}
+        ORDER BY cie.embedding <=> $2::vector
+        LIMIT $3
+        `,
+        params,
+      );
+      await client.query('COMMIT');
+      return res.rows.map((row) => ({
+        chunk_id: row.chunk_id,
+        document_id: row.document_id,
+        document_name: row.document_name ?? undefined,
+        section_path: row.section_path,
+        page_start: row.page_start,
+        page_end: row.page_end,
+        content: row.content,
+        vehicle_id: row.vehicle_id,
+        doc_family: row.doc_family,
+        modality: 'image' as const,
+        retrieve_channel: 'image' as const,
+        retriever_score: Number(row.distance),
+      }));
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    }
+  });
 }
 
 export async function loadChunksByIds(
@@ -114,7 +183,7 @@ export async function loadChunksByIds(
   const res = await query<ChunkRow>(
     `
     SELECT c.chunk_id, c.document_id, c.vehicle_id, c.doc_family, c.content,
-           c.section_path, c.page_start, c.page_end, d.document_name
+           c.section_path, c.page_start, c.page_end, d.document_name, d.provenance
     FROM chunks c
     JOIN documents d ON d.id = c.document_pk
     WHERE c.chunk_id = ANY($1::text[])
@@ -124,9 +193,17 @@ export async function loadChunksByIds(
   return new Map(res.rows.map((r) => [r.chunk_id, r]));
 }
 
-export async function listFixtureVehicles(): Promise<string[]> {
+/**
+ * Askable UI vehicles = rows whose vehicle_id starts with fixture: or cat:,
+ * fixtures first, then cat:, alphabetical within each group.
+ */
+export async function listAskableVehicles(): Promise<string[]> {
   const res = await query<{ vehicle_id: string }>(
-    `SELECT vehicle_id FROM vehicles WHERE vehicle_id LIKE 'fixture:%' ORDER BY vehicle_id`,
+    `SELECT vehicle_id FROM vehicles
+     WHERE vehicle_id LIKE 'fixture:%' OR vehicle_id LIKE 'cat:%'
+     ORDER BY
+       CASE WHEN vehicle_id LIKE 'fixture:%' THEN 0 ELSE 1 END,
+       vehicle_id`,
   );
   return res.rows.map((r) => r.vehicle_id);
 }

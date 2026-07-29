@@ -64,6 +64,16 @@ vi.mock('@/server/retrievers', () => ({
   loadChunksByIds: (...args: unknown[]) => loadChunksByIds(...args),
 }));
 
+vi.mock('@/server/ask_image_channel', () => ({
+  retrieveImageChannel: vi.fn(async () => ({
+    hits: [],
+    ms: 0,
+    degraded: true,
+    reason: 'image_index_empty_or_no_hits',
+  })),
+  isImageChannelEnabled: () => true,
+}));
+
 vi.mock('@/server/ollama', () => ({
   embedText: vi.fn(async () => ({ embedding: [0.1, 0.2], model: 'nomic-embed-text' })),
   generateAnswer: vi.fn(async () => ({

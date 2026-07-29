@@ -38,6 +38,28 @@
     "diagnostics": {
       "description": "Present only when MECHANIC_DIAGNOSTICS=1. Never private chunk bodies.",
       "type": ["object", "null"]
+    },
+    "visual_assets": {
+      "description": "M1 optional linked page images. Ask emits href when bronze+page resolvable; never rasterizes. Missing asset → omit entry.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "chunk_id",
+          "document_id",
+          "page_start",
+          "content_type",
+          "href"
+        ],
+        "properties": {
+          "chunk_id": { "type": "string" },
+          "document_id": { "type": "string" },
+          "page_start": { "type": "integer" },
+          "content_type": { "type": "string", "const": "image/png" },
+          "href": { "type": "string" }
+        }
+      }
     }
   }
 }

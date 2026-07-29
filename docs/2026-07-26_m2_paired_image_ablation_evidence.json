@@ -1,0 +1,194 @@
+{
+  "harness": "m2_paired_image_ablation",
+  "golden": "evals/golden_m2_diagram_stubs_v1.json",
+  "ask_url_on": "http://127.0.0.1:3000/api/ask",
+  "ask_url_image_off": "http://127.0.0.1:3002/api/ask",
+  "no_invented_pass_threshold": true,
+  "rows": [
+    {
+      "id": "m2-d01-basic-circuit-diagram",
+      "vehicle_id": "cat:2015-triumph-street-triple",
+      "on_outcome": "answered",
+      "off_outcome": "answered",
+      "on_image_count": 10,
+      "off_image_count": 0,
+      "on_cite_pages": [
+        22,
+        23
+      ],
+      "off_cite_pages": [
+        22,
+        23
+      ],
+      "citation_intersect_gold_on": [
+        22,
+        23
+      ],
+      "citation_intersect_gold_off": [
+        22,
+        23
+      ],
+      "notes": "Private garage; image channel may help TOC/diagram pages; citation must still be text chunk (Option A)"
+    },
+    {
+      "id": "m2-d02-circuit-diagrams-intro",
+      "vehicle_id": "cat:2015-triumph-street-triple",
+      "on_outcome": "answered",
+      "off_outcome": "answered",
+      "on_image_count": 46,
+      "off_image_count": 0,
+      "on_cite_pages": [
+        23
+      ],
+      "off_cite_pages": [
+        23
+      ],
+      "citation_intersect_gold_on": [
+        23
+      ],
+      "citation_intersect_gold_off": [
+        23
+      ],
+      "notes": "Page/figure locate; no numeric answer required"
+    },
+    {
+      "id": "m2-d03-clutch-cable-routing",
+      "vehicle_id": "cat:2015-triumph-street-triple",
+      "on_outcome": "answered",
+      "off_outcome": "answered",
+      "on_image_count": 50,
+      "off_image_count": 0,
+      "on_cite_pages": [
+        12
+      ],
+      "off_cite_pages": [
+        12,
+        62
+      ],
+      "citation_intersect_gold_on": [
+        12
+      ],
+      "citation_intersect_gold_off": [
+        12
+      ],
+      "notes": "Routing figure locate"
+    },
+    {
+      "id": "m2-d04-starter-circuit-diagnosis",
+      "vehicle_id": "cat:2015-triumph-street-triple",
+      "on_outcome": "answered",
+      "off_outcome": "answered",
+      "on_image_count": 22,
+      "off_image_count": 0,
+      "on_cite_pages": [
+        21,
+        23,
+        25,
+        29,
+        30,
+        33,
+        267,
+        683
+      ],
+      "off_cite_pages": [
+        29
+      ],
+      "citation_intersect_gold_on": [
+        30
+      ],
+      "citation_intersect_gold_off": [],
+      "notes": "May be text-strong; paired ablation may show small/no lift"
+    },
+    {
+      "id": "m2-d05-canbus-intro",
+      "vehicle_id": "cat:2015-triumph-street-triple",
+      "on_outcome": "answered",
+      "off_outcome": "answered",
+      "on_image_count": 14,
+      "off_image_count": 0,
+      "on_cite_pages": [
+        11,
+        22,
+        23,
+        27,
+        42,
+        112,
+        298,
+        543
+      ],
+      "off_cite_pages": [
+        11
+      ],
+      "citation_intersect_gold_on": [
+        27
+      ],
+      "citation_intersect_gold_off": [],
+      "notes": "Text may already win"
+    },
+    {
+      "id": "m2-d06-text-already-wins-oil",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "on_outcome": "answered",
+      "off_outcome": "answered",
+      "on_image_count": 0,
+      "off_image_count": 0,
+      "on_cite_pages": [
+        3,
+        4
+      ],
+      "off_cite_pages": [
+        3,
+        4
+      ],
+      "citation_intersect_gold_on": null,
+      "citation_intersect_gold_off": null,
+      "notes": "Fixture text path; image index empty for fixtures \u2014 expect delta\u22480; do not claim M2 lift"
+    },
+    {
+      "id": "m2-d07-electrical-wires-colors",
+      "vehicle_id": "cat:2015-triumph-street-triple",
+      "on_outcome": "answered",
+      "off_outcome": "answered",
+      "on_image_count": 29,
+      "off_image_count": 0,
+      "on_cite_pages": [
+        22,
+        250,
+        252,
+        539,
+        541
+      ],
+      "off_cite_pages": [
+        250,
+        541,
+        679,
+        685,
+        687
+      ],
+      "citation_intersect_gold_on": [
+        22
+      ],
+      "citation_intersect_gold_off": [],
+      "notes": "Retrieve relevant electrical pages"
+    },
+    {
+      "id": "m2-d08-pure-torque-negative",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "on_outcome": "answered",
+      "off_outcome": "answered",
+      "on_image_count": 0,
+      "off_image_count": 0,
+      "on_cite_pages": [
+        3,
+        4
+      ],
+      "off_cite_pages": [
+        3,
+        4
+      ],
+      "citation_intersect_gold_on": null,
+      "citation_intersect_gold_off": null,
+      "notes": "Must not prefer image-only; Option A; fixtures have no PNG index"
+    }
+  ]
+}

@@ -15,3 +15,5 @@ Guide 04 landed **30** fixture cases on `fixture:honda-s2000-demo` (g01–g30).
 3. Degrade-observation notes (not labeled as ablation).
 
 Do **not** encode historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` as the lift baseline.
+
+**Private garage (separate):** `evals/golden_garage_v1.json` (8 cases, `cat:` vehicles) — not part of public n=44. Invoke with explicit file path. Review Pass 2026-07-25.

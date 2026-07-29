@@ -1,22 +1,19 @@
 import type { RetrieverHit, RrfResult } from './types';
 
 /**
- * Reciprocal Rank Fusion over two independent ranked lists.
+ * Reciprocal Rank Fusion over N independent ranked lists.
  * Uses ranks only: rrf_score(id) += 1 / (k + rank). Not [0,1] similarity.
+ * Empty lists contribute nothing (image-degrade = identical to two-list RRF).
  */
-export function reciprocalRankFusion(
-  vector: RetrieverHit[],
-  lexical: RetrieverHit[],
+export function reciprocalRankFusionMany(
+  lists: RetrieverHit[][],
   k: number = 60,
   topN: number = 50,
 ): RrfResult[] {
-  const clamp = (arr: RetrieverHit[]) => arr.slice(0, topN);
-  const v = clamp(vector);
-  const l = clamp(lexical);
   const scores = new Map<string, { item: RetrieverHit; rrf_score: number }>();
 
   const add = (items: RetrieverHit[]) => {
-    items.forEach((item, idx) => {
+    items.slice(0, topN).forEach((item, idx) => {
       const inc = 1 / (k + (idx + 1));
       const prev = scores.get(item.chunk_id);
       if (prev) {
@@ -27,8 +24,9 @@ export function reciprocalRankFusion(
     });
   };
 
-  add(v);
-  add(l);
+  for (const list of lists) {
+    if (list.length > 0) add(list);
+  }
 
   return Array.from(scores.values())
     .sort((a, b) => b.rrf_score - a.rrf_score)
@@ -45,4 +43,17 @@ export function reciprocalRankFusion(
       modality: 'fusion' as const,
       rrf_score,
     }));
+}
+
+/**
+ * Reciprocal Rank Fusion over two independent ranked lists (M0/M1).
+ * Delegates to reciprocalRankFusionMany.
+ */
+export function reciprocalRankFusion(
+  vector: RetrieverHit[],
+  lexical: RetrieverHit[],
+  k: number = 60,
+  topN: number = 50,
+): RrfResult[] {
+  return reciprocalRankFusionMany([vector, lexical], k, topN);
 }

@@ -4,6 +4,8 @@ Clone-depth operator path for the **hybrid → RRF → section dedup → local C
 
 This is the stranger-clone path for a **fixtures-only** portfolio public flip (Guide 10b). Embed/CE are **frozen (Tom override)** Guide 09 with n=44 delta **0** honesty (not earned lift). **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT). Public corpus = fixtures only.
 
+> **Multimodal honesty:** This clone path is **M0 text RAG** on `fixtures/` — you do **not** need multimodal env flags to complete it. Personal-garage **M1–M3 are Met** locally (`cat:*` + optional flags: image channel, `MECHANIC_VLM`); all default **off**. Friend Drive library **≠** Mechanic ingest. See [`INTERVIEW.md`](INTERVIEW.md) themes **10–11** and [`docs/VISION.md`](docs/VISION.md) §5.
+
 ---
 
 ## Prerequisites
@@ -101,6 +103,42 @@ curl -s -X POST localhost:3000/api/ask \
 # ≠ dual-product Done · ≠ friend Soft Adjust Review Met
 ```
 
+**Personal garage ask smoke (after private-gold ingest of `~/var/mechanic_garage/gold`):**
+
+```bash
+# Vehicle list (UI picker) — fixtures first, then cat: when indexed
+curl -s localhost:3000/api/vehicles
+# Expect: { "vehicles": [ "fixture:…", "cat:2003-honda-s2000", … ] }
+
+# Triumph (first Met)
+curl -s -X POST localhost:3000/api/ask \
+  -H 'content-type: application/json' \
+  -d '{"vehicle_id":"cat:2015-triumph-street-triple","question":"What is the sump drain plug torque for the Street Triple?"}'
+
+# Remaining garage vehicles (multi-vehicle smoke Met)
+curl -s -X POST localhost:3000/api/ask \
+  -H 'content-type: application/json' \
+  -d '{"vehicle_id":"cat:2003-honda-s2000","question":"What is the engine oil drain bolt torque on the S2000?"}'
+curl -s -X POST localhost:3000/api/ask \
+  -H 'content-type: application/json' \
+  -d '{"vehicle_id":"cat:2021-yamaha-yxz1000r-ss-se","question":"What is the engine oil drain bolt tightening torque on the YXZ1000R?"}'
+curl -s -X POST localhost:3000/api/ask \
+  -H 'content-type: application/json' \
+  -d '{"vehicle_id":"cat:2016-ford-transit-350","question":"What is the oil pan drain plug torque on the Transit?"}'
+# Expect: answered OR insufficient_evidence; citations only for the asked cat: vehicle when answered
+# ≠ friend Drive Done · ≠ multimodal
+
+# M1 linked page asset (after ask returns visual_assets[].href — or known garage doc/page)
+# First GET may rasterize via pdftoppm (≤8s) then cache under ~/var/mechanic_garage/assets/
+# curl -fsS "http://127.0.0.1:3000/api/assets/<vehicle_id>/<document_id>/1" -o /tmp/page.png
+# Ask never rasterizes; missing bronze → omit visual / GET 404
+
+# Private garage golden eval (explicit file — do not rely on evals/ dir load order)
+# .venv/bin/mecharag eval --golden evals/golden_garage_v1.json --no-paired-ask
+# Met evidence (2026-07-25): 4/4 positive citation∩gold; 4/4 hard-miss non-hits
+# ≠ public fixture n=44 baseline · ≠ CE lift claim
+```
+
 ### 8. Eval smoke (Next must be up)
 
 ```bash
@@ -133,7 +171,8 @@ If Next is down, `--retrieval-only` is an escape hatch only — full stranger sm
 | Packaging | Stranger-clone + FAQ shell — fixtures-only public flip Met Guide 10b |
 | Public flip | **Met** Guide 10b (fixtures-only) — not earned CE lift; not OSI open source; not Drive |
 | PrivateGold | Guide 11–13 fixture/synthetic Soft Adjust Met + Guide 14 Soft Adjust **live pilot** + Guide 15 Soft Adjust **ask smoke** (synthetic Soft Adjust vehicle; incomplete Gold OK) — not friend Drive Soft Adjust Review Met; not dual-product Done; no OEM in git; not live Soft Adjust full upsert Met |
-| Embed / CE | **Frozen (Tom override)** Guide 09 — flat delta; no lift claim (`evals/MODEL_FREEZE_STATUS.md`); CE stays in pipeline; paired ask delta **0** on n=44 (helps=0/hurts=0) |
+| Embed / CE | **Frozen (Tom override)** Guide 09 — flat delta; no lift claim (`evals/MODEL_FREEZE_STATUS.md`); CE **stays in stack** for architecture completeness + `rerank_degraded` fail-open (not because n=44 showed lift); paired ask delta **0** on n=44 (helps=0/hurts=0); see INTERVIEW §11 |
+| Multimodal | **M1–M3 Met** on personal garage under local flags (default off); **not** required for this stranger clone — M0 text on fixtures only |
 | Public flip checklist | [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) — Guide 10b Met |
 | License | **PolyForm Noncommercial 1.0.0** ([`LICENSE`](LICENSE), Guide 10a) — source-available / non-commercial; commercial use → contact copyright holder; **not** OSI open source / **not** MIT |
 | Guide 02 paired ask (historical) | `ce_vs_rrf_ask_delta_hits=0` (n=12, gemma, citation∩gold) — honest flat |

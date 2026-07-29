@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { lexicalQueryFromQuestion } from '@/lib/retrieval/lexical_query';
-import { reciprocalRankFusion } from '@/lib/retrieval/rrf';
+import { reciprocalRankFusion, reciprocalRankFusionMany } from '@/lib/retrieval/rrf';
 import { sectionDedup } from '@/lib/retrieval/section_dedup';
 import type { RetrieverHit, RrfResult } from '@/lib/retrieval/types';
 import {
@@ -20,7 +20,7 @@ import { validateAskRequest } from '@/server/ask';
 
 function hit(
   chunk_id: string,
-  modality: 'vector' | 'lexical',
+  modality: 'vector' | 'lexical' | 'image',
   score: number,
   section = 'A',
 ): RetrieverHit {
@@ -45,6 +45,24 @@ describe('RRF', () => {
     expect(fused[0].rrf_score).toBeGreaterThan(fused[1].rrf_score);
     // Not claiming [0,1] similarity — RRF sums can exceed 1 for multi-list hits
     expect(fused[0].rrf_score).toBeGreaterThan(0.01);
+  });
+
+  it('reciprocalRankFusionMany: empty image list matches two-list RRF', () => {
+    const vector = [hit('a', 'vector', 0.9), hit('b', 'vector', 0.8)];
+    const lexical = [hit('b', 'lexical', 0.95), hit('c', 'lexical', 0.7)];
+    const two = reciprocalRankFusion(vector, lexical, 60, 50);
+    const three = reciprocalRankFusionMany([vector, lexical, []], 60, 50);
+    expect(three.map((x) => x.chunk_id)).toEqual(two.map((x) => x.chunk_id));
+    expect(three.map((x) => x.rrf_score)).toEqual(two.map((x) => x.rrf_score));
+  });
+
+  it('reciprocalRankFusionMany: image list can introduce new ids', () => {
+    const vector = [hit('a', 'vector', 0.9)];
+    const lexical = [hit('a', 'lexical', 0.9)];
+    const image = [hit('z', 'image', 0.1)];
+    const fused = reciprocalRankFusionMany([vector, lexical, image], 60, 50);
+    expect(fused.map((x) => x.chunk_id)).toContain('z');
+    expect(fused.map((x) => x.chunk_id)).toContain('a');
   });
 });
 

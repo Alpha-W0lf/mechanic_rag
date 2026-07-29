@@ -1,0 +1,103 @@
+{
+  "harness": "m3_vlm_eval_harness",
+  "golden": "evals/golden_m3_vision_v1.json",
+  "ask_url_vlm_on": "http://127.0.0.1:3000/api/ask",
+  "ask_url_vlm_off": "http://127.0.0.1:3002/api/ask",
+  "ask_url_force_fail": "http://127.0.0.1:3003/api/ask",
+  "no_invented_pass_threshold": true,
+  "rows": [
+    {
+      "id": "m3-d01-describe-diagram-no-torque",
+      "vehicle_id": "cat:2015-triumph-street-triple",
+      "outcome": "answered",
+      "vlm_invoked": true,
+      "vlm_degraded": false,
+      "vlm_degrade_reason": null,
+      "vlm_pages": [
+        22,
+        23
+      ],
+      "missing_allowed_substrings": null,
+      "answer_preview": "The section titled \"Basic Electrical Circuits\" contains a simple schematic drawing that illustrates electrical concepts. This diagram shows:\n*   Two parallel lines, labeled **V** (Voltage) and **R** (Resistance).\n*   It depicts how current "
+    },
+    {
+      "id": "m3-d02-wiring-layout",
+      "vehicle_id": "cat:2015-triumph-street-triple",
+      "outcome": "answered",
+      "vlm_invoked": true,
+      "vlm_degraded": false,
+      "vlm_degrade_reason": null,
+      "vlm_pages": [
+        23,
+        687
+      ],
+      "missing_allowed_substrings": null,
+      "answer_preview": "The electrical figure provides a key for circuit diagrams, linking item numbers to specific wiring colors [8].\n\n| Item | Description | Wiring Colour |\n| :--- | :--- | :--- |\n| 1 | Fuse box (Fuses 1 and 5) | Black |\n| 2 | Heated grip relay |"
+    },
+    {
+      "id": "m3-t01-oil-drain-torque-vlm-on",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "outcome": "answered",
+      "vlm_invoked": false,
+      "vlm_degraded": false,
+      "vlm_degrade_reason": "router_skip",
+      "vlm_pages": null,
+      "missing_allowed_substrings": null,
+      "answer_preview": "The oil drain plug torque is 39 N\u00b7m (29 lbf\u00b7ft) [2], [3]."
+    },
+    {
+      "id": "m3-t02-oil-drain-torque-vlm-off",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "outcome": "answered",
+      "vlm_invoked": false,
+      "vlm_degraded": false,
+      "vlm_degrade_reason": "vlm_disabled",
+      "vlm_pages": null,
+      "missing_allowed_substrings": null,
+      "answer_preview": "The oil drain plug torque is 39 N\u00b7m (29 lbf\u00b7ft) [2], [3]."
+    },
+    {
+      "id": "m3-t03-capacity-control",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "outcome": "answered",
+      "vlm_invoked": false,
+      "vlm_degraded": false,
+      "vlm_degrade_reason": "router_skip",
+      "vlm_pages": null,
+      "missing_allowed_substrings": null,
+      "answer_preview": "Engine oil capacity with filter change is 4.8 liters (5.1 US quarts) [1]."
+    },
+    {
+      "id": "m3-g01-vlm-down-degrade",
+      "vehicle_id": "cat:2015-triumph-street-triple",
+      "outcome": "answered",
+      "vlm_invoked": true,
+      "vlm_degraded": true,
+      "vlm_degrade_reason": "vlm_unavailable_or_timeout",
+      "vlm_pages": [
+        23,
+        22
+      ],
+      "missing_allowed_substrings": null,
+      "answer_preview": "Circuit diagrams are created to provide a 'picture' of the electrical system and to identify the route taken by each individual wire through the system, in order to identify which components it feeds and which connectors the wire runs throu"
+    },
+    {
+      "id": "m3-g02-no-png-skip-vlm",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "outcome": "answered",
+      "vlm_invoked": false,
+      "vlm_degraded": true,
+      "vlm_degrade_reason": "no_cached_png",
+      "vlm_pages": null,
+      "missing_allowed_substrings": null,
+      "answer_preview": "I cannot answer what the diagram shows because the provided context does not contain any information describing a diagram."
+    },
+    {
+      "id": "m3-f01-filter-invented-nm",
+      "mode": "synthetic_unit",
+      "output": "The bolt shows [spec omitted \u2014 not in text citation] on the diagram. Also 39 N\u00b7m near plug.",
+      "stripped_99": true,
+      "kept_39": true
+    }
+  ]
+}

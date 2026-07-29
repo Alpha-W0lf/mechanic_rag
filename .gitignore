@@ -49,6 +49,11 @@ rag_input/**
 /tmp_private_gold*/
 /private_gold_met/
 
+# Accidental in-repo personal garage trees (prefer ~/var/mechanic_garage/)
+/mechanic_garage/
+/garage_bronze/
+/garage_gold/
+
 # VSCode
 .vscode/
 

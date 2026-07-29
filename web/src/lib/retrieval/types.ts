@@ -15,11 +15,16 @@ export type RetrievedChunk = {
   content_modality?: 'text' | 'image' | 'table';
 };
 
-/** Vector or lexical hit before fusion. Scores are retriever-native, not [0,1]. */
+/**
+ * Pre-fusion hit. `modality` here is the retrieve channel
+ * (text vector | lexical | image) — not content_modality (text|image|table).
+ */
 export type RetrieverHit = RetrievedChunk & {
-  modality: 'vector' | 'lexical';
+  modality: 'vector' | 'lexical' | 'image';
   /** Retriever-native score (distance, ts_rank, etc.) — not comparable across modalities. */
   retriever_score: number;
+  /** Ready freeze alias for diagnostics: text_vector|lexical|image */
+  retrieve_channel?: 'text_vector' | 'lexical' | 'image';
 };
 
 /**

@@ -1,8 +1,8 @@
 # Mechanic RAG — Architecture (v1)
 
-**Status:** Binding contracts SSOT · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · Guide 11–**15** **PrivateGoldSource** (fixture + Soft Adjust synthetic + live Soft Adjust pilot + **Soft Adjust ask smoke**) · **Not** dual-product Done · **Not** friend Drive Soft Adjust Review Met · **Not** earned CE lift · **Not** OSI open source  
+**Status:** Binding contracts SSOT · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 · **Fixtures-only public flip Met** · Guide 11–**15** **PrivateGoldSource** · Personal-garage **M1–M3 Met** (flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
-**Updated:** 2026-07-18 (Guide 10b fixtures-only public flip)  
+**Updated:** 2026-07-27 (Align: M2 image channel + M3 optional VLM contracts)  
 **Owner:** Tom  
 **Lenses:** Senior AI Engineer (primary); Data Engineer; Backend  
 
@@ -355,7 +355,13 @@ Optional later (not required for vertical slice): `doc_family`, bounded `history
 
 **Dependency failure** (Postgres/Ollama timeout/unreachable): non-200 error — do not fabricate an answer.
 
-**Out of v1 response:** `visual_assets`, multimodal fields.
+**Out of default response:** VLM notes until `MECHANIC_VLM` is on. **M3 Met (2026-07-27):** optional local VLM assist (`gemma4:e2b`), fail-open, text citations own torque/spec; cache-hit PNGs only.
+
+**M1 optional:** `visual_assets[]` with `{ chunk_id, document_id, page_start, content_type, href }` when bronze+page resolvable. Ask never rasterizes; `GET /api/assets/...` may render on miss (≤8s) or 404.
+
+**M2 (Build):** Image retrieve channel via side table `chunk_image_embeddings` (`openai/clip-vit-base-patch32`, **512-d**). Query uses CLIP text tower (`mecharag clip-query`). Fusion: `reciprocalRankFusionMany` over text_vector + lexical + image (`k=60`). Empty/degraded image list → identical to M1 two-list RRF. Diagram hits require paired text chunk (**Option A**). Deps: optional `[m2]` only. Embed scope: full personal garage `cat:*`.
+
+**M3 (Build Met 2026-07-27):** Optional `MECHANIC_VLM` (default off). Router: flag on ∧ (diagram UI flag ∨ heuristic); torque-only questions skip. Timeout 45s → degrade. Filter strips VLM Nm/lbf not present in cited text. Evidence: `docs/2026-07-27_m3_vlm_eval_evidence.json` · Review Pass-with-nits.
 
 ### 8.2 Frontend
 
@@ -414,14 +420,15 @@ Broken existing `test_*.py` files are non-authoritative until rewritten against 
 
 ---
 
-## 11. Multimodal extension hooks (design only — D10)
+## 11. Multimodal extension hooks (design + staged roadmap — D10)
 
-v1 ships **text only**. To avoid painting into a corner:
+v1 **public** path ships **M0 text** by default. Staged roadmap (VISION §5): **M1** linked visuals → **M2** image retrieval → **M3** vision answers — each stage its own guide/DoD. **Private garage Waterfall (2026-07-27):** M1–M3 **Met** with optional flags; public portfolio claims stay honest per stage.
 
 1. Chunk/retrieval types: `content_modality` on chunks (`text` now; `image` / `table` later); retriever hits use a separate channel field `modality` (`vector` / `lexical` / `fusion`) — do not overload one key.
-2. Schema may reserve nullable secondary embedding columns or separate tables — **do not implement** image extraction, storage, or visual API fields in v1.
-3. Fusion stays modality-agnostic: ranked ID lists in → ranked list out (CE still scores text pairs in v1; multimodal CE is post-v1).
-4. Multimodal research docs remain post-v1 proposals, not DoD.
+2. Schema may reserve nullable secondary embedding columns or separate tables — **do not implement** image extraction, storage, or visual API fields in M0.
+3. Fusion stays modality-agnostic: ranked ID lists in → ranked list out (CE still scores text pairs in M0/M1; multimodal CE is M2+).
+4. Prefer stable `document_id` + `page_*` locators so text Gold is not discarded when assets arrive.
+5. Multimodal research docs remain proposals until an explicit M1+ guide is authorized — not M0 DoD.
 
 ---
 

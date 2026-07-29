@@ -1,0 +1,72 @@
+{
+  "version": "1-stubs",
+  "description": "M3 diagram-interpret + torque non-regression STUBS. Harness Build B1.",
+  "status": "planning_stubs",
+  "vlm_model_id": "gemma4:e2b",
+  "flag": "MECHANIC_VLM",
+  "text_owns_specs": true,
+  "cases": [
+    {
+      "id": "m3-d01-describe-diagram-no-torque",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "STUB: What does the diagram on this page show?",
+      "intent": "diagram_interpret",
+      "vlm": "on",
+      "must_not_require_numeric": true
+    },
+    {
+      "id": "m3-d02-wiring-layout",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "STUB: Describe the wiring/connector layout visible in the figure.",
+      "intent": "diagram_interpret",
+      "vlm": "on"
+    },
+    {
+      "id": "m3-t01-oil-drain-torque-vlm-on",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the oil drain plug torque?",
+      "intent": "torque_non_regression",
+      "vlm": "on",
+      "allowed_content_substrings": ["39 N·m", "29 lbf·ft"],
+      "notes": "Reuse g01 gold; VLM must not invent alternate Nm"
+    },
+    {
+      "id": "m3-t02-oil-drain-torque-vlm-off",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the oil drain plug torque?",
+      "intent": "torque_control",
+      "vlm": "off",
+      "allowed_content_substrings": ["39 N·m", "29 lbf·ft"]
+    },
+    {
+      "id": "m3-t03-capacity-control",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the engine oil capacity with filter change?",
+      "intent": "torque_adjacent_control",
+      "vlm": "on",
+      "allowed_content_substrings": ["4.8 liters"]
+    },
+    {
+      "id": "m3-g01-vlm-down-degrade",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "STUB: Diagram question while Ollama unreachable.",
+      "intent": "degrade",
+      "vlm": "on_forced_fail",
+      "expect": "text_path_no_hang"
+    },
+    {
+      "id": "m3-g02-no-png-skip-vlm",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "STUB: Diagram intent but no page PNG available.",
+      "intent": "skip_vlm",
+      "expect": "text_only"
+    },
+    {
+      "id": "m3-f01-filter-invented-nm",
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "STUB: Unit — VLM prose with invented 99 N·m must be stripped unless in citation text.",
+      "intent": "spec_filter_unit",
+      "vlm": "synthetic"
+    }
+  ]
+}

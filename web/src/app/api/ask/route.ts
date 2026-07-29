@@ -24,5 +24,6 @@ export async function POST(req: NextRequest) {
     citations: result.citations,
     outcome: result.outcome,
     diagnostics: result.diagnostics,
+    visual_assets: result.visual_assets,
   });
 }

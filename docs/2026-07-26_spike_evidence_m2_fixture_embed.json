@@ -1,0 +1,31 @@
+{
+  "spike": "m2_fixture_embed",
+  "date_local_hint": "2026-07-26",
+  "model_id": "openai/clip-vit-base-patch32",
+  "device": "mps",
+  "n_pages": 5,
+  "png_paths": [
+    "output/images/Honda_s2000_owners_manual_2001/page_0001.png",
+    "output/images/Honda_s2000_owners_manual_2001/page_0002.png",
+    "output/images/Honda_s2000_owners_manual_2001/page_0003.png",
+    "output/images/Honda_s2000_owners_manual_2001/page_0004.png",
+    "output/images/Honda_s2000_owners_manual_2001/page_0005.png"
+  ],
+  "image_embedding_dim": 512,
+  "text_embedding_dim": 512,
+  "dim_consistent": true,
+  "load_seconds": 1.667,
+  "per_image_seconds": [
+    0.3576,
+    0.0041,
+    0.0037,
+    0.0038,
+    0.0039
+  ],
+  "p95_image_seconds_approx": 0.0041,
+  "text_query_seconds": 0.3588,
+  "query_tower": "clip_text_tower_same_model",
+  "side_table_dim_recommendation": 512,
+  "transformers_note": "get_*_features may return BaseModelOutputWithPooling; use pooler_output",
+  "notes": "Planning spike only; freeze model_id+dim for M2 Ready if dim_consistent."
+}

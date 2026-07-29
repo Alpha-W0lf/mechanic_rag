@@ -1,8 +1,8 @@
 # Mechanic RAG — Portfolio Vision (v1)
 
-**Status:** Active portfolio vision · **Guide 01 vertical slice done** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · Guide 11–**15** **PrivateGoldSource** (fixture + Soft Adjust synthetic + live Soft Adjust pilot + **Soft Adjust ask smoke**) · **Not** dual-product Done · **Not** friend Drive Soft Adjust Review Met · **Not** earned CE lift · **Not** OSI open source  
+**Status:** Active portfolio vision · **Guide 01 vertical slice done** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · Guide 11–**15** **PrivateGoldSource** · Personal-garage multimodal **M1–M3 Met** (Waterfall 2026-07-27; flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic ingest · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
-**Updated:** 2026-07-19 (Guide 15 Soft Adjust PrivateGold ask/eval)  
+**Updated:** 2026-07-27 (Align: M1–M3 private-garage Met honesty; friend Drive library remains separate)  
 **Owner:** Tom  
 **Repo:** `mechanic_rag` (renamed from `mechainic_rag`; Python import package remains `mecharag`)  
 
@@ -27,9 +27,9 @@ A **public, product-shaped RAG** system over **automotive service documentation*
 **Audience:** GitHub reviewers / interviewers — not a commercial shop product.
 
 **Domain exemplar for public storytelling:** Honda S2000–shaped **synthetic** fixtures.  
-**Long-term private data path:** Ingest **processed Gold document artifacts** from the vehicle docs library (Ford + future source adapters) — after unification — never raw OEM PDFs in public git.
+**Near-term private data path (locked 2026-07-25):** Tom’s **personal garage** fleet only — curated local **RAG Gold** (Contract 7.2 text + manifest) via `PrivateGoldSource`. Allowlist: 2003 Honda S2000, 2015 Triumph Street Triple, 2021 Yamaha YXZ1000R SS SE, 2016 Ford Transit 350. **Exclude** vehicles no longer owned (Mazda2, WR250X). Never raw OEM PDFs in public git; never Mechanic←Drive ingest.
 
-**Related personal/ops program (not public DoD):** Rich library for vehicles a diesel-mechanic friend may touch; **completed PDFs delivered via Google Drive**. See second_brain vehicle library SSOT.
+**Related friend/ops program (separate, unchanged — not Mechanic private corpus):** Shop library for a diesel-mechanic friend; **completed PDFs / HTML ZIPs delivered via Google Drive**. See second_brain vehicle library SSOT. Friend Drive Gold ≠ Mechanic ingest input.
 
 **Public/private boundary:** Real OEM documents are expected in the **private library** and friend-delivery path. The private workflow does not enforce legal/rights gating. This public portfolio repo accepts only synthetic/redistributable fixtures, keeps private corpus roots out of git, and must fail public-release checks if OEM/private artifacts appear.
 
@@ -84,7 +84,7 @@ A vehicle that is capture-complete is **not** automatically RAG-ready. Portfolio
 - Multi-vehicle **schema + catalog** (even if fixtures only ship 1–2 synthetic vehicles)
 
 **Out of scope for v1**
-- Multimodal retrieval (image/diagram embeddings, vision answers) — design extensible, do not implement
+- Claiming public demo **requires** VLM/image channel on (flags stay default off; M0 text remains the stranger-runnable path) — see §5 for private-garage M1–M3 Met honesty
 - Redistributing OEM PDFs
 - Supabase or any required/optional hosted DB
 - Ford PTS auth, bulk orchestrator, or CDP capture inside this repo
@@ -94,17 +94,27 @@ A vehicle that is capture-complete is **not** automatically RAG-ready. Portfolio
 
 ---
 
-## 5. Extensibility — multimodal later (design now, build later)
+## 5. Extensibility — multimodal roadmap (design now; implement by stage)
 
-v1 is **text-only**, but architecture must **not paint us into a corner**.
+v1 portfolio ship is **M0 text-only**, but architecture must **not paint us into a corner**. Each later stage must remain **public-portfolio viable** (fixtures-only public clone; private OEM stays local; honest claims).
 
-**Design rules (binding for future multimodal):**
+| Stage | Name | Ship claim (honest) | Status (2026-07-27 Align) |
+|-------|------|---------------------|---------------------------|
+| **M0** | Text RAG (v1) | Hybrid retrieve → RRF → CE → citations over **text** | **Met** (fixtures + personal garage) |
+| **M1** | Linked visuals | Text hits can **show** page/figure assets joined by locators | **Met** (Review Pass) — ask never rasterizes; `GET /api/assets` may |
+| **M2** | Multimodal retrieve | Also retrieve via image/caption channels; fuse ID lists | **Met** (Pass-with-nits) — CLIP optional `[m2]`; Option A text citations |
+| **M3** | Vision answers | Optional VLM path for diagram questions; text remains source of torque/spec truth | **Met** (Pass-with-nits) — `MECHANIC_VLM` **default off**; cache-hit PNGs only |
+
+**Honest public claim:** Fixtures-first portfolio still leads with **M0 text RAG**. M1–M3 are **real on the personal garage** under local flags; do **not** market “vision RAG replaces manuals” or imply VLM is on by default in demos.
+
+**Design rules (binding):**
 1. Chunk / retrieval **interfaces** accept a modality field (`text` now; `image` / `table` later).
 2. Storage schema leaves room for optional secondary embeddings (nullable columns / separate collections) without rewriting the ask API contract.
-3. Fusion / ranking stays modality-agnostic on ID lists: RRF (+ optional section dedup) → local CE on text pairs in v1; multimodal CE is post-v1.
-4. Multimodal enhancement docs remain **post-v1** proposals — not v1 DoD.
+3. Fusion / ranking stays modality-agnostic on ID lists: RRF (+ optional section dedup) → local CE on **text** pairs in M0/M1; multimodal CE is M2+.
+4. **Anti-rework:** prefer stable page/document locators so text Gold/chunks are not discarded when assets arrive.
+5. Do **not** implement M1–M3 inside unrelated text guides; each stage needs its own guide + DoD + eval honesty.
 
-**Explicit:** Do not implement multimodal in portfolio v1. Do not let multimodal docs redefine the finish line.
+**Explicit:** Multimodal docs must not redefine the **M0 v1** finish line. M1–M3 are roadmap stages, not silent scope on text ingest.
 
 ---
 

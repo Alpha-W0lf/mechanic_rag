@@ -1,10 +1,9 @@
 import { randomUUID } from 'crypto';
-import { reciprocalRankFusion } from '@/lib/retrieval/rrf';
+import { reciprocalRankFusionMany } from '@/lib/retrieval/rrf';
 import { sectionDedup } from '@/lib/retrieval/section_dedup';
 import type { CeResult, RrfResult } from '@/lib/retrieval/types';
 import {
   ASK_SYSTEM_PROMPT,
-  INSUFFICIENT_EVIDENCE_ANSWER,
   assembleContext,
   filterAnswerToKnownLabels,
   type Citation,
@@ -21,26 +20,32 @@ import {
   vehicleExists,
   vectorSearch,
 } from './retrievers';
+import { retrieveImageChannel } from './ask_image_channel';
+import { insufficientEvidenceResult } from './ask_outcome';
+import { type AskRequest } from './ask_request';
+import { maybeAssistWithVlm, type VlmResult } from './ask_vlm';
+import {
+  buildVisualAssets,
+  garageRoot,
+  type Provenance,
+  type VisualAsset,
+} from './page_assets';
 
-export type AskRequest = {
-  vehicle_id: string;
-  question: string;
-  doc_family?: string;
-};
+export type { AskRequest } from './ask_request';
+export { validateAskRequest } from './ask_request';
 
 export type AskSuccess = {
   answer: string;
   citations: Citation[];
   outcome: 'answered' | 'insufficient_evidence';
   diagnostics: Record<string, unknown> | null;
+  visual_assets: VisualAsset[];
 };
 
 export type AskFailure = {
   error: string;
   status: number;
 };
-
-const MAX_QUESTION = 4000;
 
 /** Env-gated Guide 02 ablation: skip CE intentionally (≠ natural degrade). */
 export function isForceRrfOnlyEnv(
@@ -71,37 +76,6 @@ export function rankingDiagnosticFlags(input: {
     ablation_rrf_only: false,
     rerank_degraded: input.ceFailedOrUnavailable,
   };
-}
-
-export function validateAskRequest(
-  body: unknown,
-): { ok: true; value: AskRequest } | { ok: false; error: string; status: number } {
-  if (!body || typeof body !== 'object') {
-    return { ok: false, error: 'Invalid JSON body', status: 400 };
-  }
-  const b = body as Record<string, unknown>;
-  // Reject stub shape
-  if ('query' in b && !('question' in b)) {
-    return {
-      ok: false,
-      error: 'Use { vehicle_id, question } — stub { query } is retired',
-      status: 400,
-    };
-  }
-  const vehicle_id = typeof b.vehicle_id === 'string' ? b.vehicle_id.trim() : '';
-  const question = typeof b.question === 'string' ? b.question.trim() : '';
-  if (!vehicle_id) {
-    return { ok: false, error: 'vehicle_id is required', status: 400 };
-  }
-  if (!question) {
-    return { ok: false, error: 'question is required', status: 400 };
-  }
-  if (question.length > MAX_QUESTION) {
-    return { ok: false, error: 'question too long', status: 400 };
-  }
-  const doc_family =
-    typeof b.doc_family === 'string' ? b.doc_family.trim() : undefined;
-  return { ok: true, value: { vehicle_id, question, doc_family } };
 }
 
 export async function handleAsk(
@@ -159,7 +133,16 @@ export async function handleAsk(
     );
     lexicalMs = Date.now() - lStarted;
 
-    let fused = reciprocalRankFusion(vector, lexical, rrfK, topN);
+    const imageCh = await retrieveImageChannel({
+      vehicleId: req.vehicle_id,
+      question: req.question,
+      topN,
+      docFamily: req.doc_family,
+    });
+    const image = imageCh.hits;
+    const imageMs = imageCh.ms;
+
+    let fused = reciprocalRankFusionMany([vector, lexical, image], rrfK, topN);
     const rrfSize = fused.length;
     let dedupDrops = 0;
     if (dedupEnabled && fused.length > 0) {
@@ -174,38 +157,30 @@ export async function handleAsk(
         vehicle_id: req.vehicle_id,
         vector_count: vector.length,
         lexical_count: lexical.length,
+        image_count: image.length,
         vector_ms: vectorMs,
         lexical_ms: lexicalMs,
+        image_ms: imageMs,
+        image_degraded: imageCh.degraded,
+        image_degrade_reason: imageCh.reason,
         embed_ms: embedMs,
         rrf_size: rrfSize,
         dedup_drops: dedupDrops,
-        ce_n: ceTopN,
-        ce_k: ceTopK,
-        ce_latency_ms: 0,
-        rerank_degraded: false,
-        chunk_ids: [],
-        embedding_model: embeddingModel,
-        generator_model: generatorModel,
-        ce_model: ceModel,
         outcome: 'insufficient_evidence',
         total_ms: Date.now() - t0,
       });
-      return {
-        answer: INSUFFICIENT_EVIDENCE_ANSWER,
-        citations: [],
-        outcome: 'insufficient_evidence',
-        diagnostics: diagnosticsOn
-          ? {
-              request_id: requestId,
-              vector_count: vector.length,
-              lexical_count: lexical.length,
-              rrf_size: rrfSize,
-              dedup_drops: dedupDrops,
-              rerank_degraded: false,
-              ablation_rrf_only: forceRrfOnly,
-            }
-          : null,
-      };
+      return insufficientEvidenceResult({
+        diagnosticsOn,
+        requestId,
+        vectorCount: vector.length,
+        lexicalCount: lexical.length,
+        imageCount: image.length,
+        rrfSize,
+        dedupDrops,
+        forceRrfOnly,
+        imageDegraded: imageCh.degraded,
+        imageReason: imageCh.reason,
+      });
     }
 
     // Ablation: intentional RRF(+dedup)-only — distinct from natural CE degrade.
@@ -268,28 +243,80 @@ export async function handleAsk(
     );
 
     if (citations.length === 0) {
-      return {
-        answer: INSUFFICIENT_EVIDENCE_ANSWER,
-        citations: [],
-        outcome: 'insufficient_evidence',
-        diagnostics: diagnosticsOn ? { request_id: requestId } : null,
+      return insufficientEvidenceResult({
+        diagnosticsOn,
+        requestId,
+        minimal: true,
+      });
+    }
+
+    const citedTexts = usedChunkIds
+      .map((id) => rows.get(id)?.content || '')
+      .filter(Boolean);
+    let vlm: VlmResult = {
+      invoked: false,
+      notes: null,
+      degraded: false,
+      reason: 'vlm_disabled',
+    };
+    try {
+      vlm = await maybeAssistWithVlm({
+        question: req.question,
+        vehicleId: req.vehicle_id,
+        citations,
+        citedTexts,
+        diagramAssist: req.diagram_assist === true,
+      });
+    } catch {
+      // Business rule: VLM must never take down text ask.
+      vlm = {
+        invoked: true,
+        notes: null,
+        degraded: true,
+        reason: 'vlm_internal_error',
       };
     }
+    const vlmBlock =
+      vlm.notes && vlm.notes.trim()
+        ? `\n\nDiagram assist (layout only; specs must come from citations):\n${vlm.notes.trim()}\n`
+        : '';
 
     const { text, model } = await generateAnswer(
       ASK_SYSTEM_PROMPT,
-      `Vehicle: ${req.vehicle_id}\nQuestion: ${req.question}\n\nContext:\n${labeledContext}`,
+      `Vehicle: ${req.vehicle_id}\nQuestion: ${req.question}\n\nContext:\n${labeledContext}${vlmBlock}`,
     );
     generatorModel = model;
     const filtered = filterAnswerToKnownLabels(text, citations);
 
-    logAsk({
-      requestId,
-      vehicle_id: req.vehicle_id,
+    const provenanceByDocumentId = new Map<
+      string,
+      Provenance | string | null | undefined
+    >();
+    for (const c of filtered.citations) {
+      if (provenanceByDocumentId.has(c.document_id)) continue;
+      const row = rows.get(c.chunk_id);
+      provenanceByDocumentId.set(
+        c.document_id,
+        (row?.provenance as Provenance | string | null | undefined) ?? null,
+      );
+    }
+    const visual_assets = buildVisualAssets({
+      citations: filtered.citations,
+      provenanceByDocumentId,
+      garageRootPath: garageRoot(),
+    });
+
+    const diag = {
+      request_id: requestId,
       vector_count: vector.length,
       lexical_count: lexical.length,
+      image_count: image.length,
       vector_ms: vectorMs,
       lexical_ms: lexicalMs,
+      image_ms: imageMs,
+      image_degraded: imageCh.degraded,
+      image_degrade_reason: imageCh.reason,
+      image_model: imageCh.model,
       embed_ms: embedMs,
       rrf_size: rrfSize,
       dedup_drops: dedupDrops,
@@ -307,6 +334,18 @@ export async function handleAsk(
       embedding_model: embeddingModel,
       generator_model: generatorModel,
       ce_model: ceModel,
+      visual_asset_count: visual_assets.length,
+      vlm_invoked: vlm.invoked,
+      vlm_degraded: vlm.degraded,
+      vlm_degrade_reason: vlm.reason,
+      vlm_model: vlm.model,
+      vlm_ms: vlm.ms,
+      vlm_pages: vlm.pages,
+    };
+    logAsk({
+      requestId,
+      vehicle_id: req.vehicle_id,
+      ...diag,
       outcome: 'answered',
       total_ms: Date.now() - t0,
     });
@@ -315,31 +354,8 @@ export async function handleAsk(
       answer: filtered.answer,
       citations: filtered.citations,
       outcome: 'answered',
-      diagnostics: diagnosticsOn
-        ? {
-            request_id: requestId,
-            vector_count: vector.length,
-            lexical_count: lexical.length,
-            vector_ms: vectorMs,
-            lexical_ms: lexicalMs,
-            rrf_size: rrfSize,
-            dedup_drops: dedupDrops,
-            ce_n: ceTopN,
-            ce_k: ceTopK,
-            ce_latency_ms: ceLatencyMs,
-            rerank_degraded: rerankDegraded,
-            ablation_rrf_only: ablationRrfOnly,
-            ce_error: ceError,
-            ce_runtime_mode: ceRuntimeMode,
-            chunk_ids: usedChunkIds,
-            pre_ce_shortlist_chunk_ids: preCeShortlistChunkIds,
-            ce_ranked_chunk_ids: ceRankedChunkIds,
-            ...(ceScoreSummary ?? {}),
-            embedding_model: embeddingModel,
-            generator_model: generatorModel,
-            ce_model: ceModel,
-          }
-        : null,
+      visual_assets,
+      diagnostics: diagnosticsOn ? diag : null,
     };
   } catch (err) {
     if (err instanceof OllamaError || (err as { name?: string })?.name === 'AbortError') {

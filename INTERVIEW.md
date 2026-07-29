@@ -60,6 +60,38 @@ See VISION §9. Checklist: [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CH
 
 Golden `g10-hard-miss-abs-module` expects a hard miss. Ablation scores **citation∩gold**: both Guide 02 arms correctly show `citation_gold_hit=false`. Live outcome was still `answered` on both arms — a soft grounding residual, not proof that hard-miss reliably returns `insufficient_evidence`. Do not claim that outcome contract is solved; cite the miss metric honesty instead.
 
+## 10. Multimodal M1–M3 — what is Met and what is public?
+
+**M1–M3 are Met** on the personal garage (`cat:*` vehicles) under **local env flags** — not on the public stranger clone path.
+
+| Stage | Met where | Public stranger path |
+|-------|-----------|----------------------|
+| **M0** | Text RAG (fixtures + garage) | **Yes** — `fixtures/` only |
+| **M1** | Linked page/figure assets via `GET /api/assets` | Optional locally; not required for clone |
+| **M2** | Image/caption retrieval channel (CLIP optional) | Flags default off; not in public demo |
+| **M3** | Optional VLM assist (`MECHANIC_VLM`) | **Default off**; text owns torque/spec truth |
+
+**Binding honesty:**
+
+1. **Flags default off** — `MECHANIC_VLM`, image channel, and multimodal retrieve paths are opt-in env; strangers run **M0 text RAG** only.  
+2. **Text owns torque/spec** — M3 VLM may assist diagram questions locally; it is never the default source of spec truth.  
+3. **Friend Drive library ≠ Mechanic ingest** — dual-product / Drive→Mechanic is **OUT**; public git stays fixtures-only.  
+4. **Do not** imply the public demo requires VLM or image channel to run. See VISION §5 and M1–M3 dev guides.
+
+## 11. Why keep CE if paired-ask delta is 0?
+
+Freeze = **Tom override Guide 09**, **not** earned lift from ablation.
+
+**Evidence (Guide 08, n=44):** `ce_vs_rrf_ask_delta_hits=0`, CE-helps=0, CE-hurts=0 (`evals/last_run_summary.json`). Models are frozen because Tom explicitly locked them despite flat delta — **not** because CE proved citation lift.
+
+**Why CE stays in the stack anyway:**
+
+1. **Architecture completeness** — hybrid → RRF → section dedup → local CE N→K is the designed ranking path (MR2).  
+2. **Production degrade path** — when CE fails/times out, `rerank_degraded=true` fails open to post-RRF order (see §3). That is distinct from intentional `ablation_rrf_only` / `MECHANIC_FORCE_RRF_ONLY=1`.  
+3. **Demo + measurement** — local rerank, latency, and degrade behavior are portfolio-relevant even without citation∩gold asymmetry.
+
+**Forbidden:** “CE improves citations” on n=30/38/44; historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` as lift or freeze evidence. Full freeze honesty: [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
+
 ---
 
 **Clone path:** [`GETTING_STARTED.md`](GETTING_STARTED.md) · **Skim:** [`README.md`](README.md)

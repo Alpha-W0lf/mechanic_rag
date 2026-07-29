@@ -12,14 +12,34 @@ type Citation = {
   page_end: number | null;
 };
 
+type VisualAsset = {
+  chunk_id: string;
+  document_id: string;
+  page_start: number;
+  content_type: string;
+  href: string;
+};
+
 type AskResponse = {
   answer?: string;
   citations?: Citation[];
+  visual_assets?: VisualAsset[];
   outcome?: string;
   error?: string;
 };
 
 const DEFAULT_VEHICLE = "fixture:honda-s2000-demo";
+
+function pickDefaultVehicle(ids: string[]): string {
+  const fixture = ids.find((id) => id.startsWith("fixture:"));
+  return fixture ?? ids[0] ?? DEFAULT_VEHICLE;
+}
+
+function formatPageRange(start: number | null, end: number | null): string {
+  if (start == null) return "";
+  if (end != null && end !== start) return `p. ${start}–${end}`;
+  return `p. ${start}`;
+}
 
 export default function Home() {
   const [vehicleId, setVehicleId] = useState(DEFAULT_VEHICLE);
@@ -28,12 +48,44 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [answer, setAnswer] = useState<string | null>(null);
   const [citations, setCitations] = useState<Citation[]>([]);
+  const [visualAssets, setVisualAssets] = useState<VisualAsset[]>([]);
   const [outcome, setOutcome] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [listWarning, setListWarning] = useState<string | null>(null);
 
   useEffect(() => {
-    // Thin UI: fixture ids only; no retrieval logic in the browser.
-    setVehicles([DEFAULT_VEHICLE]);
+    // Thin UI: load askable vehicle ids from API (fixture: + cat:). No retrieval in the browser.
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/vehicles");
+        const data = (await res.json()) as { vehicles?: string[]; error?: string };
+        if (!res.ok) {
+          throw new Error(data.error || `vehicles list failed (${res.status})`);
+        }
+        const ids = Array.isArray(data.vehicles) ? data.vehicles.filter(Boolean) : [];
+        if (cancelled) return;
+        if (ids.length === 0) {
+          setVehicles([DEFAULT_VEHICLE]);
+          setVehicleId(DEFAULT_VEHICLE);
+          setListWarning("No vehicles in database — using default fixture id.");
+          return;
+        }
+        setVehicles(ids);
+        setVehicleId(pickDefaultVehicle(ids));
+        setListWarning(null);
+      } catch (err) {
+        if (cancelled) return;
+        setVehicles([DEFAULT_VEHICLE]);
+        setVehicleId(DEFAULT_VEHICLE);
+        setListWarning(
+          err instanceof Error ? err.message : "Could not load vehicle list",
+        );
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   async function onAsk(e: React.FormEvent) {
@@ -41,6 +93,7 @@ export default function Home() {
     setError(null);
     setAnswer(null);
     setCitations([]);
+    setVisualAssets([]);
     setOutcome(null);
     setLoading(true);
     try {
@@ -56,6 +109,7 @@ export default function Home() {
       }
       setAnswer(data.answer ?? null);
       setCitations(data.citations ?? []);
+      setVisualAssets(data.visual_assets ?? []);
       setOutcome(data.outcome ?? null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Request failed");
@@ -64,19 +118,43 @@ export default function Home() {
     }
   }
 
+  const controlsDisabled = loading;
+
   return (
-    <div className="min-h-screen p-6 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-semibold mb-1">Mechanic RAG</h1>
-      <p className="text-sm text-gray-600 mb-4">
-        Vertical slice — fixtures only. Not portfolio-complete.
-      </p>
-      <form onSubmit={onAsk} className="space-y-3 mb-6">
-        <label className="block text-sm">
+    <div className="min-h-screen px-6 py-8 max-w-3xl mx-auto text-ink">
+      <header className="mb-6 pb-5 border-b border-border">
+        <h1 className="text-2xl font-semibold tracking-tight text-ink">
+          Mechanic RAG
+        </h1>
+        <p className="mt-2 text-sm text-ink-muted leading-relaxed">
+          Fixture-backed ask demo —{" "}
+          <span className="text-ink font-medium">M0 text default</span> ·
+          multimodal opt-in via local env flags. Stranger clone path uses public
+          fixtures only.
+        </p>
+        <p className="mt-1 text-xs text-ink-muted">
+          Deliberate vertical slice; not portfolio-complete.
+        </p>
+      </header>
+
+      {listWarning && (
+        <div
+          className="outcome-panel outcome-insufficient text-sm"
+          role="status"
+        >
+          <span className="outcome-label">Vehicle list warning</span>
+          {listWarning}
+        </div>
+      )}
+
+      <form onSubmit={onAsk} className="space-y-4 mb-6" aria-busy={loading}>
+        <label className="block text-sm font-medium text-ink">
           Vehicle
           <select
-            className="mt-1 w-full border rounded px-3 py-2"
+            className="ui-control mt-1.5 w-full px-3 py-2 text-sm"
             value={vehicleId}
             onChange={(e) => setVehicleId(e.target.value)}
+            disabled={controlsDisabled}
           >
             {vehicles.map((v) => (
               <option key={v} value={v}>
@@ -85,69 +163,133 @@ export default function Home() {
             ))}
           </select>
         </label>
-        <label className="block text-sm">
+        <label className="block text-sm font-medium text-ink">
           Question
           <input
-            className="mt-1 w-full border rounded px-3 py-2"
+            className="ui-control mt-1.5 w-full px-3 py-2 text-sm"
             placeholder="e.g. What is the oil drain plug torque?"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
+            disabled={controlsDisabled}
           />
         </label>
-        <button
-          className="border rounded px-4 py-2 bg-black text-white disabled:opacity-50"
-          disabled={loading || !question.trim()}
-          type="submit"
-        >
-          {loading ? "Asking..." : "Ask"}
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            className="ui-btn-primary px-4 py-2 text-sm font-medium"
+            disabled={controlsDisabled || !question.trim()}
+            type="submit"
+          >
+            {loading ? "Retrieving…" : "Ask"}
+          </button>
+          {loading && (
+            <span className="text-sm text-ink-muted" role="status">
+              Ranking evidence and generating answer…
+            </span>
+          )}
+        </div>
       </form>
 
       {error && (
-        <div className="text-red-700 mb-4 border border-red-200 rounded p-3">
-          Dependency or request error: {error}
+        <div className="outcome-panel outcome-error" role="alert">
+          <span className="outcome-label">Request error</span>
+          <p className="text-sm">{error}</p>
         </div>
       )}
 
       {outcome === "insufficient_evidence" && (
-        <div className="text-amber-800 mb-4 border border-amber-200 rounded p-3">
-          No sufficient indexed evidence for this question.
+        <div className="outcome-panel outcome-insufficient" role="status">
+          <span className="outcome-label">Insufficient evidence</span>
+          <p className="text-sm whitespace-pre-wrap">
+            {answer ?? "No sufficient indexed evidence for this question."}
+          </p>
         </div>
       )}
 
-      {answer && (
-        <div className="mb-4">
-          <h2 className="font-medium mb-2">Answer</h2>
-          <div className="whitespace-pre-wrap text-sm border rounded p-3">
-            {answer}
+      {outcome === "answered" && answer && (
+        <section className="mb-6">
+          <div className="outcome-panel outcome-answered">
+            <span className="outcome-label text-accent">Answered</span>
+            <div className="whitespace-pre-wrap text-sm leading-relaxed text-ink">
+              {answer}
+            </div>
           </div>
-        </div>
+        </section>
       )}
 
       {citations.length > 0 && (
-        <div>
-          <h2 className="font-medium mb-2">Citations</h2>
-          <ul className="space-y-2">
-            {citations.map((c) => (
-              <li key={c.chunk_id} className="border rounded p-3 text-sm">
-                <div className="font-medium">[{c.label}] {c.document_id}</div>
-                <div className="text-gray-600">
-                  {c.section_path ?? "—"}
-                  {c.page_start != null
-                    ? ` · p.${c.page_start}${c.page_end && c.page_end !== c.page_start ? `–${c.page_end}` : ""}`
-                    : ""}
-                </div>
-                <div className="text-xs text-gray-500 mt-1">{c.chunk_id}</div>
-              </li>
-            ))}
+        <section>
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-3">
+            Citations ({citations.length})
+          </h2>
+          <ul className="space-y-3">
+            {citations.map((c) => {
+              const pages = visualAssets.filter(
+                (v) =>
+                  v.document_id === c.document_id && v.chunk_id === c.chunk_id,
+              );
+              const pageLine = formatPageRange(c.page_start, c.page_end);
+              return (
+                <li
+                  key={c.chunk_id}
+                  className="border border-border rounded-[var(--radius-lg)] p-4 text-sm bg-surface"
+                >
+                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                    <span className="font-semibold text-accent">
+                      [{c.label}]
+                    </span>
+                    <span className="font-medium text-ink">{c.document_id}</span>
+                  </div>
+                  <div className="mt-1 text-ink-muted">
+                    <span className="font-medium text-ink">Section:</span>{" "}
+                    {c.section_path ?? "—"}
+                  </div>
+                  {pageLine && (
+                    <div className="mt-0.5 text-ink-muted">
+                      <span className="font-medium text-ink">Page:</span>{" "}
+                      {pageLine}
+                    </div>
+                  )}
+                  <div className="text-xs text-ink-muted mt-2 font-mono">
+                    {c.chunk_id}
+                  </div>
+                  {pages.length > 0 && (
+                    <div className="mt-3 pt-3 border-t border-border">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-accent mb-2">
+                        Page figure
+                      </p>
+                      <div className="flex flex-col gap-3">
+                        {pages.map((v) => (
+                          <figure key={v.href}>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={v.href}
+                              alt={`Manual page ${v.page_start}`}
+                              className="max-w-full border border-border rounded-[var(--radius-md)]"
+                            />
+                            <figcaption className="text-xs text-ink-muted mt-1">
+                              Manual page {v.page_start}
+                            </figcaption>
+                          </figure>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
-        </div>
+        </section>
       )}
 
-      <p className="text-xs text-gray-500 mt-8">
-        Disclaimer: advisory only. Verify against your official service manual.
-        Use at your own risk.
-      </p>
+      <footer className="mt-10 pt-4 border-t border-border text-xs text-ink-muted space-y-1">
+        <p>
+          M0 text path default · M2 image channel and M3 VLM are opt-in locally.
+        </p>
+        <p>
+          Disclaimer: advisory only. Verify against your official service manual.
+          Use at your own risk.
+        </p>
+      </footer>
     </div>
   );
 }

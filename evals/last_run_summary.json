@@ -1,177 +1,121 @@
 {
-  "n_cases": 44,
+  "n_cases": 8,
   "generator_era": "gemma4:e2b (operator default; confirm diagnostics)",
   "generator_models_seen": [
     "gemma4:e2b"
   ],
   "ce_models_seen": [
-    "Xenova/ms-marco-MiniLM-L-6-v2",
-    "skipped_ablation"
+    "Xenova/ms-marco-MiniLM-L-6-v2"
   ],
   "ce_runtime_modes_seen": [
     "classification"
   ],
-  "paired_ask_ablation": true,
-  "paired_cases_scored": 44,
+  "paired_ask_ablation": false,
+  "paired_cases_scored": 0,
   "paired_asymmetric_failures": 0,
-  "rrf_only_ask_hits": 39,
-  "ce_ask_hits": 39,
-  "ce_vs_rrf_ask_delta_hits": 0,
-  "lexical_proxy_retrieval_hits": 8,
-  "recall_at_k_lexical_proxy": 0.1818,
-  "mrr_lexical_proxy": 0.1818,
+  "rrf_only_ask_hits": null,
+  "ce_ask_hits": 4,
+  "ce_vs_rrf_ask_delta_hits": null,
+  "gold_mrr_rrf": null,
+  "gold_mrr_ce": null,
+  "gold_recall_at_1_rrf": null,
+  "gold_recall_at_1_ce": null,
+  "gold_recall_at_3_rrf": null,
+  "gold_recall_at_3_ce": null,
+  "gold_in_rrf_top_k_count": null,
+  "gold_in_rrf_top_k_rate": null,
+  "rank_metric_cases_scored": 0,
+  "rank_metric_cases_skipped": 0,
+  "lexical_proxy_retrieval_hits": 1,
+  "recall_at_k_lexical_proxy": 0.125,
+  "mrr_lexical_proxy": 0.125,
   "citation_correctness_rate": 1.0,
   "degrade_rate": 0.0,
-  "avg_ce_latency_ms": 129.75,
-  "ask_http_ok": 44,
+  "avg_ce_latency_ms": 1149.88,
+  "ask_http_ok": 8,
   "model_status": {
     "embedding": "candidate pending lock (nomic-embed-text@768)",
     "ce": "candidate pending lock (MiniLM / transformers_js); freeze only after paired ask evidence + human"
   },
-  "historical_proxy_note": "Pass-8c qwen-era proxy fields (rrf_only_retrieval_hits / ce_vs_rrf_delta_hits=+1 / n=5) are NOT freeze evidence.",
-  "note": "No invented public-release thresholds. ce_vs_rrf_ask_delta_hits uses citation\u2229gold on both arms only.",
+  "historical_proxy_note": "Pass-8c proxy ce_vs_rrf_delta_hits=+1 / n=5 is NOT freeze evidence.",
+  "note": "Citation\u2229gold delta is smoke; gold_mrr_*/gold_recall_at_* are the CE experiment signal (not auto-freeze). Cosine \u2260 CE lift.",
   "cases": [
     {
-      "id": "g01-oil-drain-torque",
+      "id": "garage-triumph-sump-drain-torque",
       "lexical_proxy_retrieval_hit": true,
       "ask_ce": {
         "ok": true,
         "citation_ok": true,
         "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
+        "answer_substring_hit": false,
+        "retrieval_hit_via_citations_deprecated": false,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-        "ce_latency_ms": 158,
+        "ce_latency_ms": 984,
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
-          "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2"
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c117:4c9b61dae3781151a0187dab"
         ],
         "cited_section_paths": [
-          "1 Engine Oil > 1-1 Specification",
-          "1 Engine Oil > 1-2 Oil Filter Replacement"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
-          "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2"
+          "Triumph Street Triple 675 - Service Manual_2013.pdf/page-51"
         ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-1 Specification",
-          "1 Engine Oil > 1-2 Oil Filter Replacement"
-        ]
+        "pre_ce_shortlist_chunk_ids": [
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c354:707305d2f7813824e75d3456",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c117:4c9b61dae3781151a0187dab",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c140:a68c65a840a8c445ba606036",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c138:e50e6e535f2c4becb587bfcc",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c721:ae8571236d66c704be8c16a0",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c136:6c5c867dec13b7403557cccd",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1229:d29888725ca6150e0ed610a1",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c764:4d6883fcc955923b055360d1",
+          "owners_manual--triumph-street-triple-675-owners-handbook-2019:v1.0.0:c338:bba57a37973882e1442e8947",
+          "owners_manual--triumph-street-triple-675-owners-handbook-2019:v1.0.0:c340:b7fef346ce9d277b9fc79b4f",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c111:db64618b833f41918d790920",
+          "owners_manual--triumph-street-triple-675-owners-handbook-2019:v1.0.0:c342:1153be30329558c1fc35cc14",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c134:faa38a60a39ebbbf860404a2",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c771:3157b88c0295a9ea4c525b3e",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c387:9920bd2d915e15c0094e87ad",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c237:443dbfd5c189ae63d5449f70",
+          "owners_manual--triumph-street-triple-675-owners-handbook-2019:v1.0.0:c182:b4bb34f2d5e98eae938133d5",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c299:b23f2c66dd673e7fca94b396",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c601:0d409250fc97ba62381d1172",
+          "owners_manual--triumph-street-triple-675-owners-handbook-2019:v1.0.0:c336:1978ed4272929101877e372d"
+        ],
+        "ce_ranked_chunk_ids": [
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c117:4c9b61dae3781151a0187dab",
+          "owners_manual--triumph-street-triple-675-owners-handbook-2019:v1.0.0:c340:b7fef346ce9d277b9fc79b4f",
+          "owners_manual--triumph-street-triple-675-owners-handbook-2019:v1.0.0:c336:1978ed4272929101877e372d",
+          "owners_manual--triumph-street-triple-675-owners-handbook-2019:v1.0.0:c338:bba57a37973882e1442e8947",
+          "owners_manual--triumph-street-triple-675-owners-handbook-2019:v1.0.0:c342:1153be30329558c1fc35cc14",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c354:707305d2f7813824e75d3456",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c134:faa38a60a39ebbbf860404a2",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c387:9920bd2d915e15c0094e87ad",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c111:db64618b833f41918d790920",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c764:4d6883fcc955923b055360d1",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1229:d29888725ca6150e0ed610a1",
+          "owners_manual--triumph-street-triple-675-owners-handbook-2019:v1.0.0:c182:b4bb34f2d5e98eae938133d5",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c771:3157b88c0295a9ea4c525b3e",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c721:ae8571236d66c704be8c16a0",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c140:a68c65a840a8c445ba606036",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c136:6c5c867dec13b7403557cccd",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c237:443dbfd5c189ae63d5449f70",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c138:e50e6e535f2c4becb587bfcc",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c601:0d409250fc97ba62381d1172",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c299:b23f2c66dd673e7fca94b396"
+        ],
+        "ce_score_min": -5.094895839691162,
+        "ce_score_max": 4.751793384552002,
+        "ce_score_mean": -2.12846491150558,
+        "ce_score_variance": 6.732924185181439,
+        "ce_score_degenerate": false
       },
-      "elapsed_ms": 12665
+      "elapsed_ms": 12451
     },
     {
-      "id": "g02-oil-capacity",
-      "lexical_proxy_retrieval_hit": true,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 143,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-1 Specification"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-1 Specification"
-        ]
-      },
-      "elapsed_ms": 12914
-    },
-    {
-      "id": "g03-clutch-free-play",
-      "lexical_proxy_retrieval_hit": true,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 122,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944"
-        ],
-        "cited_section_paths": [
-          "2 Clutch > 2-1 Pedal Free Play"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944"
-        ],
-        "cited_section_paths": [
-          "2 Clutch > 2-1 Pedal Free Play"
-        ]
-      },
-      "elapsed_ms": 13332
-    },
-    {
-      "id": "g04-spark-plug-gap",
+      "id": "garage-s2000-oil-drain-torque",
       "lexical_proxy_retrieval_hit": false,
       "ask_ce": {
         "ok": true,
@@ -181,179 +125,73 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-        "ce_latency_ms": 108,
+        "ce_latency_ms": 1110,
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
+          "owners_manual--honda-s2000-owners-manual-2001:v1.0.0:c224:d78600ec85ec35b19a5b9a2c",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c382:928d0fd61c278742c8fdcd8e"
         ],
         "cited_section_paths": [
-          "3 Spark Plugs > 3-1 Specification"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
+          "Honda S2000 - Owners Manual_2001.pdf/page-163",
+          "Honda S2000 - Service Manual_2000 - 2008.pdf/page-256"
         ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "3 Spark Plugs > 3-1 Specification"
-        ]
+        "pre_ce_shortlist_chunk_ids": [
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c2300:f0367d70ded5fca3ba8ff260",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c385:9ee2e40dc549a8ea0cabda18",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c132:d1e6dc63e5322bfd3ea03328",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c644:a939dff450592770591877ac",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c377:096c168e88559bf798dfdd9a",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c653:1774c5a5c3c8a2cbb2294e8f",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c256:aa9ea8bbbad4c22f3a56fc78",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1551:eae62129ffb130a736d8d039",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c381:f0cde1fe56e2ae291c449ced",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1404:68ba3ee9a48433d49b0557df",
+          "owners_manual--honda-s2000-owners-manual-2001:v1.0.0:c224:d78600ec85ec35b19a5b9a2c",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c354:af5f0211c3ddb4f2e1b63795",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1659:b9e54b8db8df8acb90f6e26c",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c839:2b32eaf1f01b94de74658ab0",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c376:592aa0f801aff3dd130af1c3",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c382:928d0fd61c278742c8fdcd8e",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c648:dbee28ec247b1c9dbccac1dc",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c379:c7a418f29f6fc91e311038da",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c656:56fb484b9f4493e33a173e21",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c374:f953f255179bfb92b335f57f"
+        ],
+        "ce_ranked_chunk_ids": [
+          "owners_manual--honda-s2000-owners-manual-2001:v1.0.0:c224:d78600ec85ec35b19a5b9a2c",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1551:eae62129ffb130a736d8d039",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c354:af5f0211c3ddb4f2e1b63795",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c132:d1e6dc63e5322bfd3ea03328",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c379:c7a418f29f6fc91e311038da",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c385:9ee2e40dc549a8ea0cabda18",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c256:aa9ea8bbbad4c22f3a56fc78",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c382:928d0fd61c278742c8fdcd8e",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1404:68ba3ee9a48433d49b0557df",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c377:096c168e88559bf798dfdd9a",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c376:592aa0f801aff3dd130af1c3",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c2300:f0367d70ded5fca3ba8ff260",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c839:2b32eaf1f01b94de74658ab0",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c644:a939dff450592770591877ac",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c656:56fb484b9f4493e33a173e21",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c653:1774c5a5c3c8a2cbb2294e8f",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c374:f953f255179bfb92b335f57f",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c648:dbee28ec247b1c9dbccac1dc",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c381:f0cde1fe56e2ae291c449ced",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1659:b9e54b8db8df8acb90f6e26c"
+        ],
+        "ce_score_min": -10.030206680297852,
+        "ce_score_max": 0.1214541494846344,
+        "ce_score_mean": -5.60383800715208,
+        "ce_score_variance": 11.554602656811825,
+        "ce_score_degenerate": false
       },
-      "elapsed_ms": 12321
+      "elapsed_ms": 17623
     },
     {
-      "id": "g05-valve-clearance",
-      "lexical_proxy_retrieval_hit": true,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 108,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3"
-        ],
-        "cited_section_paths": [
-          "5 Valve Clearance > 5-1 Inspection"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3"
-        ],
-        "cited_section_paths": [
-          "5 Valve Clearance > 5-1 Inspection"
-        ]
-      },
-      "elapsed_ms": 12260
-    },
-    {
-      "id": "g06-coolant-capacity",
-      "lexical_proxy_retrieval_hit": true,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 97,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-1 Coolant"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-1 Coolant"
-        ]
-      },
-      "elapsed_ms": 11150
-    },
-    {
-      "id": "g07-spark-plug-torque",
-      "lexical_proxy_retrieval_hit": true,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 182,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-1 Specification"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-1 Specification"
-        ]
-      },
-      "elapsed_ms": 14204
-    },
-    {
-      "id": "g08-mtf-capacity",
+      "id": "garage-yxz-oil-drain-torque",
       "lexical_proxy_retrieval_hit": false,
       "ask_ce": {
         "ok": true,
@@ -363,42 +201,75 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-        "ce_latency_ms": 169,
+        "ce_latency_ms": 1021,
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8"
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c49:89f478834bb304afa687e562",
+          "service_manual--yxz1000r-2019-service-manual:v1.0.0:c48:4656ea76c0b0756e6149b168",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c193:668ebeec2b94e29834032df1"
         ],
         "cited_section_paths": [
-          "6 Transmission Fluid > 6-1 Specification"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8"
+          "YXZ1000R 2020-2023_service manual.pdf/page-36",
+          "YXZ1000R 2019_service manual.pdf/page-36",
+          "yamaha yxz1000et 2019_owners manual.pdf/page-149"
         ],
-        "cited_section_paths": [
-          "6 Transmission Fluid > 6-1 Specification"
-        ]
+        "pre_ce_shortlist_chunk_ids": [
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c203:47ed6ed926e587ae042ae327",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c199:b8f92f35446ff0bdb8fb57a7",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c235:f2d72773252922489225b097",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c208:e853e5fc5d3639cdc1134020",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c205:f6bb8f8266507f9857fc73df",
+          "service_manual--yxz1000r-2019-service-manual:v1.0.0:c161:e173b93455b62d8afd3a7333",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c49:89f478834bb304afa687e562",
+          "service_manual--yxz1000r-2019-service-manual:v1.0.0:c48:4656ea76c0b0756e6149b168",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c435:b63166a5bf341bd975ddf13f",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c449:bf5404ac1b3b9268f1cf0514",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c192:4f44f304a451d70fa09ff6a8",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c206:987d57c4671dcbadc7b115f5",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c193:668ebeec2b94e29834032df1",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c469:b1e659769429f8c7d3fa65cc",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c207:12b336101b96b044fe3788d6",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c178:72e8a02e2d37463333754b59",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c196:53d78d2aaefc1fb415ff15e9",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c180:85d7d0b409a1f67f0ad05e09",
+          "service_manual--yxz1000r-2019-service-manual:v1.0.0:c442:cafbbc2880df1140a30bd4fa",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c463:8d7a0c68cd14c68900034aca"
+        ],
+        "ce_ranked_chunk_ids": [
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c49:89f478834bb304afa687e562",
+          "service_manual--yxz1000r-2019-service-manual:v1.0.0:c48:4656ea76c0b0756e6149b168",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c203:47ed6ed926e587ae042ae327",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c193:668ebeec2b94e29834032df1",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c192:4f44f304a451d70fa09ff6a8",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c205:f6bb8f8266507f9857fc73df",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c208:e853e5fc5d3639cdc1134020",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c235:f2d72773252922489225b097",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c469:b1e659769429f8c7d3fa65cc",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c199:b8f92f35446ff0bdb8fb57a7",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c196:53d78d2aaefc1fb415ff15e9",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c207:12b336101b96b044fe3788d6",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c449:bf5404ac1b3b9268f1cf0514",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c435:b63166a5bf341bd975ddf13f",
+          "service_manual--yxz1000r-2019-service-manual:v1.0.0:c161:e173b93455b62d8afd3a7333",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c206:987d57c4671dcbadc7b115f5",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c178:72e8a02e2d37463333754b59",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c180:85d7d0b409a1f67f0ad05e09",
+          "service_manual--yxz1000r-2019-service-manual:v1.0.0:c442:cafbbc2880df1140a30bd4fa",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c463:8d7a0c68cd14c68900034aca"
+        ],
+        "ce_score_min": -4.933389186859131,
+        "ce_score_max": 4.558251857757568,
+        "ce_score_mean": 1.0812172159552573,
+        "ce_score_variance": 6.702454883855833,
+        "ce_score_degenerate": false
       },
-      "elapsed_ms": 12955
+      "elapsed_ms": 21293
     },
     {
-      "id": "g09-thermostat-open",
+      "id": "garage-transit-oil-pan-drain-torque",
       "lexical_proxy_retrieval_hit": false,
       "ask_ce": {
         "ok": true,
@@ -408,42 +279,83 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-        "ce_latency_ms": 131,
+        "ce_latency_ms": 1117,
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308"
+          "service_manual--service-manual:v1.0.0:c2236:d30088d3ba9b87065b2f6577",
+          "service_manual--service-manual:v1.0.0:c2436:913a4bb0c08e70cfe50f9371",
+          "service_manual--service-manual:v1.0.0:c2217:58c4d1c317453cfd69cbd610",
+          "service_manual--service-manual:v1.0.0:c2327:1a88083da528f538cf341b3f",
+          "service_manual--service-manual:v1.0.0:c2291:e9685491ba11a57e8c2e7b8b",
+          "service_manual--service-manual:v1.0.0:c1885:4177589c6b86eb7d022f88d0",
+          "service_manual--service-manual:v1.0.0:c2198:ad47d3aacb06cdbb4050dd63"
         ],
         "cited_section_paths": [
-          "4 Cooling System > 4-2 Thermostat"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308"
+          "service_manual.pdf/page-1837",
+          "service_manual.pdf/page-2034",
+          "service_manual.pdf/page-1819",
+          "service_manual.pdf/page-1927",
+          "service_manual.pdf/page-1890",
+          "service_manual.pdf/page-1496",
+          "service_manual.pdf/page-1801"
         ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-2 Thermostat"
-        ]
+        "pre_ce_shortlist_chunk_ids": [
+          "service_manual--service-manual:v1.0.0:c2327:1a88083da528f538cf341b3f",
+          "service_manual--service-manual:v1.0.0:c2217:58c4d1c317453cfd69cbd610",
+          "service_manual--service-manual:v1.0.0:c2436:913a4bb0c08e70cfe50f9371",
+          "service_manual--service-manual:v1.0.0:c2236:d30088d3ba9b87065b2f6577",
+          "service_manual--service-manual:v1.0.0:c2291:e9685491ba11a57e8c2e7b8b",
+          "service_manual--service-manual:v1.0.0:c1885:4177589c6b86eb7d022f88d0",
+          "service_manual--service-manual:v1.0.0:c2198:ad47d3aacb06cdbb4050dd63",
+          "service_manual--service-manual:v1.0.0:c2342:b40e79be239f699e157fb9d8",
+          "service_manual--service-manual:v1.0.0:c1791:cd904fc2593e0362ac51650f",
+          "service_manual--service-manual:v1.0.0:c1777:b2b08cfec9fa648d1fd765a1",
+          "service_manual--service-manual:v1.0.0:c2301:86f4c64711ca60d26a79a44e",
+          "service_manual--service-manual:v1.0.0:c1751:7c105b4c9d9580ebef6b751d",
+          "service_manual--service-manual:v1.0.0:c2304:4765cadc8869e0e8c94478c1",
+          "service_manual--service-manual:v1.0.0:c1754:3a9d4d1f01c93dd22b2ff1fd",
+          "service_manual--service-manual:v1.0.0:c4379:b82f36f8850909eb3dd9aa65",
+          "service_manual--service-manual:v1.0.0:c2560:ae0905a47bc211661f2590cc",
+          "service_manual--service-manual:v1.0.0:c2024:adc6869a6df66e924834a052",
+          "service_manual--service-manual:v1.0.0:c4273:8d1d887e965af2842365183e",
+          "service_manual--service-manual:v1.0.0:c4219:44ab234714a4558b116a206f",
+          "service_manual--service-manual:v1.0.0:c4200:6404f389befdfdedb5dc5e8e"
+        ],
+        "ce_ranked_chunk_ids": [
+          "service_manual--service-manual:v1.0.0:c2236:d30088d3ba9b87065b2f6577",
+          "service_manual--service-manual:v1.0.0:c2436:913a4bb0c08e70cfe50f9371",
+          "service_manual--service-manual:v1.0.0:c2217:58c4d1c317453cfd69cbd610",
+          "service_manual--service-manual:v1.0.0:c2327:1a88083da528f538cf341b3f",
+          "service_manual--service-manual:v1.0.0:c2291:e9685491ba11a57e8c2e7b8b",
+          "service_manual--service-manual:v1.0.0:c1885:4177589c6b86eb7d022f88d0",
+          "service_manual--service-manual:v1.0.0:c2198:ad47d3aacb06cdbb4050dd63",
+          "service_manual--service-manual:v1.0.0:c1777:b2b08cfec9fa648d1fd765a1",
+          "service_manual--service-manual:v1.0.0:c2304:4765cadc8869e0e8c94478c1",
+          "service_manual--service-manual:v1.0.0:c1754:3a9d4d1f01c93dd22b2ff1fd",
+          "service_manual--service-manual:v1.0.0:c2342:b40e79be239f699e157fb9d8",
+          "service_manual--service-manual:v1.0.0:c1791:cd904fc2593e0362ac51650f",
+          "service_manual--service-manual:v1.0.0:c1751:7c105b4c9d9580ebef6b751d",
+          "service_manual--service-manual:v1.0.0:c2301:86f4c64711ca60d26a79a44e",
+          "service_manual--service-manual:v1.0.0:c2560:ae0905a47bc211661f2590cc",
+          "service_manual--service-manual:v1.0.0:c2024:adc6869a6df66e924834a052",
+          "service_manual--service-manual:v1.0.0:c4273:8d1d887e965af2842365183e",
+          "service_manual--service-manual:v1.0.0:c4379:b82f36f8850909eb3dd9aa65",
+          "service_manual--service-manual:v1.0.0:c4219:44ab234714a4558b116a206f",
+          "service_manual--service-manual:v1.0.0:c4200:6404f389befdfdedb5dc5e8e"
+        ],
+        "ce_score_min": -5.750411033630371,
+        "ce_score_max": 4.370461463928223,
+        "ce_score_mean": 1.2663163125514985,
+        "ce_score_variance": 11.300610765554422,
+        "ce_score_degenerate": false
       },
-      "elapsed_ms": 12556
+      "elapsed_ms": 12163
     },
     {
-      "id": "g10-hard-miss-abs-module",
+      "id": "garage-triumph-hard-miss-abs-pinout",
       "lexical_proxy_retrieval_hit": false,
       "ask_ce": {
         "ok": true,
@@ -453,610 +365,73 @@
         "retrieval_hit_via_citations_deprecated": false,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-        "ce_latency_ms": 217,
+        "ce_latency_ms": 1214,
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
-          "fixture-s2000-service-manual:v1:c8:36490e2dc2335491d10d9e0a",
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944",
-          "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9"
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c993:80ea20b7e269383514b0eab1",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c991:4c06f7ef97e5ff598dd26edb"
         ],
         "cited_section_paths": [
-          "root",
-          "3 Spark Plugs > 3-1 Specification",
-          "3 Spark Plugs",
-          "3 Spark Plugs > 3-2 Replacement Interval",
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "5 Valve Clearance > 5-1 Inspection",
-          "2 Clutch > 2-1 Pedal Free Play",
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": false,
-        "answer_substring_hit": false,
-        "retrieval_hit_via_citations_deprecated": false,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
-          "fixture-s2000-service-manual:v1:c8:36490e2dc2335491d10d9e0a",
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944",
-          "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9"
+          "Triumph Street Triple 675 - Service Manual_2013.pdf/page-541",
+          "Triumph Street Triple 675 - Service Manual_2013.pdf/page-539"
         ],
-        "cited_section_paths": [
-          "root",
-          "3 Spark Plugs > 3-1 Specification",
-          "3 Spark Plugs",
-          "3 Spark Plugs > 3-2 Replacement Interval",
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "5 Valve Clearance > 5-1 Inspection",
-          "2 Clutch > 2-1 Pedal Free Play",
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque"
-        ]
+        "pre_ce_shortlist_chunk_ids": [
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c993:80ea20b7e269383514b0eab1",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c991:4c06f7ef97e5ff598dd26edb",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1012:2855413368eae5d4b12d4bb2",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1031:b4f293bb9a5e23d227761c70",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1037:982d68fd0bf709aa58f7017b",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c976:615bad7971591592d0d94560",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1013:8572dab7ab7d9b0b7a7ce135",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1017:bb1483f865b0791dd5dd5a4a",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1015:a1a9d2229d08de99d09fc054",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1007:579955d4e564837c2621d9dc",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1011:acf77a48cdb6b70937cdec85",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c994:1ff30b10c456c38acafa83f5",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1034:772492eeae40bd09a256f1c1",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1019:5cb7f5e263937040f229172f",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1243:12343578de201e1619feaeb6",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1040:ae99dff54290212f353dcd99",
+          "owners_manual--triumph-street-triple-675-owners-handbook-2014:v1.0.0:c238:c8956539773098d2915e3a1e",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1022:f2d1aa0edffca66f87fd8f3c",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1240:dd7f5f0e1dbdf0fb69c26f9f",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1018:02e5d6cfcf699f1de73d774f"
+        ],
+        "ce_ranked_chunk_ids": [
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1017:bb1483f865b0791dd5dd5a4a",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c976:615bad7971591592d0d94560",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c993:80ea20b7e269383514b0eab1",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1031:b4f293bb9a5e23d227761c70",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1013:8572dab7ab7d9b0b7a7ce135",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c991:4c06f7ef97e5ff598dd26edb",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1034:772492eeae40bd09a256f1c1",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1011:acf77a48cdb6b70937cdec85",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1012:2855413368eae5d4b12d4bb2",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1240:dd7f5f0e1dbdf0fb69c26f9f",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1243:12343578de201e1619feaeb6",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1037:982d68fd0bf709aa58f7017b",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1007:579955d4e564837c2621d9dc",
+          "owners_manual--triumph-street-triple-675-owners-handbook-2014:v1.0.0:c238:c8956539773098d2915e3a1e",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1040:ae99dff54290212f353dcd99",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c994:1ff30b10c456c38acafa83f5",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1019:5cb7f5e263937040f229172f",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1018:02e5d6cfcf699f1de73d774f",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1022:f2d1aa0edffca66f87fd8f3c",
+          "service_manual--triumph-street-triple-675-service-manual-2013:v1.0.0:c1015:a1a9d2229d08de99d09fc054"
+        ],
+        "ce_score_min": -2.080984592437744,
+        "ce_score_max": 4.426165580749512,
+        "ce_score_mean": 0.960085117071867,
+        "ce_score_variance": 3.1611016720287504,
+        "ce_score_degenerate": false
       },
-      "elapsed_ms": 10255
+      "elapsed_ms": 13721
     },
     {
-      "id": "g11-clutch-fluid-type",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 357,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c"
-        ],
-        "cited_section_paths": [
-          "2 Clutch > 2-2 Hydraulic Fluid"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c"
-        ],
-        "cited_section_paths": [
-          "2 Clutch > 2-2 Hydraulic Fluid"
-        ]
-      },
-      "elapsed_ms": 13919
-    },
-    {
-      "id": "g12-exhaust-valve-clearance",
-      "lexical_proxy_retrieval_hit": true,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 208,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3"
-        ],
-        "cited_section_paths": [
-          "5 Valve Clearance > 5-1 Inspection"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3"
-        ],
-        "cited_section_paths": [
-          "5 Valve Clearance > 5-1 Inspection"
-        ]
-      },
-      "elapsed_ms": 12462
-    },
-    {
-      "id": "g13-oil-grade",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 106,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-1 Specification"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-1 Specification"
-        ]
-      },
-      "elapsed_ms": 12943
-    },
-    {
-      "id": "g14-oil-filter-turn",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 111,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-2 Oil Filter Replacement"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-2 Oil Filter Replacement"
-        ]
-      },
-      "elapsed_ms": 10945
-    },
-    {
-      "id": "g15-spark-plug-type",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 102,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-1 Specification"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-1 Specification"
-        ]
-      },
-      "elapsed_ms": 12009
-    },
-    {
-      "id": "g16-spark-interval",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 112,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-2 Replacement Interval"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-2 Replacement Interval"
-        ]
-      },
-      "elapsed_ms": 14212
-    },
-    {
-      "id": "g17-coolant-mix",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 100,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-1 Coolant"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-1 Coolant"
-        ]
-      },
-      "elapsed_ms": 12508
-    },
-    {
-      "id": "g18-radiator-cap",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 114,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-1 Coolant"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-1 Coolant"
-        ]
-      },
-      "elapsed_ms": 14130
-    },
-    {
-      "id": "g19-thermostat-full-open",
-      "lexical_proxy_retrieval_hit": true,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 111,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-2 Thermostat"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-2 Thermostat"
-        ]
-      },
-      "elapsed_ms": 13183
-    },
-    {
-      "id": "g20-mtf-fill",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 193,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8"
-        ],
-        "cited_section_paths": [
-          "6 Transmission Fluid > 6-1 Specification"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8"
-        ],
-        "cited_section_paths": [
-          "6 Transmission Fluid > 6-1 Specification"
-        ]
-      },
-      "elapsed_ms": 13701
-    },
-    {
-      "id": "g21-clutch-pushrod",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 110,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944"
-        ],
-        "cited_section_paths": [
-          "2 Clutch > 2-1 Pedal Free Play"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944"
-        ],
-        "cited_section_paths": [
-          "2 Clutch > 2-1 Pedal Free Play"
-        ]
-      },
-      "elapsed_ms": 13104
-    },
-    {
-      "id": "g22-spark-misfire-inspect",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 117,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-2 Replacement Interval"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-2 Replacement Interval"
-        ]
-      },
-      "elapsed_ms": 11025
-    },
-    {
-      "id": "g23-hard-miss-brake-pad-pn",
+      "id": "garage-s2000-hard-miss-mars-rover",
       "lexical_proxy_retrieval_hit": false,
       "ask_ce": {
         "ok": true,
@@ -1066,70 +441,85 @@
         "retrieval_hit_via_citations_deprecated": false,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-        "ce_latency_ms": 111,
+        "ce_latency_ms": 1073,
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
-          "fixture-s2000-service-manual:v1:c8:36490e2dc2335491d10d9e0a",
-          "fixture-s2000-service-manual:v1:c15:ee36e69f0f02e08c3bed7651",
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944"
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c62:b73fbbac01d5b343d2af5f3c",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1618:183cfcd3875f37a44ba14cc3",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1551:eae62129ffb130a736d8d039",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c73:4b121c170a717823d3173885",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c66:e65378de9cfff5ed09a1e5d9",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1659:b9e54b8db8df8acb90f6e26c",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1902:6188cad29569feaa30f491cc",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1648:6daafbd19befe2d39eb1c8c0"
         ],
         "cited_section_paths": [
-          "root",
-          "3 Spark Plugs > 3-2 Replacement Interval",
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "2 Clutch > 2-2 Hydraulic Fluid",
-          "3 Spark Plugs",
-          "4 Cooling System > 4-3 Cooling Fan Switch Temperature",
-          "3 Spark Plugs > 3-1 Specification",
-          "2 Clutch > 2-1 Pedal Free Play"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": false,
-        "answer_substring_hit": false,
-        "retrieval_hit_via_citations_deprecated": false,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
-          "fixture-s2000-service-manual:v1:c8:36490e2dc2335491d10d9e0a",
-          "fixture-s2000-service-manual:v1:c15:ee36e69f0f02e08c3bed7651",
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944"
+          "Honda S2000 - Service Manual_2000 - 2008.pdf/page-33",
+          "Honda S2000 - Service Manual_2000 - 2008.pdf/page-1043",
+          "Honda S2000 - Service Manual_2000 - 2008.pdf/page-999",
+          "Honda S2000 - Service Manual_2000 - 2008.pdf/page-37",
+          "Honda S2000 - Service Manual_2000 - 2008.pdf/page-34",
+          "Honda S2000 - Service Manual_2000 - 2008.pdf/page-1068",
+          "Honda S2000 - Service Manual_2000 - 2008.pdf/page-1226",
+          "Honda S2000 - Service Manual_2000 - 2008.pdf/page-1061"
         ],
-        "cited_section_paths": [
-          "root",
-          "3 Spark Plugs > 3-2 Replacement Interval",
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "2 Clutch > 2-2 Hydraulic Fluid",
-          "3 Spark Plugs",
-          "4 Cooling System > 4-3 Cooling Fan Switch Temperature",
-          "3 Spark Plugs > 3-1 Specification",
-          "2 Clutch > 2-1 Pedal Free Play"
-        ]
+        "pre_ce_shortlist_chunk_ids": [
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c73:4b121c170a717823d3173885",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1824:3aaad03102d817e2c9e5502e",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1551:eae62129ffb130a736d8d039",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1618:183cfcd3875f37a44ba14cc3",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1648:6daafbd19befe2d39eb1c8c0",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1659:b9e54b8db8df8acb90f6e26c",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c66:e65378de9cfff5ed09a1e5d9",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1902:6188cad29569feaa30f491cc",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1540:b9877e77af685366385eb1f6",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1831:a463290e0d13681bb843a043",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1819:c0c9f256887a96141e7a93ad",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1827:4ce17dda61316788e3251b99",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1883:feb24a064f4e7babee953bf3",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c2716:6445b30eaee8c766e6ce500f",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1532:fe21b71beeac60be4388d286",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1717:aa6368f700a0a83946aa1e76",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1708:2c3813abe21a73742c8b91ba",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c62:b73fbbac01d5b343d2af5f3c",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1719:757f09fd109f87fc48e58f73",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1721:1aa452a07b6192cd2bf3c373"
+        ],
+        "ce_ranked_chunk_ids": [
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c62:b73fbbac01d5b343d2af5f3c",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1618:183cfcd3875f37a44ba14cc3",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1551:eae62129ffb130a736d8d039",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c73:4b121c170a717823d3173885",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c66:e65378de9cfff5ed09a1e5d9",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1659:b9e54b8db8df8acb90f6e26c",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1902:6188cad29569feaa30f491cc",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1648:6daafbd19befe2d39eb1c8c0",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c2716:6445b30eaee8c766e6ce500f",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1831:a463290e0d13681bb843a043",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1824:3aaad03102d817e2c9e5502e",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1532:fe21b71beeac60be4388d286",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1819:c0c9f256887a96141e7a93ad",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1883:feb24a064f4e7babee953bf3",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1827:4ce17dda61316788e3251b99",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1540:b9877e77af685366385eb1f6",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1719:757f09fd109f87fc48e58f73",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1717:aa6368f700a0a83946aa1e76",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1721:1aa452a07b6192cd2bf3c373",
+          "service_manual--honda-s2000-service-manual-2000-2008:v1.0.0:c1708:2c3813abe21a73742c8b91ba"
+        ],
+        "ce_score_min": -11.17319393157959,
+        "ce_score_max": -6.7917704582214355,
+        "ce_score_mean": -9.813006734848022,
+        "ce_score_variance": 1.8999079358674886,
+        "ce_score_degenerate": false
       },
-      "elapsed_ms": 12976
+      "elapsed_ms": 13548
     },
     {
-      "id": "g24-hard-miss-ecu-pinout",
+      "id": "garage-yxz-hard-miss-jet-engine",
       "lexical_proxy_retrieval_hit": false,
       "ask_ce": {
         "ok": true,
@@ -1139,70 +529,85 @@
         "retrieval_hit_via_citations_deprecated": false,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-        "ce_latency_ms": 125,
+        "ce_latency_ms": 1024,
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
-          "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
-          "fixture-s2000-service-manual:v1:c8:36490e2dc2335491d10d9e0a",
-          "fixture-s2000-service-manual:v1:c16:c79e1ff40ef2fb2cf881c7f8",
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f"
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c449:bf5404ac1b3b9268f1cf0514",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c43:4560c50c8f0cef9ef448d11f",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c235:f2d72773252922489225b097",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c930:d28289527787d48aa45fb358",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c35:0aadd6c299f1a599a59230cd",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c448:bcd1294f84c0df22f9862e6d",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c40:2c6b6fb8f86c840093b15f03",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c212:645a49a0e79f166e484c4c29"
         ],
         "cited_section_paths": [
-          "root",
-          "5 Valve Clearance > 5-1 Inspection",
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "3 Spark Plugs > 3-2 Replacement Interval",
-          "3 Spark Plugs > 3-1 Specification",
-          "3 Spark Plugs",
-          "5 Valve Clearance",
-          "1 Engine Oil > 1-1 Specification"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": false,
-        "answer_substring_hit": false,
-        "retrieval_hit_via_citations_deprecated": false,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
-          "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
-          "fixture-s2000-service-manual:v1:c8:36490e2dc2335491d10d9e0a",
-          "fixture-s2000-service-manual:v1:c16:c79e1ff40ef2fb2cf881c7f8",
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f"
+          "YXZ1000R 2020-2023_service manual.pdf/page-311",
+          "YXZ1000R 2020-2023_service manual.pdf/page-32",
+          "yamaha yxz1000et 2019_owners manual.pdf/page-185",
+          "YXZ1000R 2020-2023_service manual.pdf/page-608",
+          "YXZ1000R 2020-2023_service manual.pdf/page-28",
+          "YXZ1000R 2020-2023_service manual.pdf/page-310",
+          "yamaha yxz1000et 2019_owners manual.pdf/page-29",
+          "YXZ1000R 2020-2023_service manual.pdf/page-141"
         ],
-        "cited_section_paths": [
-          "root",
-          "5 Valve Clearance > 5-1 Inspection",
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "3 Spark Plugs > 3-2 Replacement Interval",
-          "3 Spark Plugs > 3-1 Specification",
-          "3 Spark Plugs",
-          "5 Valve Clearance",
-          "1 Engine Oil > 1-1 Specification"
-        ]
+        "pre_ce_shortlist_chunk_ids": [
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c235:f2d72773252922489225b097",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c40:2c6b6fb8f86c840093b15f03",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c449:bf5404ac1b3b9268f1cf0514",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c199:b8f92f35446ff0bdb8fb57a7",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c173:59b9d42ba6867cdb6040ded6",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c212:645a49a0e79f166e484c4c29",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c930:d28289527787d48aa45fb358",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c151:5e99435b8fbbe66390f35da7",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c477:ac66ea309d553b1df26cbf22",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c260:9c6a98c74b0f60234de6c4f9",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c206:7aeaa9a827066b59940a1490",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c35:0aadd6c299f1a599a59230cd",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c135:397aea7ec06998311fa60213",
+          "service_manual--yxz1000r-2019-service-manual:v1.0.0:c571:51e3f05dd10fbd08c69057c4",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c448:bcd1294f84c0df22f9862e6d",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c39:80f9da72505d2d44ac41faa4",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c222:40e71895bdb19863b1a7dd1f",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c65:e84cf608587fa525dfda11e0",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c43:4560c50c8f0cef9ef448d11f",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c443:2ccfc219213138bd1a4739b7"
+        ],
+        "ce_ranked_chunk_ids": [
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c449:bf5404ac1b3b9268f1cf0514",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c43:4560c50c8f0cef9ef448d11f",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c235:f2d72773252922489225b097",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c930:d28289527787d48aa45fb358",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c35:0aadd6c299f1a599a59230cd",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c448:bcd1294f84c0df22f9862e6d",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c40:2c6b6fb8f86c840093b15f03",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c212:645a49a0e79f166e484c4c29",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c443:2ccfc219213138bd1a4739b7",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c206:7aeaa9a827066b59940a1490",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c39:80f9da72505d2d44ac41faa4",
+          "service_manual--yxz1000r-2020-2023-service-manual:v1.0.0:c477:ac66ea309d553b1df26cbf22",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c151:5e99435b8fbbe66390f35da7",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c135:397aea7ec06998311fa60213",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c260:9c6a98c74b0f60234de6c4f9",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c222:40e71895bdb19863b1a7dd1f",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c199:b8f92f35446ff0bdb8fb57a7",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c173:59b9d42ba6867cdb6040ded6",
+          "owners_manual--yamaha-yxz1000et-2019-owners-manual:v1.0.0:c65:e84cf608587fa525dfda11e0",
+          "service_manual--yxz1000r-2019-service-manual:v1.0.0:c571:51e3f05dd10fbd08c69057c4"
+        ],
+        "ce_score_min": -9.87714672088623,
+        "ce_score_max": -1.2350457906723022,
+        "ce_score_mean": -4.731179714202881,
+        "ce_score_variance": 8.880665610394676,
+        "ce_score_degenerate": false
       },
-      "elapsed_ms": 13089
+      "elapsed_ms": 14167
     },
     {
-      "id": "g25-hard-miss-tsb-oil",
+      "id": "garage-transit-hard-miss-warp-coil",
       "lexical_proxy_retrieval_hit": false,
       "ask_ce": {
         "ok": true,
@@ -1212,966 +617,82 @@
         "retrieval_hit_via_citations_deprecated": false,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-        "ce_latency_ms": 117,
+        "ce_latency_ms": 1656,
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
-          "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
-          "fixture-s2000-service-manual:v1:c1:52ad538188053a3d31cd3c26",
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
-          "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069",
-          "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9"
+          "service_manual--service-manual:v1.0.0:c4396:380f7fa2e92f21f37ab9f4d9",
+          "service_manual--service-manual:v1.0.0:c4405:bf4db5090e13b74791a78e27",
+          "service_manual--service-manual:v1.0.0:c4421:13a8c0507498dced05e78fb0",
+          "service_manual--service-manual:v1.0.0:c4412:b6b982c513c953c078a5ce3f",
+          "service_manual--service-manual:v1.0.0:c1187:21b9a29ec59e5eed53299bdd",
+          "service_manual--service-manual:v1.0.0:c4385:6c663d7ed771eb56dac7f9e5",
+          "service_manual--service-manual:v1.0.0:c4417:d3a6f47d7ee404f9814c5bd6",
+          "service_manual--service-manual:v1.0.0:c4398:852076c0cfb6ee87b14f76fe"
         ],
         "cited_section_paths": [
-          "root",
-          "6 Transmission Fluid > 6-1 Specification",
-          "1 Engine Oil",
-          "1 Engine Oil > 1-1 Specification",
-          "2 Clutch > 2-2 Hydraulic Fluid",
-          "3 Spark Plugs > 3-2 Replacement Interval",
-          "4 Cooling System > 4-1 Coolant",
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": false,
-        "answer_substring_hit": false,
-        "retrieval_hit_via_citations_deprecated": false,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
-          "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
-          "fixture-s2000-service-manual:v1:c1:52ad538188053a3d31cd3c26",
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
-          "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069",
-          "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9"
+          "service_manual.pdf/page-3670",
+          "service_manual.pdf/page-3679",
+          "service_manual.pdf/page-3695",
+          "service_manual.pdf/page-3686",
+          "service_manual.pdf/page-816",
+          "service_manual.pdf/page-3663",
+          "service_manual.pdf/page-3691",
+          "service_manual.pdf/page-3672"
         ],
-        "cited_section_paths": [
-          "root",
-          "6 Transmission Fluid > 6-1 Specification",
-          "1 Engine Oil",
-          "1 Engine Oil > 1-1 Specification",
-          "2 Clutch > 2-2 Hydraulic Fluid",
-          "3 Spark Plugs > 3-2 Replacement Interval",
-          "4 Cooling System > 4-1 Coolant",
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque"
-        ]
-      },
-      "elapsed_ms": 12193
-    },
-    {
-      "id": "g26-never-mix-clutch-fluid",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 99,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c"
+        "pre_ce_shortlist_chunk_ids": [
+          "service_manual--service-manual:v1.0.0:c4388:1d08dc8aff621f2dba98ec3f",
+          "service_manual--service-manual:v1.0.0:c4272:702dccd56f5497c699d9cd60",
+          "service_manual--service-manual:v1.0.0:c4396:380f7fa2e92f21f37ab9f4d9",
+          "service_manual--service-manual:v1.0.0:c4405:bf4db5090e13b74791a78e27",
+          "service_manual--service-manual:v1.0.0:c4385:6c663d7ed771eb56dac7f9e5",
+          "service_manual--service-manual:v1.0.0:c4412:b6b982c513c953c078a5ce3f",
+          "service_manual--service-manual:v1.0.0:c4409:e8c8f6e59080e722c9cdb0f7",
+          "service_manual--service-manual:v1.0.0:c4421:13a8c0507498dced05e78fb0",
+          "service_manual--service-manual:v1.0.0:c4045:0189d446f11d9fa9bfa09a10",
+          "service_manual--service-manual:v1.0.0:c4417:d3a6f47d7ee404f9814c5bd6",
+          "service_manual--service-manual:v1.0.0:c1993:525367b7ae33cf497996d854",
+          "service_manual--service-manual:v1.0.0:c4152:b43be104fa0aaf9b34e08d37",
+          "service_manual--service-manual:v1.0.0:c4124:7f91755cb231356f2c04992c",
+          "service_manual--service-manual:v1.0.0:c4419:53480749378f8da38955dc8b",
+          "service_manual--service-manual:v1.0.0:c3815:8bb87c360dce354a3bc3229e",
+          "service_manual--service-manual:v1.0.0:c3739:d5c5dbf11b0f3031333110dd",
+          "service_manual--service-manual:v1.0.0:c2345:d8d0154ff16d2d86386eedcb",
+          "service_manual--service-manual:v1.0.0:c3056:6ac950a8de9595630cee4429",
+          "service_manual--service-manual:v1.0.0:c1187:21b9a29ec59e5eed53299bdd",
+          "service_manual--service-manual:v1.0.0:c4398:852076c0cfb6ee87b14f76fe"
         ],
-        "cited_section_paths": [
-          "2 Clutch > 2-2 Hydraulic Fluid"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c"
+        "ce_ranked_chunk_ids": [
+          "service_manual--service-manual:v1.0.0:c4396:380f7fa2e92f21f37ab9f4d9",
+          "service_manual--service-manual:v1.0.0:c4405:bf4db5090e13b74791a78e27",
+          "service_manual--service-manual:v1.0.0:c4421:13a8c0507498dced05e78fb0",
+          "service_manual--service-manual:v1.0.0:c4412:b6b982c513c953c078a5ce3f",
+          "service_manual--service-manual:v1.0.0:c1187:21b9a29ec59e5eed53299bdd",
+          "service_manual--service-manual:v1.0.0:c4385:6c663d7ed771eb56dac7f9e5",
+          "service_manual--service-manual:v1.0.0:c4417:d3a6f47d7ee404f9814c5bd6",
+          "service_manual--service-manual:v1.0.0:c4398:852076c0cfb6ee87b14f76fe",
+          "service_manual--service-manual:v1.0.0:c3056:6ac950a8de9595630cee4429",
+          "service_manual--service-manual:v1.0.0:c2345:d8d0154ff16d2d86386eedcb",
+          "service_manual--service-manual:v1.0.0:c1993:525367b7ae33cf497996d854",
+          "service_manual--service-manual:v1.0.0:c4045:0189d446f11d9fa9bfa09a10",
+          "service_manual--service-manual:v1.0.0:c4152:b43be104fa0aaf9b34e08d37",
+          "service_manual--service-manual:v1.0.0:c4124:7f91755cb231356f2c04992c",
+          "service_manual--service-manual:v1.0.0:c4409:e8c8f6e59080e722c9cdb0f7",
+          "service_manual--service-manual:v1.0.0:c3815:8bb87c360dce354a3bc3229e",
+          "service_manual--service-manual:v1.0.0:c4419:53480749378f8da38955dc8b",
+          "service_manual--service-manual:v1.0.0:c4388:1d08dc8aff621f2dba98ec3f",
+          "service_manual--service-manual:v1.0.0:c4272:702dccd56f5497c699d9cd60",
+          "service_manual--service-manual:v1.0.0:c3739:d5c5dbf11b0f3031333110dd"
         ],
-        "cited_section_paths": [
-          "2 Clutch > 2-2 Hydraulic Fluid"
-        ]
+        "ce_score_min": -10.829070091247559,
+        "ce_score_max": -1.6666557788848877,
+        "ce_score_mean": -4.590213024616242,
+        "ce_score_variance": 5.132100620192474,
+        "ce_score_degenerate": false
       },
-      "elapsed_ms": 15791
-    },
-    {
-      "id": "g27-wrong-oil-20w50",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 123,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-1 Specification"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-1 Specification"
-        ]
-      },
-      "elapsed_ms": 18347
-    },
-    {
-      "id": "g28-never-atf-in-mtf",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": false,
-        "retrieval_hit_via_citations_deprecated": false,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 110,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c18:8c303dec2dd1e3858ed1d76d",
-          "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
-          "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
-          "fixture-s2000-service-manual:v1:c1:52ad538188053a3d31cd3c26",
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
-          "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2",
-          "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9",
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944"
-        ],
-        "cited_section_paths": [
-          "6 Transmission Fluid",
-          "2 Clutch > 2-2 Hydraulic Fluid",
-          "6 Transmission Fluid > 6-1 Specification",
-          "1 Engine Oil",
-          "1 Engine Oil > 1-1 Specification",
-          "1 Engine Oil > 1-2 Oil Filter Replacement",
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque",
-          "2 Clutch > 2-1 Pedal Free Play"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": false,
-        "retrieval_hit_via_citations_deprecated": false,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c18:8c303dec2dd1e3858ed1d76d",
-          "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
-          "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
-          "fixture-s2000-service-manual:v1:c1:52ad538188053a3d31cd3c26",
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
-          "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2",
-          "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9",
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944"
-        ],
-        "cited_section_paths": [
-          "6 Transmission Fluid",
-          "2 Clutch > 2-2 Hydraulic Fluid",
-          "6 Transmission Fluid > 6-1 Specification",
-          "1 Engine Oil",
-          "1 Engine Oil > 1-1 Specification",
-          "1 Engine Oil > 1-2 Oil Filter Replacement",
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque",
-          "2 Clutch > 2-1 Pedal Free Play"
-        ]
-      },
-      "elapsed_ms": 11941
-    },
-    {
-      "id": "g29-multi-thermo-vs-coolant",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 112,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308",
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-2 Thermostat",
-          "4 Cooling System > 4-1 Coolant"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308",
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-2 Thermostat",
-          "4 Cooling System > 4-1 Coolant"
-        ]
-      },
-      "elapsed_ms": 16832
-    },
-    {
-      "id": "g30-multi-spark-gap-vs-torque",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 114,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-1 Specification"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-1 Specification"
-        ]
-      },
-      "elapsed_ms": 17442
-    },
-    {
-      "id": "g31-trap-thermo-full-open",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 110,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-2 Thermostat"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-2 Thermostat"
-        ]
-      },
-      "elapsed_ms": 17699
-    },
-    {
-      "id": "g32-trap-spark-gap-only",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 106,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "3 Spark Plugs > 3-1 Specification"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "3 Spark Plugs > 3-1 Specification"
-        ]
-      },
-      "elapsed_ms": 17095
-    },
-    {
-      "id": "g33-trap-oil-filter-turn",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 138,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-2 Oil Filter Replacement"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-2 Oil Filter Replacement"
-        ]
-      },
-      "elapsed_ms": 15933
-    },
-    {
-      "id": "g34-trap-clutch-pushrod",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 109,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944"
-        ],
-        "cited_section_paths": [
-          "2 Clutch > 2-1 Pedal Free Play"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944"
-        ],
-        "cited_section_paths": [
-          "2 Clutch > 2-1 Pedal Free Play"
-        ]
-      },
-      "elapsed_ms": 16141
-    },
-    {
-      "id": "g35-trap-exhaust-clearance",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 99,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3"
-        ],
-        "cited_section_paths": [
-          "5 Valve Clearance > 5-1 Inspection"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3"
-        ],
-        "cited_section_paths": [
-          "5 Valve Clearance > 5-1 Inspection"
-        ]
-      },
-      "elapsed_ms": 15491
-    },
-    {
-      "id": "g36-trap-mtf-filler-hole",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 101,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8"
-        ],
-        "cited_section_paths": [
-          "6 Transmission Fluid > 6-1 Specification"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8"
-        ],
-        "cited_section_paths": [
-          "6 Transmission Fluid > 6-1 Specification"
-        ]
-      },
-      "elapsed_ms": 19944
-    },
-    {
-      "id": "g37-trap-spark-interval",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 100,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-2 Replacement Interval"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-2 Replacement Interval"
-        ]
-      },
-      "elapsed_ms": 16865
-    },
-    {
-      "id": "g38-trap-radiator-cap-psi",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 102,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-1 Coolant"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-1 Coolant"
-        ]
-      },
-      "elapsed_ms": 16590
-    },
-    {
-      "id": "g39-trap-filler-cap-torque",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 114,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque"
-        ]
-      },
-      "elapsed_ms": 15794
-    },
-    {
-      "id": "g40-trap-fan-switch-temp",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 143,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c15:ee36e69f0f02e08c3bed7651"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-3 Cooling Fan Switch Temperature"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c15:ee36e69f0f02e08c3bed7651"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-3 Cooling Fan Switch Temperature"
-        ]
-      },
-      "elapsed_ms": 15590
-    },
-    {
-      "id": "g41-trap-hot-inspection-gap",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 123,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection"
-        ]
-      },
-      "elapsed_ms": 15974
-    },
-    {
-      "id": "g42-trap-drain-not-filler-torque",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 116,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
-          "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-1 Specification",
-          "1 Engine Oil > 1-2 Oil Filter Replacement"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9",
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
-          "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2"
-        ],
-        "cited_section_paths": [
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque",
-          "1 Engine Oil > 1-1 Specification",
-          "1 Engine Oil > 1-2 Oil Filter Replacement"
-        ]
-      },
-      "elapsed_ms": 18044
-    },
-    {
-      "id": "g43-trap-thermo-not-fan-switch",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 125,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-2 Thermostat"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": true,
-        "answer_substring_hit": true,
-        "retrieval_hit_via_citations_deprecated": true,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c15:ee36e69f0f02e08c3bed7651",
-          "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-3 Cooling Fan Switch Temperature",
-          "4 Cooling System > 4-2 Thermostat"
-        ]
-      },
-      "elapsed_ms": 18211
-    },
-    {
-      "id": "g44-trap-cold-install-gap-not-hot",
-      "lexical_proxy_retrieval_hit": false,
-      "ask_ce": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": false,
-        "answer_substring_hit": false,
-        "retrieval_hit_via_citations_deprecated": false,
-        "rerank_degraded": false,
-        "ablation_rrf_only": false,
-        "ce_latency_ms": 136,
-        "ce_runtime_mode": "classification",
-        "generator_model": "gemma4:e2b",
-        "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection"
-        ]
-      },
-      "ask_rrf_only": {
-        "ok": true,
-        "citation_ok": true,
-        "citation_gold_hit": false,
-        "answer_substring_hit": false,
-        "retrieval_hit_via_citations_deprecated": false,
-        "rerank_degraded": false,
-        "ablation_rrf_only": true,
-        "ce_latency_ms": 0,
-        "ce_runtime_mode": null,
-        "generator_model": "gemma4:e2b",
-        "ce_model": "skipped_ablation",
-        "outcome": "answered",
-        "cited_chunk_ids": [
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection"
-        ]
-      },
-      "elapsed_ms": 20364
+      "elapsed_ms": 13506
     }
   ]
 }

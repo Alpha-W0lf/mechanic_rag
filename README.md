@@ -1,8 +1,8 @@
 ## Mechanic RAG — hybrid → RRF → CE vertical slice
 
-Personal, non-commercial **portfolio** project. Text-only RAG over automotive service documentation.
+Personal, non-commercial **portfolio** project. **M0 text RAG** is the stranger-runnable path on synthetic fixtures; **M1–M3 multimodal Met** on the personal garage (`cat:*`) with **flags default off** — see [`docs/VISION.md`](docs/VISION.md) §5.
 
-**Status:** Guide 01 vertical slice implemented for local Compose + fixtures. Formal embed/CE **frozen (Tom override)** Guide 09. **License:** PolyForm Noncommercial 1.0.0 — **source-available / non-commercial** (not OSI open source; not MIT). **Fixtures-only public flip Met** Guide 10b (portfolio “v1 Done” marketing). **Not** earned CE lift. **Not** PrivateGold/Drive complete.
+**Status:** Guide 01 vertical slice implemented for local Compose + fixtures. Personal-garage **M1–M3 Met** (linked visuals · multimodal retrieve · optional VLM) under local env flags; **text owns torque/spec** truth. Stranger clone = **M0 text** on `fixtures/` only — no VLM/image channel required. Formal embed/CE **frozen (Tom override)** Guide 09 — CE **stays in stack** for architecture completeness + `rerank_degraded` fail-open; **not** because n=44 showed lift (`ce_vs_rrf_ask_delta_hits=0`, helps=0/hurts=0). **License:** PolyForm Noncommercial 1.0.0 — **source-available / non-commercial** (not OSI open source; not MIT). **Fixtures-only public flip Met** Guide 10b (portfolio “v1 Done” marketing). **Not** earned CE lift. **Not** PrivateGold/Drive complete. **Not** dual-product Done.
 
 **SSOT:** [`docs/VISION.md`](docs/VISION.md) · [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`GETTING_STARTED.md`](GETTING_STARTED.md) · [`INTERVIEW.md`](INTERVIEW.md) · [`LICENSE`](LICENSE) · [`docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md`](docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md) · [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md)
 
@@ -50,7 +50,8 @@ mecharag eval --golden evals/
 ### Honest limits
 
 - Public corpus = **`fixtures/` only** (synthetic). No OEM PDFs, Drive, or Ford.
-- Embedding + CE IDs are **frozen (Tom override)** Guide 09 — paired ask n=44 delta **0** (helps=0/hurts=0); **not** earned lift (`evals/MODEL_FREEZE_STATUS.md`).
+- Embedding + CE IDs are **frozen (Tom override)** Guide 09 — paired ask n=44 delta **0** (helps=0/hurts=0); **not** earned lift (`evals/MODEL_FREEZE_STATUS.md`). CE **remains in the ranking stack** for hybrid → RRF → section dedup → CE completeness and production `rerank_degraded` degrade — distinct from intentional `MECHANIC_FORCE_RRF_ONLY` ablation (see INTERVIEW §3 / §11).
+- Multimodal **M1–M3 Met** on personal garage only; env flags (`MECHANIC_VLM`, image channel) **default off**. Public demo does not require multimodal — friend Drive library **≠** Mechanic ingest.
 - Generator default is **gemma4:e2b** (pass 9 smoke OK). Pass 8c eval baseline historically used **qwen3.5:4b**.
 - Eval set is **44** fixture cases on `fixture:honda-s2000-demo` (Guide 04–08; T1 synthetic confusable sections); paired ask `ce_vs_rrf_ask_delta_hits=0` (helps=0/hurts=0); second vehicle / wiring still deferred (`evals/PATH_TO_30.md`).
 - Stale paths (`db/schema.sql`, `supabase/**`, deleted stub `web/app`) are non-authoritative.

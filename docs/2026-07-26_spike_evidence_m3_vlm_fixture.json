@@ -1,0 +1,16 @@
+{
+  "spike": "m3_vlm_fixture",
+  "date_local_hint": "2026-07-26",
+  "model_id": "gemma4:e2b",
+  "png_path": "output/images/Honda_s2000_owners_manual_2001/page_0100.png",
+  "timeout_budget_seconds": 45,
+  "elapsed_seconds": 22.525,
+  "ok": true,
+  "error": null,
+  "response_chars": 940,
+  "response_preview": "The image is a page from an audio system service manual, numbered 97.\n\n**Text Content:**\nThe page contains instructional text and labels related to storing frequencies:\n*   \"Main Menu\"\n*   \"Table of Contents\"\n*   Four numbered instructions detailing how to store a frequency using the Preset button (steps 1 through 4).\n*   The bottom right corner includes the word \"CONTINUED\" and the footer text \"Comfort and Convenience Features\".\n\n**Diagrams and Labels:**\nThe lower portion of the page features diagrams illustrating the controls for the audio system:\n*   A diagram shows labels pointing to various buttons, including:\n    *   \"AM/FM BUTTON\"\n    *   \"SEEK BAR\"\n    *   \"PRESET BUTTONS\"\n*   Below these labels is a visual representation of the physical control panel. The panel includes a section ",
+  "soft_numeric_mention": false,
+  "recommendation": "Freeze VLM model_id=gemma4:e2b for M3 Ready if ok=true; Build must still filter VLM numeric claims against text citations.",
+  "router_default": "off",
+  "degrade": "on timeout/error \u2192 text/M2/M1 path"
+}
