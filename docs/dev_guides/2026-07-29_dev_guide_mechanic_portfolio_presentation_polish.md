@@ -3,8 +3,8 @@
 **Date:** 2026-07-29  
 **Repo:** `mechanic_rag`  
 **Work item:** Portfolio presentation polish — INTERVIEW/README M1–M3 honesty → thin UI demo polish → CE keep-story sharpening  
-**Stage:** Ready-check Met · **Implement Checklist B** Met · **C** verification Met (automated)  
-**Status:** **Review Met** (Pass-with-nits / shippable) · Checklist **A + B Met** · **C** automated Met · soft C2 manual smoke + B4 screenshots optional  
+**Stage:** Ready-check Met · **Implement A+B+C Met** including **C2/B4 (#87)**  
+**Status:** **Review Met** (Pass-with-nits / shippable) · Checklist **A + B Met** · **C** Met including **C2** · **B4** Met (#87)  
 **Depends on:** M1–M3 Review Met · fixtures public flip Met · Prioritize lock **#77** · frontend rails **#80** · cinematic park **#81**  
 **Review:** `docs/2026-07-29_review_mechanic_portfolio_presentation_polish.md`  
 **Context SSOT:** `second_brain/docs/2026-07-29_mechanic_portfolio_presentation_polish_context_summary.md`  
@@ -173,15 +173,15 @@ Raise **portfolio impressiveness** without rebuilding retrieval. Backend M1–M3
 **Verification**
 
 - [x] `cd web && pnpm test` — all pass (45 tests, 2026-07-29)  
-- [ ] Manual ask smoke: fixture vehicle, torque question → answer + citations (deferred — no `pnpm dev` this pass)  
+- [x] Manual ask smoke: fixture vehicle, torque question → answer + citations (**C2 Met** 2026-07-30 — API + UI; evidence `docs/assets/demo/c2_b4_evidence.json`)  
 - [x] Manual: empty question blocked; vehicle list degrade shows warning (existing behavior preserved in code)  
-- [ ] Optional: local `cat:*` vehicle + flags off still works (no regression) — deferred manual  
+- [ ] Optional: local `cat:*` vehicle + flags off still works (no regression) — deferred manual (not #87)  
 - [x] `python scripts/checks/public_fail_closed.py fixtures` — pass (no public corpus change)  
 
 **Review / Align (post-Implement)**
 
-- [ ] Hub context summary status updated  
-- [ ] Optional README screenshot if captured  
+- [x] Hub context summary status updated (#87 Align)  
+- [x] README screenshots linked (`docs/assets/demo/`)  
 
 ---
 
@@ -200,13 +200,13 @@ Raise **portfolio impressiveness** without rebuilding retrieval. Backend M1–M3
 - [x] **B1.** `globals.css` — frozen oklch tokens + Geist Sans + radius 8–12 + reduced-motion  
 - [x] **B2.** `page.tsx` — outcome/loading/citation hierarchy polish (Operate mode)  
 - [x] **B3.** `layout.tsx` — metadata honesty tweak if needed  
-- [ ] **B4.** Optional ≤2 fixture PNGs under `docs/assets/demo/` — **skipped** this pass  
+- [x] **B4.** ≤2 fixture PNGs under `docs/assets/demo/` — `ask-outcome.png` · `citations-scannable.png` (M0 has no page-thumb assets; citations show section+page) · README linked (#87)  
 - [x] **B5.** Self-critique against Impeccable anti-slop list (manual — no purple / no cinematic / steel-teal accent)  
 
 ### Checklist C — DoD / verification
 
 - [x] **C1.** `pnpm test` — 45 passed  
-- [ ] **C2.** Manual ask smoke (fixture) — deferred (no dev server this pass)  
+- [x] **C2.** Manual ask smoke (fixture) — Met 2026-07-30 (`fixture:honda-s2000-demo` · oil drain torque → `answered` + 2 citations; UI ANSWERED)  
 - [x] **C3.** No API contract changes without ARCHITECTURE update  
 - [x] **C4.** Review doc — `docs/2026-07-29_review_mechanic_portfolio_presentation_polish.md` (**Pass-with-nits / shippable**)  
 
@@ -292,7 +292,7 @@ Raise **portfolio impressiveness** without rebuilding retrieval. Backend M1–M3
 1. ~~**Ready-check**~~ — Met (§10).  
 2. ~~**Implement**~~ — Checklist **A** Met · **B** Met · **C** automated Met.  
 3. ~~**Review-implementation**~~ — **Met** (`docs/2026-07-29_review_mechanic_portfolio_presentation_polish.md` · shippable).  
-4. Soft residuals only: optional C2 manual `pnpm dev` smoke · optional B4 screenshots.  
+4. ~~Soft residuals C2/B4~~ — **Met #87** (2026-07-30).  
 5. **No new program Build** for polish — open waterfall Implement remains Friend LEMON 750 (#74).
 
-**Implement polish again?** **No** — Review Met; soft C2/B4 backlog only.
+**Implement polish again?** **No** — Review Met; C2/B4 Met; park M4 / cinematic / Drive→Mechanic.

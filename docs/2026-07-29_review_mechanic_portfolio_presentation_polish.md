@@ -17,8 +17,8 @@
 | Anti-slop #80/#81 | Steel-teal accent; no purple; no scroll-video / overdrive | Pass |
 | API contract | Fetch/ask path unchanged (thin consumer) | Pass |
 | Tests | `pnpm test` 45/45 reported Met | Pass |
-| C2 manual `pnpm dev` smoke | Deferred — **soft gap** | Soft |
-| B4 screenshots | Skipped per guide optional | Soft |
+| C2 manual `pnpm dev` smoke | **Met #87** — fixture ask API+UI (`answered` + citations) | Pass |
+| B4 screenshots | **Met #87** — ≤2 fixture PNGs + README link | Pass |
 | Hub context scores | Interview/Frontend scores still reflected pre-Implement lag in one table — **stale** | Fix now |
 | Impeccable note | Still claimed globals Arial fallback — **stale** after B | Fix now |
 | #79 row in polish context | Still said “pipeline park” — **stale** after unpark | Fix now |
@@ -28,7 +28,7 @@
 ## Smallest refinement set
 
 1. **Align (this delivery):** Update hub polish context scores + #79 pointer; fix Impeccable “Arial” line.  
-2. **Optional later:** C2 manual ask smoke; ≤2 fixture screenshots under `docs/assets/demo/`.  
+2. ~~**Optional later:** C2 / B4~~ — **Met #87** (`docs/assets/demo/` + evidence JSON).  
 3. **No code blockers** for shippable polish slice.
 
 **Shippable as-is?** **Yes** for Checklist A+B + automated C. Soft residuals do not reopen ranking/API.
@@ -46,6 +46,6 @@
 
 ## Next
 
-- Optional C2/B4 when Tom wants demos  
-- Hub Prioritize (2026-07-30): `second_brain/docs/2026-07-30_prioritize_mechanic_while_lemon_soft_stop.md`  
-- LEMON: pipeline Met; **#85 cancel Met**; soft-stop at disk floor is **ops reclaim**, not Mechanic work  
+- C2/B4 **Met #87** — no soft polish residuals open  
+- Hub Prioritize: `second_brain/docs/2026-07-30_prioritize_mechanic_while_lemon_soft_stop.md` (LEMON #86 reclaim Met; capture overnight)  
+- Park: M4 · cinematic (#81) · Drive→Mechanic · Wave-7  

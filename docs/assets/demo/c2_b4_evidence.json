@@ -1,0 +1,32 @@
+{
+  "stage": "Implement",
+  "lock": "#87",
+  "checks": {
+    "health": {
+      "status": "ready",
+      "postgres": true,
+      "ollama": true
+    },
+    "api_ask": {
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "question": "What is the oil drain plug torque?",
+      "outcome": "answered",
+      "citations_n": 2,
+      "answer_preview": "The oil drain plug torque is 39 N\u00b7m (29 lbf\u00b7ft) [2], [3]."
+    },
+    "ui_ask": {
+      "vehicle_id": "fixture:honda-s2000-demo",
+      "outcome_label": "ANSWERED",
+      "citations_visible": true,
+      "citation_pages": [
+        "p. 3",
+        "p. 4"
+      ]
+    }
+  },
+  "screenshots": [
+    "docs/assets/demo/ask-outcome.png",
+    "docs/assets/demo/citations-scannable.png"
+  ],
+  "notes": "Fixture-only; no page-thumb assets on M0 text path \u2014 second PNG is citations scannable (section+page), not OEM page figure."
+}

@@ -47,6 +47,17 @@ mecharag eval --golden evals/
 # Paired ablation: see "Paired ask ablation eval" below (two Next processes)
 ```
 
+### Demo screenshots (fixture-only)
+
+Local ask UI polish (#87 C2/B4) — `fixture:honda-s2000-demo` only; no OEM / no private `cat:*` captures:
+
+| Shot | Path |
+|------|------|
+| Ask outcome | [`docs/assets/demo/ask-outcome.png`](docs/assets/demo/ask-outcome.png) |
+| Citations (section + page) | [`docs/assets/demo/citations-scannable.png`](docs/assets/demo/citations-scannable.png) |
+
+Evidence: [`docs/assets/demo/c2_b4_evidence.json`](docs/assets/demo/c2_b4_evidence.json).
+
 ### Honest limits
 
 - Public corpus = **`fixtures/` only** (synthetic). No OEM PDFs, Drive, or Ford.
