@@ -46,6 +46,6 @@
 
 ## Next
 
-- Soft Align residuals (scores/notes) in this pass  
 - Optional C2/B4 when Tom wants demos  
-- Parallel: LEMON pipeline Ready-check → Implement (#79)
+- Hub Prioritize (2026-07-30): `second_brain/docs/2026-07-30_prioritize_mechanic_while_lemon_soft_stop.md`  
+- LEMON: pipeline Met; **#85 cancel Met**; soft-stop at disk floor is **ops reclaim**, not Mechanic work  
