@@ -3,9 +3,10 @@
 **Date:** 2026-07-31  
 **Repos:** `mechanic_rag` (primary)  
 **Also:** `custom_resumes` (LinkedIn / career SSOT), `second_brain` (hub pointer), profile README `Alpha-W0lf/Alpha-W0lf`  
-**Status:** Gather Met — ready for Refine or Write implementation guide after Tom locks open decisions  
+**Status:** Write implementation guide **Met** (2026-07-31) — decisions locked; Ready check next; **no Implement yet**  
 **Mode last used:** multi-repo  
-**Stage:** Gather context  
+**Stage last completed:** Write implementation guide  
+**Implementation guide:** `docs/dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md`  
 
 **Related prior slice (different meaning of “public flip”):** Guide 10b Met = **fixtures-only packaging / marketing honesty** for “v1 Done” — **not** the GitHub **visibility** toggle. Repo is still **`PRIVATE`** (`gh repo view`: `isPrivate=true`, empty description, no topics).
 
@@ -152,95 +153,49 @@ Title → outcome hook → **one calm category sentence** → proof strip (ask U
 
 ---
 
-## Unknowns
+## Locked decisions (Tom — 2026-07-31)
+
+| # | Lock | Summary |
+|---|------|---------|
+| 1 | **A** | One Implement: safety → storefront → visibility → LinkedIn |
+| 2 | **A expanded** | Remove private-garage eval set from tip + gitignore + docs; **history purge before public** (includes `golden_garage_v1`, garage last_run summary, m2 diagram stubs, m3 vision garage goldens — re-scan in Ready) |
+| 3 | **A** | Featured + pin Mechanic; keep AI KB |
+| 4 | **A** | UI chrome rewrite + re-capture both demo PNGs |
+| 5 | **A** | Real fixture UI proof shots |
+
+Pros/cons for each lock are recorded in the implementation guide decision record.
+
+## Unknowns (remaining)
 
 | Unknown | How to resolve | Blocking? |
 |---------|----------------|-----------|
-| Exact LinkedIn Featured UI capacity / which link to demote if needed | Tom decides Featured strategy | Yes for LinkedIn publish |
-| Whether garage golden OEM substrings are acceptable under PolyForm-NC public | Tom legal/comfort lock | **Yes for visibility flip** |
-| Whether Tom wants visibility flip in same Implement as README or after Review of storefront | Tom lock on sequencing | Soft — recommend storefront+safety first, then flip in same guide |
+| Exact force-push timing for history purge | Ready check + Tom approve force-push while still private | Yes before visibility |
+| Whether additional `evals/golden_m3_vision_stubs*` need purge | Ready scan for `cat:` / OEM | Soft |
 
----
+## Recommended approach (post-lock)
 
-## Recommended approach
+1. **Ready check before code** on the implementation guide.  
+2. **Implement / Build Go** only after Ready Met + Tom auth.  
+3. Order binding: corpus+history → UI+shots → README → metadata → visibility → LinkedIn/SSOT.
 
-1. **Lock open decisions** (chat) — especially garage goldens + Featured.  
-2. **Write implementation guide** (multi-repo): safety → UI banner → README sales-first → metadata → visibility flip → LinkedIn/pin/profile → SSOT.  
-3. **Ready check** with fail-closed + secret scan + screenshot plan.  
-4. **Implement** only after Ready + Tom Build Go.  
-5. Do **not** flip visibility while UI still says “not portfolio-complete” or while garage-OEM disposition is unresolved.
-
-**Write dev guide next?** **Yes** — after Tom locks the open decisions (or explicitly parks garage disposition with a chosen option). Not trivial: visibility + storefront + legal corpus edge + LinkedIn multi-surface.
-
----
+**Write dev guide?** **Met** — `docs/dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md`
 
 ## Open decisions (human)
 
-### 1) GitHub visibility flip — when?
-
-- **In plain terms:** Make `mechanic_rag` public on GitHub so Featured/pins work.  
-- **Options:** (A) Same Implement after storefront+safety green · (B) Storefront first while private, flip in a second thin slice · (C) Flip immediately then polish  
-- **Recommendation:** **(A)** — one guide, ordered steps: safety → copy/UI → flip → LinkedIn.  
-- **Reasoning:** Public apology UI is worse than private; flipping dirty creates lasting first impressions in Google/GitHub cache.  
-- **Tradeoffs:** Slightly larger slice vs two sessions; avoids a public “not portfolio-complete” window.
-
-### 2) `evals/golden_garage_v1.json` OEM substrings
-
-- **In plain terms:** This tracked file says it contains short OEM torque/procedure strings for private garage eval. Public flip would publish them.  
-- **Options:** (A) Remove from git / gitignore + document private-only eval · (B) Scrub to synthetic paraphrases · (C) Keep with explicit “short quotes / fair use / owned vehicles” honesty (higher risk)  
-- **Recommendation:** **(A)** or **(B)** — prefer **(A)** if private eval can live only on your machine; **(B)** if you need CI without OEM bytes.  
-- **Reasoning:** Fixtures-only public story must stay legally clean; Guide 10b spirit is no OEM in public corpus.  
-- **Tradeoffs:** (A)/(B) cost a small eng pass; (C) is fastest but weakest under hostile reading.
-
-### 3) LinkedIn Featured + GitHub pin
-
-- **In plain terms:** How Mechanic appears next to AG / AI KB / Eyeglass.  
-- **Options:** (A) Add as 5th Featured + 4th pin · (B) Replace AI KB Featured (keep AI KB public/pin only) · (C) Pin on GitHub only; Featured later  
-- **Recommendation:** **(A)** — Mechanic is the domain product-RAG proof; AI KB remains the agent-knowledge/MCP proof. Different slots.  
-- **Reasoning:** Chat sales-first work already positioned three publics; Mechanic fills the missing “citations over real domain docs” story.  
-- **Tradeoffs:** More Featured noise vs incomplete RAG story on LinkedIn.
-
-### 4) UI banner + demo screenshot refresh
-
-- **In plain terms:** `page.tsx` still shows “Deliberate vertical slice; not portfolio-complete,” and that text is in `ask-outcome.png`.  
-- **Options:** (A) Rewrite chrome to sales-first + re-capture both demo PNGs in same slice · (B) README-only; leave UI apology (not recommended)  
-- **Recommendation:** **(A)**  
-- **Reasoning:** Thumbs and live UI are the Featured proof; README alone cannot fix a contradictory screenshot.  
-- **Tradeoffs:** Small Next copy change + screenshot ops vs inconsistent storefront.
-
-### 5) Proof strip style
-
-- **In plain terms:** Designed card (like AG) vs real ask UI screenshots (like Eyeglass).  
-- **Options:** (A) Real fixture UI shots (after banner fix) · (B) Designed pipeline card · (C) Both  
-- **Recommendation:** **(A)** primary — real product UI is stronger for Mechanic; optional thin designed card later if thumbs need brand match.  
-- **Reasoning:** You already earned C2/B4 fixture screenshots; sales-first wants proof of the product, not a second abstract diagram.  
-- **Tradeoffs:** UI shots need env to re-capture; designed cards are faster but less concrete.
-
----
+None — locks above. Implement still gated on Ready + Build Go.
 
 ## Evidence opened this pass
 
-- `docs/VISION.md`, `README.md`, `PUBLIC_FLIP_CHECKLIST.md`, Guide 10b header  
-- `web/src/app/page.tsx` (banner lines ~131–136)  
-- `docs/assets/demo/ask-outcome.png` (contains “not portfolio-complete”)  
-- `python3 scripts/checks/public_fail_closed.py fixtures` → **OK / exit 0**  
-- `gh repo view Alpha-W0lf/mechanic_rag` → **private**, empty description, no topics  
-- `evals/golden_garage_v1.json` header — OEM substring rights note  
-- `.gitignore` garage path ignores present  
-- Sales-first guide + AG/AI KB README heads; skills strategy §14 public inventory  
-- Zoom-out D4 “park public flip” (to supersede after this work item)
-
----
+- Gather evidence retained; Write pass also scanned `evals/golden*.json` for `cat:` / OEM rights (`golden_m2_diagram_stubs_v1`, `golden_m3_vision_v1` added to purge set)  
+- Implementation guide authored (no code changes)
 
 ## Honest readiness
 
-- **Gather:** Met for planning depth.  
-- **Ready for Write implementation guide?** **Yes, after Tom locks decisions 1–5** (minimum: **#2 garage goldens** and **#1/#3** sequencing/Featured).  
-- **Ready for Implement / visibility flip?** **No** — not until guide + Ready check + Build Go; garage disposition unresolved.
-
----
+- **Gather:** Met  
+- **Write implementation guide:** Met  
+- **Ready for Ready-check stage?** Yes  
+- **Ready for Implement / visibility flip?** **No** — await Ready check + Build Go
 
 ## Next stage
 
-**Tom:** lock open decisions (recommend A / A-or-B / A / A / A).  
-**Then:** **Write implementation guide** for this work item (update this context on Refine if needed).
+**Ready check before code** on `docs/dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md`.
