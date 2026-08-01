@@ -61,6 +61,8 @@ mecharag ingest --source fixtures
 
 Compose must be up and `DATABASE_URL` correct **before** ingest.
 
+**Local DB may show more vehicles than the public clone:** `mecharag ingest --source fixtures` loads only `fixture:honda-s2000-demo` from `fixtures/honda_s2000_demo/`. Extra dropdown ids such as `fixture:demo-miata-nb` / `fixture:demo-s2000-ap1` come from **Guide 12 PrivateGold synthetic multi-vehicle packs** (local `MECHANIC_PRIVATE_GOLD_ROOT` ingest) — not from public `fixtures/`, and **not** from Tom’s personal garage fleet. `cat:*` rows are personal-garage ingest. Strangers who never run private-gold see only the Honda S2000 fixture.
+
 **PrivateGoldSource (Guide 11, optional / local only):** fixture-first Contract 7.2 ingest from a configured local Gold root — **not** the stranger public path.
 
 ```bash
