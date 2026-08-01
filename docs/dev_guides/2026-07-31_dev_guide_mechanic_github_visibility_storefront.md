@@ -4,9 +4,9 @@
 **Work item:** Mechanic GitHub visibility public + sales-first storefront  
 **Repos:** `mechanic_rag` (primary) · `custom_resumes` · `second_brain` · profile README `Alpha-W0lf/Alpha-W0lf`  
 **SSOT context:** [`../2026-07-31_mechanic_github_visibility_storefront_context_summary.md`](../2026-07-31_mechanic_github_visibility_storefront_context_summary.md)  
-**Status:** Refine-dev-guide **Met** (2026-07-31) — 9.0–9.5+ bar-raising package locked into steps; Ready check next; **no Implement**  
-**Stage that authored this:** Write implementation guide · Critical review · Refine-dev-guide  
-**Prerequisite:** Gather Met; Tom locked decisions 1–5 (2026-07-31); Refine locks R1–R3 below
+**Status:** Ready check **Met** (2026-07-31) — **READY for Implement** after Tom Build Go; presentation scorecard **deflated** (prior 9.x targets were inflated aspirations, not earned)  
+**Stage that authored this:** Write · Critical review · Refine-dev-guide · Ready check  
+**Prerequisite:** Gather Met; decisions 1–5 + R1–R3 locked; score honesty correction in Ready check
 
 ---
 
@@ -84,31 +84,37 @@ Building citation-backed document RAG for a real domain? Reach me on [LinkedIn](
 
 ---
 
-## Bar-raising package — honest path to **9.0–9.5+** per category
+## Presentation scores — honesty correction (Ready check 2026-07-31)
 
-Scores below are **targets after Implement of this refined guide**. Anything claiming 10 requires hosted live demo or multi-week product polish — **out of this slice**.
+**Admission:** Prior Refine “targets” of **9.0–9.5+ / overall 9.2–9.4** were **inflated**. They mixed (a) aspirational ceilings, (b) checklist completion, and (c) unearned post-Implement grades. **Nothing in this table is earned until Implement + Review with cold-reader evidence.**
 
-| # | Category | Target | Binding upgrades in this slice | Honest ceiling without expanding scope |
-|---|----------|-------:|--------------------------------|----------------------------------------|
-| 1 | First-screen sales posture | **9.5** | Locked Problem draft; outcome UI; ban “demo” as hero noun; first-screen grep DoD | **9.5** (craft) |
-| 2 | Claim hygiene | **9.5** | License not in lead; Deeper docs for freeze-override; forbidden-phrase grep list | **9.5** |
-| 3 | Visual proof | **9.0–9.5** | Capture brief: 1200px-class width, answered state + citations visible, no apology banner, no `/Users/` paths, prefer citations thumb for Featured; update both PNGs | **9.5** if capture craft is excellent; **9.0** if UI still reads “internal tool” |
-| 4 | Narrative structure | **9.5** | Full AG story order + Problem draft + mermaid nouns + ≤~160 line README target | **9.5** |
-| 5 | Portfolio-set consistency | **9.5** | Same CTA pattern; description length ~AG; topics set; profile blurb parallel to other three | **9.5** |
-| 6 | Discoverability | **9.5** | Public + description + topics + pin + Featured order locked + profile blurb + paste pack | **9.5** (Featured human step) |
-| 7 | Stranger Try-it clarity | **9.0** | **R1:** add thin `scripts/stranger_smoke.sh` (or `make stranger-smoke` via script) — preflight Docker/Ollama, `compose up -d`, env hint, fixture ingest, fail-closed, print exact Next/ask commands; README Try it = script + 3 lines | **~9.0** without hosted demo; **9.5+ needs hosted URL (parked)** |
-| 8 | Legal / corpus safety | **9.5** | Tip purge + history purge + fail-closed + Ready command appendix; no tip-only waiver | **9.5** |
-| 9 | Slot differentiation | **9.5** | Calm vs-AI-KB line; hook names citations + service docs | **9.5** |
-| 10 | Conversion readiness | **9.0–9.2** | Strong CTA; Featured paste pack; Services-compatible “domain RAG / stuck mid-build” conversation bait | **~9.2** without live hosted demo; **9.5+ needs live URL or Loom (parked)** |
-| | **Overall** | **9.2–9.4** | Execute refined guide fully | **9.5 portfolio-wide** only if Try-it + Conversion get a later hosted-demo slice |
+**Earned today (pre-Implement):** ~**3/10** overall for cold LinkedIn→GitHub (private repo, empty description, apology UI in live thumbs, garage OEM evals still tracked).
 
-### Refine locks (Tom — 2026-07-31, agreed)
+**Conservative projected band after full guide Implement** (not guaranteed; Review may score lower):
+
+| # | Category | Inflated target (rejected) | **Honest projected band** | Why the lower band |
+|---|----------|---------------------------:|--------------------------:|--------------------|
+| 1 | First-screen sales posture | 9.5 | **8.5–9.0** | Craft must ship; 9.5 needs cold-reader Review, not checklist |
+| 2 | Claim hygiene | 9.5 | **8.5–9.0** | Freeze-override / PolyForm nuance easily leaks into lead |
+| 3 | Visual proof | 9.0–9.5 | **8.0–8.5** | Dark “internal tool” UI ≠ Eyeglass gallery punch even with good crops |
+| 4 | Narrative structure | 9.5 | **8.5–9.0** | Structure can be excellent; prose execution varies |
+| 5 | Portfolio-set consistency | 9.5 | **8.0–8.5** | Heavier stack than AI KB; Try-it will still feel longer |
+| 6 | Discoverability | 9.5 | **8.5–9.0** | Public+pin+meta are mechanical; Featured is human/timing residual |
+| 7 | Stranger Try-it clarity | 9.0 | **7.5–8.5** | R1 script helps a lot; still Docker+Ollama+pnpm+Next after it — not AG `make smoke` |
+| 8 | Legal / corpus safety | 9.5 | **8.5–9.5** | **9.5 only if** tip+history purge verified; else ≤8 if tip-only |
+| 9 | Slot differentiation | 9.5 | **8.5–9.0** | One vs-AI-KB line is enough for ~9; not automatic 9.5 |
+| 10 | Conversion readiness | 9.0–9.2 | **7.5–8.5** | Clone-only + CTA; no live URL; Eyeglass has live galleries |
+| | **Overall** | 9.2–9.4 | **8.0–8.7** | Honest staff band for this slice without hosted demo |
+
+**True 9.5+ in Try-it or Conversion:** still requires later hosted demo/Loom (**R3 parked**) — do not chase with theater.
+
+### Refine locks (Tom — 2026-07-31, agreed) — upgrades kept; score promises corrected
 
 | ID | Lock | Pros | Cons |
 |----|------|------|------|
-| **R1** | Thin **stranger smoke script** in this Implement (preflight → compose → ingest → fail-closed → print Next steps) | Biggest honest lift for Try-it (7.5→~9.0); matches AG `make smoke` spirit | Small new script to maintain |
-| **R2** | **Screenshot capture brief** binding (Featured-grade) | Visual score → 9+ without redesign | Needs local boot time |
-| **R3** | **Hosted live demo / Loom parked** this slice | Avoids scope creep and fake “click here” empty deploys | Caps Try-it/Conversion below true 9.5 |
+| **R1** | Thin **stranger smoke script** (preflight → compose → ingest → fail-closed → print Next steps) | Real Try-it lift (~+0.5–1.0 vs no script) | Still not one-command ask; maintenance |
+| **R2** | **Screenshot capture brief** binding | Needed so thumbs stop apologizing | Does not make UI Eyeglass-level |
+| **R3** | **Hosted live demo / Loom parked** | Avoids fake deploy | Caps Try-it/Conversion |
 
 **Do not** invent CE lift, hosted Vercel, or OEM corpus to chase scores.
 
@@ -165,7 +171,7 @@ Scores below are **targets after Implement of this refined guide**. Anything cla
 7. Secret scan tip + sample history for `/Users/tom`, API keys, `.env` bodies.  
 8. **Stop-the-line:** Do not proceed to visibility public if purge skipped without Tom’s explicit tip-only risk acceptance recorded in context.
 
-### B. Stranger smoke (R1 — Try-it 9.0)
+### B. Stranger smoke (R1 — Try-it lift toward ~8.0–8.5, not 9.0)
 
 9. Add thin `scripts/stranger_smoke.sh` (executable): preflight `docker` + `ollama` (clear errors), `docker compose up -d`, ensure `web/.env.local` from `.env.example` if missing, `mecharag ingest --source fixtures` (venv/`uv` as repo already documents), `python3 scripts/checks/public_fail_closed.py fixtures`, print next commands for `pnpm` + health + one ask. **No** twin-process ablation. Prefer stdlib/bash; do not add heavy deps.  
 10. Document script in README Try it (3–8 lines) + GETTING_STARTED pointer.
@@ -201,7 +207,7 @@ Scores below are **targets after Implement of this refined guide**. Anything cla
 28. `gh repo edit Alpha-W0lf/mechanic_rag --visibility public` (or GitHub UI). Confirm `isPrivate=false`.  
 29. Verify clone URL / logged-out sanity if possible.
 
-### G. Portfolio surfaces (LinkedIn / profile) — discoverability 9.5
+### G. Portfolio surfaces (LinkedIn / profile) — discoverability track
 
 30. GitHub pin Mechanic.  
 31. Update `Alpha-W0lf/Alpha-W0lf` README blurb (no “demo” hero noun).  
@@ -230,20 +236,41 @@ Scores below are **targets after Implement of this refined guide**. Anything cla
 - [ ] Living SSOT match reality  
 - [ ] No secrets / OEM PDFs / absolute home paths in new assets  
 
-## Refine-dev-guide readiness scores (→ Ready check)
+## Ready check before code (2026-07-31)
+
+### Evidence (commands / state)
+
+| Check | Result |
+|-------|--------|
+| `public_fail_closed.py fixtures` | OK / exit 0 |
+| Private garage evals still on tip | **Yes** — `golden_garage_v1`, m2 stubs, m3 vision (purge still Implement work) |
+| `scripts/stranger_smoke.sh` | **Missing** (Implement) |
+| GitHub visibility | **Private**; description empty |
+| Guide / context / locks | Present; score inflation corrected this Ready |
+
+### Implement readiness scores (0–10 — not inflated)
 
 | Track | Score | Why not 10 |
 |-------|------:|------------|
-| Context ↔ guide alignment | **9** | Scorecard targets + R1–R3 locked this Refine |
-| Corpus / history purge track | **9** | Force-push still needs Tom at Implement |
-| Storefront copy / UI / screenshots | **9** | Capture brief + Problem draft locked; not yet executed |
-| Stranger Try-it (R1 script) | **8.5** | Script not written until Implement — design clear |
-| LinkedIn / discoverability pack | **9** | Paste pack + order locked; human publish residual |
-| Blast radius / rollback | **9** | Purge-while-private; git revert for docs; visibility hard to undo socially |
-| Edge cases / secrets | **9** | Fail-closed + purge gates; stubs keep rule noted |
-| **Overall Ready-check readiness** | **9** | Soft residual: runtime proof of stranger_smoke + screenshots belongs to Implement |
+| Context ↔ guide alignment | **9** | Score honesty corrected; locks stable |
+| Corpus / history purge plan | **8.5** | Steps clear; filter-repo/force-push still operational risk |
+| Storefront copy / UI / shots | **8.5** | Drafts locked; zero pixels rewritten yet |
+| Stranger smoke (R1) | **8** | Spec clear; script absent; env-dependent |
+| LinkedIn / discoverability pack | **8.5** | Paste pack ready; human Featured residual |
+| Blast radius / rollback | **8.5** | Visibility + force-push are hard to unwind socially |
+| Edge cases / secrets / OEM | **9** | Fail-closed green; purge set listed; stubs keep rule |
+| Presentation-score honesty | **9** | Deflated bands recorded; earned≠projected called out |
+| **Overall Implement readiness** | **8.5** | Not 10: purge/force-push, screenshots, stranger_smoke, Featured are still ahead |
 
-**Verdict: READY for Ready-check stage** — not Implement until Ready Met + Build Go.  
+### Remaining refinements before Implement?
+
+**None material** — do not re-inflate scores. Optional later (out of this Ready): hosted demo for true Try-it/Conversion 9.5.
+
+### Verdict
+
+**READY for Implement** — wait for Tom **Implement** / **Build Go**.  
+**Do not start coding in this stage.**  
+Post-Implement Review must grade presentation with the **deflated bands** (overall expect **~8.0–8.7**, not 9.2–9.4).  
 
 ---
 
@@ -287,7 +314,7 @@ Scores below are **targets after Implement of this refined guide**. Anything cla
 
 **Remediations applied this Critical review (docs-only):** split license out of category sentence; outcome-first UI primary copy; Featured order note; keep fixture `golden_m3_vision_stubs` unless Ready finds `cat:`.
 
-See context SSOT for full ranked findings + projected presentation scorecard.
+See context SSOT for ranked findings. Presentation scorecard was later **deflated** in Ready check (reject 9.2–9.4 overall).
 
 ## Implement authorization
 

@@ -3,9 +3,9 @@
 **Date:** 2026-07-31  
 **Repos:** `mechanic_rag` (primary)  
 **Also:** `custom_resumes` (LinkedIn / career SSOT), `second_brain` (hub pointer), profile README `Alpha-W0lf/Alpha-W0lf`  
-**Status:** Refine-dev-guide **Met** (2026-07-31) — 9.0–9.5+ bar-raising package + R1–R3 locked; Ready check next; **no Implement yet**  
+**Status:** Ready-check **Met** (2026-07-31) — **READY for Implement** after Build Go; presentation **9.x targets deflated** (were inflated)  
 **Mode last used:** multi-repo  
-**Stage last completed:** Refine-dev-guide  
+**Stage last completed:** Ready check before code  
 **Implementation guide:** `docs/dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md`  
 
 **Related prior slice (different meaning of “public flip”):** Guide 10b Met = **fixtures-only packaging / marketing honesty** for “v1 Done” — **not** the GitHub **visibility** toggle. Repo is still **`PRIVATE`** (`gh repo view`: `isPrivate=true`, empty description, no topics).
@@ -227,38 +227,30 @@ Docs-only guide edits above — **done in Critical review**. No code. No visibil
 
 ---
 
-## Presentation scorecard — post-Refine targets (projected after Implement)
+## Presentation scorecard — honesty correction (Ready check)
 
-| # | Category | Pre-Refine plan | **Target now** | How we get there (honest) |
-|---|----------|----------------:|---------------:|---------------------------|
-| 1 | First-screen sales posture | 8.5 | **9.5** | Problem draft + outcome UI + forbidden-phrase DoD |
-| 2 | Claim hygiene | 9 | **9.5** | License out of lead; freeze depth only in Deeper docs |
-| 3 | Visual proof | 8 | **9.0–9.5** | R2 Featured-grade capture brief (citations thumb) |
-| 4 | Narrative structure | 9 | **9.5** | Full story order + Problem + mermaid nouns |
-| 5 | Portfolio-set consistency | 8.5 | **9.5** | CTA/description/profile parallel to AG/AI KB |
-| 6 | Discoverability | 9 | **9.5** | Public + meta + pin + locked Featured order + paste pack |
-| 7 | Stranger Try-it clarity | 7.5 | **9.0** | **R1** stranger_smoke script (not hosted) |
-| 8 | Legal / corpus safety | 9 | **9.5** | Tip + history purge; no tip-only waiver |
-| 9 | Slot differentiation | 9 | **9.5** | Calm vs-AI-KB line + citation/service-docs hook |
-| 10 | Conversion readiness | 8 | **9.0–9.2** | CTA + Featured paste; **R3** parks hosted demo (caps true 9.5) |
-| | **Overall** | 8.5 | **9.2–9.4** | Full refined guide execution |
+**Prior Refine 9.0–9.5 / overall 9.2–9.4 targets were inflated** (aspirations ≠ earned). Corrected bands live in the implementation guide.
 
-**Ceiling honesty:** Categories **7** and **10** do **not** honestly reach **9.5+** without a later hosted demo/Loom slice (parked). Chasing 9.5 there with fake deploy theater would violate claim hygiene.
+| Fact | Score |
+|------|------:|
+| **Earned today** (cold LinkedIn→GitHub) | **~3** |
+| **Honest projected overall after this slice** | **8.0–8.7** |
+| **Rejected inflated overall** | ~~9.2–9.4~~ |
 
-**Today (pre-Implement):** ~**3/10** cold LinkedIn→GitHub.
+R1–R3 upgrades remain worth doing; they do **not** buy automatic 9.5s. Review after Implement must use deflated bands.
 
-### Refine-dev-guide → Ready-check readiness
+### Ready-check Implement readiness
 
-Overall **9/10** (see guide scoring table). Soft residual: runtime proof of script + shots is Implement work, not more Refine.
+**Overall 8.5/10 — READY for Implement** after Tom Build Go. See guide Ready section for per-track scores. No coding in Ready stage.
 
 ---
 
 ## Honest readiness
 
-- **Gather / Write / Critical / Refine-dev-guide:** Met  
-- **Ready for Ready-check stage?** Yes  
-- **Ready for Implement / visibility flip?** **No** — await Ready check + Build Go
+- **Gather / Write / Critical / Refine / Ready-check:** Met  
+- **READY for Implement?** **Yes** — await Tom **Implement** / **Build Go**  
+- **Do not** treat presentation as 9.x until Review grades shipped artifacts
 
 ## Next stage
 
-**Ready check before code** on the refined implementation guide.
+Await Tom **Implement** / **Build Go**. Then Implement per guide; Review grades with deflated bands.
