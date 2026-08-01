@@ -77,7 +77,7 @@ AI KB keeps **coding agents** current (RAG + MCP over AI notes). Mechanic is **p
 
 **LinkedIn Featured title/subtitle paste (draft for Tom):**  
 - Title: `Mechanic RAG — cited answers from service docs`  
-- Subtitle: `Hybrid RAG · RRF · cross-encoder · synthetic fixtures`
+- Description: `Service manuals bury torque specs and procedures across sections and pages. This system uses hybrid retrieval and ranking to return answers with citations you can check — document, section, page. Citation-backed RAG over vehicle service docs; public demo uses synthetic fixtures.`
 
 **CTA (README close — match AG tone):**  
 Building citation-backed document RAG for a real domain? Reach me on [LinkedIn](https://www.linkedin.com/in/tchacko1/).
