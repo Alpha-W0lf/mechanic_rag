@@ -3,9 +3,9 @@
 **Date:** 2026-07-31  
 **Repos:** `mechanic_rag` (primary)  
 **Also:** `custom_resumes` (LinkedIn / career SSOT), `second_brain` (hub pointer), profile README `Alpha-W0lf/Alpha-W0lf`  
-**Status:** Write implementation guide **Met** (2026-07-31) — decisions locked; Ready check next; **no Implement yet**  
+**Status:** Critical review **Met** (2026-07-31) — presentation scorecard + guide remediations; Ready check next; **no Implement yet**  
 **Mode last used:** multi-repo  
-**Stage last completed:** Write implementation guide  
+**Stage last completed:** Critical review  
 **Implementation guide:** `docs/dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md`  
 
 **Related prior slice (different meaning of “public flip”):** Guide 10b Met = **fixtures-only packaging / marketing honesty** for “v1 Done” — **not** the GitHub **visibility** toggle. Repo is still **`PRIVATE`** (`gh repo view`: `isPrivate=true`, empty description, no topics).
@@ -189,13 +189,66 @@ None — locks above. Implement still gated on Ready + Build Go.
 - Gather evidence retained; Write pass also scanned `evals/golden*.json` for `cat:` / OEM rights (`golden_m2_diagram_stubs_v1`, `golden_m3_vision_v1` added to purge set)  
 - Implementation guide authored (no code changes)
 
+## Critical review (2026-07-31) — staff scrutiny before Ready / Implement
+
+**Artifacts:** implementation guide · this context · current README/UI · AG/AI KB/Eyeglass sales-first locks · skills §14  
+
+**Verdict:** Plan is sound and aligned with the LinkedIn→GitHub sales-first doctrine. Main risks are operational (history purge, screenshot re-capture), not conceptual. Smallest copy remediations applied to the guide; **do not Implement yet**.
+
+### Ranked findings
+
+| Pri | Finding | Evidence | Remediation |
+|-----|---------|----------|-------------|
+| P0 | History purge before visibility is load-bearing | Lock #2; OEM/`cat:` evals in tip today | Keep stop-the-line in guide (already); Ready must verify purge plan |
+| P1 | Category sentence packed license + fixtures (heavier than AG) | Draft cat 149 chars vs AG 114 | **Applied:** license → Deeper docs / footer; category = fixtures/garage only |
+| P1 | UI primary still said “Fixture-backed ask demo” (operator noun) | Guide UI draft | **Applied:** outcome-first “Ask service docs — get cited answers” |
+| P1 | Featured order unspecified → clutter risk | Lock #3 add 5th card | **Applied:** recommended Featured order in guide |
+| P2 | `golden_m3_vision_stubs` is fixture-based — must not be purged with garage set | `fixture:honda-s2000-demo` in stubs | **Applied:** keep unless Ready finds `cat:` |
+| P2 | Five Featured cards vs three pins optics | LinkedIn vs GitHub | Accept; pins stay eng-focused; Featured can carry profile+4 products |
+| — | Strong: corpus fail-closed, clear slot vs AI KB, real UI proof, PolyForm-NC parity with AG | VISION + Guide 10b + demo PNGs | Keep |
+
+### Decision flags
+
+- No reopen of locks 1–5.  
+- Tip-only OEM residual risk remains **explicitly discouraged** (default purge).  
+- No new work item for ranking/CE lift.
+
+### Smallest remediation set
+
+Docs-only guide edits above — **done in Critical review**. No code. No visibility flip.
+
+---
+
+## Presentation scorecard — after planned changes (projected)
+
+Scores are **0–10 projected post-Implement** of this guide (not today’s private apology storefront). Why-not-10 is binding honesty.
+
+| # | Category | Score | Why not 10 |
+|---|----------|------:|------------|
+| 1 | **First-screen sales posture** (capability/vision lead; no apology chorus) | **8.5** | Implement craft still needed; UI/README must be rewritten live |
+| 2 | **Claim hygiene** (fixtures/garage; PolyForm-NC; no CE-lift / OSI theater) | **9** | Freeze-override honesty must stay in Deeper docs without leaking into lead |
+| 3 | **Visual proof** (Featured-quality thumbs; product UI) | **8** | Depends on clean re-capture after banner fix; dark UI may read “dev tool” vs Eyeglass gallery punch |
+| 4 | **Narrative structure** (Eyeglass/AG story order) | **9** | Guide locks order; execution risk only |
+| 5 | **Portfolio set consistency** (tone match with AG / AI KB / Eyeglass) | **8.5** | Mechanic is heavier stack (Compose+Next); Try it will feel longer than AI KB |
+| 6 | **Discoverability** (public + description + topics + pin + Featured + profile blurb) | **9** | LinkedIn Featured is human-published (timing/order variance) |
+| 7 | **Stranger Try-it clarity** | **7.5** | Docker+Ollama+pnpm+ingest is real friction vs AG `make smoke` |
+| 8 | **Legal / corpus safety for public** | **9** | After purge+fail-closed; residual if tip-only waiver ever chosen |
+| 9 | **Slot differentiation** (vs AI KB / AG / Eyeglass) | **9** | Domain cited RAG is clear; must not be marketed as “another RAG notebook” |
+| 10 | **Conversion readiness** (recruiter/client → conversation) | **8** | CTA + Services alignment OK; no hosted live demo URL (clone-only) |
+| | **Overall storefront readiness (projected)** | **8.5** | Not 10 until Implement evidence (purge, shots, public, Featured) exists |
+
+**Today (pre-Implement) overall storefront:** ~**3/10** for cold LinkedIn→GitHub (private + apology UI + empty GitHub metadata). Planned changes close most of the gap if executed per guide.
+
+---
+
 ## Honest readiness
 
 - **Gather:** Met  
 - **Write implementation guide:** Met  
+- **Critical review:** Met  
 - **Ready for Ready-check stage?** Yes  
 - **Ready for Implement / visibility flip?** **No** — await Ready check + Build Go
 
 ## Next stage
 
-**Ready check before code** on `docs/dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md`.
+**Ready check before code** on `docs/dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md` (0–10 Implement-readiness tracks).

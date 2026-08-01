@@ -4,7 +4,7 @@
 **Work item:** Mechanic GitHub visibility public + sales-first storefront  
 **Repos:** `mechanic_rag` (primary) · `custom_resumes` · `second_brain` · profile README `Alpha-W0lf/Alpha-W0lf`  
 **SSOT context:** [`../2026-07-31_mechanic_github_visibility_storefront_context_summary.md`](../2026-07-31_mechanic_github_visibility_storefront_context_summary.md)  
-**Status:** Write implementation guide **Met** (2026-07-31) — **no Implement in this stage**  
+**Status:** Critical review **Met** (2026-07-31) — guide remediations applied; Ready check next; **no Implement**  
 **Stage that authored this:** Write implementation guide  
 **Prerequisite:** Gather Met; Tom locked decisions 1–5 (2026-07-31)
 
@@ -35,7 +35,7 @@ Make Mechanic RAG a first-class public portfolio surface on the LinkedIn → Git
 - `evals/golden_m2_diagram_stubs_v1.json` (`cat:*` / private garage notes)  
 - `evals/golden_m3_vision_v1.json` (`cat:*` / private garage notes)  
 
-Keep public fixture goldens (e.g. `evals/golden_fixture_v1.json`). Re-scan `evals/` in Ready/Implement for any other `cat:` / OEM-rights files before flip.
+Keep public fixture goldens (e.g. `evals/golden_fixture_v1.json`, `evals/golden_m3_vision_stubs_v1.json` if still `fixture:`-only). Re-scan `evals/` in Ready/Implement for any other `cat:` / OEM-rights files before flip.
 
 ---
 
@@ -43,7 +43,9 @@ Keep public fixture goldens (e.g. `evals/golden_fixture_v1.json`). Re-scan `eval
 
 **Hook:** Cited answers from automotive service docs — hybrid RAG (vector + lexical → RRF → cross-encoder).
 
-**Category sentence:** Public clone uses synthetic Honda S2000 fixtures; personal garage stays local. PolyForm-NC — source-available / non-commercial (not OSI open source).
+**Category sentence:** Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
+
+**License line (Deeper docs / Stack footer — not the emotional lead):** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source). Same calm pattern as AlphaGuard.
 
 **Three engineering decisions (binding titles):**
 
@@ -53,9 +55,9 @@ Keep public fixture goldens (e.g. `evals/golden_fixture_v1.json`). Re-scan `eval
 
 **UI header (replace apology lines in `web/src/app/page.tsx`):**
 
-- Primary: Fixture-backed ask demo — cited answers from hybrid RAG. Public clone uses synthetic fixtures only.  
-- Secondary (optional one calm line): Multimodal channels opt-in locally; M0 text is the stranger path.  
-- **Forbidden on public chrome / committed thumbs:** “not portfolio-complete”, “deliberate vertical slice” as lead framing, deficiency chorus.
+- Primary (outcome-first): Ask service docs — get **cited** answers from hybrid RAG.  
+- Secondary (calm category): Public clone uses synthetic fixtures only; multimodal opt-in locally.  
+- **Forbidden on public chrome / committed thumbs:** “not portfolio-complete”, “deliberate vertical slice” as lead framing, deficiency chorus, “demo” as the hero noun.
 
 **GitHub description (draft):**  
 `Cited answers from automotive service docs — hybrid RAG (vector + lexical → RRF → CE). Synthetic fixtures for the public clone.`
@@ -64,6 +66,8 @@ Keep public fixture goldens (e.g. `evals/golden_fixture_v1.json`). Re-scan `eval
 
 **Profile README blurb (draft):**  
 **[Mechanic RAG](https://github.com/Alpha-W0lf/mechanic_rag)** — Cited answers from service docs: hybrid RAG → RRF → cross-encoder (fixtures-only public demo).
+
+**LinkedIn Featured order (recommendation for Tom UI):** Place Mechanic with the other engineering proofs — suggested card order after publish: GitHub profile · Mechanic RAG · AlphaGuard · AI KB · Eyeglass (or Mechanic immediately after AI KB). Do **not** demote AI KB.
 
 ---
 
@@ -204,6 +208,14 @@ Keep public fixture goldens (e.g. `evals/golden_fixture_v1.json`). Re-scan `eval
 - Rewriting every historical Guide 11–15 Met note body  
 
 ---
+
+## Critical review record (2026-07-31)
+
+**Verdict:** Guide is strong enough to enter Ready check after small copy remediations (applied above). Do **not** Implement until Ready + Build Go. Biggest residual risk remains history purge discipline — already gated.
+
+**Remediations applied this Critical review (docs-only):** split license out of category sentence; outcome-first UI primary copy; Featured order note; keep fixture `golden_m3_vision_stubs` unless Ready finds `cat:`.
+
+See context SSOT for full ranked findings + projected presentation scorecard.
 
 ## Implement authorization
 
