@@ -21,7 +21,7 @@
 | 4 | Formal freeze gate | **Resolved by Guide 09 Path B override** (freeze Met) — flat delta; **not** earned lift. Flip is separate (Guide 10b). |
 | 5 | VISION §9 / README / INTERVIEW banners | **Met Guide 10b** — fixtures-only public flip / “v1 Done” marketing; freeze = Tom override not lift; PolyForm-NC ≠ OSI. |
 | 6 | No secrets in git; LICENSE | Secrets: keep fail-closed. **LICENSE present** — **PolyForm Noncommercial License 1.0.0** (`PolyForm-Noncommercial-1.0.0`, Guide 10a). Source-available / non-commercial — **not** OSI open source / **not** MIT. |
-| 7 | GitHub **visibility** public + sales-first storefront (description, topics, no apology thumbs) | **Separate from Guide 10b packaging** — Met when storefront slice lands (2026-07-31). Private-garage eval artifacts must be absent from tip **and** history before flip. |
+| 7 | GitHub **visibility** public + sales-first storefront (description, topics, no apology thumbs) | **Met (2026-07-31 storefront slice)** — separate from Guide 10b packaging. Private-garage eval artifacts purged from tip **and** history before flip. |
 
 ---
 

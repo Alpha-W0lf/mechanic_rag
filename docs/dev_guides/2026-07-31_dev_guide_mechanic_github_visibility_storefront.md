@@ -4,9 +4,9 @@
 **Work item:** Mechanic GitHub visibility public + sales-first storefront  
 **Repos:** `mechanic_rag` (primary) · `custom_resumes` · `second_brain` · profile README `Alpha-W0lf/Alpha-W0lf`  
 **SSOT context:** [`../2026-07-31_mechanic_github_visibility_storefront_context_summary.md`](../2026-07-31_mechanic_github_visibility_storefront_context_summary.md)  
-**Status:** Ready check **Met** (2026-07-31) — **READY for Implement** after Tom Build Go; presentation scorecard **deflated** (prior 9.x targets were inflated aspirations, not earned)  
-**Stage that authored this:** Write · Critical review · Refine-dev-guide · Ready check  
-**Prerequisite:** Gather Met; decisions 1–5 + R1–R3 locked; score honesty correction in Ready check
+**Status:** Implement **Met** (2026-07-31) — repo **public**; tip+history purge verified; storefront shipped. Human residual: GitHub pin + LinkedIn Featured. Next stage: **Review** (deflated bands).  
+**Stage that authored this:** Write · Critical review · Refine-dev-guide · Ready check · Implement  
+**Prerequisite:** Gather Met; decisions 1–5 + R1–R3 locked; score honesty correction in Ready check; Tom Build Go
 
 ---
 
@@ -225,16 +225,31 @@ Building citation-backed document RAG for a real domain? Reach me on [LinkedIn](
 
 ## Definition of Done / verification
 
-- [ ] Fail-closed fixtures green after corpus changes  
-- [ ] Private-garage eval artifacts absent from tip **and** history (default: no tip-only waiver)  
-- [ ] `scripts/stranger_smoke.sh` exists, documented, runs preflight→ingest→fail-closed (or fails closed with clear errors)  
-- [ ] UI + demo PNGs pass capture brief + forbidden-phrase grep  
-- [ ] README follows sales-first story order; Problem + vs-AI-KB + CTA; ≤~160–200 lines; no CE-lift / OSI theater  
-- [ ] Forbidden-phrase grep clean on README lead + UI header  
-- [ ] Repo **public**; description + topics set  
-- [ ] Pin + profile README + LinkedIn Featured (order + paste pack) executed — human Featured OK  
-- [ ] Living SSOT match reality  
-- [ ] No secrets / OEM PDFs / absolute home paths in new assets  
+- [x] Fail-closed fixtures green after corpus changes  
+- [x] Private-garage eval artifacts absent from tip **and** history (default: no tip-only waiver)  
+- [x] `scripts/stranger_smoke.sh` exists, documented, runs preflight→ingest→fail-closed (or fails closed with clear errors)  
+- [x] UI + demo PNGs pass capture brief + forbidden-phrase grep  
+- [x] README follows sales-first story order; Problem + vs-AI-KB + CTA; ≤~160–200 lines; no CE-lift / OSI theater  
+- [x] Forbidden-phrase grep clean on README lead + UI header  
+- [x] Repo **public**; description + topics set  
+- [ ] Pin + profile README + LinkedIn Featured (order + paste pack) executed — **profile README done**; pin + Featured = **Tom human** (no pin API)  
+- [x] Living SSOT match reality  
+- [x] No secrets / OEM PDFs / absolute home paths in new assets  
+
+## Implement evidence (2026-07-31)
+
+| Item | Evidence |
+|------|----------|
+| Tip purge | `git rm` garage goldens + gitignore patterns |
+| History purge | `git filter-repo --invert-paths` on 4 paths; `git log --all -- <path>` = 0 each; force-push while private |
+| Fail-closed | `python3 scripts/checks/public_fail_closed.py fixtures` → OK |
+| Stranger smoke | `./scripts/stranger_smoke.sh` → OK (ensurepip bootstrap for pip-less venv) |
+| UI / PNGs | Header outcome-first; Featured-grade 1200px S2000 answered torque; `c2_b4_evidence.json` refreshed |
+| README | Sales-first rewrite; ablation → GETTING_STARTED |
+| Visibility | `isPrivate=false`; description + topics set |
+| Miata clarification | `fixture:demo-miata-nb` = Guide 12 PrivateGold **synthetic** in local DB only — **not** in public `fixtures/`, **not** personal fleet |
+| Profile README | `Alpha-W0lf/Alpha-W0lf` includes Mechanic blurb |
+| Human residual | Pin Mechanic + LinkedIn Featured add (paste pack in skills §14) |
 
 ## Ready check before code (2026-07-31)
 

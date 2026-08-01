@@ -3,12 +3,12 @@
 **Date:** 2026-07-31  
 **Repos:** `mechanic_rag` (primary)  
 **Also:** `custom_resumes` (LinkedIn / career SSOT), `second_brain` (hub pointer), profile README `Alpha-W0lf/Alpha-W0lf`  
-**Status:** Ready-check **Met** (2026-07-31) — **READY for Implement** after Build Go; presentation **9.x targets deflated** (were inflated)  
+**Status:** Implement **Met** (2026-07-31) — GitHub **public**; storefront shipped; private-garage evals purged tip+history. Human residual: pin + LinkedIn Featured. Next: **Review**.  
 **Mode last used:** multi-repo  
-**Stage last completed:** Ready check before code  
+**Stage last completed:** Implement  
 **Implementation guide:** `docs/dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md`  
 
-**Related prior slice (different meaning of “public flip”):** Guide 10b Met = **fixtures-only packaging / marketing honesty** for “v1 Done” — **not** the GitHub **visibility** toggle. Repo is still **`PRIVATE`** (`gh repo view`: `isPrivate=true`, empty description, no topics).
+**Related prior slice (different meaning of “public flip”):** Guide 10b Met = **fixtures-only packaging / marketing honesty** for “v1 Done” — **not** the GitHub **visibility** toggle. Visibility public landed in this slice (2026-07-31).
 
 ---
 
@@ -73,13 +73,13 @@ Title → outcome hook → **one calm category sentence** → proof strip (ask U
 
 ## Acceptance criteria
 
-- [ ] Tom locks open decisions below (visibility timing, garage-golden disposition, Featured strategy, UI banner + screenshot refresh)  
-- [ ] Implementation guide written covering: pre-flip safety, README sales-first, UI chrome, GitHub metadata, visibility flip, LinkedIn/pin/profile README, SSOT Align  
-- [ ] Before visibility → Public: `public_fail_closed.py fixtures` green; no secrets; garage-OEM disposition executed per lock  
-- [ ] README first screen matches sales-first locks; no “not portfolio-complete” on public UI chrome or committed demo thumbs  
-- [ ] Repo public; description + topics set; GitHub pin + profile README blurb; LinkedIn Featured plan executed (human UI)  
-- [ ] Living SSOT (skills §14, hub pointer, this context) match reality — no stale “4 public repos” / “Mechanic private park” after ship  
-- [ ] No invented CE lift / OSI open-source / Drive-as-ingest claims  
+- [x] Tom locks open decisions below (visibility timing, garage-golden disposition, Featured strategy, UI banner + screenshot refresh)  
+- [x] Implementation guide written covering: pre-flip safety, README sales-first, UI chrome, GitHub metadata, visibility flip, LinkedIn/pin/profile README, SSOT Align  
+- [x] Before visibility → Public: `public_fail_closed.py fixtures` green; no secrets; garage-OEM disposition executed per lock  
+- [x] README first screen matches sales-first locks; no “not portfolio-complete” on public UI chrome or committed demo thumbs  
+- [x] Repo public; description + topics set; profile README blurb; LinkedIn Featured **paste pack ready** (Tom UI residual for pin + Featured publish)  
+- [x] Living SSOT (skills §14, hub pointer, this context) match reality — no stale “4 public repos” / “Mechanic private park” after ship  
+- [x] No invented CE lift / OSI open-source / Drive-as-ingest claims  
 
 ---
 
@@ -253,4 +253,6 @@ R1–R3 upgrades remain worth doing; they do **not** buy automatic 9.5s. Review 
 
 ## Next stage
 
-Await Tom **Implement** / **Build Go**. Then Implement per guide; Review grades with deflated bands.
+Implement Met. **Human:** pin `mechanic_rag` + LinkedIn Featured add (skills §14 paste pack). Next Workflow OS stage: **Review** with deflated bands (~8.0–8.7).  
+
+**Miata note (2026-07-31):** `fixture:demo-miata-nb` in a local dropdown is Guide 12 PrivateGold **synthetic multi-vehicle** data in Postgres — not public `fixtures/`, not personal fleet. Stranger `ingest --source fixtures` → Honda S2000 only.
