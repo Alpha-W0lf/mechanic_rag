@@ -3,9 +3,9 @@
 **Date:** 2026-07-31  
 **Repos:** `mechanic_rag` (primary)  
 **Also:** `custom_resumes` (LinkedIn / career SSOT), `second_brain` (hub pointer), profile README `Alpha-W0lf/Alpha-W0lf`  
-**Status:** Critical review **Met** (2026-07-31) — presentation scorecard + guide remediations; Ready check next; **no Implement yet**  
+**Status:** Refine-dev-guide **Met** (2026-07-31) — 9.0–9.5+ bar-raising package + R1–R3 locked; Ready check next; **no Implement yet**  
 **Mode last used:** multi-repo  
-**Stage last completed:** Critical review  
+**Stage last completed:** Refine-dev-guide  
 **Implementation guide:** `docs/dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md`  
 
 **Related prior slice (different meaning of “public flip”):** Guide 10b Met = **fixtures-only packaging / marketing honesty** for “v1 Done” — **not** the GitHub **visibility** toggle. Repo is still **`PRIVATE`** (`gh repo view`: `isPrivate=true`, empty description, no topics).
@@ -172,17 +172,25 @@ Pros/cons for each lock are recorded in the implementation guide decision record
 | Exact force-push timing for history purge | Ready check + Tom approve force-push while still private | Yes before visibility |
 | Whether additional `evals/golden_m3_vision_stubs*` need purge | Ready scan for `cat:` / OEM | Soft |
 
-## Recommended approach (post-lock)
+## Recommended approach (post-Refine)
 
-1. **Ready check before code** on the implementation guide.  
+1. **Ready check before code** (numeric Implement readiness).  
 2. **Implement / Build Go** only after Ready Met + Tom auth.  
-3. Order binding: corpus+history → UI+shots → README → metadata → visibility → LinkedIn/SSOT.
+3. Order binding: corpus+history → **stranger_smoke** → UI+Featured-grade shots → README → metadata → visibility → LinkedIn/SSOT.
 
-**Write dev guide?** **Met** — `docs/dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md`
+**Write / Critical / Refine guides?** **Met** — see implementation guide bar-raising package.
+
+## Refine locks (Tom — 2026-07-31)
+
+| ID | Lock |
+|----|------|
+| **R1** | Thin `scripts/stranger_smoke.sh` in this Implement (Try-it → ~9.0) |
+| **R2** | Featured-grade screenshot capture brief binding |
+| **R3** | Hosted live demo / Loom **parked** (honest ceiling on Try-it/Conversion) |
 
 ## Open decisions (human)
 
-None — locks above. Implement still gated on Ready + Build Go.
+None material — R1–R3 locked with decisions 1–5. Implement still gated on Ready + Build Go.
 
 ## Evidence opened this pass
 
@@ -219,36 +227,38 @@ Docs-only guide edits above — **done in Critical review**. No code. No visibil
 
 ---
 
-## Presentation scorecard — after planned changes (projected)
+## Presentation scorecard — post-Refine targets (projected after Implement)
 
-Scores are **0–10 projected post-Implement** of this guide (not today’s private apology storefront). Why-not-10 is binding honesty.
+| # | Category | Pre-Refine plan | **Target now** | How we get there (honest) |
+|---|----------|----------------:|---------------:|---------------------------|
+| 1 | First-screen sales posture | 8.5 | **9.5** | Problem draft + outcome UI + forbidden-phrase DoD |
+| 2 | Claim hygiene | 9 | **9.5** | License out of lead; freeze depth only in Deeper docs |
+| 3 | Visual proof | 8 | **9.0–9.5** | R2 Featured-grade capture brief (citations thumb) |
+| 4 | Narrative structure | 9 | **9.5** | Full story order + Problem + mermaid nouns |
+| 5 | Portfolio-set consistency | 8.5 | **9.5** | CTA/description/profile parallel to AG/AI KB |
+| 6 | Discoverability | 9 | **9.5** | Public + meta + pin + locked Featured order + paste pack |
+| 7 | Stranger Try-it clarity | 7.5 | **9.0** | **R1** stranger_smoke script (not hosted) |
+| 8 | Legal / corpus safety | 9 | **9.5** | Tip + history purge; no tip-only waiver |
+| 9 | Slot differentiation | 9 | **9.5** | Calm vs-AI-KB line + citation/service-docs hook |
+| 10 | Conversion readiness | 8 | **9.0–9.2** | CTA + Featured paste; **R3** parks hosted demo (caps true 9.5) |
+| | **Overall** | 8.5 | **9.2–9.4** | Full refined guide execution |
 
-| # | Category | Score | Why not 10 |
-|---|----------|------:|------------|
-| 1 | **First-screen sales posture** (capability/vision lead; no apology chorus) | **8.5** | Implement craft still needed; UI/README must be rewritten live |
-| 2 | **Claim hygiene** (fixtures/garage; PolyForm-NC; no CE-lift / OSI theater) | **9** | Freeze-override honesty must stay in Deeper docs without leaking into lead |
-| 3 | **Visual proof** (Featured-quality thumbs; product UI) | **8** | Depends on clean re-capture after banner fix; dark UI may read “dev tool” vs Eyeglass gallery punch |
-| 4 | **Narrative structure** (Eyeglass/AG story order) | **9** | Guide locks order; execution risk only |
-| 5 | **Portfolio set consistency** (tone match with AG / AI KB / Eyeglass) | **8.5** | Mechanic is heavier stack (Compose+Next); Try it will feel longer than AI KB |
-| 6 | **Discoverability** (public + description + topics + pin + Featured + profile blurb) | **9** | LinkedIn Featured is human-published (timing/order variance) |
-| 7 | **Stranger Try-it clarity** | **7.5** | Docker+Ollama+pnpm+ingest is real friction vs AG `make smoke` |
-| 8 | **Legal / corpus safety for public** | **9** | After purge+fail-closed; residual if tip-only waiver ever chosen |
-| 9 | **Slot differentiation** (vs AI KB / AG / Eyeglass) | **9** | Domain cited RAG is clear; must not be marketed as “another RAG notebook” |
-| 10 | **Conversion readiness** (recruiter/client → conversation) | **8** | CTA + Services alignment OK; no hosted live demo URL (clone-only) |
-| | **Overall storefront readiness (projected)** | **8.5** | Not 10 until Implement evidence (purge, shots, public, Featured) exists |
+**Ceiling honesty:** Categories **7** and **10** do **not** honestly reach **9.5+** without a later hosted demo/Loom slice (parked). Chasing 9.5 there with fake deploy theater would violate claim hygiene.
 
-**Today (pre-Implement) overall storefront:** ~**3/10** for cold LinkedIn→GitHub (private + apology UI + empty GitHub metadata). Planned changes close most of the gap if executed per guide.
+**Today (pre-Implement):** ~**3/10** cold LinkedIn→GitHub.
+
+### Refine-dev-guide → Ready-check readiness
+
+Overall **9/10** (see guide scoring table). Soft residual: runtime proof of script + shots is Implement work, not more Refine.
 
 ---
 
 ## Honest readiness
 
-- **Gather:** Met  
-- **Write implementation guide:** Met  
-- **Critical review:** Met  
+- **Gather / Write / Critical / Refine-dev-guide:** Met  
 - **Ready for Ready-check stage?** Yes  
 - **Ready for Implement / visibility flip?** **No** — await Ready check + Build Go
 
 ## Next stage
 
-**Ready check before code** on `docs/dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md` (0–10 Implement-readiness tracks).
+**Ready check before code** on the refined implementation guide.
