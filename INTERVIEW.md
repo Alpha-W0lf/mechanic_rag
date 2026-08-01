@@ -2,7 +2,7 @@
 
 Staff-interview gotchas for the **hybrid → RRF → section dedup → local CE** vertical slice. Contracts SSOT: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Product / why: [`docs/VISION.md`](docs/VISION.md). Freeze honesty: [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). Path to ≥30 goldens: [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md).
 
-This is packaging around a shippable Guide 01 path + honest paired-ask ablation evidence (current: Guide 08 n=44, delta **0**) — embed/CE are **frozen (Tom override)** Guide 09 — **fixtures-only public flip Met** Guide 10b (portfolio “v1 Done” marketing) — **not** an earned CE-lift freeze — **not** OSI open source. **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT).
+This is packaging around a shippable Guide 01 path + honest paired-ask ablation evidence (current: Guide 08 n=44, delta **0**) — embed/CE are **frozen (Tom override)** Guide 09 — **fixtures-only packaging flip Met** Guide 10b — **GitHub visibility public** (storefront 2026-07-31; distinct from Guide 10b) — **not** an earned CE-lift freeze — **not** OSI open source. Private-garage goldens are **not** in the public tip/history. **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT).
 
 ---
 
@@ -21,7 +21,7 @@ Binding order is **RRF → optional section dedup → CE**. Dedup operates on fu
 | `rerank_degraded=true` | CE failed/timed out/returned empty — ask **fails open** to post-RRF (+ dedup) order. Production safety. |
 | `ablation_rrf_only=true` / `MECHANIC_FORCE_RRF_ONLY=1` | **Intentional** RRF-only arm for Guide 02 paired ablation. Not a failure. |
 
-Do not conflate degrade with ablation. Degrade rate and ablation diagnostics are separate fields; freeze checklists treat them differently. See ARCHITECTURE §7.5 and README “Paired ask ablation eval.”
+Do not conflate degrade with ablation. Degrade rate and ablation diagnostics are separate fields; freeze checklists treat them differently. See ARCHITECTURE §7.5 and [`GETTING_STARTED.md`](GETTING_STARTED.md) (paired ask ablation).
 
 ## 4. Why fixtures only — why never Drive / Ford / OEM PDFs here?
 
@@ -47,7 +47,7 @@ S2000 fixture golden count is **44** (Guide 04–07 + Guide 08 T1 traps g39–g4
 
 ## 8. Does packaging mean portfolio v1 / public flip / freeze?
 
-**Fixtures-only public flip / “v1 Done” marketing is Met** (Guide 10b). Root `GETTING_STARTED` + `INTERVIEW` remain the stranger-clone + FAQ shell. That still does **not** mean:
+**Fixtures-only packaging flip / “v1 Done” marketing is Met** (Guide 10b). **GitHub visibility public** is a separate storefront gate (2026-07-31). Root `GETTING_STARTED` + `INTERVIEW` remain the stranger-clone + FAQ shell. That still does **not** mean:
 
 - earned CE lift from ablation (freeze is Tom override; n=44 delta **0**)
 - OSI open source / MIT licensing (repo is **source-available / non-commercial** — see [`LICENSE`](LICENSE))

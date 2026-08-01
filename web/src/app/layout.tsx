@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Mechanic RAG",
   description:
-    "Fixture-backed hybrid RAG demo — M0 text stranger path; multimodal opt-in locally",
+    "Cited answers from automotive service docs — hybrid RAG (vector + lexical → RRF → CE). Synthetic fixtures for the public clone.",
 };
 
 export default function RootLayout({

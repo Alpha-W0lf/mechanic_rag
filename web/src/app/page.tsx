@@ -127,13 +127,12 @@ export default function Home() {
           Mechanic RAG
         </h1>
         <p className="mt-2 text-sm text-ink-muted leading-relaxed">
-          Fixture-backed ask demo —{" "}
-          <span className="text-ink font-medium">M0 text default</span> ·
-          multimodal opt-in via local env flags. Stranger clone path uses public
-          fixtures only.
+          Ask service docs — get{" "}
+          <span className="text-ink font-medium">cited</span> answers from
+          hybrid RAG.
         </p>
         <p className="mt-1 text-xs text-ink-muted">
-          Deliberate vertical slice; not portfolio-complete.
+          Public clone uses synthetic fixtures only; multimodal opt-in locally.
         </p>
       </header>
 
@@ -283,7 +282,7 @@ export default function Home() {
 
       <footer className="mt-10 pt-4 border-t border-border text-xs text-ink-muted space-y-1">
         <p>
-          M0 text path default · M2 image channel and M3 VLM are opt-in locally.
+          Text answers by default · image and VLM channels opt-in locally.
         </p>
         <p>
           Disclaimer: advisory only. Verify against your official service manual.

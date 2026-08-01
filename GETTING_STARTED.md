@@ -1,8 +1,10 @@
 # Getting started — Mechanic RAG (clean clone)
 
-Clone-depth operator path for the **hybrid → RRF → section dedup → local CE** vertical slice. Contracts: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Interview gotchas: [`INTERVIEW.md`](INTERVIEW.md). Skim + Quick Start: [`README.md`](README.md). Product why: [`docs/VISION.md`](docs/VISION.md).
+Clone-depth operator path for the **hybrid → RRF → section dedup → local CE** product slice. Contracts: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Interview gotchas: [`INTERVIEW.md`](INTERVIEW.md). Skim + Try it: [`README.md`](README.md). Product why: [`docs/VISION.md`](docs/VISION.md).
 
-This is the stranger-clone path for a **fixtures-only** portfolio public flip (Guide 10b). Embed/CE are **frozen (Tom override)** Guide 09 with n=44 delta **0** honesty (not earned lift). **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT). Public corpus = fixtures only.
+**Fast path:** from repo root, `./scripts/stranger_smoke.sh` (Docker + Ollama preflight → Compose → `web/.env.local` → fixture ingest → fail-closed). Then pull models, `cd web && pnpm install && pnpm dev`, and run health/ask below.
+
+This is the stranger-clone path for a **fixtures-only** public repo. Guide 10b = packaging “fixtures-only public flip” Met; **GitHub visibility public** is a separate gate (see [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md)). Embed/CE are **frozen (Tom override)** Guide 09 with n=44 delta **0** honesty (not earned lift). **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT). Public corpus = fixtures only.
 
 > **Multimodal honesty:** This clone path is **M0 text RAG** on `fixtures/` — you do **not** need multimodal env flags to complete it. Personal-garage **M1–M3 are Met** locally (`cat:*` + optional flags: image channel, `MECHANIC_VLM`); all default **off**. Friend Drive library **≠** Mechanic ingest. See [`INTERVIEW.md`](INTERVIEW.md) themes **10–11** and [`docs/VISION.md`](docs/VISION.md) §5.
 
@@ -133,10 +135,10 @@ curl -s -X POST localhost:3000/api/ask \
 # curl -fsS "http://127.0.0.1:3000/api/assets/<vehicle_id>/<document_id>/1" -o /tmp/page.png
 # Ask never rasterizes; missing bronze → omit visual / GET 404
 
-# Private garage golden eval (explicit file — do not rely on evals/ dir load order)
-# .venv/bin/mecharag eval --golden evals/golden_garage_v1.json --no-paired-ask
-# Met evidence (2026-07-25): 4/4 positive citation∩gold; 4/4 hard-miss non-hits
-# ≠ public fixture n=44 baseline · ≠ CE lift claim
+# Private garage golden evals are LOCAL-ONLY (not in the public clone tip).
+# If you keep a private goldens file outside git, invoke with an explicit path, e.g.:
+# .venv/bin/mecharag eval --golden /path/to/local/golden_garage_v1.json --no-paired-ask
+# ≠ public fixture n=44 baseline · ≠ CE lift claim · never commit cat:/OEM goldens
 ```
 
 ### 8. Eval smoke (Next must be up)

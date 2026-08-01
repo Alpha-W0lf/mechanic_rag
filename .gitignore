@@ -54,6 +54,12 @@ rag_input/**
 /garage_bronze/
 /garage_gold/
 
+# Private-garage evals / summaries — local-only; never re-commit (history purged 2026-07-31)
+evals/golden_garage*.json
+evals/last_run_summary_garage*.json
+evals/golden_m2_diagram_stubs*.json
+evals/golden_m3_vision_v1.json
+
 # VSCode
 .vscode/
 

@@ -1,8 +1,8 @@
 # Mechanic RAG — Portfolio Vision (v1)
 
-**Status:** Active portfolio vision · **Guide 01 vertical slice done** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only public flip Met** (Guide 10b) · Guide 11–**15** **PrivateGoldSource** · Personal-garage multimodal **M1–M3 Met** (Waterfall 2026-07-27; flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic ingest · **Not** earned CE lift · **Not** OSI open source  
+**Status:** Active portfolio vision · **Guide 01 vertical slice done** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · **Fixtures-only packaging public flip Met** (Guide 10b) · **GitHub visibility public** (storefront slice 2026-07-31 — distinct from Guide 10b packaging) · Guide 11–**15** **PrivateGoldSource** · Personal-garage multimodal **M1–M3 Met** (Waterfall 2026-07-27; flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic ingest · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
-**Updated:** 2026-07-30 (Align: portfolio polish C2/B4 Met #87; M1–M3 private-garage Met honesty; friend Drive library remains separate)  
+**Updated:** 2026-07-31 (Align: packaging Met ≠ visibility; GitHub public + sales-first storefront; private-garage evals purged from tip+history)  
 **Owner:** Tom  
 **Repo:** `mechanic_rag` (renamed from `mechainic_rag`; Python import package remains `mecharag`)  
 

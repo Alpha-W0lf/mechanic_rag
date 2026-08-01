@@ -1,7 +1,9 @@
 # Public flip packaging checklist (Guide 06 → Guide 10b)
 
 **Banner:** Packaging checklist for portfolio **fixtures-only public flip** / “v1 Done” marketing.  
-**Guide 10b (2026-07-18):** VISION §9 public flip **Met** (fixtures-only). Checklist history ≠ earned CE lift; ≠ OSI open source; ≠ PrivateGold/Drive complete.
+**Guide 10b (2026-07-18):** VISION §9 packaging public flip **Met** (fixtures-only). Checklist history ≠ earned CE lift; ≠ OSI open source; ≠ PrivateGold/Drive complete.
+
+**Important distinction (2026-07-31):** Guide 10b **packaging Met ≠ GitHub repository visibility**. Visibility public + sales-first storefront is a separate slice — see [`docs/dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md`](./dev_guides/2026-07-31_dev_guide_mechanic_github_visibility_storefront.md).
 
 **SSOT for freeze honesty:** [`evals/MODEL_FREEZE_STATUS.md`](../evals/MODEL_FREEZE_STATUS.md)  
 **Flip guide:** [`docs/dev_guides/2026-07-18_dev_guide_10b_public_flip_packaging.md`](./dev_guides/2026-07-18_dev_guide_10b_public_flip_packaging.md)  
@@ -19,6 +21,7 @@
 | 4 | Formal freeze gate | **Resolved by Guide 09 Path B override** (freeze Met) — flat delta; **not** earned lift. Flip is separate (Guide 10b). |
 | 5 | VISION §9 / README / INTERVIEW banners | **Met Guide 10b** — fixtures-only public flip / “v1 Done” marketing; freeze = Tom override not lift; PolyForm-NC ≠ OSI. |
 | 6 | No secrets in git; LICENSE | Secrets: keep fail-closed. **LICENSE present** — **PolyForm Noncommercial License 1.0.0** (`PolyForm-Noncommercial-1.0.0`, Guide 10a). Source-available / non-commercial — **not** OSI open source / **not** MIT. |
+| 7 | GitHub **visibility** public + sales-first storefront (description, topics, no apology thumbs) | **Separate from Guide 10b packaging** — Met when storefront slice lands (2026-07-31). Private-garage eval artifacts must be absent from tip **and** history before flip. |
 
 ---
 

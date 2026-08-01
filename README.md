@@ -1,95 +1,74 @@
-## Mechanic RAG — hybrid → RRF → CE vertical slice
+# Mechanic RAG
 
-Personal, non-commercial **portfolio** project. **M0 text RAG** is the stranger-runnable path on synthetic fixtures; **M1–M3 multimodal Met** on the personal garage (`cat:*`) with **flags default off** — see [`docs/VISION.md`](docs/VISION.md) §5.
+Cited answers from automotive service docs — hybrid RAG (vector + lexical → RRF → cross-encoder).
 
-**Status:** Guide 01 vertical slice implemented for local Compose + fixtures. Personal-garage **M1–M3 Met** (linked visuals · multimodal retrieve · optional VLM) under local env flags; **text owns torque/spec** truth. Stranger clone = **M0 text** on `fixtures/` only — no VLM/image channel required. Formal embed/CE **frozen (Tom override)** Guide 09 — CE **stays in stack** for architecture completeness + `rerank_degraded` fail-open; **not** because n=44 showed lift (`ce_vs_rrf_ask_delta_hits=0`, helps=0/hurts=0). **License:** PolyForm Noncommercial 1.0.0 — **source-available / non-commercial** (not OSI open source; not MIT). **Fixtures-only public flip Met** Guide 10b (portfolio “v1 Done” marketing). **Not** earned CE lift. **Not** PrivateGold/Drive complete. **Not** dual-product Done.
+Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
 
-**SSOT:** [`docs/VISION.md`](docs/VISION.md) · [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`GETTING_STARTED.md`](GETTING_STARTED.md) · [`INTERVIEW.md`](INTERVIEW.md) · [`LICENSE`](LICENSE) · [`docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md`](docs/dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md) · [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md)
+![Ask outcome — cited answer](docs/assets/demo/ask-outcome.png)
 
-### Stack (Guide 01)
+![Citations — section + page](docs/assets/demo/citations-scannable.png)
 
-- Next.js App Router under **`web/src/app` only** (root `web/app` removed — no dual tree)
-- Compose **Postgres + pgvector** (no Supabase product path)
-- Offline Python CLI: **`mecharag ingest`** / **`mecharag eval`**
-- Host **Ollama** generator default **`gemma4:e2b`** (fallback `qwen3.5:4b`); embedding `nomic-embed-text` @ 768 (**frozen** Guide 09 override)
-- Ranking: vehicle-filtered vector + lexical → **RRF** → **section dedup (default on)** → local **CE** (degrade to RRF on failure)
+### The problem
 
-### Quick Start
+Service manuals bury torque specs and procedures across sections and pages. Teams and owners still dig by hand. Mechanic RAG retrieves with **hybrid search**, fuses candidates (**RRF**), optionally reranks (**cross-encoder**), and returns an answer with **citations** (document, section, page). The public clone proves the product path on synthetic fixtures — not a notebook sketch and not OEM redistribution.
 
-```bash
-# 1. Postgres
-docker compose up -d
+AI Knowledge Base keeps **coding agents** current (RAG + MCP over AI notes). Mechanic is **product RAG over vehicle service docs** with citation-backed answers and a multi-vehicle catalog shape.
 
-# 2. Env
-cp .env.example web/.env.local
-# ensure Ollama is running; pull models:
-#   ollama pull nomic-embed-text
-#   ollama pull gemma4:e2b   # operator default; or OLLAMA_MODEL=qwen3.5:4b
+### How it works
 
-# 3. Python CLI
-python -m venv .venv && source .venv/bin/activate
-pip install -e .
-mecharag ingest --source fixtures
-
-# 4. Public fail-closed check
-python scripts/checks/public_fail_closed.py fixtures
-
-# 5. Web
-cd web && pnpm install && pnpm test && pnpm dev
-# health + ask
-curl -s localhost:3000/api/health
-curl -s -X POST localhost:3000/api/ask \
-  -H 'content-type: application/json' \
-  -d '{"vehicle_id":"fixture:honda-s2000-demo","question":"What is the oil drain plug torque?"}'
-
-# 6. Golden eval (start Next first for full ask path; or --retrieval-only)
-mecharag eval --golden evals/
-# Paired ablation: see "Paired ask ablation eval" below (two Next processes)
+```mermaid
+flowchart LR
+  A[Ask] --> H[Hybrid retrieve]
+  H --> R[RRF fuse]
+  R --> C[CE rerank]
+  C --> O[Cited answer]
 ```
 
-### Demo screenshots (fixture-only)
+1. Select a vehicle and ask a service question.
+2. Retrieve with vehicle-filtered **vector + lexical** search.
+3. Fuse candidates with **RRF**, then **section dedup** (default on).
+4. Optionally **cross-encoder** rerank (degrades to RRF if CE fails).
+5. Return an answer with **citations** (document, section, page).
 
-Local ask UI polish (#87 C2/B4) — `fixture:honda-s2000-demo` only; no OEM / no private `cat:*` captures:
+### Key engineering decisions
 
-| Shot | Path |
-|------|------|
-| Ask outcome | [`docs/assets/demo/ask-outcome.png`](docs/assets/demo/ask-outcome.png) |
-| Citations (section + page) | [`docs/assets/demo/citations-scannable.png`](docs/assets/demo/citations-scannable.png) |
+1. **Fixtures vs private garage split** — stranger path = `fixtures/` + fail-closed; private Gold/garage via explicit env roots; no OEM in public git.
+2. **Hybrid → RRF → section dedup → CE with degrade** — spine stays useful if CE fails.
+3. **Eval-backed ranking honesty** — CE kept by freeze-override; **no** earned citation-lift claim (n=44 delta 0) — depth in [`INTERVIEW.md`](INTERVIEW.md) / [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
 
-Evidence: [`docs/assets/demo/c2_b4_evidence.json`](docs/assets/demo/c2_b4_evidence.json).
-
-### Honest limits
-
-- Public corpus = **`fixtures/` only** (synthetic). No OEM PDFs, Drive, or Ford.
-- Embedding + CE IDs are **frozen (Tom override)** Guide 09 — paired ask n=44 delta **0** (helps=0/hurts=0); **not** earned lift (`evals/MODEL_FREEZE_STATUS.md`). CE **remains in the ranking stack** for hybrid → RRF → section dedup → CE completeness and production `rerank_degraded` degrade — distinct from intentional `MECHANIC_FORCE_RRF_ONLY` ablation (see INTERVIEW §3 / §11).
-- Multimodal **M1–M3 Met** on personal garage only; env flags (`MECHANIC_VLM`, image channel) **default off**. Public demo does not require multimodal — friend Drive library **≠** Mechanic ingest.
-- Generator default is **gemma4:e2b** (pass 9 smoke OK). Pass 8c eval baseline historically used **qwen3.5:4b**.
-- Eval set is **44** fixture cases on `fixture:honda-s2000-demo` (Guide 04–08; T1 synthetic confusable sections); paired ask `ce_vs_rrf_ask_delta_hits=0` (helps=0/hurts=0); second vehicle / wiring still deferred (`evals/PATH_TO_30.md`).
-- Stale paths (`db/schema.sql`, `supabase/**`, deleted stub `web/app`) are non-authoritative.
-- Packaging: [`GETTING_STARTED.md`](GETTING_STARTED.md) (clone path) · [`INTERVIEW.md`](INTERVIEW.md) (FAQ) — Guide 03; **fixtures-only public flip Met** Guide 10b (still not earned CE lift / not OSI open source).
-- **License:** [`LICENSE`](LICENSE) — PolyForm Noncommercial 1.0.0 (Guide 10a). Source-available · non-commercial OK · contact copyright holder for commercial use. **Not** OSI open source / **not** MIT.
-- Public-flip checklist (Guide 10b Met): [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md). Formal freeze (Guide 09 Tom override): [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
-
-### Paired ask ablation eval (Guide 02)
-
-True CE lift uses **two Next processes** (env gate — public ask schema is **not** widened):
-
-| Arm | Env | Example |
-|-----|-----|---------|
-| CE-on | `MECHANIC_DIAGNOSTICS=1`, **unset** `MECHANIC_FORCE_RRF_ONLY` | `cd web && MECHANIC_DIAGNOSTICS=1 pnpm dev` → `:3000` |
-| RRF-only | `MECHANIC_FORCE_RRF_ONLY=1` + diagnostics | `cd web && PORT=3001 MECHANIC_FORCE_RRF_ONLY=1 MECHANIC_DIAGNOSTICS=1 pnpm dev` |
-
-`SECTION_DEDUP_ENABLED` must match on both. Then:
+### Try it
 
 ```bash
-mecharag eval --golden evals/ \
-  --ask-url http://127.0.0.1:3000/api/ask \
-  --ask-url-rrf-only http://127.0.0.1:3001/api/ask
+./scripts/stranger_smoke.sh
+# Then: pull Ollama models → cd web && pnpm install && pnpm dev → health + ask
+# Example ask vehicle_id: fixture:honda-s2000-demo
 ```
 
-Expect summary fields `rrf_only_ask_hits`, `ce_ask_hits`, `ce_vs_rrf_ask_delta_hits` (citation∩gold). Lexical FTS counters are `*_lexical_proxy` and are **not** CE lift. Ablation diagnostics use `ablation_rrf_only=true` (not `rerank_degraded`). See also `mecharag eval --help`.
+Full clone path, footguns, and paired-ask ablation: [`GETTING_STARTED.md`](GETTING_STARTED.md).
 
-### Disclaimers
+### Stack
 
-- Advisory only. Verify against your official service manual. Use at your own risk.
-- No redistribution of OEM PDFs.
+| Concern | Choice |
+|---------|--------|
+| Web | Next.js App Router (`web/`) |
+| Store | Compose Postgres + pgvector (host **5433**) |
+| CLI | `mecharag ingest` / `mecharag eval` |
+| Embeddings | Ollama `nomic-embed-text` @ 768 (frozen) |
+| Generator | Ollama default `gemma4:e2b` (fallback `qwen3.5:4b`) |
+| Ranking | Hybrid → RRF → section dedup → local CE (degrade on failure) |
+
+### Deeper docs
+
+- [`docs/VISION.md`](docs/VISION.md) — product / why  
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — contracts / how  
+- [`GETTING_STARTED.md`](GETTING_STARTED.md) — operator path  
+- [`INTERVIEW.md`](INTERVIEW.md) — staff FAQ  
+- [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md) — freeze honesty (override ≠ lift)  
+- [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) — packaging flip vs GitHub visibility  
+- [`LICENSE`](LICENSE) — PolyForm Noncommercial 1.0.0 (source-available / non-commercial; not OSI open source)
+
+Building citation-backed document RAG for a real domain? Reach me on [LinkedIn](https://www.linkedin.com/in/tchacko1/).
+
+---
+
+Advisory only. Verify against your official service manual. Use at your own risk. No redistribution of OEM PDFs.

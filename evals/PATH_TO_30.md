@@ -16,4 +16,4 @@ Guide 04 landed **30** fixture cases on `fixture:honda-s2000-demo` (g01–g30).
 
 Do **not** encode historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` as the lift baseline.
 
-**Private garage (separate):** `evals/golden_garage_v1.json` (8 cases, `cat:` vehicles) — not part of public n=44. Invoke with explicit file path. Review Pass 2026-07-25.
+**Private garage (separate / local-only):** Historical garage goldens (`golden_garage_v1`, garage m2/m3 vision stubs, garage last-run summaries) were **removed from the public tip and git history** (2026-07-31 storefront visibility slice). They are **not** part of public n=44 and must not be re-committed. Keep any private goldens outside this repo and invoke with an explicit file path.
