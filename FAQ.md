@@ -43,7 +43,7 @@ Every ask requires a canonical **`vehicle_id`** — no all-vehicle fallback, no 
 
 ## 7. Is the eval suite “complete”? Where is path to ≥30?
 
-S2000 fixture golden count is **44** (Guide 04–07 + Guide 08 T1 traps g39–g44). Paired ask re-baseline at n=44 shows flat `ce_vs_rrf_ask_delta_hits=0` (helps=0 / hurts=0). Embed/CE are **frozen (Tom override)** Guide 09 despite that flat delta. Deferred themes (second vehicle, wiring) are in [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md). Do not treat flat delta as lift or equate golden count / freeze with **earned CE lift**. Fixtures-only public flip / “v1 Done” marketing is **Met** Guide 10b (still ≠ PrivateGold/Drive / OSI open source).
+**Fixtures-only packaging / “v1 Done” marketing is Met.** Guide 08 paired ask (n=44) is flat (`ce_vs_rrf_ask_delta_hits=0`, helps=0 / hurts=0). Embed/CE are **frozen by override** despite that flat delta — **not** an earned CE-lift claim. Deferred themes (second vehicle, wiring): [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md). Public flip still ≠ private gold / Drive / OSI open source.
 
 ## 8. Does packaging mean portfolio v1 / public flip / freeze?
 
