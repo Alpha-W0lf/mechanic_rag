@@ -47,12 +47,12 @@ S2000 fixture golden count is **44** (Guide 04–07 + Guide 08 T1 traps g39–g4
 
 ## 8. Does packaging mean portfolio v1 / public flip / freeze?
 
-**Fixtures-only packaging flip / “v1 Done” marketing is Met** (Guide 10b). **GitHub visibility public** is a separate storefront gate (2026-07-31). Root `GETTING_STARTED` + `INTERVIEW` remain the stranger-clone + FAQ shell. That still does **not** mean:
+**Fixtures-only packaging / “v1 Done” marketing is Met.** **GitHub visibility public** is a separate storefront gate. Root `GETTING_STARTED` + `FAQ` remain the stranger-clone + Technical FAQ shell. That still does **not** mean:
 
-- earned CE lift from ablation (freeze is Tom override; n=44 delta **0**)
+- earned CE lift from ablation (freeze is an override; n=44 delta **0**)
 - OSI open source / MIT licensing (repo is **source-available / non-commercial** — see [`LICENSE`](LICENSE))
 - second-vehicle / wiring eval themes complete
-- PrivateGold / Drive / OEM corpus in this public repo
+- private gold / Drive / OEM corpus in this public repo
 
 See VISION §9. Checklist: [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md).
 
