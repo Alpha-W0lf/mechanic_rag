@@ -19,9 +19,9 @@ Binding order is **RRF → optional section dedup → CE**. Dedup operates on fu
 | Signal | Meaning |
 |--------|---------|
 | `rerank_degraded=true` | CE failed/timed out/returned empty — ask **fails open** to post-RRF (+ dedup) order. Production safety. |
-| `ablation_rrf_only=true` / `MECHANIC_FORCE_RRF_ONLY=1` | **Intentional** RRF-only arm for Guide 02 paired ablation. Not a failure. |
+| `ablation_rrf_only=true` / `MECHANIC_FORCE_RRF_ONLY=1` | **Intentional** RRF-only arm for paired ablation evals. Not a failure. |
 
-Do not conflate degrade with ablation. Degrade rate and ablation diagnostics are separate fields; freeze checklists treat them differently. See ARCHITECTURE §7.5 and [`GETTING_STARTED.md`](GETTING_STARTED.md) (paired ask ablation).
+Do not conflate degrade with ablation. Degrade rate and ablation diagnostics are separate fields; freeze checklists treat them differently. See ARCHITECTURE §7.5 and [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
 
 ## 4. Why fixtures only — why never Drive / Ford / OEM PDFs here?
 
