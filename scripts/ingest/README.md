@@ -1,31 +1,31 @@
-# Ingestion Scripts
+# Mechanic RAG — offline ingest
 
-- Entry point: `scripts/ingest/ingest.py`
-- Run a dry run: `python scripts/ingest/ingest.py --dry-run`
-- Inputs: PDFs under `rag_input/` (Owner's Manual, Service Manual, Wiring Diagram)
-- Pipeline (to implement): Docling primary, PyMuPDF fallback → structure-aware chunking + semantic refinement → embeddings → upsert to Supabase
-- Utilities:
-  - `pdf_text.py`: PyMuPDF page text extractor
-  - `chunking.py`: fixed-window baseline chunker
-  - `jsonl.py`: utility to write JSONL outputs
+Public stranger path uses the **`mecharag` CLI** (package entrypoint), not the legacy scripts listed below.
 
-## Usage
+**Full clone path:** [`../../GETTING_STARTED.md`](../../GETTING_STARTED.md)
 
-To run the full ingestion pipeline (parse, chunk, embed, and upsert):
+## Stranger path (fixtures)
+
+With Compose Postgres up and env configured per GETTING_STARTED:
 
 ```bash
-python scripts/ingest/ingest.py
+# from repo root, with the project venv active
+mecharag ingest --source fixtures
 ```
 
-### Options
+Then run the public fail-closed check as documented in GETTING_STARTED.
 
-- `--dry-run`: Discovers PDFs and prints the execution plan without writing to the database or output files.
-- `--cleanup`: Clears all existing data from the `documents` and `chunks` tables in the database before running the ingestion. This is useful for starting a fresh import.
+## Optional local private corpus
 
-## Sample run (no DB)
+For a local gold root only (not in the public clone):
 
-Convert one local PDF to chunk JSONL (first few pages), for testing parsers and chunking without DB access:
-
+```bash
+export MECHANIC_PRIVATE_GOLD_ROOT=/path/to/local/gold
+mecharag ingest --source private-gold
 ```
-python scripts/ingest/sample_run.py rag_input/owners_manual.pdf --max-pages 3 --out sample_chunks.jsonl
-```
+
+Unset `MECHANIC_PRIVATE_GOLD_ROOT` fail-closes (no silent fixtures fallthrough). Details and honesty notes live in GETTING_STARTED / FAQ — not required for the public demo.
+
+## This folder
+
+`scripts/ingest/` holds older helper modules used during early development. Prefer **`mecharag ingest`** for the supported product path. Do not follow Supabase / Docling / `rag_input/` instructions if you find them elsewhere — they are obsolete for the current stack.
