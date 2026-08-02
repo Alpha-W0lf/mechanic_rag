@@ -1,8 +1,8 @@
-# Mechanic RAG — Interview FAQ
+# Mechanic RAG — Technical FAQ
 
-Staff-interview gotchas for the **hybrid → RRF → section dedup → local CE** vertical slice. Contracts SSOT: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Product / why: [`docs/VISION.md`](docs/VISION.md). Freeze honesty: [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). Path to ≥30 goldens: [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md).
+Staff-facing Q&A for the **hybrid → RRF → section dedup → local CE** vertical slice. Contracts SSOT: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md). Product / why: [`docs/VISION.md`](docs/VISION.md). Freeze honesty: [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). Path to ≥30 goldens: [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md).
 
-This is packaging around a shippable Guide 01 path + honest paired-ask ablation evidence (current: Guide 08 n=44, delta **0**) — embed/CE are **frozen (Tom override)** Guide 09 — **fixtures-only packaging flip Met** Guide 10b — **GitHub visibility public** (storefront 2026-07-31; distinct from Guide 10b) — **not** an earned CE-lift freeze — **not** OSI open source. Private-garage goldens are **not** in the public tip/history. **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT).
+Packaging around a shippable fixtures clone path + honest paired-ask ablation evidence (current n=44, delta **0**) — embed/CE are **frozen** (not an earned CE-lift claim) — fixtures-only public packaging — **GitHub visibility public** — **not** OSI open source. Private-garage goldens are **not** in the public tip/history. **License:** PolyForm Noncommercial 1.0.0 — source-available / non-commercial (not OSI open source; not MIT).
 
 ---
 

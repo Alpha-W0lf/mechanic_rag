@@ -5,7 +5,7 @@ Clone-depth path for the **hybrid → RRF → section dedup → local CE** produ
 - Skim + Try it: [`README.md`](README.md)
 - Contracts: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 - Product why: [`docs/VISION.md`](docs/VISION.md)
-- Technical FAQ: [`INTERVIEW.md`](INTERVIEW.md)
+- Technical FAQ: [`FAQ.md`](FAQ.md)
 
 **Fast path:** from repo root, `./scripts/stranger_smoke.sh` (Docker + Ollama preflight → Compose → `web/.env.local` → fixture ingest → fail-closed). Then pull models, `cd web && pnpm install && pnpm dev`, and run health/ask below.
 
@@ -133,7 +133,7 @@ Paired CE-on vs RRF-only ablation is **not** part of this GETTING_STARTED DoD �
 
 ---
 
-**Technical FAQ:** [`INTERVIEW.md`](INTERVIEW.md) · **Skim:** [`README.md`](README.md) · **License:** [`LICENSE`](LICENSE)
+**Technical FAQ:** [`FAQ.md`](FAQ.md) · **Skim:** [`README.md`](README.md) · **License:** [`LICENSE`](LICENSE)
 
 ---
 
@@ -196,4 +196,4 @@ Personal-garage image channel / VLM paths are optional and default **off**. They
 | Historical proxy theater | `ce_vs_rrf_delta_hits=+1` / `n=5` is **forbidden** as lift |
 | Freeze | Tom override after flat ablation — CE remains for architecture completeness |
 
-More: [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md) · [`INTERVIEW.md`](INTERVIEW.md).
+More: [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md) · [`FAQ.md`](FAQ.md).

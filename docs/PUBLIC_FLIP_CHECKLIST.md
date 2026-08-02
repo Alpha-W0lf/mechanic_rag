@@ -19,7 +19,7 @@
 | 2 | Stranger-clone path works per `GETTING_STARTED.md` (Compose, `web/.env.local`, Ollama, fixture ingest, health, ask, eval smoke) | **S2 Met** — fail-closed + GETTING_STARTED attestation; health/ask **env gap** at Ready/Implement (Next `:3000` down; Compose Postgres up) — soft attestation only, not full twin. |
 | 3 | Honesty surfaces consistent: embed/CE **frozen (Tom override)** Guide 09 with freeze checklist + no-lift honesty; no CE lift theater on n=44 (Guide 08) or prior n=38/n=30; no proxy `ce_vs_rrf_delta_hits=+1` / `n=5` as proof | **Honest today** — frozen by override; paired ask delta **0** on n=44 (helps=0/hurts=0); Guide 05 keep history retained. |
 | 4 | Formal freeze gate | **Resolved by Guide 09 Path B override** (freeze Met) — flat delta; **not** earned lift. Flip is separate (Guide 10b). |
-| 5 | VISION §9 / README / INTERVIEW banners | **Met Guide 10b** — fixtures-only public flip / “v1 Done” marketing; freeze = Tom override not lift; PolyForm-NC ≠ OSI. |
+| 5 | VISION §9 / README / FAQ banners | **Met Guide 10b** — fixtures-only public flip / “v1 Done” marketing; freeze = Tom override not lift; PolyForm-NC ≠ OSI. |
 | 6 | No secrets in git; LICENSE | Secrets: keep fail-closed. **LICENSE present** — **PolyForm Noncommercial License 1.0.0** (`PolyForm-Noncommercial-1.0.0`, Guide 10a). Source-available / non-commercial — **not** OSI open source / **not** MIT. |
 | 7 | GitHub **visibility** public + sales-first storefront (description, topics, no apology thumbs) | **Met (2026-07-31 storefront slice)** — separate from Guide 10b packaging. Private-garage eval artifacts purged from tip **and** history before flip. |
 

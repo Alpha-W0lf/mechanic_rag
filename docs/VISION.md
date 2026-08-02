@@ -78,7 +78,7 @@ A vehicle that is capture-complete is **not** automatically RAG-ready. Portfolio
 - Hybrid lexical + vector retrieval → RRF → local cross-encoder rerank (N→K; degrade to RRF-only)
 - Citations (vehicle, document/family, section, page range when available)
 - Eval set + smoke path (incl. CE lift vs RRF-only)
-- Docs: README, GETTING_STARTED, architecture, INTERVIEW/tradeoffs, `.env.example`, fork/run welcome
+- Docs: README, GETTING_STARTED, architecture, FAQ/tradeoffs, `.env.example`, fork/run welcome
 - Generator: local **Ollama** — operator default **`gemma4:e2b`** (pass 9 smoke OK); fallback **`qwen3.5:4b`** (pass 8c historical baseline)
 - **Local Postgres + pgvector via Docker Compose only**
 - Multi-vehicle **schema + catalog** (even if fixtures only ship 1–2 synthetic vehicles)
@@ -164,7 +164,7 @@ Honest progress after Guide 01 (Align docs pass 10). Checked items = **path exis
 - [x] Hybrid → RRF → local CE + citations in API response (include `vehicle_id` / doc family) — Guide 01; embed/CE later **frozen (Tom override)** Guide 09
 - [x] ≥30 eval cases with documented metrics (incl. CE lift vs RRF-only or justified keep) — Guide 04: **30**; Guide 07 Path A: n=**38** flat; Guide 08 T1: n=**44** flat (helps=0/hurts=0); Guide 05 keep history; CE remains in pipeline; **no** lift claim; proxy `+1`/`n=5` retired as freeze evidence
 - [x] Clone-and-run with fixtures (no OEM PDFs; Compose Postgres) — README Quick Start; fixtures only
-- [x] README + GETTING_STARTED + architecture + INTERVIEW — Guide 03 packaging; Guide 04–10b honesty for n/delta + freeze-override + LICENSE + fixtures-only public flip
+- [x] README + GETTING_STARTED + architecture + FAQ — Guide 03 packaging; Guide 04–10b honesty for n/delta + freeze-override + LICENSE + fixtures-only public flip
 - [x] Extensibility notes for multimodal **and** multi-vehicle library growth in architecture (not full private sync required)
 - [x] Minimal vehicle catalog (even if fixture-backed) — `vehicles` + fixture ingest
 - [x] Formal embed/CE **freeze** — Guide 09 Path B **Tom override** (n=44 `ce_vs_rrf_ask_delta_hits=0`; frozen despite flat delta; **not** earned lift — see `evals/MODEL_FREEZE_STATUS.md`)

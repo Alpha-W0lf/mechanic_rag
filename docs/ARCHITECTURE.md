@@ -515,7 +515,7 @@ Order used by Write-dev-guide / Implement. Steps **1–7 done** for Guide 01; st
 5. ~~Vehicle-filtered vector + FTS → RRF → section dedup → local CE (N→K) with degrade-to-RRF~~
 6. ~~Ollama answer + validated citations~~
 7. ~~Health readiness + minimal tests/evals (incl. CE degrade unit tests + first baseline)~~
-8. Defer: doc archive, frontend polish, PrivateGold path beyond contract, true MMR, multimodal, Drive/Ford, hosted CE, ~~formal model freeze~~ (**Guide 09 Path B Tom override — frozen; n=44 delta 0 honesty**) ~~GETTING_STARTED/INTERVIEW packaging~~ (**packaging landed Guide 03**) ~~≥30 evals~~ (**≥30 S2000 goldens Guide 04**; **Guide 08 T1 n=44 flat re-baseline**)
+8. Defer: doc archive, frontend polish, PrivateGold path beyond contract, true MMR, multimodal, Drive/Ford, hosted CE, ~~formal model freeze~~ (**Guide 09 Path B Tom override — frozen; n=44 delta 0 honesty**) ~~GETTING_STARTED/FAQ packaging~~ (**packaging landed Guide 03**) ~~≥30 evals~~ (**≥30 S2000 goldens Guide 04**; **Guide 08 T1 n=44 flat re-baseline**)
 
 ---
 
