@@ -1,7 +1,7 @@
 # Living docs index — mechanic_rag
 
 **Purpose:** Map living SSOTs for this repo. Not a catalog of every dated note.  
-**Updated:** 2026-08-13  
+**Updated:** 2026-08-13 (C2c Implement Met)  
 **Hub index:** `second_brain/docs/LIVING_DOCS_INDEX.md`
 
 ## Product truth
@@ -29,4 +29,5 @@
 
 Most historical `docs/2026-*.md` are **not** living SSOTs. Absence from this index is **not** permission to delete — only an authorized archive batch may move files (`git mv` + banner).
 
-**C2a archive batch (2026-08-13):** `docs/archive/2026-08_sprawl_c2a_mechanic_guide_stage_notes/` — 20 superseded Guide 08–14 Ready/Review/Align stage notes.
+**C2a archive batch (2026-08-13):** `docs/archive/2026-08_sprawl_c2a_mechanic_guide_stage_notes/` — 20 superseded Guide 08–14 Ready/Review/Align stage notes.  
+**C2c archive batch (2026-08-13):** `docs/archive/2026-08_sprawl_c2c_mechanic_stage_notes/` — 35 remaining Ready/Review/Align/critical-review/prioritize stage notes. Living context summaries and `docs/dev_guides/` were not moved.
