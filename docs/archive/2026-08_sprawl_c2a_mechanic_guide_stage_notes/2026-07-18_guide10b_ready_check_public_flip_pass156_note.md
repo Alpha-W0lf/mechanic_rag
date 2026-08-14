@@ -1,3 +1,9 @@
+> **ARCHIVED** — moved under Workflow OS documentation sprawl reform.
+> Do not treat this file as living SSOT.
+> Living successor: `docs/dev_guides/2026-07-18_dev_guide_10b_public_flip_packaging.md` · `docs/VISION.md` · `docs/ARCHITECTURE.md`
+> Batch: `2026-08_sprawl_c2a_mechanic_guide_stage_notes`
+> Date: 2026-08-13
+
 # Ready-check note — Mechanic Guide 10b public flip (pass 156)
 
 **Date:** 2026-07-18  

@@ -1,3 +1,9 @@
+> **ARCHIVED** — moved under Workflow OS documentation sprawl reform.
+> Do not treat this file as living SSOT.
+> Living successor: `docs/dev_guides/2026-07-19_dev_guide_12_status_aware_multi_vehicle_private_gold.md` · `docs/VISION.md` · `docs/ARCHITECTURE.md`
+> Batch: `2026-08_sprawl_c2a_mechanic_guide_stage_notes`
+> Date: 2026-08-13
+
 # Review note — Mechanic Guide 12 multi-vehicle PrivateGold (pass 163)
 
 **Date:** 2026-07-19  

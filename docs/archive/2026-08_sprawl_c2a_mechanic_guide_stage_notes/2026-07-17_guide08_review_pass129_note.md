@@ -1,3 +1,9 @@
+> **ARCHIVED** — moved under Workflow OS documentation sprawl reform.
+> Do not treat this file as living SSOT.
+> Living successor: `docs/dev_guides/2026-07-17_dev_guide_08_harder_discriminative_ce_traps.md` · `docs/VISION.md` · `docs/ARCHITECTURE.md`
+> Batch: `2026-08_sprawl_c2a_mechanic_guide_stage_notes`
+> Date: 2026-08-13
+
 # Review note — Mechanic Guide 08 (pass 129)
 
 **Date:** 2026-07-17  

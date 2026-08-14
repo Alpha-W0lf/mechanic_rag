@@ -1,3 +1,9 @@
+> **ARCHIVED** — moved under Workflow OS documentation sprawl reform.
+> Do not treat this file as living SSOT.
+> Living successor: `docs/dev_guides/2026-07-19_dev_guide_13_soft_adjust_present_only_private_gold.md` · `docs/VISION.md` · `docs/ARCHITECTURE.md`
+> Batch: `2026-08_sprawl_c2a_mechanic_guide_stage_notes`
+> Date: 2026-08-13
+
 # Review note — Mechanic Guide 13 Soft Adjust present-only PrivateGold (pass 163)
 
 **Date:** 2026-07-19  
