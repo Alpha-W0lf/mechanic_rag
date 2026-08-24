@@ -2,7 +2,6 @@
 
 **Date:** 2026-07-12  
 **Schema:** [`normalized_document_manifest.schema.json`](./normalized_document_manifest.schema.json) (`schema_version` = `1.0.0`)  
-**Semantic SSOT:** `second_brain/docs/2026-07-12_vehicle_docs_library_architecture.md` Contract 7.2  
 **Bump policy:** Breaking field rename/type/requiredness → bump `schema_version` const in schema + this inventory.
 
 Emit owner = vehicle docs library (Gold builder). Consume owner = Mechanic (`FixtureSource` / `PrivateGoldSource`).
@@ -81,4 +80,4 @@ Emit owner = vehicle docs library (Gold builder). Consume owner = Mechanic (`Fix
 
 ## Program fixture SSOT
 
-`second_brain/docs/dev_guides/fixtures/vehicle_rag_gold/` (valid + invalid synthetic text only). Optional Mechanic mirror: `mechanic_rag/fixtures/vehicle_rag_gold/` — not required for this validator slice.
+Synthetic text fixtures only (valid + invalid samples), staged by the validator/tests; private-garage corpora stay outside this repo.

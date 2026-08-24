@@ -8,8 +8,8 @@ Versioned schemas for Mechanic ingest / API boundaries.
 | `rag_gold_normalized_document_manifest_FIELDS.md` | Contract 7.2 field inventory + reject rules |
 | `ask_request.schema.json` / `ask_response.schema.json` | Ask-path API contracts (separate from Gold emit) |
 
-**Semantic SSOT:** `second_brain/docs/2026-07-12_vehicle_docs_library_architecture.md` Contract 7.2.  
-**Program fixtures SSOT:** `second_brain/docs/dev_guides/fixtures/vehicle_rag_gold/`.  
+
+**Fixture policy:** committed synthetic fixtures under `fixtures/`; private-garage corpora stay outside this repo.  
 **Optional FixtureSource mirror:** `mechanic_rag/fixtures/` (not required for schema validation tests).  
 **Validator:** `scripts/validate/validate_manifest.py`.
 

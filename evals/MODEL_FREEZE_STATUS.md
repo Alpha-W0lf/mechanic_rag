@@ -49,7 +49,7 @@ Do **not** flip status to frozen unless **all** are true and a human authors the
 
 **Before any human freeze:** complete the six-item **Freeze checklist (human-only)** in this file (process fields). Path B override does **not** invent new metric gates and does **not** use historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` as freeze evidence.
 
-**Related:** Public-flip packaging checklist → [`docs/PUBLIC_FLIP_CHECKLIST.md`](../docs/PUBLIC_FLIP_CHECKLIST.md). Guide 09 freeze ≠ earned CE lift. Guide 10a LICENSE (PolyForm-NC) ≠ OSI open source. Guide 10b fixtures-only flip Met ≠ earned CE lift.
+**Related:** Freeze ≠ earned CE lift. Guide 10a LICENSE (PolyForm-NC) ≠ OSI open source. Guide 10b fixtures-only flip Met ≠ earned CE lift.
 
 ### Formal freeze — Tom override (Guide 09)
 

@@ -8,7 +8,7 @@
 
 **Diligence:** [`ARCHITECTURE.md`](./ARCHITECTURE.md) · [`../GETTING_STARTED.md`](../GETTING_STARTED.md) · [`../FAQ.md`](../FAQ.md) · [`../evals/MODEL_FREEZE_STATUS.md`](../evals/MODEL_FREEZE_STATUS.md)
 
-**Non-binding archives (do not drive v1 scope):** `docs/enhancements_rough_notes.md`, `docs/multimodal_gemini_approach_plan.md`, assorted `rough_*.md` / numbered build notes — keep for history; this file wins on intent.
+**Non-binding archives:** numbered build notes under `docs/` — history only; this file wins on intent.
 
 ---
 
@@ -166,7 +166,7 @@ Honest progress. Checked items = **path exists with evidence**. Fixtures-only pu
 - [x] Extensibility notes for multimodal **and** multi-vehicle library growth in architecture (not full private sync required)
 - [x] Minimal vehicle catalog (even if fixture-backed) — `vehicles` + fixture ingest
 - [x] Formal embed/CE **freeze** — Path B override (n=44 `ce_vs_rrf_ask_delta_hits=0`; frozen despite flat delta; **not** earned lift — see `evals/MODEL_FREEZE_STATUS.md`)
-- [x] Public flip / portfolio “v1 Done” marketing claim — **fixtures-only** (fail-closed OK; freeze = override not lift; PolyForm-NC ≠ OSI — see `docs/PUBLIC_FLIP_CHECKLIST.md`)
+- [x] Public flip / portfolio “v1 Done” marketing claim — **fixtures-only** (fail-closed OK; freeze = override not lift; PolyForm-NC ≠ OSI)
 
 **§9 checked rows mean capability + fixtures-only public flip packaging exist with evidence.** Freeze-by-override while paired-ask delta stays **0** — freeze ≠ earned CE lift. LICENSE is source-available / non-commercial — **not** OSI open source. Fixtures flip ≠ Drive / second-vehicle themes. Local private gold Met ≠ friend Drive Done ≠ dual-product Done.
 

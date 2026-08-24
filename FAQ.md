@@ -54,7 +54,7 @@ Every ask requires a canonical **`vehicle_id`** — no all-vehicle fallback, no 
 - second-vehicle / wiring eval themes complete
 - private gold / Drive / OEM corpus in this public repo
 
-See VISION §9. Checklist: [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md).
+See VISION §9.
 
 ## 9. What does g10 teach about citation∩gold vs `insufficient_evidence`?
 

@@ -125,7 +125,7 @@ Paired CE-on vs RRF-only ablation is **not** part of this GETTING_STARTED DoD �
 | Topic | Truth |
 |-------|--------|
 | Public corpus | **Fixtures only** — no Drive / Ford / OEM PDFs in this repo |
-| Packaging | Fixtures-only public flip documented in [`docs/PUBLIC_FLIP_CHECKLIST.md`](docs/PUBLIC_FLIP_CHECKLIST.md) — not earned CE lift; not OSI open source |
+| Packaging | Fixtures-only public packaging — not earned CE lift; not OSI open source |
 | Embed / CE | **Frozen** — flat paired-ask delta; no lift claim ([`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md)); CE stays in stack for architecture + fail-open degradation |
 | Multimodal | Not required for this clone — text RAG on fixtures |
 | License | **PolyForm Noncommercial 1.0.0** ([`LICENSE`](LICENSE)) — source-available / non-commercial; commercial use → contact copyright holder; **not** OSI open source / **not** MIT |

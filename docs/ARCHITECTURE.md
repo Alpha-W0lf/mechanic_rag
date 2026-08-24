@@ -7,20 +7,11 @@
 **Lenses:** Senior AI Engineer (primary); Data Engineer; Backend  
 
 **SSOT vision:** [`VISION.md`](./VISION.md)  
-**Guide 01:** [`dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md`](./dev_guides/2026-07-12_dev_guide_01_hybrid_rrf_ce_ask_path.md)  
-**Freeze honesty:** [`../evals/MODEL_FREEZE_STATUS.md`](../evals/MODEL_FREEZE_STATUS.md)  
-**Program locks:** `second_brain/docs/2026-07-12_portfolio_vision_workspace_and_decisions.md`  
-**Library SSOT:** `second_brain/docs/2026-07-12_vehicle_docs_library_and_mechanic_rag_program.md`  
-**Library architecture (RAG Gold fields):** `second_brain/docs/2026-07-12_vehicle_docs_library_architecture.md` Contract 7.2  
-**Drive boundary:** `second_brain/docs/2026-07-12_drive_and_local_mechanic_rag_boundary_critical_review.md`  
-**Pass-1 review:** `second_brain/docs/2026-07-12_mechanic_architecture_review_handoff.md`  
-**Pass-3 review:** `second_brain/docs/2026-07-12_mechanic_architecture_pass3_review.md`  
-**Ranking lock note:** `second_brain/docs/2026-07-12_hybrid_rag_reranker_decision.md` (overrides earlier “no neural reranker in v1”)  
-**Pass-4 refine:** `second_brain/docs/2026-07-12_mechanic_architecture_pass4_handoff.md`
+**Freeze honesty:** [`../evals/MODEL_FREEZE_STATUS.md`](../evals/MODEL_FREEZE_STATUS.md)`
 
 This document freezes v1 components, data contracts, ranking, corpus boundaries, and failure behavior. It does **not** authorize public flip, Drive/Ford ops, multimodal work, or claiming portfolio-complete from Guide 01 alone.
 
-**Non-authoritative for v1:** `docs/api_contracts.md`, `docs/dev_setup.md`, `db/schema.sql`, `supabase/**`, Supabase/Gemini/multimodal research notes, `docs/rag_tailored_guide.md` (research-era; ranking SSOT is **§7 + MR2**, not that guide), and the **retired** stub ask under deleted `web/app/`. Live product path is `web/src/app/api/ask` + `web/src/server/ask.ts`.
+**Non-authoritative for v1:** `docs/api_contracts.md`, `docs/dev_setup.md`, `db/schema.sql`, `supabase/**`, Supabase/Gemini/multimodal research notes, and the **retired** stub ask under deleted `web/app/`. Live product path is `web/src/app/api/ask` + `web/src/server/ask.ts`.
 
 ---
 
@@ -154,9 +145,9 @@ Private local ingest intentionally does **not** enforce a legal/rights gate (P1)
 | Mechanic | **Retrieval chunking**, embedding, index state |
 | Shared catalog (when present) | Canonical **`vehicle_id`** issuance |
 
-Mechanic v1 consumes **text-first Gold / fixtures**, not raw PDFs. Fixtures use reserved **`fixture:`** `vehicle_id` prefix; catalog-issued private IDs use **`cat:`** (library architecture §5.5). Same identity fields (year/make/model/engine/+trim); no VIN keys.
+Mechanic v1 consumes **text-first Gold / fixtures**, not raw PDFs. Fixtures use reserved **`fixture:`** `vehicle_id` prefix; catalog-issued private IDs use **`cat:`** . Same identity fields (year/make/model/engine/+trim); no VIN keys.
 
-**Shared field SSOT (semantic):** library Contract 7.2 field table in `second_brain/docs/2026-07-12_vehicle_docs_library_architecture.md` — Mechanic `NormalizedDocumentManifest` must accept those emit fields (`corpus_version`, `content_hash`, `artifact_version`, provenance, page/section locators). **Schemas-as-code:** `mechanic_rag/contracts/normalized_document_manifest.schema.json` + field inventory `rag_gold_normalized_document_manifest_FIELDS.md`; program synthetic fixtures SSOT at `second_brain/docs/dev_guides/fixtures/vehicle_rag_gold/`; validator `scripts/validate/validate_manifest.py`.
+**Shared field SSOT (semantic):** Mechanic `NormalizedDocumentManifest` must accept the library emit fields (`corpus_version`, `content_hash`, `artifact_version`, provenance, page/section locators). **Schemas-as-code:** `mechanic_rag/contracts/normalized_document_manifest.schema.json` + field inventory `rag_gold_normalized_document_manifest_FIELDS.md`; validator `scripts/validate/validate_manifest.py`.
 
 ---
 
@@ -361,7 +352,7 @@ Optional later (not required for vertical slice): `doc_family`, bounded `history
 
 **M2 (Build):** Image retrieve channel via side table `chunk_image_embeddings` (`openai/clip-vit-base-patch32`, **512-d**). Query uses CLIP text tower (`mecharag clip-query`). Fusion: `reciprocalRankFusionMany` over text_vector + lexical + image (`k=60`). Empty/degraded image list → identical to M1 two-list RRF. Diagram hits require paired text chunk (**Option A**). Deps: optional `[m2]` only. Embed scope: full personal garage `cat:*`.
 
-**M3 (Build Met 2026-07-27):** Optional `MECHANIC_VLM` (default off). Router: flag on ∧ (diagram UI flag ∨ heuristic); torque-only questions skip. Timeout 45s → degrade. Filter strips VLM Nm/lbf not present in cited text. Evidence: `docs/2026-07-27_m3_vlm_eval_evidence.json` · Review Pass-with-nits.
+**M3 (Build Met 2026-07-27):** Optional `MECHANIC_VLM` (default off). Router: flag on ∧ (diagram UI flag ∨ heuristic); torque-only questions skip. Timeout 45s → degrade. Filter strips VLM Nm/lbf not present in cited text. Evidence: `evals/evidence/2026-07-27_m3_vlm_eval_evidence.json` · Review Pass-with-nits.
 
 ### 8.2 Frontend
 
@@ -500,7 +491,7 @@ Guide 01 vertical slice landed. This table is **post-slice**, not pre-implement.
 | Evals/tests | **n=44** S2000 fixture goldens (Guide 04–08; T1 +3 synthetic confusable sections) + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 08 paired ask delta **0** / helps=0; Guide 05 keep history; Guide 09 Path B freeze-override; Guide 11–15 PrivateGold / Soft Adjust ask unit tests | Soft Adjust golden suite (E2) deferred; live Soft Adjust full upsert ops |
 | Generator | Default / smoke: `gemma4:e2b`; fallback `qwen3.5:4b` (pass 8c historical proxy baseline) | — |
 
-**Honesty line:** Guide 01 DoD met + Guide 10b **fixtures-only public flip** Met ≠ earned CE lift / ≠ OSI open source / ≠ dual-product Done. Guide 11–**15** **PrivateGoldSource** Met: fixture multi-vehicle + Soft Adjust synthetic present-only + **Guide 14 live Soft Adjust pilot** (receipt→`gold_status`; local Vehicle `out/live` emit) + **Guide 15 Soft Adjust ask smoke** (synthetic `cat:demo-synthetic-f150`; incomplete Gold may return `insufficient_evidence`) ≠ friend Drive Soft Adjust Review Met ≠ Ford PTS ≠ Drive ingest ≠ live Soft Adjust full-corpus upsert Met. Embedding + CE are **frozen (Tom override)** Guide 09 (`evals/MODEL_FREEZE_STATUS.md`) despite Guide 08 T1 n=44 paired ask delta **0** / helps=0 (**no** lift claim). Guide 05 keep history retained; **LICENSE** PolyForm-NC 1.0.0 Met Guide 10a (source-available / non-commercial — **not** OSI open source / **not** MIT); public-flip checklist Met Guide 10b → [`docs/PUBLIC_FLIP_CHECKLIST.md`](./PUBLIC_FLIP_CHECKLIST.md). Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
+**Honesty line:** Guide 01 DoD met + Guide 10b **fixtures-only public flip** Met ≠ earned CE lift / ≠ OSI open source / ≠ dual-product Done. Guide 11–**15** **PrivateGoldSource** Met: fixture multi-vehicle + Soft Adjust synthetic present-only + **Guide 14 live Soft Adjust pilot** (receipt→`gold_status`; local Vehicle `out/live` emit) + **Guide 15 Soft Adjust ask smoke** (synthetic `cat:demo-synthetic-f150`; incomplete Gold may return `insufficient_evidence`) ≠ friend Drive Soft Adjust Review Met ≠ Ford PTS ≠ Drive ingest ≠ live Soft Adjust full-corpus upsert Met. Embedding + CE are **frozen (Tom override)** Guide 09 (`evals/MODEL_FREEZE_STATUS.md`) despite Guide 08 T1 n=44 paired ask delta **0** / helps=0 (**no** lift claim). Guide 05 keep history retained; **LICENSE** PolyForm-NC 1.0.0 Met Guide 10a (source-available / non-commercial — **not** OSI open source / **not** MIT); fixtures-only public flip Met Guide 10b. Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
 
 ---
 

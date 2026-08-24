@@ -72,3 +72,6 @@ evals/golden_m3_vision_v1.json
 
 # build metadata
 *.egg-info/
+
+# Supabase CLI local state
+supabase/.temp/
