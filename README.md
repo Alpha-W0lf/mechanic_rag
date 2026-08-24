@@ -4,6 +4,8 @@ Cited answers from automotive service docs — hybrid RAG (vector + lexical → 
 
 Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
 
+🔗 **Live demo:** [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) — pick the fixture vehicle and ask a service question; answers cite document, section, and page.
+
 ![Ask outcome — cited answer](docs/assets/demo/ask-outcome.png)
 
 ![Citations — section + page](docs/assets/demo/citations-scannable.png)
