@@ -77,7 +77,7 @@ A vehicle that is capture-complete is **not** automatically RAG-ready. Portfolio
 - Citations (vehicle, document/family, section, page range when available)
 - Eval set + smoke path (incl. CE lift vs RRF-only)
 - Docs: README, GETTING_STARTED, architecture, FAQ/tradeoffs, `.env.example`, fork/run welcome
-- Generator: local **Ollama** — operator default **`gemma4:e2b`** (pass 9 smoke OK); fallback **`qwen3.5:4b`** (pass 8c historical baseline)
+- Generator: local **Ollama** — operator default **`gemma4:e2b`** (pass 9 smoke OK); fallback **`qwen3.5:4b`** (pass 8c historical baseline). *(Hosted public demo serves via Gemini — embedding + generation — see `evals/MODEL_FREEZE_STATUS.md` 2026-08-25 note.)*
 - **Local Postgres + pgvector via Docker Compose only**
 - Multi-vehicle **schema + catalog** (even if fixtures only ship 1–2 synthetic vehicles)
 

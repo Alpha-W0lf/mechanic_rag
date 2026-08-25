@@ -1,6 +1,6 @@
 # Mechanic RAG — Architecture (v1)
 
-**Status:** Binding contracts SSOT · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 · **Fixtures-only public flip Met** · Guide 11–**15** **PrivateGoldSource** · Personal-garage **M1–M3 Met** (flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
+**Status:** Binding contracts SSOT · *(2026-08-25: hosted public demo serves queries via Gemini — see `evals/MODEL_FREEZE_STATUS.md`; contracts unchanged)* · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 · **Fixtures-only public flip Met** · Guide 11–**15** **PrivateGoldSource** · Personal-garage **M1–M3 Met** (flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
 **Updated:** 2026-07-27 (Align: M2 image channel + M3 optional VLM contracts)  
 **Owner:** Tom  

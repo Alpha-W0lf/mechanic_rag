@@ -29,7 +29,7 @@ Public corpus boundary is **`fixtures/` only** (synthetic). Drive sync, Ford/PTS
 
 ## 5. Are embed/CE frozen? What does paired ask delta `0` mean?
 
-Embedding (`nomic-embed-text` @ 768) and CE (`Xenova/ms-marco-MiniLM-L-6-v2`) are **frozen by Tom override** (Guide 09 Path B) — **not** because CE proved lift. Guide 08 paired ask ablation (n=44, T1 synthetic confusable sections + g39–g44, generator `gemma4:e2b`, citation∩gold) recorded `ce_vs_rrf_ask_delta_hits=0`, **CE-helps=0**, **CE-hurts=0** — still flat after a harder discriminative attempt. That honesty survives the freeze.
+Embedding (`nomic-embed-text` @ 768) and CE (`Xenova/ms-marco-MiniLM-L-6-v2`) are **frozen by Tom override** (Guide 09 Path B) — **not** because CE proved lift. *(Serving-path note, 2026-08-25: the hosted public demo embeds queries with `gemini-embedding-001` @ 768 — dimension-compatible with the frozen column — because serverless hosts cannot run Ollama. The freeze record, eval history, and local path remain nomic-based; see [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).)* Guide 08 paired ask ablation (n=44, T1 synthetic confusable sections + g39–g44, generator `gemma4:e2b`, citation∩gold) recorded `ce_vs_rrf_ask_delta_hits=0`, **CE-helps=0**, **CE-hurts=0** — still flat after a harder discriminative attempt. That honesty survives the freeze.
 
 **Guide 05 keep-with-justification (historical):** We **kept** CE in the ranking stack while status was candidate. Guide 09 **supersedes status** → frozen by override; CE **stays in the stack**. See [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). **Do not** claim CE improved citation hits on the n=30 / n=38 / n=44 runs.
 
