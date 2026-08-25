@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 
 from mecharag.chunking import chunk_manifest_units
 from mecharag.db_upsert import content_hash_exists, upsert_document_version
-from mecharag.embedder import OllamaEmbedder
+from mecharag.embedder import OllamaEmbedder, make_embedder
 from mecharag.fixture_source import FixtureSource, FixtureSourceError
 from mecharag.gold_status import (
     GoldStatusError,
@@ -191,7 +191,7 @@ def _ingest_fixtures(args, run_id: str, database_url: str) -> int:
         logger.error("no manifests under %s", root)
         return 1
 
-    embedder = OllamaEmbedder()
+    embedder = make_embedder()
     inserted = skipped = failed = 0
     try:
         with psycopg.connect(database_url) as conn:
@@ -273,7 +273,7 @@ def _ingest_private_gold(args, run_id: str, database_url: str) -> int:
         IngestItem(manifest=doc.manifest, error_path=str(doc.release_path))
         for doc in documents
     ]
-    embedder = OllamaEmbedder()
+    embedder = make_embedder()
     try:
         with psycopg.connect(database_url) as conn:
             inserted, skipped, failed = _upsert_loaded_documents(

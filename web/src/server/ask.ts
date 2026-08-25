@@ -13,7 +13,7 @@ import {
   rerankWithDegrade,
   type CrossEncoder,
 } from './cross_encoder';
-import { embedText, generateAnswer, OllamaError } from './ollama';
+import { embedText, generateAnswer, OllamaError } from './providers';
 import {
   lexicalSearch,
   loadChunksByIds,
