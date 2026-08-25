@@ -1,6 +1,8 @@
 # Mechanic RAG — Portfolio Vision (v1)
 
 **Status:** Active portfolio vision · Formal embed/CE **frozen** (not earned lift) · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · Fixtures-only public packaging · **GitHub visibility public** · Personal-garage multimodal paths exist locally (flags default **off**) · **Not** dual-product Done · **Not** friend Drive→Mechanic ingest · **Not** OSI open source  
+
+> **Terminology:** `Guide NN` / `M1–M3` tags mark numbered internal build milestones — historical provenance for when a capability landed. Read them as labels; current truth is what this document states.
 **Created:** 2026-07-12  
 **Updated:** 2026-08-02 (R2 — product English lead; private hub links removed from outward surface)  
 **Owner:** Tom  
