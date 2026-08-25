@@ -174,3 +174,7 @@ Source: prior `evals/last_run_summary.json` (n=12). Retained for history only; *
 | ce_vs_rrf_ask_delta_hits | **0** |
 
 No invented public-release pass/fail thresholds.
+
+## 2026-08-25 — serving-path embedding provider note
+
+The public fixture corpus is now embedded and queried with `gemini-embedding-001` @ 768 (serverless deployment requirement; dimension-compatible with the frozen `vector(768)` column). This changes the public serving path only — it does **not** reopen any freeze gate, does not alter ranking architecture (hybrid → RRF → dedup → CE), and makes **no CE-lift claim**. The local/BYO path continues to default to Ollama `nomic-embed-text` @ 768. Generation on the hosted path uses `gemini-flash`; generation was never part of the freeze scope.

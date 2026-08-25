@@ -6,6 +6,18 @@ Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
 
 🔗 **Live demo:** [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) — pick the fixture vehicle and ask a service question; answers cite document, section, and page.
 
+### What runs where
+
+| Capability | Live demo | Local clone |
+|---|---|---|
+| Vehicle catalog + manual browser | ✅ | ✅ |
+| Ask → cited, generated answer (Gemini) | ✅ | ✅ (or Ollama) |
+| Hybrid vector + lexical retrieval, RRF fusion | ✅ | ✅ |
+| Cross-encoder rerank | ❌ | ✅ |
+| BYO corpora / private garage / multimodal (M1–M3) | ❌ | ✅ |
+
+Embeddings on both paths are 768-dim: the public fixture corpus uses `gemini-embedding-001`; local/private corpora default to Ollama `nomic-embed-text` (see [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md)).
+
 ![Ask outcome — cited answer](docs/assets/demo/ask-outcome.png)
 
 ![Citations — section + page](docs/assets/demo/citations-scannable.png)
