@@ -1,6 +1,6 @@
 # Mechanic RAG — Architecture (v1)
 
-**Status:** Binding contracts SSOT · *(2026-08-25: hosted public demo serves queries via Gemini — see `evals/MODEL_FREEZE_STATUS.md`; contracts unchanged)* · **Guide 01 vertical slice implemented** · Formal embed/CE **frozen (Tom override)** · **LICENSE:** PolyForm-NC 1.0.0 · **Fixtures-only public flip Met** · Guide 11–**15** **PrivateGoldSource** · Personal-garage **M1–M3 Met** (flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
+**Status:** Binding contracts SSOT · *(2026-08-25: hosted public demo serves queries via Gemini — see `evals/MODEL_FREEZE_STATUS.md`; contracts unchanged)* · Vertical slice implemented · Formal embed/CE **frozen (owner decision)** · **LICENSE:** PolyForm-NC 1.0.0 · Fixtures-only public packaging complete · Private-gold-source path implemented (fixture + synthetic + live pilot) · Personal-garage multimodal M1–M3 done (flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
 **Updated:** 2026-07-27 (Align: M2 image channel + M3 optional VLM contracts)  
 **Owner:** Tom  
@@ -9,7 +9,9 @@
 **SSOT vision:** [`VISION.md`](./VISION.md)  
 **Freeze honesty:** [`../evals/MODEL_FREEZE_STATUS.md`](../evals/MODEL_FREEZE_STATUS.md)`
 
-This document freezes v1 components, data contracts, ranking, corpus boundaries, and failure behavior. It does **not** authorize public flip, Drive/Ford ops, multimodal work, or claiming portfolio-complete from Guide 01 alone.
+This document freezes v1 components, data contracts, ranking, corpus boundaries, and failure behavior. It does **not** authorize public redistribution beyond fixtures, Drive/Ford operations, multimodal work, or claims of portfolio completeness beyond what is documented here.
+
+> **Terminology:** `Guide NN` tags mark numbered internal build milestones — historical provenance for when a capability landed. They are read-only history; current truth is what this document states.
 
 **Non-authoritative for v1:** `docs/api_contracts.md`, `docs/dev_setup.md`, `db/schema.sql`, `supabase/**`, Supabase/Gemini/multimodal research notes, and the **retired** stub ask under deleted `web/app/`. Live product path is `web/src/app/api/ask` + `web/src/server/ask.ts`.
 
@@ -491,7 +493,7 @@ Guide 01 vertical slice landed. This table is **post-slice**, not pre-implement.
 | Evals/tests | **n=44** S2000 fixture goldens (Guide 04–08; T1 +3 synthetic confusable sections) + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 08 paired ask delta **0** / helps=0; Guide 05 keep history; Guide 09 Path B freeze-override; Guide 11–15 PrivateGold / Soft Adjust ask unit tests | Soft Adjust golden suite (E2) deferred; live Soft Adjust full upsert ops |
 | Generator | Default / smoke: `gemma4:e2b`; fallback `qwen3.5:4b` (pass 8c historical proxy baseline) | — |
 
-**Honesty line:** Guide 01 DoD met + Guide 10b **fixtures-only public flip** Met ≠ earned CE lift / ≠ OSI open source / ≠ dual-product Done. Guide 11–**15** **PrivateGoldSource** Met: fixture multi-vehicle + Soft Adjust synthetic present-only + **Guide 14 live Soft Adjust pilot** (receipt→`gold_status`; local Vehicle `out/live` emit) + **Guide 15 Soft Adjust ask smoke** (synthetic `cat:demo-synthetic-f150`; incomplete Gold may return `insufficient_evidence`) ≠ friend Drive Soft Adjust Review Met ≠ Ford PTS ≠ Drive ingest ≠ live Soft Adjust full-corpus upsert Met. Embedding + CE are **frozen (Tom override)** Guide 09 (`evals/MODEL_FREEZE_STATUS.md`) despite Guide 08 T1 n=44 paired ask delta **0** / helps=0 (**no** lift claim). Guide 05 keep history retained; **LICENSE** PolyForm-NC 1.0.0 Met Guide 10a (source-available / non-commercial — **not** OSI open source / **not** MIT); fixtures-only public flip Met Guide 10b. Pass-8c proxy `ce_vs_rrf_delta_hits=+1` / `n=5` is **not** freeze evidence.
+**Honesty line:** The vertical slice and fixtures-only public packaging are complete — that does **not** mean earned CE lift, OSI open source, or dual-product Done. The private-gold-source path is implemented (fixture multi-vehicle, synthetic present-only, a live receipt→`gold_status` pilot, and a synthetic ask smoke where incomplete Gold may return `insufficient_evidence`) — that does **not** mean friend-Drive review, Ford PTS, Drive ingest, or full live-corpus upsert are done. Embedding + CE are **frozen by explicit owner decision** (`evals/MODEL_FREEZE_STATUS.md`) despite the n=44 paired-ask delta of **0** / helps=0 (**no** lift claim). The keep history is retained. **LICENSE** is PolyForm-NC 1.0.0 (source-available / non-commercial — **not** OSI open source / **not** MIT). A small early proxy run (`ce_vs_rrf_delta_hits=+1`, n=5) is **not** freeze evidence.
 
 ---
 
