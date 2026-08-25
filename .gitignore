@@ -75,3 +75,4 @@ evals/golden_m3_vision_v1.json
 
 # Supabase CLI local state
 supabase/.temp/
+.vercel

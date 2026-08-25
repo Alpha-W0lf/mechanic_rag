@@ -111,13 +111,12 @@ export async function handleAsk(
     }
 
     let embedding: number[] = [];
-    let embModel = '';
     let embedMs = 0;
     try {
       const embStarted = Date.now();
       const emb = await embedText(req.question);
       embedding = emb.embedding;
-      embModel = emb.model;
+      embeddingModel = emb.model;
       embedMs = Date.now() - embStarted;
     } catch (embedErr) {
       // Embedding provider unreachable (e.g. serverless deploy without
@@ -455,11 +454,11 @@ Also relevant (${hits[1].document_name ?? 'same document'}): ` +
       `${hits[1].content.trim().slice(0, 240)}\u2026`;
   }
 
-  const citations = hits.slice(0, 3).map((h, i) => ({
+  const citations: Citation[] = hits.slice(0, 3).map((h, i) => ({
     label: String(i + 1),
     chunk_id: h.chunk_id,
-    vehicle_id: h.vehicle_id,
-    doc_family: h.doc_family,
+    vehicle_id: h.vehicle_id ?? args.vehicleId,
+    doc_family: h.doc_family ?? '',
     document_id: h.document_id,
     section_path: h.section_path ?? null,
     page_start: h.page_start ?? null,
@@ -476,10 +475,10 @@ Also relevant (${hits[1].document_name ?? 'same document'}): ` +
     });
   }
 
-  return {
+  const result: AskSuccess = {
     answer,
     citations,
-    outcome: 'answered' as const,
+    outcome: 'answered',
     visual_assets: [],
     diagnostics: args.diagnosticsOn
       ? {
@@ -490,6 +489,7 @@ Also relevant (${hits[1].document_name ?? 'same document'}): ` +
         }
       : null,
   };
+  return result;
 }
 
 function logAsk(fields: Record<string, unknown>) {
