@@ -66,12 +66,20 @@ const STOP = new Set([
   'she',
 ]);
 
-export function lexicalQueryFromQuestion(question: string): string {
-  const tokens = question
+export function lexicalQueryTokens(question: string): string[] {
+  return question
     .toLowerCase()
     .replace(/[^a-z0-9.\-/\s]/g, ' ')
     .split(/\s+/)
     .map((t) => t.trim())
     .filter((t) => t.length >= 2 && !STOP.has(t));
-  return tokens.join(' ');
+}
+
+export function lexicalQueryFromQuestion(question: string): string {
+  return lexicalQueryTokens(question).join(' ');
+}
+
+/** OR-joined tsquery body for recall-tier retries (`to_tsquery`). */
+export function lexicalQueryFromQuestionOr(question: string): string {
+  return lexicalQueryTokens(question).join(' | ');
 }

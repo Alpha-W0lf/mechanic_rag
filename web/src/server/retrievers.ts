@@ -1,4 +1,4 @@
-import { lexicalQueryFromQuestion } from '@/lib/retrieval/lexical_query';
+import { lexicalQueryFromQuestion, lexicalQueryFromQuestionOr } from '@/lib/retrieval/lexical_query';
 import type { RetrieverHit } from '@/lib/retrieval/types';
 import { query, withClient } from './db';
 
@@ -70,9 +70,14 @@ export async function lexicalSearch(
   question: string,
   topN: number,
   docFamily?: string,
+  match: 'and' | 'or' = 'and',
 ): Promise<RetrieverHit[]> {
-  const lexicalQ = lexicalQueryFromQuestion(question);
+  const lexicalQ =
+    match === 'or'
+      ? lexicalQueryFromQuestionOr(question)
+      : lexicalQueryFromQuestion(question);
   if (!lexicalQ) return [];
+  const tsFn = match === 'or' ? 'to_tsquery' : 'plainto_tsquery';
   const params: unknown[] = [vehicleId, lexicalQ, topN];
   let familyClause = '';
   if (docFamily) {
@@ -83,7 +88,7 @@ export async function lexicalSearch(
     `
     SELECT c.chunk_id, c.document_id, c.vehicle_id, c.doc_family, c.content,
            c.section_path, c.page_start, c.page_end, d.document_name,
-           ts_rank_cd(c.content_tsv, plainto_tsquery('simple', $2)) AS rank
+           ts_rank_cd(c.content_tsv, ${tsFn}('simple', $2)) AS rank
     FROM chunks c
     JOIN documents d ON d.id = c.document_pk
     WHERE c.vehicle_id = $1

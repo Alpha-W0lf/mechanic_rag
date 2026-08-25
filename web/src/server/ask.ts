@@ -419,12 +419,24 @@ type ExtractiveArgs = {
  */
 export async function extractiveFallback(args: ExtractiveArgs) {
   const lStarted = Date.now();
-  const hits = await lexicalSearch(
+  let hits = await lexicalSearch(
     args.vehicleId,
     args.question,
     args.topN,
     args.docFamily,
   );
+  // Recall tier: AND-match often misses multi-word questions; retry OR.
+  let matchTier: 'and' | 'or' = 'and';
+  if (hits.length === 0) {
+    hits = await lexicalSearch(
+      args.vehicleId,
+      args.question,
+      args.topN,
+      args.docFamily,
+      'or',
+    );
+    matchTier = 'or';
+  }
   const lexicalMs = Date.now() - lStarted;
 
   if (hits.length === 0) {
@@ -484,6 +496,7 @@ Also relevant (${hits[1].document_name ?? 'same document'}): ` +
       ? {
           request_id: args.requestId,
           mode: 'extractive_lexical_fallback',
+          match_tier: matchTier,
           lexical_count: hits.length,
           lexical_ms: lexicalMs,
         }
