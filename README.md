@@ -6,6 +6,8 @@ Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
 
 🔗 **Live demo:** [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) — pick the fixture vehicle and ask a service question; answers cite document, section, and page.
 
+![Live demo — asking the fixture S2000 a service question and getting a cited answer](docs/assets/demo/live-demo.gif)
+
 ### What runs where
 
 | Capability | Live demo | Local clone |
