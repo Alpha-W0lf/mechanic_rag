@@ -92,7 +92,7 @@ export async function lexicalSearch(
     FROM chunks c
     JOIN documents d ON d.id = c.document_pk
     WHERE c.vehicle_id = $1
-      AND c.content_tsv @@ plainto_tsquery('simple', $2)
+      AND c.content_tsv @@ ${tsFn}('simple', $2)
       ${familyClause}
     ORDER BY rank DESC
     LIMIT $3
