@@ -29,11 +29,11 @@ Public corpus boundary is **`fixtures/` only** (synthetic). Drive sync, Ford/PTS
 
 ## 5. Are embed/CE frozen? What does paired ask delta `0` mean?
 
-Embedding (`nomic-embed-text` @ 768) and CE (`Xenova/ms-marco-MiniLM-L-6-v2`) are **frozen by Tom override** (Guide 09 Path B) — **not** because CE proved lift. *(Serving-path note, 2026-08-25: the hosted public demo embeds queries with `gemini-embedding-001` @ 768 — dimension-compatible with the frozen column — because serverless hosts cannot run Ollama. The freeze record, eval history, and local path remain nomic-based; see [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).)* Guide 08 paired ask ablation (n=44, T1 synthetic confusable sections + g39–g44, generator `gemma4:e2b`, citation∩gold) recorded `ce_vs_rrf_ask_delta_hits=0`, **CE-helps=0**, **CE-hurts=0** — still flat after a harder discriminative attempt. That honesty survives the freeze.
+Embedding (`nomic-embed-text` @ 768) and CE (`Xenova/ms-marco-MiniLM-L-6-v2`) are **frozen by explicit owner decision** — **not** because CE proved lift. *(Serving-path note, 2026-08-25: the hosted public demo embeds queries with `gemini-embedding-001` @ 768 — dimension-compatible with the frozen column — because serverless hosts cannot run Ollama. The freeze record, eval history, and local path remain nomic-based; see [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).)* The paired-ask ablation (n=44, T1 synthetic confusable sections + g39–g44, generator `gemma4:e2b`, citation∩gold) recorded `ce_vs_rrf_ask_delta_hits=0`, **CE-helps=0**, **CE-hurts=0** — still flat after a harder discriminative attempt. That honesty survives the freeze.
 
-**Guide 05 keep-with-justification (historical):** We **kept** CE in the ranking stack while status was candidate. Guide 09 **supersedes status** → frozen by override; CE **stays in the stack**. See [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). **Do not** claim CE improved citation hits on the n=30 / n=38 / n=44 runs.
+**Keep-with-justification (historical):** CE was **kept** in the ranking stack while still a candidate, then **superseded** by the freeze decision — CE **stays in the stack**. See [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md). **Do not** claim CE improved citation hits on the n=30 / n=38 / n=44 runs.
 
-**Guide 06 → Guide 09 → Guide 10b:** Freeze was parked after flat Guide 07–08 evidence; Guide 09 Path B **unparked** via explicit Tom override. Keep ≠ freeze ≠ LICENSE ≠ public flip. Guide 09 freeze **≠** earned CE lift. Guide 10b fixtures-only flip **≠** earned CE lift / OSI open source.
+**Decision sequence:** the freeze was parked after flat ablation evidence, then set by explicit owner decision. Keep ≠ freeze ≠ LICENSE ≠ public packaging. The freeze **≠** earned CE lift. Fixtures-only packaging **≠** earned CE lift / OSI open source.
 
 **Forbidden as lift / freeze evidence:** historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` (answer-substring era; no `_ask_` in the field name); “earned freeze from ablation.” If that short proxy name appears, label it **historical proxy / non-evidence** only.
 
@@ -43,7 +43,7 @@ Every ask requires a canonical **`vehicle_id`** — no all-vehicle fallback, no 
 
 ## 7. Is the eval suite “complete”? Where is path to ≥30?
 
-**Fixtures-only packaging / “v1 Done” marketing is Met.** Guide 08 paired ask (n=44) is flat (`ce_vs_rrf_ask_delta_hits=0`, helps=0 / hurts=0). Embed/CE are **frozen by override** despite that flat delta — **not** an earned CE-lift claim. Deferred themes (second vehicle, wiring): [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md). Public flip still ≠ private gold / Drive / OSI open source.
+**Fixtures-only packaging is complete.** The paired-ask ablation (n=44) is flat (`ce_vs_rrf_ask_delta_hits=0`, helps=0 / hurts=0). Embed/CE are **frozen by override** despite that flat delta — **not** an earned CE-lift claim. Deferred themes (second vehicle, wiring): [`evals/PATH_TO_30.md`](evals/PATH_TO_30.md). Public flip still ≠ private gold / Drive / OSI open source.
 
 ## 8. Does packaging mean portfolio v1 / public flip / freeze?
 
@@ -58,7 +58,7 @@ See VISION §9.
 
 ## 9. What does g10 teach about citation∩gold vs `insufficient_evidence`?
 
-Golden `g10-hard-miss-abs-module` expects a hard miss. Ablation scores **citation∩gold**: both Guide 02 arms correctly show `citation_gold_hit=false`. Live outcome was still `answered` on both arms — a soft grounding residual, not proof that hard-miss reliably returns `insufficient_evidence`. Do not claim that outcome contract is solved; cite the miss metric honesty instead.
+Golden `g10-hard-miss-abs-module` expects a hard miss. Ablation scores **citation∩gold**: both ablation arms correctly show `citation_gold_hit=false`. Live outcome was still `answered` on both arms — a soft grounding residual, not proof that hard-miss reliably returns `insufficient_evidence`. Do not claim that outcome contract is solved; cite the miss metric honesty instead.
 
 ## 10. Multimodal M1–M3 — what is Met and what is public?
 
@@ -80,9 +80,9 @@ Golden `g10-hard-miss-abs-module` expects a hard miss. Ablation scores **citatio
 
 ## 11. Why keep CE if paired-ask delta is 0?
 
-Freeze = **Tom override Guide 09**, **not** earned lift from ablation.
+The freeze is an **explicit owner decision**, **not** earned lift from ablation.
 
-**Evidence (Guide 08, n=44):** `ce_vs_rrf_ask_delta_hits=0`, CE-helps=0, CE-hurts=0 (`evals/last_run_summary.json`). Models are frozen because Tom explicitly locked them despite flat delta — **not** because CE proved citation lift.
+**Evidence (n=44 ablation):** `ce_vs_rrf_ask_delta_hits=0`, CE-helps=0, CE-hurts=0 (`evals/last_run_summary.json`). Models are frozen because Tom explicitly locked them despite flat delta — **not** because CE proved citation lift.
 
 **Why CE stays in the stack anyway:**
 
