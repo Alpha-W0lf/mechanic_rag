@@ -110,10 +110,33 @@ export async function handleAsk(
       return { error: 'unknown vehicle_id', status: 404 };
     }
 
-    const embStarted = Date.now();
-    const { embedding, model: embModel } = await embedText(req.question);
-    embeddingModel = embModel;
-    const embedMs = Date.now() - embStarted;
+    let embedding: number[] = [];
+    let embModel = '';
+    let embedMs = 0;
+    try {
+      const embStarted = Date.now();
+      const emb = await embedText(req.question);
+      embedding = emb.embedding;
+      embModel = emb.model;
+      embedMs = Date.now() - embStarted;
+    } catch (embedErr) {
+      // Embedding provider unreachable (e.g. serverless deploy without
+      // Ollama). Degrade to lexical-only extractive answers instead of 503.
+      logAsk({
+        requestId,
+        vehicle_id: req.vehicle_id,
+        outcome: 'extractive_fallback',
+        reason: embedErr instanceof Error ? embedErr.message : String(embedErr),
+      });
+      return await extractiveFallback({
+        vehicleId: req.vehicle_id,
+        question: req.question,
+        topN,
+        docFamily: req.doc_family,
+        diagnosticsOn,
+        requestId,
+      });
+    }
 
     const vStarted = Date.now();
     const vector = await vectorSearch(
@@ -378,6 +401,95 @@ export async function handleAsk(
     });
     return { error: 'Upstream dependency failure (database or internal)', status: 503 };
   }
+}
+
+type ExtractiveArgs = {
+  vehicleId: string;
+  question: string;
+  topN: number;
+  docFamily?: string;
+  diagnosticsOn: boolean;
+  requestId: string;
+};
+
+/**
+ * Serverless degrade path: when no embedding provider is reachable
+ * (e.g. hosted deploy without Ollama), skip vector/image channels and
+ * answer extractively from lexical retrieval. The answer is prefixed
+ * with [Retrieval mode] so callers never mistake it for generated text.
+ */
+export async function extractiveFallback(args: ExtractiveArgs) {
+  const lStarted = Date.now();
+  const hits = await lexicalSearch(
+    args.vehicleId,
+    args.question,
+    args.topN,
+    args.docFamily,
+  );
+  const lexicalMs = Date.now() - lStarted;
+
+  if (hits.length === 0) {
+    return insufficientEvidenceResult({
+      diagnosticsOn: args.diagnosticsOn,
+      requestId: args.requestId,
+      vectorCount: 0,
+      lexicalCount: 0,
+    });
+  }
+
+  const raw = hits[0].content.trim();
+  const cut = raw.slice(0, 480);
+  const lastStop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('.\n'));
+  const snippet = (lastStop > 120 ? cut.slice(0, lastStop + 1) : cut).trim();
+
+  let answer =
+    `[Retrieval mode] Cited passages from the service documentation ` +
+    `(generative answers require the local Ollama path):
+
+${snippet}`;
+  if (hits[1]?.content) {
+    answer +=
+      `
+
+Also relevant (${hits[1].document_name ?? 'same document'}): ` +
+      `${hits[1].content.trim().slice(0, 240)}\u2026`;
+  }
+
+  const citations = hits.slice(0, 3).map((h, i) => ({
+    label: String(i + 1),
+    chunk_id: h.chunk_id,
+    vehicle_id: h.vehicle_id,
+    doc_family: h.doc_family,
+    document_id: h.document_id,
+    section_path: h.section_path ?? null,
+    page_start: h.page_start ?? null,
+    page_end: h.page_end ?? null,
+  }));
+
+  if (args.diagnosticsOn) {
+    logAsk({
+      requestId: args.requestId,
+      vehicle_id: args.vehicleId,
+      outcome: 'answered_extractive',
+      lexical_count: hits.length,
+      lexical_ms: lexicalMs,
+    });
+  }
+
+  return {
+    answer,
+    citations,
+    outcome: 'answered' as const,
+    visual_assets: [],
+    diagnostics: args.diagnosticsOn
+      ? {
+          request_id: args.requestId,
+          mode: 'extractive_lexical_fallback',
+          lexical_count: hits.length,
+          lexical_ms: lexicalMs,
+        }
+      : null,
+  };
 }
 
 function logAsk(fields: Record<string, unknown>) {
