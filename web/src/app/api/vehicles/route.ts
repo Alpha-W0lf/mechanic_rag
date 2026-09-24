@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { PUBLIC_ASK_ERROR } from '@/server/ask_errors';
 import { listAskableVehicles } from '@/server/retrievers';
 
 export const runtime = 'nodejs';
@@ -15,7 +16,10 @@ export async function GET() {
       err instanceof Error ? err.message : err,
     );
     return NextResponse.json(
-      { error: 'Upstream dependency failure (database or internal)' },
+      {
+        error: PUBLIC_ASK_ERROR.database_unavailable,
+        error_class: 'database_unavailable',
+      },
       { status: 503 },
     );
   }

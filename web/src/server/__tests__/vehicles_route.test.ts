@@ -49,7 +49,8 @@ describe('GET /api/vehicles', () => {
     expect(result.raw.length).toBeGreaterThan(0);
     expect(result.status).toBe(503);
     expect(result.body).toEqual({
-      error: 'Upstream dependency failure (database or internal)',
+      error: 'Upstream dependency failure (database)',
+      error_class: 'database_unavailable',
     });
     expect(result.raw).not.toMatch(
       /ENOTFOUND|tenant\/user|npliiuigpenkrqaewtdf|FATAL/i,

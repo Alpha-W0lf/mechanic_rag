@@ -16,7 +16,13 @@ export async function POST(req: NextRequest) {
 
   const result = await handleAsk(validated.value);
   if ('status' in result && 'error' in result) {
-    return NextResponse.json({ error: result.error }, { status: result.status });
+    return NextResponse.json(
+      {
+        error: result.error,
+        ...(result.error_class ? { error_class: result.error_class } : {}),
+      },
+      { status: result.status },
+    );
   }
 
   return NextResponse.json({
