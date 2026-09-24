@@ -125,6 +125,11 @@ describe('POST /api/ask rate shield', () => {
     expect(handleAsk).not.toHaveBeenCalled();
   });
 
+  it('exports maxDuration 60 so Hobby cannot leave Ask unbound', async () => {
+    const route = await import('@/app/api/ask/route');
+    expect(route.maxDuration).toBe(60);
+  });
+
   it('still answers when the limiter store fails open', async () => {
     consumeAskRateLimit.mockResolvedValue({ ok: true, failedOpen: true });
     handleAsk.mockResolvedValue({
