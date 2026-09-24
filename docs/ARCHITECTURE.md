@@ -2,7 +2,7 @@
 
 **Status:** Binding contracts SSOT · *(2026-09-24: Production topology at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) is Vercel Hobby + Supabase Free + Gemini API free tier — see §3.1; clone/repro remains Compose + Ollama)* · Vertical slice implemented · Formal embed/CE **frozen (owner decision)** · **LICENSE:** PolyForm-NC 1.0.0 · Fixtures-only public packaging complete · Private-gold-source path implemented (fixture + synthetic + live pilot) · Personal-garage multimodal M1–M3 done (flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
-**Updated:** 2026-09-24 (JH-40: honest Production topology; rejected-cloud language labeled historical)  
+**Updated:** 2026-09-24 (JH-42: public Ask abuse shield; JH-40 topology)  
 **Owner:** Tom  
 **Lenses:** Senior AI Engineer (primary); Data Engineer; Backend  
 
@@ -103,6 +103,7 @@ Public demo: [https://mechanic-rag.vercel.app](https://mechanic-rag.vercel.app).
 | Hosted `pg.Pool` | `max` **2**, idle **5s**, SSL, `attachDatabasePool` from `@vercel/functions` when `VERCEL` is set (JH-37) | Unchanged: `max` 10, idle 30s, no SSL, no Vercel attach |
 | Gemini 429/503 | Exponential backoff + jitter, **max 4 attempts**, then fail (JH-39) | n/a (Ollama path) |
 | Public Ask errors | `error_class`: `generator_unavailable` \| `embedding_unavailable` \| `database_unavailable` \| `rate_limited` \| `internal` (JH-39 + JH-46). HTTP 200 `outcome: "degraded"` when generate/embed fails after retries and ≥1 citation exists; database stays 503 | Same taxonomy; local generate failures stay 503; local embed-down may extractive-degrade |
+| Ask abuse shield | Per hashed-IP **10/min + 100/day** and global **800/day** in Postgres `ask_rate_buckets` (JH-42). Excess is HTTP 429 `error_class: "rate_limited"` + `Retry-After`. **Fail-open** if the table is missing or the limiter query fails. Limits and env knobs: [`docs/ops.md`](./ops.md#public-ask-abuse-shield-jh-42) | Same code against local Postgres; disable with `ASK_RATE_LIMIT_DISABLED=1` |
 | Keep-alive | External **Cloudflare Worker + GitHub Actions** hit `GET /api/health?mode=db` (JH-29). In-repo weekly Action was removed **2026-08-25** so this dormant repo would not lose schedules | Local curl of the same contract |
 
 ```mermaid
@@ -394,6 +395,8 @@ Optional later (not required for vertical slice): `doc_family`, bounded `history
 `diagnostics` (retriever counts, latencies, model/index versions) only when a **development flag** is on — never private chunk bodies in logs or default responses.
 
 **No evidence:** HTTP 200 with an explicit insufficient-evidence answer and empty/minimal citations — **not** invented mechanical advice.
+
+**Abuse shield (JH-42):** over the per-client or global Ask budget → HTTP **429** `error_class: "rate_limited"` + `Retry-After` **before** embed/generate. Distinct from a Gemini 429 that degrades after retrieval (JH-46, HTTP 200).
 
 **Dependency failure:** Postgres stays non-200 `database_unavailable` (JH-39) — do not fabricate an answer. Hosted Gemini generate/embed 429/503 after retries **with ≥1 citation**: HTTP 200 `outcome: "degraded"` plus `error_class` (`generator_unavailable` \| `embedding_unavailable` \| `rate_limited`) and extractive excerpts only (JH-46). Zero citations, or local generate failure: existing non-200 `error_class`.
 
