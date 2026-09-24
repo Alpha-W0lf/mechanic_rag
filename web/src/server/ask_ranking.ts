@@ -58,6 +58,31 @@ export type PostFusionRanking = {
   ceScoreSummary: Record<string, unknown> | undefined;
 };
 
+function rrfPassthrough(
+  fused: RrfResult[],
+  ceTopN: number,
+  ceTopK: number,
+  extra: Pick<
+    PostFusionRanking,
+    | 'ablationRrfOnly'
+    | 'rerankDegraded'
+    | 'ceModel'
+    | 'ceSkipReason'
+    | 'ceError'
+  >,
+): PostFusionRanking {
+  const preCeShortlistIds = fused.slice(0, ceTopN).map((c) => c.chunk_id);
+  return {
+    finalChunks: fused.slice(0, ceTopK),
+    ceRuntimeMode: undefined,
+    ceLatencyMs: 0,
+    preCeShortlistChunkIds: preCeShortlistIds,
+    ceRankedChunkIds: preCeShortlistIds,
+    ceScoreSummary: undefined,
+    ...extra,
+  };
+}
+
 /**
  * Ablation → hosted skip → CE rerank-or-degrade.
  * Behavior matches the former inline block in handleAsk.
@@ -72,40 +97,18 @@ export async function rankAfterFusion(input: {
   defaultCeModel: string;
   ce?: CrossEncoder;
 }): Promise<PostFusionRanking> {
-  let finalChunks: Array<RrfResult | CeResult> = input.fused.slice(
-    0,
-    input.ceTopK,
-  );
-  const preCeShortlistIds = input.fused
-    .slice(0, input.ceTopN)
-    .map((c) => c.chunk_id);
-  let preCeShortlistChunkIds: string[] | undefined = preCeShortlistIds;
-  let ceRankedChunkIds: string[] | undefined = preCeShortlistIds;
-  let ceScoreSummary: Record<string, unknown> | undefined;
-  let ceLatencyMs = 0;
-  let ceError: string | undefined;
-  let ceSkipReason: string | undefined;
-  let ceRuntimeMode: string | undefined;
-  let ceModel = input.defaultCeModel;
-
   if (input.forceRrfOnly) {
     const flags = rankingDiagnosticFlags({
       forceRrfOnly: true,
       ceFailedOrUnavailable: false,
     });
-    return {
-      finalChunks,
+    return rrfPassthrough(input.fused, input.ceTopN, input.ceTopK, {
       ablationRrfOnly: flags.ablation_rrf_only,
       rerankDegraded: flags.rerank_degraded,
       ceModel: 'skipped_ablation',
-      ceRuntimeMode: undefined,
-      ceSkipReason,
-      ceError,
-      ceLatencyMs,
-      preCeShortlistChunkIds,
-      ceRankedChunkIds,
-      ceScoreSummary,
-    };
+      ceSkipReason: undefined,
+      ceError: undefined,
+    });
   }
 
   if (isGeminiServing()) {
@@ -113,19 +116,13 @@ export async function rankAfterFusion(input: {
       forceRrfOnly: false,
       ceFailedOrUnavailable: false,
     });
-    return {
-      finalChunks,
+    return rrfPassthrough(input.fused, input.ceTopN, input.ceTopK, {
       ablationRrfOnly: flags.ablation_rrf_only,
       rerankDegraded: flags.rerank_degraded,
       ceModel: 'skipped_hosted',
-      ceRuntimeMode: undefined,
       ceSkipReason: HOSTED_CE_SKIP_REASON,
-      ceError,
-      ceLatencyMs,
-      preCeShortlistChunkIds,
-      ceRankedChunkIds,
-      ceScoreSummary,
-    };
+      ceError: undefined,
+    });
   }
 
   const ce =
@@ -135,51 +132,37 @@ export async function rankAfterFusion(input: {
       forceRrfOnly: false,
       ceFailedOrUnavailable: true,
     });
-    return {
-      finalChunks,
+    return rrfPassthrough(input.fused, input.ceTopN, input.ceTopK, {
       ablationRrfOnly: flags.ablation_rrf_only,
       rerankDegraded: flags.rerank_degraded,
-      ceModel,
-      ceRuntimeMode,
-      ceSkipReason,
+      ceModel: input.defaultCeModel,
+      ceSkipReason: undefined,
       ceError: 'ce_unavailable',
-      ceLatencyMs,
-      preCeShortlistChunkIds,
-      ceRankedChunkIds,
-      ceScoreSummary,
-    };
+    });
   }
 
-  ceModel = ce.modelId;
-  ceRuntimeMode = parseCeRuntimeMode(ce.runtime);
   const rerank = await rerankWithDegrade(input.question, input.fused, ce, {
     topN: input.ceTopN,
     topK: input.ceTopK,
     timeoutMs: input.ceTimeoutMs,
   });
-  finalChunks = rerank.results;
   const flags = rankingDiagnosticFlags({
     forceRrfOnly: false,
     ceFailedOrUnavailable: rerank.rerank_degraded,
   });
-  ceLatencyMs = rerank.ce_latency_ms;
-  ceError = rerank.ce_error;
-  preCeShortlistChunkIds = rerank.pre_ce_shortlist_chunk_ids;
-  ceRankedChunkIds = rerank.ce_ranked_chunk_ids;
-  if (rerank.ce_score_summary) {
-    ceScoreSummary = { ...rerank.ce_score_summary };
-  }
   return {
-    finalChunks,
+    finalChunks: rerank.results,
     ablationRrfOnly: flags.ablation_rrf_only,
     rerankDegraded: flags.rerank_degraded,
-    ceModel,
-    ceRuntimeMode,
-    ceSkipReason,
-    ceError,
-    ceLatencyMs,
-    preCeShortlistChunkIds,
-    ceRankedChunkIds,
-    ceScoreSummary,
+    ceModel: ce.modelId,
+    ceRuntimeMode: parseCeRuntimeMode(ce.runtime),
+    ceSkipReason: undefined,
+    ceError: rerank.ce_error,
+    ceLatencyMs: rerank.ce_latency_ms,
+    preCeShortlistChunkIds: rerank.pre_ce_shortlist_chunk_ids,
+    ceRankedChunkIds: rerank.ce_ranked_chunk_ids,
+    ceScoreSummary: rerank.ce_score_summary
+      ? { ...rerank.ce_score_summary }
+      : undefined,
   };
 }

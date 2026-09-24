@@ -1,20 +1,26 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { RrfResult } from '@/lib/retrieval/types';
-import { HOSTED_CE_SKIP_REASON } from '@/server/cross_encoder';
 
-const isGeminiServing = vi.fn(() => false);
-const scorePairs = vi.fn(
-  async (
-    _q: string,
-    candidates: Array<{ chunk_id: string }>,
-  ): Promise<Array<{ chunk_id: string; ce_score: number }>> =>
-    candidates.map((c, i) => ({ chunk_id: c.chunk_id, ce_score: 10 - i })),
+const { isGeminiServing, scorePairs, createCrossEncoderFromEnv } = vi.hoisted(
+  () => {
+    const scorePairs = vi.fn(
+      async (
+        _q: string,
+        candidates: Array<{ chunk_id: string }>,
+      ): Promise<Array<{ chunk_id: string; ce_score: number }>> =>
+        candidates.map((c, i) => ({ chunk_id: c.chunk_id, ce_score: 10 - i })),
+    );
+    return {
+      isGeminiServing: vi.fn(() => false),
+      scorePairs,
+      createCrossEncoderFromEnv: vi.fn(async () => ({
+        modelId: 'mock-ce',
+        runtime: 'transformers_js:classification',
+        scorePairs,
+      })),
+    };
+  },
 );
-const createCrossEncoderFromEnv = vi.fn(async () => ({
-  modelId: 'mock-ce',
-  runtime: 'transformers_js:classification',
-  scorePairs,
-}));
 
 vi.mock('@/server/providers', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/server/providers')>();
@@ -67,6 +73,7 @@ describe('rankAfterFusion', () => {
   it('hosted Gemini skip does not construct CE', async () => {
     isGeminiServing.mockReturnValue(true);
     const { rankAfterFusion } = await import('@/server/ask_ranking');
+    const { HOSTED_CE_SKIP_REASON } = await import('@/server/cross_encoder');
     const out = await rankAfterFusion({ ...BASE, forceRrfOnly: false });
     expect(createCrossEncoderFromEnv).not.toHaveBeenCalled();
     expect(out.ceModel).toBe('skipped_hosted');
