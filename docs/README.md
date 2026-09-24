@@ -10,7 +10,7 @@ Thin map for diligence readers. Start at the repo root for the overview and clon
 | [`VISION.md`](VISION.md) | Product why |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Contracts / how |
 | [`api_contracts.md`](api_contracts.md) | API contracts |
-| [`ops.md`](ops.md) | CI gates (what a green run proves) + Ask monitor policy + public Ask abuse shield (JH-42). No scheduled Production smoke here — cited-Ask monitor is JH-41 in the second_brain hub. |
+| [`ops.md`](ops.md) | CI gates (what a green run proves) + Ask monitor policy + public Ask abuse shield (JH-42) + Data API lock (JH-52). No scheduled Production smoke here — cited-Ask monitor is JH-41 in the second_brain hub. |
 | [`../evals/MODEL_FREEZE_STATUS.md`](../evals/MODEL_FREEZE_STATUS.md) | Embed/CE freeze honesty (no lift claim) |
 | [`../evals/evidence/`](../evals/evidence/) | Multimodal eval + ablation evidence artifacts |
 
