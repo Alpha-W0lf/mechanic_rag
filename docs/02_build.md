@@ -1,7 +1,14 @@
+# Phase 2 — historical 2025 checklist (not the storefront)
 
-# Phase 2: Multimodal RAG Implementation (Gemini 2.5 Pro)
+> **Not current product truth.** This file is a 2025 build log. It is **not** the live stack and it does **not** authorize “Gemini 2.5 Pro multimodal production-grade” claims.
+>
+> **Storefront / stranger path:** text RAG (fixtures → hybrid → RRF → citations). Hosted topology: [`ARCHITECTURE.md` §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo) (Vercel Hobby + Supabase Free via `pg`/`DATABASE_URL` + Gemini free tier `gemma-4-26b-a4b-it` / `gemini-embedding-001`).
+>
+> **M1–M3** personal-garage multimodal paths exist in code with flags; they are **parked / not the public demo**. Do not treat `scripts/ingest/parse.py` or the retired supabase-js ingest as the product CLI — use `mecharag ingest`.
+>
+> SSOT: [`ARCHITECTURE.md`](./ARCHITECTURE.md) · Ask contract: [`api_contracts.md`](./api_contracts.md)
 
-**Objective:** Implement the definitive, production-grade, multimodal ingestion pipeline using `Gemini 2.5 Pro` to achieve state-of-the-art data extraction from complex PDF documents, as defined in `docs/multimodal_gemini_approach_plan.md`.
+**Historical objective (2025, do not repeat as current):** a Gemini-native PDF extract experiment. Checklist below is provenance only.
 
 ---
 

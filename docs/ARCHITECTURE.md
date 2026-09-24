@@ -1,8 +1,8 @@
 # Mechanic RAG — Architecture (v1)
 
-**Status:** Binding contracts SSOT · *(2026-09-24: Production topology at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) is Vercel Hobby + Supabase Free + Gemini API free tier — see §3.1; clone/repro remains Compose + Ollama)* · Vertical slice implemented · Formal embed/CE **frozen (owner decision)** · **LICENSE:** PolyForm-NC 1.0.0 · Fixtures-only public packaging complete · Private-gold-source path implemented (fixture + synthetic + live pilot) · Personal-garage multimodal M1–M3 done (flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
+**Status:** Binding contracts SSOT · *(2026-09-24: Production topology at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) is Vercel Hobby + Supabase Free + Gemini API free tier — see §3.1; clone/repro remains Compose + Ollama)* · Vertical slice implemented · Formal embed/CE **frozen (owner decision)** · **LICENSE:** PolyForm-NC 1.0.0 · Fixtures-only public packaging complete · Private-gold-source path implemented (fixture + synthetic + live pilot) · Personal-garage multimodal M1–M3 **parked** (flags default off; not the storefront) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
-**Updated:** 2026-09-24 (JH-53 citation-marker hygiene; JH-49: Production durability + JH-17 incident note; JH-52 / JH-42 / JH-40)  
+**Updated:** 2026-09-24 (JH-47 leftover path cleanup; JH-53 citation-marker hygiene; JH-49 / JH-52 / JH-42 / JH-40)  
 **Owner:** Tom  
 **Lenses:** Senior AI Engineer (primary); Data Engineer; Backend  
 
@@ -13,7 +13,7 @@ This document freezes v1 components, data contracts, ranking, corpus boundaries,
 
 > **Terminology:** `Guide NN` tags mark numbered internal build milestones — historical provenance for when a capability landed. They are read-only history; current truth is what this document states.
 
-**Non-authoritative for v1:** `docs/api_contracts.md`, `docs/dev_setup.md`, `db/schema.sql`, leftover `supabase/**` client/schema files (hosted demo uses `pg` + `DATABASE_URL`, not that tree), Gemini/multimodal research notes, and the **retired** stub ask under deleted `web/app/`. Live product path is `web/src/app/api/ask` + `web/src/server/ask.ts`.
+**Non-authoritative for v1:** `docs/dev_setup.md`, `docs/manual_build_steps.md`, `db/schema.sql`, Gemini/multimodal research notes, and the **retired** stub ask under deleted `web/app/`. Live product path is `web/src/app/api/ask` + `web/src/server/ask.ts`. Ask HTTP shape is also mirrored in [`api_contracts.md`](./api_contracts.md) (derived from that path; this file remains SSOT). The retired supabase-js client/schema tree under `supabase/**` was removed (JH-47); hosted demo uses `pg` + `DATABASE_URL`.
 
 ---
 
@@ -153,7 +153,7 @@ A green keep-alive is a pause/wake / DB-reachable signal. It is **not** a cited-
 
 **MR1 — app tree (done in Guide 01):** Canonical tree is **`web/src/app` only**. Root `web/app/` is **removed**. Do not recreate a dual app tree — Next ignores `src/app` when root `app/` exists.
 
-**Stale paths (do not extend):** `db/schema.sql`, leftover `supabase/**` client/schema tree (hosted demo does **not** use that folder — it uses `pg` + `DATABASE_URL`), Gemini multimodal ingest, `scripts/deploy/upload_assets.py` as product paths.
+**Stale paths (do not extend):** `db/schema.sql`, Gemini multimodal research notes, historical `scripts/ingest/parse.py` (not the product CLI). Retired supabase-js ingest/deploy scripts and the leftover `supabase/**` tree were removed (JH-47). Hosted demo uses `pg` + `DATABASE_URL`.
 
 ---
 
@@ -533,7 +533,7 @@ Mechanic must not query Drive, Ford queues, PTS, or raw Bronze. It may store imp
 - Hosted black-box reranker as default (Cohere/Voyage) without N/K, degrade, and eval lift
 - Second-stage **LLM** re-score as a substitute for the local CE stage
 - True MMR (unless later evals justify; then separate decision)
-- **Historical (2026-07-12):** “Supabase / cloud Postgres” and “required Vercel/hosted demo” as *clone* non-goals (D12, D11). **Not current Production:** the public demo has run Vercel Hobby + Supabase Free + Gemini since 2026-08-24/25 (§3.1). Still a non-goal: requiring cloud to clone or treating leftover `supabase/**` as a product path
+- **Historical (2026-07-12):** “Supabase / cloud Postgres” and “required Vercel/hosted demo” as *clone* non-goals (D12, D11). **Not current Production:** the public demo has run Vercel Hobby + Supabase Free + Gemini since 2026-08-24/25 (§3.1). Still a non-goal: requiring cloud to clone or treating the retired supabase-js tree as a product path
 - Drive or Google API clients
 - Ford capture / CDP / bulk ops inside this repo
 - Raw PDF ingest as the public path

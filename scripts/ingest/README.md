@@ -28,4 +28,4 @@ Unset `MECHANIC_PRIVATE_GOLD_ROOT` fail-closes (no silent fixtures fallthrough).
 
 ## This folder
 
-`scripts/ingest/` holds older helper modules used during early development. Prefer **`mecharag ingest`** for the supported product path. Do not follow Supabase / Docling / `rag_input/` instructions if you find them elsewhere — they are obsolete for the current stack.
+`scripts/ingest/` holds older helper modules used during early development (`parse.py`, `chunking.py`). The retired supabase-js orchestrator (`ingest.py`) was removed (JH-47). Prefer **`mecharag ingest`** for the supported product path. Do not follow Supabase / Docling / `rag_input/` instructions if you find them elsewhere — they are obsolete for the current stack.

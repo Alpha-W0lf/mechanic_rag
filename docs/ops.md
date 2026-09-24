@@ -122,7 +122,7 @@ Supabase PostgREST exposes every `public` table to the project's `anon` / `authe
 
 **Product path is unchanged.** Next.js uses `pg` + `DATABASE_URL` (`web/src/server/db.ts`). Ingest (`mecharag ingest`, `mecharag embed-images`) uses `psycopg` + the same URL. Neither talks to PostgREST or supabase-js. Postgres table owners bypass RLS unless `FORCE ROW LEVEL SECURITY` — this migration does **not** FORCE. Assumption: the `DATABASE_URL` role owns (or is superuser for) the public tables it created. Confirm with the snippet below before applying on Production.
 
-Leftover `scripts/ingest/ingest.py` and `scripts/deploy/upload_assets.py` still call supabase-js with `SUPABASE_SERVICE_ROLE_KEY`. Those are **not** product paths (ARCHITECTURE: stale). `service_role` bypasses RLS; they would not break if someone still ran them. They are not used by Ask.
+Retired supabase-js ingest/deploy scripts (`scripts/ingest/ingest.py`, `scripts/deploy/upload_assets.py`) were removed (JH-47). Product ingest is `mecharag ingest` / `mecharag embed-images` via `psycopg` + `DATABASE_URL`.
 
 `004_lock_data_api.sql` also `ALTER DEFAULT PRIVILEGES … REVOKE` from `anon`/`authenticated` (same role gate) so a later `CREATE TABLE` by the applying role does not inherit Supabase's default GRANT. That revoke is scoped to objects created by `current_user` after apply.
 
@@ -139,7 +139,7 @@ psql "${DATABASE_URL:-postgres://mechanic:mechanic@localhost:5433/mechanic_rag}"
   -v ON_ERROR_STOP=1 -f db/migrations/004_lock_data_api.sql
 ```
 
-`docker-compose.yml` initdb currently mounts `001` and `003` only (pre-existing: `002` is also unmounted). Fresh volumes still need the `psql -f` above, or `./scripts/migrate.sh`. `004` is idempotent; Compose has no `anon`/`authenticated`, so the REVOKE block is skipped.
+`docker-compose.yml` initdb mounts `001`–`004` in filename order (JH-47). Fresh volumes apply them on first boot. Existing volumes: `./scripts/migrate.sh` (skips `*DRAFT*`). `004` is idempotent; Compose has no `anon`/`authenticated`, so the REVOKE block is skipped.
 
 ### Verification SQL (run on Production after apply)
 
