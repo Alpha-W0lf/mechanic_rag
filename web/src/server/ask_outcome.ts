@@ -1,15 +1,24 @@
-/** Thin ask outcome helpers — keep ask.ts under line budget. */
+/** Ask success/failure shapes and thin insufficient-evidence helper. */
 
 import type { Citation } from './citations';
 import { INSUFFICIENT_EVIDENCE_ANSWER } from './citations';
+import type { AskErrorClass } from './ask_errors';
 import type { VisualAsset } from './page_assets';
 
-type InsufficientAsk = {
+export type AskSuccess = {
   answer: string;
   citations: Citation[];
-  outcome: 'insufficient_evidence';
+  outcome: 'answered' | 'insufficient_evidence' | 'degraded';
   diagnostics: Record<string, unknown> | null;
   visual_assets: VisualAsset[];
+  /** Present when outcome is `degraded` — the generator failure class. */
+  error_class?: AskErrorClass;
+};
+
+export type AskFailure = {
+  error: string;
+  status: number;
+  error_class?: AskErrorClass;
 };
 
 export function insufficientEvidenceResult(input: {
@@ -24,7 +33,7 @@ export function insufficientEvidenceResult(input: {
   imageDegraded?: boolean;
   imageReason?: string;
   minimal?: boolean;
-}): InsufficientAsk {
+}): AskSuccess {
   if (input.minimal) {
     return {
       answer: INSUFFICIENT_EVIDENCE_ANSWER,

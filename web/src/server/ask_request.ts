@@ -1,4 +1,4 @@
-/** Ask request validation — kept separate so ask.ts stays ≤400 lines. */
+/** Ask request validation — public contract lives on ask.ts re-exports. */
 
 export type AskRequest = {
   vehicle_id: string;

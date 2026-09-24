@@ -1,28 +1,18 @@
 import { randomUUID } from 'crypto';
 import { reciprocalRankFusionMany } from '@/lib/retrieval/rrf';
 import { sectionDedup } from '@/lib/retrieval/section_dedup';
-import type { CeResult, RrfResult } from '@/lib/retrieval/types';
 import {
   ASK_SYSTEM_PROMPT,
   assembleContext,
   filterAnswerToKnownLabels,
   type Citation,
 } from './citations';
-import {
-  createCrossEncoderFromEnv,
-  HOSTED_CE_SKIP_REASON,
-  rerankWithDegrade,
-  type CrossEncoder,
-} from './cross_encoder';
-import { DEGRADED_ASK_BANNER } from '@/lib/ask_copy';
-import {
-  errorClassForEmbedFailure,
-  toPublicAskFailure,
-  type AskErrorClass,
-} from './ask_errors';
-import { maybeDegradedAsk, buildExtractiveCitedAnswer } from './ask_degrade';
+import type { CrossEncoder } from './cross_encoder';
+import { errorClassForEmbedFailure, toPublicAskFailure } from './ask_errors';
+import { maybeDegradedAsk } from './ask_degrade';
+import { extractiveFallback } from './ask_extractive';
 import { logAsk, readGenAttempts } from './ask_log';
-import { embedText, generateAnswer, isGeminiServing } from './providers';
+import { embedText, generateAnswer } from './providers';
 import {
   lexicalSearch,
   loadChunksByIds,
@@ -31,65 +21,29 @@ import {
   type ChunkRow,
 } from './retrievers';
 import { retrieveImageChannel } from './ask_image_channel';
-import { insufficientEvidenceResult } from './ask_outcome';
+import {
+  type AskFailure,
+  type AskSuccess,
+  insufficientEvidenceResult,
+} from './ask_outcome';
 import { type AskRequest } from './ask_request';
+import { isForceRrfOnlyEnv, rankAfterFusion } from './ask_ranking';
 import { maybeAssistWithVlm, type VlmResult } from './ask_vlm';
 import {
   buildVisualAssets,
   garageRoot,
   type Provenance,
-  type VisualAsset,
 } from './page_assets';
 
 export type { AskRequest } from './ask_request';
 export { validateAskRequest } from './ask_request';
-
-export type AskSuccess = {
-  answer: string;
-  citations: Citation[];
-  outcome: 'answered' | 'insufficient_evidence' | 'degraded';
-  diagnostics: Record<string, unknown> | null;
-  visual_assets: VisualAsset[];
-  /** Present when outcome is `degraded` — the generator failure class. */
-  error_class?: AskErrorClass;
-};
-
-export type AskFailure = {
-  error: string;
-  status: number;
-  error_class?: AskErrorClass;
-};
-
-/** Env-gated Guide 02 ablation: skip CE intentionally (≠ natural degrade). */
-export function isForceRrfOnlyEnv(
-  env: NodeJS.Dict<string> = process.env,
-): boolean {
-  return env.MECHANIC_FORCE_RRF_ONLY === '1';
-}
-
-/** Parse `transformers_js:classification` → `classification` (or passthrough). */
-export function parseCeRuntimeMode(runtime: string | undefined): string | undefined {
-  if (!runtime) return undefined;
-  const idx = runtime.lastIndexOf(':');
-  return idx >= 0 ? runtime.slice(idx + 1) : runtime;
-}
-
-/**
- * Diagnostic flags for post-fusion ranking.
- * Ablation must never be labeled as `rerank_degraded`.
- */
-export function rankingDiagnosticFlags(input: {
-  forceRrfOnly: boolean;
-  ceFailedOrUnavailable: boolean;
-}): { ablation_rrf_only: boolean; rerank_degraded: boolean } {
-  if (input.forceRrfOnly) {
-    return { ablation_rrf_only: true, rerank_degraded: false };
-  }
-  return {
-    ablation_rrf_only: false,
-    rerank_degraded: input.ceFailedOrUnavailable,
-  };
-}
+export type { AskSuccess, AskFailure } from './ask_outcome';
+export { extractiveFallback } from './ask_extractive';
+export {
+  isForceRrfOnlyEnv,
+  parseCeRuntimeMode,
+  rankingDiagnosticFlags,
+} from './ask_ranking';
 
 export async function handleAsk(
   req: AskRequest,
@@ -107,13 +61,6 @@ export async function handleAsk(
   const t0 = Date.now();
   let vectorMs = 0;
   let lexicalMs = 0;
-  let ceLatencyMs = 0;
-  let rerankDegraded = false;
-  let ablationRrfOnly = false;
-  let ceError: string | undefined;
-  let ceSkipReason: string | undefined;
-  let ceRuntimeMode: string | undefined;
-  let ceModel = process.env.CE_MODEL || 'cross-encoder/ms-marco-MiniLM-L-6-v2';
   let embeddingModel = process.env.EMBEDDING_MODEL || 'nomic-embed-text';
   let generatorModel = process.env.OLLAMA_MODEL || 'gemma4:e2b';
   const forceRrfOnly = isForceRrfOnlyEnv();
@@ -223,66 +170,30 @@ export async function handleAsk(
 
     // Ablation: intentional RRF(+dedup)-only — distinct from natural CE degrade
     // and from hosted Gemini CE skip (never import @xenova/transformers).
-    let finalChunks: Array<RrfResult | CeResult> = fused.slice(0, ceTopK);
-    const preCeShortlistIds = fused.slice(0, ceTopN).map((c) => c.chunk_id);
-    let preCeShortlistChunkIds: string[] | undefined = preCeShortlistIds;
-    let ceRankedChunkIds: string[] | undefined = preCeShortlistIds;
-    let ceScoreSummary: Record<string, unknown> | undefined;
-    if (forceRrfOnly) {
-      const flags = rankingDiagnosticFlags({
-        forceRrfOnly: true,
-        ceFailedOrUnavailable: false,
-      });
-      ablationRrfOnly = flags.ablation_rrf_only;
-      rerankDegraded = flags.rerank_degraded;
-      ceModel = 'skipped_ablation';
-      ceRuntimeMode = undefined;
-      // Do not create/call CE when ablating (opts.ce still available for tests
-      // when FORCE is unset). Rank metrics use RRF shortlist order on both arms.
-    } else if (isGeminiServing()) {
-      const flags = rankingDiagnosticFlags({
-        forceRrfOnly: false,
-        ceFailedOrUnavailable: false,
-      });
-      ablationRrfOnly = flags.ablation_rrf_only;
-      rerankDegraded = flags.rerank_degraded;
-      ceModel = 'skipped_hosted';
-      ceRuntimeMode = undefined;
-      ceSkipReason = HOSTED_CE_SKIP_REASON;
-    } else {
-      const ce = opts?.ce ?? (await createCrossEncoderFromEnv().catch(() => null));
-      if (!ce) {
-        const flags = rankingDiagnosticFlags({
-          forceRrfOnly: false,
-          ceFailedOrUnavailable: true,
-        });
-        ablationRrfOnly = flags.ablation_rrf_only;
-        rerankDegraded = flags.rerank_degraded;
-        ceError = 'ce_unavailable';
-      } else {
-        ceModel = ce.modelId;
-        ceRuntimeMode = parseCeRuntimeMode(ce.runtime);
-        const rerank = await rerankWithDegrade(req.question, fused, ce, {
-          topN: ceTopN,
-          topK: ceTopK,
-          timeoutMs: ceTimeoutMs,
-        });
-        finalChunks = rerank.results;
-        const flags = rankingDiagnosticFlags({
-          forceRrfOnly: false,
-          ceFailedOrUnavailable: rerank.rerank_degraded,
-        });
-        ablationRrfOnly = flags.ablation_rrf_only;
-        rerankDegraded = flags.rerank_degraded;
-        ceLatencyMs = rerank.ce_latency_ms;
-        ceError = rerank.ce_error;
-        preCeShortlistChunkIds = rerank.pre_ce_shortlist_chunk_ids;
-        ceRankedChunkIds = rerank.ce_ranked_chunk_ids;
-        if (rerank.ce_score_summary) {
-          ceScoreSummary = { ...rerank.ce_score_summary };
-        }
-      }
-    }
+    const ranked = await rankAfterFusion({
+      question: req.question,
+      fused,
+      forceRrfOnly,
+      ceTopN,
+      ceTopK,
+      ceTimeoutMs,
+      defaultCeModel:
+        process.env.CE_MODEL || 'cross-encoder/ms-marco-MiniLM-L-6-v2',
+      ce: opts?.ce,
+    });
+    const {
+      finalChunks,
+      ablationRrfOnly,
+      rerankDegraded,
+      ceModel,
+      ceRuntimeMode,
+      ceSkipReason,
+      ceError,
+      ceLatencyMs,
+      preCeShortlistChunkIds,
+      ceRankedChunkIds,
+      ceScoreSummary,
+    } = ranked;
 
     const ids = finalChunks.map((c) => c.chunk_id);
     const rows = await loadChunksByIds(ids);
@@ -462,121 +373,4 @@ export async function handleAsk(
     });
     return failure;
   }
-}
-
-type ExtractiveArgs = {
-  vehicleId: string;
-  question: string;
-  topN: number;
-  docFamily?: string;
-  diagnosticsOn: boolean;
-  requestId: string;
-  error_class: AskErrorClass;
-  startedAt: number;
-};
-
-/**
- * Serverless degrade path: when no embedding provider is reachable,
- * skip vector/image channels and answer extractively from lexical retrieval.
- * Banner is shared honest copy (not “local Ollama only”).
- * HTTP 200 + outcome=degraded when lexical hits exist; zero hits stay
- * insufficient_evidence.
- */
-export async function extractiveFallback(args: ExtractiveArgs) {
-  const lStarted = Date.now();
-  let hits = await lexicalSearch(
-    args.vehicleId,
-    args.question,
-    args.topN,
-    args.docFamily,
-  );
-  // Recall tier: AND-match often misses multi-word questions; retry OR.
-  let matchTier: 'and' | 'or' = 'and';
-  if (hits.length === 0) {
-    hits = await lexicalSearch(
-      args.vehicleId,
-      args.question,
-      args.topN,
-      args.docFamily,
-      'or',
-    );
-    matchTier = 'or';
-  }
-  const lexicalMs = Date.now() - lStarted;
-
-  if (hits.length === 0) {
-    logAsk({
-      requestId: args.requestId,
-      vehicle_id: args.vehicleId,
-      outcome: 'insufficient_evidence',
-      error_class: args.error_class,
-      lexical_count: 0,
-      lexical_ms: lexicalMs,
-      total_ms: Date.now() - args.startedAt,
-    });
-    return insufficientEvidenceResult({
-      diagnosticsOn: args.diagnosticsOn,
-      requestId: args.requestId,
-      vectorCount: 0,
-      lexicalCount: 0,
-    });
-  }
-
-  const citations: Citation[] = hits.slice(0, 3).map((h, i) => ({
-    label: String(i + 1),
-    chunk_id: h.chunk_id,
-    vehicle_id: h.vehicle_id ?? args.vehicleId,
-    doc_family: h.doc_family ?? '',
-    document_id: h.document_id,
-    section_path: h.section_path ?? null,
-    page_start: h.page_start ?? null,
-    page_end: h.page_end ?? null,
-  }));
-  const rows = new Map<string, ChunkRow>();
-  for (const h of hits.slice(0, 3)) {
-    rows.set(h.chunk_id, {
-      chunk_id: h.chunk_id,
-      document_id: h.document_id,
-      vehicle_id: h.vehicle_id ?? args.vehicleId,
-      doc_family: h.doc_family ?? '',
-      content: h.content,
-      section_path: h.section_path ?? null,
-      page_start: h.page_start ?? null,
-      page_end: h.page_end ?? null,
-      document_name: h.document_name ?? null,
-      provenance: null,
-    });
-  }
-  const built = buildExtractiveCitedAnswer(citations, rows);
-  const answer = built?.answer ?? DEGRADED_ASK_BANNER;
-  const usedCitations = built?.citations ?? citations;
-
-  logAsk({
-    requestId: args.requestId,
-    vehicle_id: args.vehicleId,
-    outcome: 'degraded',
-    error_class: args.error_class,
-    lexical_count: hits.length,
-    lexical_ms: lexicalMs,
-    total_ms: Date.now() - args.startedAt,
-  });
-
-  const result: AskSuccess = {
-    answer,
-    citations: usedCitations,
-    outcome: 'degraded',
-    error_class: args.error_class,
-    visual_assets: [],
-    diagnostics: args.diagnosticsOn
-      ? {
-          request_id: args.requestId,
-          mode: 'extractive_lexical_fallback',
-          error_class: args.error_class,
-          match_tier: matchTier,
-          lexical_count: hits.length,
-          lexical_ms: lexicalMs,
-        }
-      : null,
-  };
-  return result;
 }
