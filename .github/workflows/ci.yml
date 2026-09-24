@@ -4,6 +4,11 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      ask_url:
+        description: "Ask endpoint URL to probe for smoke check"
+        required: false
+        default: "https://mechanic-rag.vercel.app/api/ask"
 
 jobs:
   web:
@@ -48,3 +53,16 @@ jobs:
       - name: Fast pytest subset
         if: success() || failure()
         run: pytest -m "not integration and not slow" --strict-markers
+
+  prod_ask_smoke:
+    name: Production Ask Smoke
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+      - name: Production Ask smoke probe
+        run: python scripts/checks/prod_ask_smoke.py --url "${{ github.event.inputs.ask_url || 'https://mechanic-rag.vercel.app/api/ask' }}"
+
