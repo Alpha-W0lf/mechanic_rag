@@ -4,7 +4,7 @@
 
 > **Terminology:** `Guide NN` / `M1–M3` tags mark numbered internal build milestones — historical provenance for when a capability landed. Read them as labels; current truth is what this document states.
 **Created:** 2026-07-12  
-**Updated:** 2026-08-02 (R2 — product English lead; private hub links removed from outward surface)  
+**Updated:** 2026-09-24 (JH-47: hosted topology pointer to ARCHITECTURE §3.1; M1–M3 labeled parked)  
 **Owner:** Tom  
 **Repo:** `mechanic_rag` (renamed from `mechainic_rag`; Python import package remains `mecharag`)  
 
@@ -79,16 +79,18 @@ A vehicle that is capture-complete is **not** automatically RAG-ready. Portfolio
 - Citations (vehicle, document/family, section, page range when available)
 - Eval set + smoke path (incl. CE lift vs RRF-only)
 - Docs: README, GETTING_STARTED, architecture, FAQ/tradeoffs, `.env.example`, fork/run welcome
-- Generator: local **Ollama** — operator default **`gemma4:e2b`** (pass 9 smoke OK); fallback **`qwen3.5:4b`** (pass 8c historical baseline). *(Hosted public demo serves via Gemini — embedding + generation — see `evals/MODEL_FREEZE_STATUS.md` 2026-08-25 note.)*
-- **Local Postgres + pgvector via Docker Compose only**
+- Generator: local **Ollama** — operator default **`gemma4:e2b`** (pass 9 smoke OK); fallback **`qwen3.5:4b`** (pass 8c historical baseline). Hosted public demo generates with Gemini — see [`ARCHITECTURE.md` §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo).
+- **Clone / reproduction DB:** local Postgres + pgvector via Docker Compose (host **5433**)
 - Multi-vehicle **schema + catalog** (even if fixtures only ship 1–2 synthetic vehicles)
 
+**Hosted topology (public demo, not the clone lock):** Vercel Hobby + Supabase Free Postgres (app uses `pg` + `DATABASE_URL`, not supabase-js) + Gemini API free tier. Detail and honesty lines: [`ARCHITECTURE.md` §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo). Clone/repro remains Compose + Ollama.
+
 **Out of scope for v1**
-- Claiming public demo **requires** VLM/image channel on (flags stay default off; M0 text remains the stranger-runnable path) — see §5 for private-garage M1–M3 Met honesty
+- Claiming public demo **requires** VLM/image channel on (M1–M3 are **parked** personal-garage paths; flags are not the storefront; M0 text remains the stranger-runnable path) — see §5
 - Redistributing OEM PDFs
-- Supabase or any required/optional hosted DB
+- Requiring cloud DB / Vercel to clone, or treating a retired supabase-js client tree as a product path
 - Ford PTS auth, bulk orchestrator, or CDP capture inside this repo
-- Required Vercel/hosted demo
+- Treating the hosted free-tier demo as an SLO
 - “Perfect” coverage of any real OEM corpus
 - Blocking public v1 on completion of Ford processing/unification
 
@@ -101,11 +103,11 @@ v1 portfolio ship is **M0 text-only**, but architecture must **not paint us into
 | Stage | Name | Ship claim (honest) | Status (2026-07-27 Align) |
 |-------|------|---------------------|---------------------------|
 | **M0** | Text RAG (v1) | Hybrid retrieve → RRF → CE → citations over **text** | **Met** (fixtures + personal garage) |
-| **M1** | Linked visuals | Text hits can **show** page/figure assets joined by locators | **Met** (Review Pass) — ask never rasterizes; `GET /api/assets` may |
-| **M2** | Multimodal retrieve | Also retrieve via image/caption channels; fuse ID lists | **Met** (Pass-with-nits) — CLIP optional `[m2]`; Option A text citations |
-| **M3** | Vision answers | Optional VLM path for diagram questions; text remains source of torque/spec truth | **Met** (Pass-with-nits) — `MECHANIC_VLM` **default off**; cache-hit PNGs only |
+| **M1** | Linked visuals | Text hits can **show** page/figure assets joined by locators | **Met** on personal garage; **parked** for public storefront — ask never rasterizes; `GET /api/assets` may |
+| **M2** | Multimodal retrieve | Also retrieve via image/caption channels; fuse ID lists | **Met** on personal garage; **parked** — CLIP optional `[m2]`; Option A text citations |
+| **M3** | Vision answers | Optional VLM path for diagram questions; text remains source of torque/spec truth | **Met** on personal garage; **parked** — `MECHANIC_VLM` **default off**; cache-hit PNGs only |
 
-**Honest public claim:** Fixtures-first portfolio still leads with **M0 text RAG**. M1–M3 are **real on the personal garage** under local flags; do **not** market “vision RAG replaces manuals” or imply VLM is on by default in demos.
+**Honest public claim:** The storefront is **M0 text RAG**. M1–M3 are **parked** personal-garage work (code remains; flags are not the public demo). Do **not** market “vision RAG replaces manuals” or imply VLM / image retrieve is on by default.
 
 **Design rules (binding):**
 1. Chunk / retrieval **interfaces** accept a modality field (`text` now; `image` / `table` later).
@@ -135,7 +137,7 @@ v1 portfolio ship is **M0 text-only**, but architecture must **not paint us into
 | Product docs | **This VISION** is SSOT for Mechanic product intent |
 | Library program | Separate private library program (not linked from this public surface) |
 | Code | Next.js `web/src/app` + hybrid→RRF→section dedup→CE + Ollama citations; stub ask **retired** |
-| Database | **Local Compose Postgres+pgvector only** — no Supabase |
+| Database | **Clone:** Compose Postgres+pgvector. **Production demo:** Supabase Free via `pg` + `DATABASE_URL` ([ARCHITECTURE §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo)). Not supabase-js. |
 | Multimodal plans | Archive / defer |
 | Scratch wipe? | **No** |
 | Real Ford corpus | Private ingest **after** process/unify; not required for public DoD |
@@ -146,11 +148,11 @@ v1 portfolio ship is **M0 text-only**, but architecture must **not paint us into
 
 | ID | Choice |
 |----|--------|
-| DB | Local Postgres + pgvector (Compose) — **no Supabase optional** |
+| DB | Clone: Compose Postgres + pgvector. Production: Supabase Free via `DATABASE_URL` (ARCHITECTURE §3.1). Clone must not require cloud. |
 | Generator default | Ollama **`gemma4:e2b`** (fallback `qwen3.5:4b`) |
 | Ranking | Hybrid → RRF → local CE (N→K); degrade to RRF-only; eval lift (MR2) |
 | Public corpus | Synthetic redistributable fixtures |
-| Modality v1 | Text-only; extensible later |
+| Modality v1 | **Text RAG storefront.** M1–M3 personal-garage paths exist and stay parked / off the public demo |
 | Vehicle model | Multi-vehicle schema from v1 |
 | OEM PDFs | Never in public git |
 

@@ -1,5 +1,7 @@
 # Development Setup
 
+> **Historical (2025) machine log — not the current clone path.** Use [`../GETTING_STARTED.md`](../GETTING_STARTED.md) and [`.env.example`](../.env.example). Product ingest is `mecharag ingest --source fixtures` against Compose Postgres (`DATABASE_URL`), not `scripts/ingest/ingest.py` and not `SUPABASE_SERVICE_ROLE_KEY`. Hosted demo topology: [`ARCHITECTURE.md` §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo).
+
 Quick setup guide for working on this project from a new machine. Check off items as you complete them.
 
 > ✅ **SETUP COMPLETE** - All development environment tasks have been completed successfully on this MacBook. You're ready to start development!
@@ -83,7 +85,7 @@ cp ../env.example .env.local
 - [x] Test Python ingestion (from repo root):
 ```bash
 source .venv/bin/activate
-python scripts/ingest/ingest.py --dry-run
+mecharag ingest --source fixtures
 ```
 - [x] Test Next.js app (from web/):
 ```bash
@@ -95,7 +97,7 @@ pnpm run dev
   - [x] Confirmed Supabase connection active
   - [x] Verified data is already indexed and retrieval working
 - [x] Test ingestion skeleton:
-  - [x] `python scripts/ingest/ingest.py --dry-run`
+  - [x] `mecharag ingest --source fixtures`
   - [x] Confirmed discovery of all 3 PDFs and shows planned steps
 
 ### 6) Verify database connection

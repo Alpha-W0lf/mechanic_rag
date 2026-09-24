@@ -1,99 +1,100 @@
-# API Contracts
+# API contracts (derived)
 
-**Version:** 1.0
-**Date:** August 17, 2025
+**SSOT:** [`ARCHITECTURE.md` §8](./ARCHITECTURE.md#8-ask-api-contract-v1-target) and §7.6 (citation labels + page locators). This page is a short mirror of the live route and types. Do not treat it as a second source of truth.
 
-This document provides the formal data contracts for the MechaRAG API endpoints.
+**Derived from:** `web/src/app/api/ask/route.ts`, `web/src/server/ask_request.ts` (`AskRequest`), `web/src/server/ask.ts` (`AskSuccess` / `AskFailure`), `web/src/server/citations.ts` (`Citation`), `web/src/server/ask_errors.ts`, `web/src/app/api/health/route.ts`.
+
+The 2025 stub (`{question, history}`, `page_number`, `{status:"ok"}` only) is retired.
 
 ---
 
-## 1. `/api/ask`
+## 1. `POST /api/ask`
 
-This is the primary endpoint for interacting with the RAG system.
+### 1.1 Request
 
-### 1.1. Request
-
--   **Method:** `POST`
--   **Body:** `application/json`
+- **Method:** `POST`
+- **Body:** `application/json`
 
 ```json
 {
+  "vehicle_id": "string",
   "question": "string",
-  "history": [
-    {
-      "role": "enum (user|model)",
-      "parts": [{ "text": "string" }]
-    }
-  ]
+  "doc_family": "string",
+  "diagram_assist": false
 }
 ```
 
--   **Fields:**
-    -   `question` (string, required): The user's current question.
-    -   `history` (array, optional): The previous conversation history, used to provide context for the model.
+| Field | Required | Notes |
+|-------|----------|--------|
+| `vehicle_id` | yes | Canonical catalog id. No all-vehicle fallback. Stub `{ "query" }` is 400. |
+| `question` | yes | Non-empty; max 4000 characters. |
+| `doc_family` | no | Optional filter. |
+| `diagram_assist` | no | Parked M3: only meaningful when `MECHANIC_VLM` is on. Default omitted/false. |
 
-### 1.2. Success Response (200 OK)
+`history` is not accepted by the live validator.
 
--   **Body:** `application/json`
+### 1.2 Success (HTTP 200)
 
 ```json
 {
   "answer": "string",
   "citations": [
     {
-      "document_name": "string",
-      "page_number": "integer",
-      "section_path": "string"
+      "label": "1",
+      "chunk_id": "string",
+      "vehicle_id": "string",
+      "doc_family": "string",
+      "document_id": "string",
+      "section_path": "string|null",
+      "page_start": "integer|null",
+      "page_end": "integer|null"
     }
   ],
-  "visual_assets": [
-    {
-      "caption": "string",
-      "path": "string"
-    }
-  ]
+  "outcome": "answered",
+  "diagnostics": null,
+  "visual_assets": []
 }
 ```
 
--   **Fields:**
-    -   `answer` (string): The synthesized, Markdown-formatted text answer from the LLM.
-    -   `citations` (array): A list of source documents used to generate the answer.
-        -   `document_name`: The name of the source PDF file.
-        -   `page_number`: The page number within the source document.
-        -   `section_path`: The hierarchical section path (e.g., "Clutch > Service Information").
-    -   `visual_assets` (array): A list of visual assets (diagrams, tables) relevant to the answer. This array will be empty if no visuals are found.
-        -   `caption`: The AI-generated caption for the visual asset (e.g., "[Image: Exploded view of the clutch master cylinder.]").
-        -   `path`: The relative path to the PNG image of the page containing the asset.
+| Field | Notes |
+|-------|--------|
+| `outcome` | `answered` \| `insufficient_evidence` \| `degraded` |
+| `error_class` | Present on `outcome: "degraded"` (and on non-200 failures). Values: `generator_unavailable` \| `embedding_unavailable` \| `database_unavailable` \| `rate_limited` \| `internal` |
+| `citations[].label` | Server-assigned `"1"`, `"2"`, … (ARCHITECTURE §7.6). |
+| `citations[].page_start` / `page_end` | Locators from DB rows. There is no `page_number` field. |
+| `diagnostics` | Object only when `MECHANIC_DIAGNOSTICS=1`; otherwise `null`. Never private chunk bodies. |
+| `visual_assets` | Parked M1. Empty on the public text-RAG path. Shape when present: `{ chunk_id, document_id, page_start, content_type, href }`. |
 
-### 1.3. Error Response (4xx/5xx)
+Hosted generate/embed failure after retries with ≥1 citation: HTTP **200** `outcome: "degraded"` plus `error_class` and extractive excerpts (JH-46). That is not a 5xx.
 
--   **Body:** `application/json`
+### 1.3 Non-200
+
+| Status | When |
+|--------|------|
+| 400 | Invalid JSON, missing `vehicle_id` / `question`, oversized question, retired `{query}` stub |
+| 404 | Unknown `vehicle_id` |
+| 429 | Abuse shield (`error_class: "rate_limited"` + `Retry-After`) |
+| 503 | Dependency failure (`error_class` as classified). Database stays 503; local generate failure stays 503 |
 
 ```json
 {
-  "error": "string"
+  "error": "string",
+  "error_class": "database_unavailable"
 }
 ```
 
--   **Fields:**
-    -   `error` (string): A user-friendly error message.
+400 validation bodies may omit `error_class`.
 
 ---
 
-## 2. `/api/health`
+## 2. `GET /api/health`
 
-A simple endpoint to verify that the API is running.
+Not a single `{ "status": "ok" }` contract.
 
-### 2.1. Request
+| Mode | Behavior |
+|------|----------|
+| `?mode=live` or `liveness` | Process up → 200 `{"status":"ok","mode":"liveness"}` |
+| `?mode=db` | `SELECT 1` only. 200 `ready` / 503 `not_ready` with `checks.postgres` |
+| default | Readiness: Postgres required. Ollama required only when `GEMINI_API_KEY` is unset. Hosted Gemini path is ready when Postgres is up. |
 
--   **Method:** `GET`
-
-### 2.2. Success Response (200 OK)
-
--   **Body:** `application/json`
-
-```json
-{
-  "status": "ok"
-}
-```
+Public JSON must not include driver / pooler / host text. Detail: ARCHITECTURE §9.1.

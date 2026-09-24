@@ -1,5 +1,7 @@
 ## Manual Build Steps (Accounts, Env, One-time Setup)
 
+> **Historical (2025) account checklist — not the current clone path.** Strangers: [`../GETTING_STARTED.md`](../GETTING_STARTED.md). Hosted demo is Vercel Hobby + Supabase Free via `pg`/`DATABASE_URL` + Gemini free tier ([`ARCHITECTURE.md` §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo)). `SUPABASE_SERVICE_ROLE_KEY` is **not** a product env (removed from Vercel under JH-43). Do not run `db/schema.sql` or leftover supabase-js ingest.
+
 > ✅ **ALL SETUP COMPLETE** - All manual build steps have been completed successfully on both MacBooks. Development environment is fully configured and ready for Phase 2 implementation!
 
 Follow these steps to provision external services and wire up local/prod envs. Keep this open while you work and check off completed items.
@@ -57,7 +59,7 @@ Follow these steps to provision external services and wire up local/prod envs. K
   - [x] `source .venv/bin/activate`
   - [x] `uv pip install -r requirements.txt`
 - [x] Test ingestion skeleton:
-  - [x] `python scripts/ingest/ingest.py --dry-run`
+  - [x] `mecharag ingest --source fixtures` (historical note: this box originally ran the retired supabase-js `scripts/ingest/ingest.py`)
   - [x] Confirmed discovery of all 3 PDFs and shows planned steps
 
 ### 6) Verify database connection

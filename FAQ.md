@@ -63,18 +63,18 @@ Golden `g10-hard-miss-abs-module` expects a hard miss. Ablation scores **citatio
 
 ## 10. Multimodal M1–M3 — what is Met and what is public?
 
-**M1–M3 are Met** on the personal garage (`cat:*` vehicles) under **local env flags** — not on the public stranger clone path.
+**M1–M3 are Met** on the personal garage (`cat:*` vehicles) under **local env flags**. They are **parked** — not the public storefront. The stranger clone and hosted demo are **M0 text RAG**.
 
-| Stage | Met where | Public stranger path |
-|-------|-----------|----------------------|
-| **M0** | Text RAG (fixtures + garage) | **Yes** — `fixtures/` only |
-| **M1** | Linked page/figure assets via `GET /api/assets` | Optional locally; not required for clone |
-| **M2** | Image/caption retrieval channel (CLIP optional) | Flags default off; not in public demo |
-| **M3** | Optional VLM assist (`MECHANIC_VLM`) | **Default off**; text owns torque/spec truth |
+| Stage | Met where | Public stranger / hosted path |
+|-------|-----------|-------------------------------|
+| **M0** | Text RAG (fixtures + garage) | **Yes** — storefront |
+| **M1** | Linked page/figure assets via `GET /api/assets` | Parked; not required |
+| **M2** | Image/caption retrieval channel (CLIP optional) | Parked; not in public demo |
+| **M3** | Optional VLM assist (`MECHANIC_VLM`) | Parked; **default off**; text owns torque/spec |
 
 **Binding honesty:**
 
-1. **Flags default off** — `MECHANIC_VLM`, image channel, and multimodal retrieve paths are opt-in env; strangers run **M0 text RAG** only.  
+1. **Parked / not storefront** — `MECHANIC_VLM` defaults off; image/VLM paths are local personal-garage helpers. Strangers run **M0 text RAG** only.  
 2. **Text owns torque/spec** — M3 VLM may assist diagram questions locally; it is never the default source of spec truth.  
 3. **Friend Drive library ≠ Mechanic ingest** — dual-product / Drive→Mechanic is **OUT**; public git stays fixtures-only.  
 4. **Do not** imply the public demo requires VLM or image channel to run. See VISION §5 and M1–M3 dev guides.

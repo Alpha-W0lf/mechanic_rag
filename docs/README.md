@@ -9,7 +9,7 @@ Thin map for diligence readers. Start at the repo root for the overview and clon
 | [`../FAQ.md`](../FAQ.md) | Technical FAQ |
 | [`VISION.md`](VISION.md) | Product why |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Contracts / how |
-| [`api_contracts.md`](api_contracts.md) | API contracts |
+| [`api_contracts.md`](api_contracts.md) | Ask/health contract (derived from the live route; SSOT is ARCHITECTURE §8) |
 | [`ops.md`](ops.md) | CI gates (what a green run proves) + Ask monitor policy + public Ask abuse shield (JH-42) + Data API lock (JH-52). No scheduled Production smoke here — cited-Ask monitor is JH-41 in a private ops repo (once daily at 12:03 PM America/Chicago). |
 | [`incidents/2026-08-jh17-supabase-pause.md`](incidents/2026-08-jh17-supabase-pause.md) | JH-17 hosted-demo pause (cleaned incident note; no project refs) |
 | [`../evals/MODEL_FREEZE_STATUS.md`](../evals/MODEL_FREEZE_STATUS.md) | Embed/CE freeze honesty (no lift claim) |
@@ -28,7 +28,7 @@ Reference material from the original build (Aug 2025), kept as engineering conte
 
 - [`dev_setup.md`](dev_setup.md) — development environment
 - [`manual_build_steps.md`](manual_build_steps.md) — one-time accounts / env / setup
-- [`01_build.md`](01_build.md) → [`04_build.md`](04_build.md) — phased build walkthrough
+- [`01_build.md`](01_build.md) → [`04_build.md`](04_build.md) — **historical** 2025 phase checklists (not current stack; `02_build.md` is not a Gemini 2.5 Pro production claim). Public storefront is **text RAG**; M1–M3 garage multimodal is parked / flags not required.
 
 ## Historical / ops (not product contracts)
 
