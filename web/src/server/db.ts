@@ -36,17 +36,33 @@ export async function query<T extends QueryResultRow = QueryResultRow>(
   return getPool().query<T>(text, params);
 }
 
-export async function checkPostgres(timeoutMs = 3000): Promise<boolean> {
-  const client = await getPool().connect();
+type PostgresPoolLike = {
+  connect: () => Promise<PoolClient>;
+};
+
+/**
+ * Bounded SELECT 1. Connect/query/timeout failures return false — never throw.
+ * Optional `pool` is for tests; production uses getPool().
+ */
+export async function checkPostgres(
+  timeoutMs = 3000,
+  pool: PostgresPoolLike = getPool(),
+): Promise<boolean> {
+  let client: PoolClient | undefined;
   try {
+    client = await pool.connect();
     const timer = new Promise<never>((_, reject) =>
       setTimeout(() => reject(new Error('db timeout')), timeoutMs),
     );
     await Promise.race([client.query('SELECT 1'), timer]);
     return true;
-  } catch {
+  } catch (err) {
+    console.error(
+      '[checkPostgres] probe failed',
+      err instanceof Error ? err.message : err,
+    );
     return false;
   } finally {
-    client.release();
+    client?.release();
   }
 }

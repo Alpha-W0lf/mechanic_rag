@@ -17,6 +17,11 @@ function geminiKey(): string {
   return process.env.GEMINI_API_KEY || '';
 }
 
+/** True when hosted Gemini is the serving path (key present). */
+export function isGeminiServing(): boolean {
+  return Boolean(geminiKey());
+}
+
 export { OllamaError };
 
 async function geminiEmbed(

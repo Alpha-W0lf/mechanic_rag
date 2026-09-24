@@ -368,10 +368,18 @@ Thin consumer of the ask contract: vehicle selector, question, answer + citation
 
 | Mode | Behavior |
 |------|----------|
-| Liveness | Process up → `200` |
-| Readiness | Checks Postgres connectivity and Ollama reachability (bounded timeouts); not ready → non-200 |
+| Liveness (`?mode=live` or `liveness`) | Process up → `200` `{"status":"ok","mode":"liveness"}` |
+| DB probe (`?mode=db`) | `SELECT 1` only. Success → `200`. Failure → `503` JSON. Never empty 500. Public JSON does not include driver/pooler text. |
+| Readiness (default) | Postgres required. Ollama required only when `GEMINI_API_KEY` is unset (local Compose). Hosted Gemini path is ready when Postgres is up. Not ready → `503`. Connect failures must not escape as empty 500. |
 
-Live `GET /api/health` distinguishes liveness (`?mode=live`) vs readiness (Postgres + Ollama). Do not regress to always-`{"status":"ok"}` as the only contract.
+```bash
+# Postgres-only keep-alive / probe (local)
+curl -sS -D- "http://localhost:3000/api/health?mode=db"
+# Hosted (after deploy)
+curl -sS -D- "https://mechanic-rag.vercel.app/api/health?mode=db"
+```
+
+Live `GET /api/health` distinguishes liveness, db probe, and readiness. Do not regress to always-`{"status":"ok"}` as the only contract.
 
 ### 9.2 Ask path logs (structured)
 
@@ -489,7 +497,7 @@ Guide 01 vertical slice landed. This table is **post-slice**, not pre-implement.
 | Ingest | `mecharag ingest --source fixtures`; **private-gold** Guide 11–**14** (fixture + Soft Adjust synthetic + live Soft Adjust pilot) | Friend Drive Soft Adjust Review Met / dual-product Done (out) |
 | Schema | `db/migrations/001_init.sql` (§6-shaped) | Grow catalog features as library sync lands |
 | Ranking | §7 order live; `section_dedup.ts`; CE with degrade; Guide 02 env ablation `MECHANIC_FORCE_RRF_ONLY` + paired ask fields | LICENSE Met Guide 10a; fixtures-only public flip Met Guide 10b |
-| Health | Liveness ≠ readiness | — |
+| Health | Liveness ≠ readiness; `?mode=db` is Postgres-only; hosted readiness does not require Ollama when Gemini is set | — |
 | Evals/tests | **n=44** S2000 fixture goldens (Guide 04–08; T1 +3 synthetic confusable sections) + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 08 paired ask delta **0** / helps=0; Guide 05 keep history; Guide 09 Path B freeze-override; Guide 11–15 PrivateGold / Soft Adjust ask unit tests | Soft Adjust golden suite (E2) deferred; live Soft Adjust full upsert ops |
 | Generator | Default / smoke: `gemma4:e2b`; fallback `qwen3.5:4b` (pass 8c historical proxy baseline) | — |
 
