@@ -1,5 +1,8 @@
 # Mechanic RAG
 
+[![CI](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml/badge.svg)](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml)
+[![Production Ask Smoke](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml/badge.svg?event=workflow_dispatch)](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml)
+
 Cited answers from automotive service docs. Hybrid retrieval (**vector + Postgres FTS**) → **RRF** fusion → **section dedup** → cited answer with exact document, section, and page locators.
 
 Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
@@ -22,6 +25,8 @@ curl -sS -X POST "https://mechanic-rag.vercel.app/api/ask" \
   -d '{"vehicle_id":"fixture:honda-s2000-demo","question":"What is the oil drain plug torque?"}'
 ```
 
+*(You can also verify live Ask health via `python scripts/checks/prod_ask_smoke.py` or trigger the `workflow_dispatch` Production Ask smoke probe in GitHub Actions; see [`docs/ops.md`](docs/ops.md#public-ask-monitor-evidence-jh-66--jh-486). Last public smoke check: **2026-09-24 19:21 UTC** — pass, `outcome: "answered"`, 2 citations, ~1.8s).*
+
 **Production durability.** The free-tier database paused after inactivity and took the live demo down. An external daily keep-alive now prevents that. The free-tier path was then hardened: model backoff with graceful degraded answers, a daily synthetic Ask monitor that files issues, an abuse shield, and a locked-down database API. Incident write-up: [`docs/incidents/2026-08-jh17-supabase-pause.md`](docs/incidents/2026-08-jh17-supabase-pause.md).
 
 ![Live demo — asking the fixture S2000 a service question and getting a cited answer](docs/assets/demo/live-demo.gif)
@@ -40,7 +45,7 @@ The hosted demo and local clone share the same retrieval core, but run on differ
 | Embeddings | `gemini-embedding-001` @ 768 | Ollama `nomic-embed-text` @ 768 |
 | Ranking | Hybrid vector + lexical → RRF → section dedup | Hybrid vector + lexical → RRF → section dedup → optional local CE |
 | Cross-encoder rerank | ❌ Skipped (`ce_skip_reason=hosted_ce_disabled`) | ✅ Optional MiniLM CE (n=44 delta 0, no lift claim) |
-| Monitoring | External keep-alive hits `/api/health?mode=db` (DB reachable). Cited-Ask monitor is JH-41 in a private ops repo, not this repo (once daily at 12:03 PM America/Chicago). Public last-success + how to verify: [`docs/ops.md`](docs/ops.md#public-ask-monitor-evidence-jh-66) | Local `/api/health` readiness (Postgres + Ollama) |
+| Monitoring | External keep-alive hits `/api/health?mode=db` (DB reachable). Cited-Ask monitor is JH-41 in a private ops repo, not this repo (once daily at 12:03 PM America/Chicago). Public last-success + how to verify via curl / `workflow_dispatch` smoke: [`docs/ops.md`](docs/ops.md#public-ask-monitor-evidence-jh-66--jh-486) | Local `/api/health` readiness (Postgres + Ollama) |
 | Vehicle catalog + manual browser | ✅ | ✅ |
 | Ask → cited generated answer | ✅ (Gemini) | ✅ (Ollama, or Gemini if key set) |
 | BYO corpora / private garage / multimodal (M1–M3) | ❌ | ✅ |
@@ -109,7 +114,7 @@ Full clone path, footguns, and paired-ask ablation: [`GETTING_STARTED.md`](GETTI
 
 - [`docs/VISION.md`](docs/VISION.md) — product / why  
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — contracts / how  
-- [`docs/ops.md`](docs/ops.md) — CI gates (what a green run proves) + Ask monitor policy (pass / degraded pass / fail) + public last-success / stranger verify (JH-66). Cited-Ask monitor lives in a private ops repo (JH-41), not here (once daily at 12:03 PM America/Chicago).  
+- [`docs/ops.md`](docs/ops.md) — CI gates (what a green run proves) + Ask monitor policy (pass / degraded pass / fail) + public last-success / stranger verify (JH-66 / JH-48.6). Cited-Ask monitor lives in a private ops repo (JH-41), not here (once daily at 12:03 PM America/Chicago).  
 - [`docs/incidents/2026-08-jh17-supabase-pause.md`](docs/incidents/2026-08-jh17-supabase-pause.md) — JH-17 pause and what landed after  
 - [`GETTING_STARTED.md`](GETTING_STARTED.md) — operator path  
 - [`FAQ.md`](FAQ.md) — Technical FAQ  

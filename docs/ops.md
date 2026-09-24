@@ -20,7 +20,7 @@ GitHub Actions workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.ym
 | `web` | `pnpm build` | Next.js production compile succeeds. |
 | `python` | `public_fail_closed.py fixtures` | Public `fixtures/` has no OEM PDFs, no `private_oem` / `private_gold` path tokens, no forbidden `rights_class`. Fail-closed. |
 | `python` | `pytest -m "not integration and not slow"` | Fast unit tests for `mecharag/` + `scripts/` that need **no** network, Ollama, or Postgres. |
-| `prod_ask_smoke` (`workflow_dispatch` only) | `prod_ask_smoke.py` | Live Production cited-Ask probe against `https://mechanic-rag.vercel.app/api/ask`. Proves Production Ask health on demand without spending free-tier quota on every push/PR. |
+| `prod_ask_smoke` (`workflow_dispatch` only) | `prod_ask_smoke.py` | Live Production cited-Ask probe against `https://mechanic-rag.vercel.app/api/ask`. Proves Production Ask health on demand without spending free-tier quota on every push/PR. Badge: [![Production Ask Smoke](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml/badge.svg?event=workflow_dispatch)](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml). |
 
 **Python pin:** `3.13` (same as [`docs/dev_setup.md`](dev_setup.md) / [`.python-version`](../.python-version)). `pyproject.toml` allows `>=3.11`. Dependencies are cached.
 
@@ -38,7 +38,7 @@ Local full suite (when you have the sibling repo / live emit): `pytest` from rep
 - Full eval suite (`mecharag eval --golden evals/`).
 - Scheduled Production / hosted smoke. This clone is dormant by design; GitHub disables schedules on inactive repos, and daily scheduled monitoring (JH-41) runs in a private ops repo. To test Production Ask health manually, dispatch the `prod_ask_smoke` job via `workflow_dispatch` or run `python scripts/checks/prod_ask_smoke.py`.
 
-**Cited-Ask monitor (JH-41)** lives in a private ops repo, not this repo. It is the scheduled fixture Ask probe (once daily at 12:03 PM America/Chicago). Failures and degraded results open deduped GitHub issues. Do not add a schedule here to cover that. Scoring is in the Ask monitor policy section below. Public last-success and a stranger verify step: [Public Ask-monitor evidence (JH-66)](#public-ask-monitor-evidence-jh-66). Local `/api/health` remains the clone readiness check.
+**Cited-Ask monitor (JH-41)** lives in a private ops repo, not this repo. It is the scheduled fixture Ask probe (once daily at 12:03 PM America/Chicago). Failures and degraded results open deduped GitHub issues. Do not add a schedule here to cover that. Scoring is in the Ask monitor policy section below. Public last-success and stranger verify steps: [Public Ask-monitor evidence (JH-66 / JH-48.6)](#public-ask-monitor-evidence-jh-66). Local `/api/health` remains the clone readiness check.
 
 ## Degraded Ask response (JH-46)
 
@@ -84,18 +84,26 @@ Score a hosted Ask probe as follows:
 
 A degraded 200 is still useful: extractive manual excerpts plus clickable citations. It is not a full Gemini answer and must not be scored as a silent pass.
 
-## Public Ask-monitor evidence (JH-66)
+<a id="public-ask-monitor-evidence-jh-66"></a>
+## Public Ask-monitor evidence (JH-66 / JH-48.6)
 
-The daily job is private. This repo has no scheduled Production smoke (see [CI](#ci-this-repo)). There is **no public Ask-monitor badge**. The only public workflow badge is [CI](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml) (`CI - passing` as of 2026-09-24). That badge proves lint / typecheck / tests / build — not cited Ask. Do not invent a private-repo badge URL; a stranger gets a 404.
+The daily scheduled monitor (JH-41) lives in a private ops repo and is not visible to public clones. This repository has no scheduled Production smoke (see [CI](#ci-this-repo)), but provides an on-demand Production Ask smoke probe via `workflow_dispatch` (JH-48.4) in [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
+
+**Public workflow badges:**
+- **CI (all pushes & PRs):** [![CI](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml/badge.svg)](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml) — proves web lint, typecheck, Vitest, build, Python fail-closed, and fast unit tests.
+- **Production Ask Smoke (`workflow_dispatch` on-demand):** [![Production Ask Smoke](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml/badge.svg?event=workflow_dispatch)](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml) — reflects manual on-demand smoke probe runs testing live `POST https://mechanic-rag.vercel.app/api/ask`. (Note: GitHub returns `no status` until the workflow is manually dispatched on `main` via `workflow_dispatch`).
+
+Do **not** invent private-repo badge URLs for the daily monitor; a stranger gets a 404.
 
 | Signal | When | Score | What a stranger can check |
 |---|---|---|---|
 | Last private monitor run (**owner-attested**) | Passing as of **2026-09-24** (JH-66) | **pass** (owner) | **Unknown** from a public clone — the Actions run is not public |
-| One-shot public cited-Ask probe | **2026-09-24 06:03:49 UTC** | **pass** (`outcome: "answered"`, 2 citations) | Repeat the curl below and score with the table above |
+| Last public smoke check (**owner-attested**) | **2026-09-24 19:21 UTC** (JH-48.6) | **pass** (`outcome: "answered"`, 2 citations) | Reproduce via `prod_ask_smoke.py`, GitHub Actions `workflow_dispatch`, or curl below |
+| One-shot public cited-Ask probe | **2026-09-24 19:21:40 UTC** | **pass** (`outcome: "answered"`, 2 citations) | Repeat the curl below and score with the table above |
 
 ```json
 {
-  "probed_at": "2026-09-24T06:03:49Z",
+  "probed_at": "2026-09-24T19:21:40Z",
   "url": "https://mechanic-rag.vercel.app/api/ask",
   "vehicle_id": "fixture:honda-s2000-demo",
   "question": "What is the oil drain plug torque?",
@@ -119,7 +127,12 @@ Alternatively, run the smoke probe script locally or via GitHub Actions `workflo
 python scripts/checks/prod_ask_smoke.py
 ```
 
-Expect HTTP 200. Score `outcome` plus citations with the policy table. Storefront screenshots of the same fixture question live under [`docs/assets/demo/`](assets/demo/) — they show cited Ask in the UI, not the schedule.
+**How to run via GitHub Actions (`workflow_dispatch`):**
+1. Go to the [CI Workflow](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml) on GitHub.
+2. If you have repo dispatch access (or in your own fork with network egress), select **Run workflow**, keep the default `ask_url`, and trigger the run.
+3. The `prod_ask_smoke` job executes `prod_ask_smoke.py` and records pass / degraded pass / fail directly in public Actions logs.
+
+Expect HTTP 200. Score `outcome` plus citations with the policy table. Storefront screenshots of the same fixture question live under [`docs/assets/demo/`](assets/demo/) — they show cited Ask in the UI, not the schedule. *(Note for repo owners: if archiving operator-run evidence, store screenshots under `docs/assets/ops/` with private org tokens, internal repo names, and runner IDs redacted; never invent fake screenshots or publish private monitor URLs).*
 
 **How the last-success line stays current.** After a private daily pass (or a fail / degraded pass), the operator updates the owner-attested row above. Do not claim an SLO or HA. A green probe here is not a keep-alive `SELECT 1`.
 
