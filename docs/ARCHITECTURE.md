@@ -2,7 +2,7 @@
 
 **Status:** Binding contracts SSOT · *(2026-09-24: Production topology at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) is Vercel Hobby + Supabase Free + Gemini API free tier — see §3.1; clone/repro remains Compose + Ollama)* · Vertical slice implemented · Formal embed/CE **frozen (owner decision)** · **LICENSE:** PolyForm-NC 1.0.0 · Fixtures-only public packaging complete · Private-gold-source path implemented (fixture + synthetic + live pilot) · Personal-garage multimodal M1–M3 done (flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
-**Updated:** 2026-09-24 (JH-49: Production durability + JH-17 incident note; JH-52 / JH-42 / JH-40)  
+**Updated:** 2026-09-24 (JH-53 citation-marker hygiene; JH-49: Production durability + JH-17 incident note; JH-52 / JH-42 / JH-40)  
 **Owner:** Tom  
 **Lenses:** Senior AI Engineer (primary); Data Engineer; Backend  
 
@@ -341,10 +341,13 @@ If the reranker fails, **fail open to fused (+ optional dedup) order** — do no
 ### 7.6 Context assembly
 
 1. Take top **K** chunks (CE order, or RRF order if degraded) within a bounded token/char budget.
-2. Assign server-side citation labels (`[1]`, `[2]`, …).
+2. Assign server-side citation labels (`[1]`, `[2]`, …) **once** at assembly (`assembleContext`). That is the only place labels are assigned. Labels are sequential from 1 in assembly order.
 3. Pass only labeled context to the generator (local Ollama / hosted Gemini).
-4. Generator may reference only those labels; unknown labels are rejected.
-5. Citation metadata is assembled from DB rows — never from model-invented paths.
+4. After generation, the returned `citations` array is the **referenced subset** of that assembled list. Labels stay **stable** (the array may be sparse — e.g. answer `[1], [3]` returns labels `"1"` and `"3"`, still pointing at the original chunks). Do **not** renumber unless the answer text is rewritten in the same step; renumbering one side only is wrong-source attribution. If the answer contains no markers, return the full assembled list.
+5. Unknown markers (e.g. `[99]`, or `[3]` when only two chunks were assembled) are **rejected**: they are stripped from the answer text (list punctuation and leftover spaces cleaned) and never added to the citation array. Known markers are left untouched.
+6. Citation metadata is assembled from DB rows — never from model-invented paths.
+7. Extractive / degraded answers use the same label-stable rule: skipped empty-content rows keep the original labels of the rows that remain.
+8. UI renders `[n]` in the answer as an in-page link to `#citation-n` only when a citation with that label is present in the response; otherwise the token stays plain text.
 
 ### 7.7 Model locks (gates, not invented IDs)
 

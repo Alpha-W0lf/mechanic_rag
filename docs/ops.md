@@ -54,6 +54,8 @@ Local full suite (when you have the sibling repo / live emit): `pytest` from rep
 
 `error_class` on a degraded body is one of `generator_unavailable` | `embedding_unavailable` | `rate_limited`. No `degraded: true` flag — `outcome` is the discriminator. Database failures stay HTTP 503 `error_class: "database_unavailable"` (not degraded). Zero retrieved chunks (including embed-fail + empty lexical) stay `insufficient_evidence`.
 
+**Citation labels (JH-53).** Labels are assigned once at context assembly. The response `citations` array is the referenced subset with those original labels (it may be sparse, e.g. `"1"` and `"3"`). Unknown `[n]` markers are stripped from `answer` and never appear as cards. Extractive degrade uses the same rule: skipped empty rows keep original labels. The UI links answer `[n]` to `#citation-n` only when that label is in `citations`.
+
 ## Ask log fields (JH-50)
 
 Every Ask that enters `handleAsk` emits exactly one `event:ask` JSON stdout line. It is **not** gated by `MECHANIC_DIAGNOSTICS` (that flag still gates only the public response `diagnostics` object). Typical fields: `outcome`, `generator_model`, `embedding_model`, `ce_skip_reason`, retrieval counts, per-stage ms (`embed_ms`, `vector_ms`, `lexical_ms`, `gen_ms`, `total_ms`), `gen_attempts` (Gemini generate tries, 1–4), and `error_class` when the Ask degraded or failed.

@@ -54,7 +54,29 @@ export function assembleContext(
   };
 }
 
-/** Keep only citation labels the model actually referenced; drop unknown labels. */
+const CITATION_MARKER_RE = /\[(\d+)\]/g;
+
+/** Remove `[n]` whose n is not in the assembled set; keep known markers and labels. */
+function stripUnknownCitationMarkers(
+  answer: string,
+  allowed: ReadonlySet<string>,
+): string {
+  const stripped = answer.replace(CITATION_MARKER_RE, (full, n: string) =>
+    allowed.has(n) ? full : '',
+  );
+  if (stripped === answer) return answer;
+  return stripped
+    .replace(/,(?:\s*,)+/g, ',')
+    .replace(/ , /g, ' ')
+    .replace(/[ \t]+([.,;:])/g, '$1')
+    .replace(/,+(?=[.,;:])/g, '')
+    .replace(/,\s*$/g, '')
+    .replace(/^,\s*/g, '')
+    .replace(/[ \t]{2,}/g, ' ')
+    .replace(/^[ \t]+|[ \t]+$/g, '');
+}
+
+/** Keep referenced assembled labels (stable, possibly sparse); strip unknown `[n]`. */
 export function filterAnswerToKnownLabels(
   answer: string,
   citations: Citation[],
@@ -65,14 +87,15 @@ export function filterAnswerToKnownLabels(
   let m: RegExpExecArray | null;
   while ((m = re.exec(answer)) !== null) {
     if (allowed.has(m[1])) referenced.add(m[1]);
-    // Unknown labels are simply not added — do not invent citations.
+    // Unknown labels are rejected — never invent citations.
   }
+  const cleaned = stripUnknownCitationMarkers(answer, allowed);
   // Always return DB-backed citation list for used context; filter to referenced if any.
   if (referenced.size === 0) {
-    return { answer, citations };
+    return { answer: cleaned, citations };
   }
   return {
-    answer,
+    answer: cleaned,
     citations: citations.filter((c) => referenced.has(c.label)),
   };
 }

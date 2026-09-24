@@ -4,6 +4,7 @@ import {
   DEGRADED_ASK_BANNER,
   stripDegradedBanner,
 } from "@/lib/ask_copy";
+import { renderAnswerCitationNodes } from "@/lib/answer_citations";
 
 type Citation = {
   label: string;
@@ -44,6 +45,37 @@ function formatPageRange(start: number | null, end: number | null): string {
   if (start == null) return "";
   if (end != null && end !== start) return `p. ${start}–${end}`;
   return `p. ${start}`;
+}
+
+function AnswerCitationText({
+  text,
+  citations,
+}: {
+  text: string;
+  citations: Citation[];
+}) {
+  const nodes = renderAnswerCitationNodes(
+    text,
+    citations.map((c) => c.label),
+  );
+  return (
+    <>
+      {nodes.map((node, i) =>
+        node.type === "text" ? (
+          <span key={i}>{node.value}</span>
+        ) : (
+          <a
+            key={i}
+            href={node.href}
+            aria-label={node.ariaLabel}
+            className="font-semibold text-accent underline-offset-2 hover:underline"
+          >
+            [{node.label}]
+          </a>
+        ),
+      )}
+    </>
+  );
 }
 
 export default function Home() {
@@ -204,7 +236,11 @@ export default function Home() {
         <div className="outcome-panel outcome-insufficient" role="status">
           <span className="outcome-label">Insufficient evidence</span>
           <p className="text-sm whitespace-pre-wrap">
-            {answer ?? "No sufficient indexed evidence for this question."}
+            {answer ? (
+              <AnswerCitationText text={answer} citations={citations} />
+            ) : (
+              "No sufficient indexed evidence for this question."
+            )}
           </p>
         </div>
       )}
@@ -214,7 +250,7 @@ export default function Home() {
           <div className="outcome-panel outcome-answered">
             <span className="outcome-label text-accent">Answered</span>
             <div className="whitespace-pre-wrap text-sm leading-relaxed text-ink">
-              {answer}
+              <AnswerCitationText text={answer} citations={citations} />
             </div>
           </div>
         </section>
@@ -226,7 +262,10 @@ export default function Home() {
             <span className="outcome-label">Degraded</span>
             <p className="text-sm mb-3">{DEGRADED_ASK_BANNER}</p>
             <div className="whitespace-pre-wrap text-sm leading-relaxed text-ink">
-              {stripDegradedBanner(answer)}
+              <AnswerCitationText
+                text={stripDegradedBanner(answer)}
+                citations={citations}
+              />
             </div>
           </div>
         </section>
