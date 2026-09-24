@@ -142,9 +142,13 @@ describe('hosted CE hard-disable (JH-38)', () => {
     expect(result.diagnostics?.rerank_degraded).toBe(false);
     expect(result.diagnostics?.ce_error).toBeUndefined();
     const logged = askLogs(logSpy);
-    expect(logged.some((row) => row.ce_skip_reason === 'hosted_ce_disabled')).toBe(
-      true,
-    );
+    expect(logged).toHaveLength(1);
+    expect(logged[0]?.ce_skip_reason).toBe('hosted_ce_disabled');
+    expect(logged[0]?.ce_n).toBeUndefined();
+    expect(logged[0]?.ce_k).toBeUndefined();
+    expect(logged[0]?.ce_ranked_chunk_ids).toBeUndefined();
+    expect(result.diagnostics?.ce_n).toBe(20);
+    expect(result.diagnostics?.ce_k).toBe(8);
   });
 
   it('FORCE ablation on hosted keeps ablation meaning (not hosted skip, no import)', async () => {
