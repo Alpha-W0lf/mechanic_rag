@@ -1,6 +1,6 @@
 # Ops notes
 
-Short operational policy. Not a monitor implementation (that is a separate ticket).
+Scoring and operator policy for the hosted demo. The synthetic Ask monitor itself (JH-41) lives in a private ops repo and is not implemented here.
 
 ## CI (this repo)
 
@@ -32,7 +32,7 @@ Local full suite (when you have the sibling repo / live emit): `pytest` from rep
 - Production / hosted smoke (`POST /api/ask` against the live demo).
 - A scheduled workflow. This clone is dormant by design; GitHub disables schedules on inactive repos.
 
-**Cited-Ask monitor lives in the hub.** [Alpha-W0lf/second_brain](https://github.com/Alpha-W0lf/second_brain) `.github/workflows/mechanic-ask-monitor.yml` (JH-41) is the scheduled fixture Ask probe (once daily at 12:03 PM America/Chicago; UTC crons `3 17` and `3 18` with a Chicago-hour gate + `workflow_dispatch`). Failures and degraded results open deduped GitHub issues assigned to Alpha-W0lf. Do not add a schedule here to “cover” that. Local `/api/health` remains the clone readiness check.
+**Cited-Ask monitor (JH-41)** lives in a private ops repo, not this repo. It is the scheduled fixture Ask probe (once daily at 12:03 PM America/Chicago). Failures and degraded results open deduped GitHub issues. Do not add a schedule here to cover that. Scoring is in the Ask monitor policy section below. Local `/api/health` remains the clone readiness check.
 
 ## Degraded Ask response (JH-46)
 
@@ -55,6 +55,8 @@ Local full suite (when you have the sibling repo / live emit): `pytest` from rep
 `error_class` on a degraded body is one of `generator_unavailable` | `embedding_unavailable` | `rate_limited`. No `degraded: true` flag — `outcome` is the discriminator. Database failures stay HTTP 503 `error_class: "database_unavailable"` (not degraded). Zero retrieved chunks (including embed-fail + empty lexical) stay `insufficient_evidence`.
 
 ## Ask monitor policy
+
+A daily synthetic Ask monitor (JH-41, a private ops repo; 12:03 PM America/Chicago) scores hosted Ask with this table and opens a deduped GitHub issue on **fail** or **degraded pass**. This repository does not contain that workflow.
 
 Score a hosted Ask probe as follows:
 

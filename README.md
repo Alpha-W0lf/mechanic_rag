@@ -6,6 +6,8 @@ Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
 
 🔗 **Live demo:** [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) — pick the fixture vehicle and ask a service question; answers cite document, section, and page.
 
+**Production durability.** The free-tier database paused after inactivity and took the live demo down. An external daily keep-alive now prevents that. The free-tier path was then hardened: model backoff with graceful degraded answers, a daily synthetic Ask monitor that files issues, an abuse shield, and a locked-down database API. Incident write-up: [`docs/incidents/2026-08-jh17-supabase-pause.md`](docs/incidents/2026-08-jh17-supabase-pause.md).
+
 ![Live demo — asking the fixture S2000 a service question and getting a cited answer](docs/assets/demo/live-demo.gif)
 
 ### What runs where
@@ -20,7 +22,7 @@ Topology detail: [`docs/ARCHITECTURE.md` §3.1 Production topology](docs/ARCHITE
 | Embeddings | `gemini-embedding-001` @ 768 | Ollama `nomic-embed-text` @ 768 |
 | Ranking | Hybrid → RRF → section dedup (no CE) | Hybrid → RRF → section dedup → local CE |
 | Cross-encoder rerank | ❌ `ce_skip_reason=hosted_ce_disabled` | ✅ |
-| Monitoring | External keep-alive hits `/api/health?mode=db` (DB reachable). Cited-Ask monitor is JH-41 in the [second_brain](https://github.com/Alpha-W0lf/second_brain) hub, not this repo | Local `/api/health` readiness (Postgres + Ollama) |
+| Monitoring | External keep-alive hits `/api/health?mode=db` (DB reachable). Cited-Ask monitor is JH-41 in a private ops repo, not this repo (once daily at 12:03 PM America/Chicago) | Local `/api/health` readiness (Postgres + Ollama) |
 | Vehicle catalog + manual browser | ✅ | ✅ |
 | Ask → cited generated answer | ✅ (Gemini) | ✅ (Ollama, or Gemini if key set) |
 | BYO corpora / private garage / multimodal (M1–M3) | ❌ | ✅ |
@@ -82,7 +84,8 @@ Full clone path, footguns, and paired-ask ablation: [`GETTING_STARTED.md`](GETTI
 
 - [`docs/VISION.md`](docs/VISION.md) — product / why  
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — contracts / how  
-- [`docs/ops.md`](docs/ops.md) — CI gates (what a green run proves) + Ask monitor policy (pass / degraded pass / fail). Scheduled cited-Ask lives in the [second_brain](https://github.com/Alpha-W0lf/second_brain) hub (JH-41), not here.  
+- [`docs/ops.md`](docs/ops.md) — CI gates (what a green run proves) + Ask monitor policy (pass / degraded pass / fail). Cited-Ask monitor lives in a private ops repo (JH-41), not here (once daily at 12:03 PM America/Chicago).  
+- [`docs/incidents/2026-08-jh17-supabase-pause.md`](docs/incidents/2026-08-jh17-supabase-pause.md) — JH-17 pause and what landed after  
 - [`GETTING_STARTED.md`](GETTING_STARTED.md) — operator path  
 - [`FAQ.md`](FAQ.md) — Technical FAQ  
 - [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md) — freeze honesty (override ≠ lift)  
