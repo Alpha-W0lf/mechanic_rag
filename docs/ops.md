@@ -32,7 +32,7 @@ Local full suite (when you have the sibling repo / live emit): `pytest` from rep
 - Production / hosted smoke (`POST /api/ask` against the live demo).
 - A scheduled workflow. This clone is dormant by design; GitHub disables schedules on inactive repos.
 
-**Cited-Ask monitor lives in the hub.** [Alpha-W0lf/second_brain](https://github.com/Alpha-W0lf/second_brain) `.github/workflows/mechanic-ask-monitor.yml` (JH-41) is the scheduled fixture Ask probe (every 6 hours + `workflow_dispatch`). Do not add a schedule here to “cover” that. Local `/api/health` remains the clone readiness check.
+**Cited-Ask monitor lives in the hub.** [Alpha-W0lf/second_brain](https://github.com/Alpha-W0lf/second_brain) `.github/workflows/mechanic-ask-monitor.yml` (JH-41) is the scheduled fixture Ask probe (once daily at 12:03 PM America/Chicago; UTC crons `3 17` and `3 18` with a Chicago-hour gate + `workflow_dispatch`). Failures and degraded results open deduped GitHub issues assigned to Alpha-W0lf. Do not add a schedule here to “cover” that. Local `/api/health` remains the clone readiness check.
 
 ## Degraded Ask response (JH-46)
 
@@ -80,7 +80,7 @@ A degraded 200 is still useful: extractive manual excerpts plus clickable citati
 | Per hashed IP / UTC day | `ASK_RATE_LIMIT_PER_DAY` | **100** | Single-client grind |
 | Global / UTC day | `ASK_RATE_LIMIT_GLOBAL_DAY` | **800** | Embedding RPD (~1K). Stay below 1K |
 
-Change a ceiling by setting the env var on Vercel and redeploying. Non-positive or non-numeric values fall back to the default. The 6-hourly synthetic Ask monitor is 4 requests/day from rotating IPs — well under every ceiling; no IP allowlist.
+Change a ceiling by setting the env var on Vercel and redeploying. Non-positive or non-numeric values fall back to the default. The once-daily synthetic Ask monitor (12:03 PM America/Chicago) is well under every ceiling; no IP allowlist.
 
 **Admission order.** Increment client minute, then client day, then global. A client-limit deny does **not** increment the global bucket — otherwise ~800 denied 10/min bursts from one IP would 429 everyone until UTC midnight without spending Gemini quota. A minute deny also skips the client-day increment (a rejected burst must not burn the 100/day budget). Global is incremented only for requests both client checks admitted.
 
@@ -98,7 +98,7 @@ If `ask_rate_buckets` is missing (migration not applied yet) or the limiter quer
 {"event":"ask_rate_limit","warning":"fail_open","reason":"undefined_table"|"store_error"}
 ```
 
-Why fail-open: Production apply is operator-owned after review; a missing table or limiter-DB hiccup must not turn the demo into a 429 outage (and must not fail the 6-hourly monitor). The cost is a window where abuse can still spend Gemini quota until the table exists or the store recovers. Ask itself still fails closed on real DB/Gemini errors.
+Why fail-open: Production apply is operator-owned after review; a missing table or limiter-DB hiccup must not turn the demo into a 429 outage (and must not fail the once-daily monitor). The cost is a window where abuse can still spend Gemini quota until the table exists or the store recovers. Ask itself still fails closed on real DB/Gemini errors.
 
 ### Local Compose
 
