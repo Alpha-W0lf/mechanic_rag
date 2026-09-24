@@ -2,7 +2,7 @@
 
 **Status:** Binding contracts SSOT · *(2026-09-24: Production topology at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) is Vercel Hobby + Supabase Free + Gemini API free tier — see §3.1; clone/repro remains Compose + Ollama)* · Vertical slice implemented · Formal embed/CE **frozen (owner decision)** · **LICENSE:** PolyForm-NC 1.0.0 · Fixtures-only public packaging complete · Private-gold-source path implemented (fixture + synthetic + live pilot) · Personal-garage multimodal M1–M3 done (flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
-**Updated:** 2026-09-24 (JH-42: public Ask abuse shield; JH-40 topology)  
+**Updated:** 2026-09-24 (JH-52: Data API lock; JH-42 abuse shield; JH-40 topology)  
 **Owner:** Tom  
 **Lenses:** Senior AI Engineer (primary); Data Engineer; Backend  
 
@@ -104,6 +104,7 @@ Public demo: [https://mechanic-rag.vercel.app](https://mechanic-rag.vercel.app).
 | Gemini 429/503 | Exponential backoff + jitter, **max 4 attempts**, then fail (JH-39) | n/a (Ollama path) |
 | Public Ask errors | `error_class`: `generator_unavailable` \| `embedding_unavailable` \| `database_unavailable` \| `rate_limited` \| `internal` (JH-39 + JH-46). HTTP 200 `outcome: "degraded"` when generate/embed fails after retries and ≥1 citation exists; database stays 503 | Same taxonomy; local generate failures stay 503; local embed-down may extractive-degrade |
 | Ask abuse shield | Per hashed-IP **10/min + 100/day** and global **800/day** in Postgres `ask_rate_buckets` (JH-42). Excess is HTTP 429 `error_class: "rate_limited"` + `Retry-After`. **Fail-open** if the table is missing or the limiter query fails. Limits and env knobs: [`docs/ops.md`](./ops.md#public-ask-abuse-shield-jh-42) | Same code against local Postgres; disable with `ASK_RATE_LIMIT_DISABLED=1` |
+| Data API / PostgREST | **Locked** (JH-52): RLS enabled (no FORCE, no policies) and `anon`/`authenticated` revoked on public tables + sequences (`db/migrations/004_lock_data_api.sql`). The app never uses PostgREST or supabase-js — Next.js is `pg` + `DATABASE_URL` as the table owner, so RLS without FORCE does not change Ask/ingest. Verify SQL: [`docs/ops.md`](./ops.md#supabase-data-api-lock-jh-52) | Same file applies; REVOKE is a no-op (those roles do not exist). Owner `mechanic` still bypasses RLS |
 | Keep-alive | External **Cloudflare Worker + GitHub Actions** hit `GET /api/health?mode=db` (JH-29). In-repo weekly Action was removed **2026-08-25** so this dormant repo would not lose schedules | Local curl of the same contract |
 
 ```mermaid
