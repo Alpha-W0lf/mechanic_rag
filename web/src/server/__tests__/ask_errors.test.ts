@@ -8,7 +8,7 @@ import {
 import { GeminiError } from '@/server/providers';
 import { OllamaError } from '@/server/ollama';
 
-const LEAK = /ENOTFOUND|tenant\/user|npliiuigpenkrqaewtdf|FATAL/i;
+const LEAK = /ENOTFOUND|tenant\/user|abcdefghijklmnopqrst|FATAL/i;
 
 describe('classifyAskError / toPublicAskFailure', () => {
   it('maps Gemini 503 / UNAVAILABLE to generator_unavailable (not database)', () => {
@@ -106,7 +106,7 @@ describe('classifyAskError / toPublicAskFailure', () => {
 
   it('maps pooler FATAL / ENOTFOUND to database_unavailable without leaking', () => {
     const err = new Error(
-      '(ENOTFOUND) tenant/user postgres.npliiuigpenkrqaewtdf not found',
+      '(ENOTFOUND) tenant/user postgres.abcdefghijklmnopqrst not found',
     );
     (err as { code?: string }).code = 'ENOTFOUND';
     expect(classifyAskError(err)).toBe('database_unavailable');

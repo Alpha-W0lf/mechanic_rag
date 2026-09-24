@@ -75,7 +75,7 @@ describe('shouldDegradeAsk', () => {
 
   it('does not degrade database failures even with citations', () => {
     const dbErr = new Error(
-      '(ENOTFOUND) tenant/user postgres.npliiuigpenkrqaewtdf not found',
+      '(ENOTFOUND) tenant/user postgres.abcdefghijklmnopqrst not found',
     );
     (dbErr as { code?: string }).code = 'ENOTFOUND';
     expect(shouldDegradeAsk(dbErr, 3)).toBe(false);
