@@ -53,7 +53,7 @@ Do not copy the August/September investigation as current architecture. As of la
 | JH-36 / JH-39 (#3) | Free-tier Gemini serving; JH-39 is the backoff (exponential + jitter, max 4 attempts) and current default `gemma-4-26b-a4b-it`. JH-36 is not named in this repo’s git history. |
 | JH-37 (#5) | Hosted `pg.Pool` max 2, 5s idle, SSL, Vercel `attachDatabasePool`. |
 | JH-46 (#6) | Public `error_class` taxonomy; HTTP 200 `outcome: "degraded"` with extractive excerpts when generate/embed fail after retries and ≥1 citation exists. |
-| JH-41 | Daily synthetic Ask monitor in the private [second_brain](https://github.com/Alpha-W0lf/second_brain) hub (12:03 PM America/Chicago). Scores hosted Ask per [`ops.md`](../ops.md) and opens deduped GitHub issues on fail or degraded. Repo-root link only — no workflow-file path. |
+| JH-41 | Daily synthetic Ask monitor in a private ops repo (12:03 PM America/Chicago). Scores hosted Ask per [`ops.md`](../ops.md) and opens deduped GitHub issues on fail or degraded. |
 | JH-42 (#8) | Per hashed-IP 10/min + 100/day and global 800/day Ask shield. Pre-Ask HTTP 429. Fail-open if the limiter table is missing. |
 | JH-52 (#10) | RLS (no FORCE, no policies) + revoke `anon` / `authenticated` on public tables so PostgREST cannot read the demo corpus. App stays `pg` + `DATABASE_URL`. |
 
