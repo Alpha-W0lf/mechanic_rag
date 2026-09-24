@@ -285,6 +285,8 @@ describe('citations', () => {
     ];
     const filtered = filterAnswerToKnownLabels('See [1] and [99]', citations);
     expect(filtered.citations.map((c) => c.label)).toEqual(['1']);
+    expect(filtered.answer).not.toMatch(/\[99\]/);
+    expect(filtered.answer).toContain('[1]');
   });
 });
 
