@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { handleAsk, validateAskRequest } from '@/server/ask';
+import { PUBLIC_ASK_ERROR } from '@/server/ask_errors';
+import { consumeAskRateLimit } from '@/server/ask_rate_limit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -11,6 +13,28 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       { error: validated.error },
       { status: validated.status },
+    );
+  }
+
+  const limited = await consumeAskRateLimit({ headers: req.headers });
+  if (!limited.ok) {
+    console.log(
+      JSON.stringify({
+        event: 'ask',
+        outcome: 'rate_limited',
+        error_class: 'rate_limited',
+        limit: limited.reason,
+      }),
+    );
+    return NextResponse.json(
+      {
+        error: PUBLIC_ASK_ERROR.rate_limited,
+        error_class: 'rate_limited',
+      },
+      {
+        status: 429,
+        headers: { 'Retry-After': String(limited.retryAfterSec) },
+      },
     );
   }
 

@@ -10,7 +10,7 @@ Thin map for diligence readers. Start at the repo root for the overview and clon
 | [`VISION.md`](VISION.md) | Product why |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Contracts / how |
 | [`api_contracts.md`](api_contracts.md) | API contracts |
-| [`ops.md`](ops.md) | Ask monitor policy (pass / degraded-pass / fail) |
+| [`ops.md`](ops.md) | Ask monitor policy + public Ask abuse shield (JH-42) |
 | [`../evals/MODEL_FREEZE_STATUS.md`](../evals/MODEL_FREEZE_STATUS.md) | Embed/CE freeze honesty (no lift claim) |
 | [`../evals/evidence/`](../evals/evidence/) | Multimodal eval + ablation evidence artifacts |
 
