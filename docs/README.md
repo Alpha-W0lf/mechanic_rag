@@ -28,4 +28,8 @@ Reference material from the original build (Aug 2025), kept as engineering conte
 - [`manual_build_steps.md`](manual_build_steps.md) — one-time accounts / env / setup
 - [`01_build.md`](01_build.md) → [`04_build.md`](04_build.md) — phased build walkthrough
 
+## Historical / ops (not product contracts)
+
+- [`investigations/2026-09-23_mechanic_demo_outage_rca.md`](investigations/2026-09-23_mechanic_demo_outage_rca.md) — 2026-09-23/24 hosted-demo outage RCA (investigation only; no restore in that change)
+
 The LICENSE is source-available / non-commercial — not OSI open source.
