@@ -96,8 +96,9 @@ vi.mock('@/server/providers', async (importOriginal) => {
 });
 
 function isFailure(
-  result: { error?: string; status?: number },
+  result: unknown,
 ): result is { error: string; status: number; error_class?: string } {
+  if (!result || typeof result !== 'object') return false;
   return 'status' in result && 'error' in result;
 }
 
