@@ -22,7 +22,7 @@ Topology detail: [`docs/ARCHITECTURE.md` §3.1 Production topology](docs/ARCHITE
 | Embeddings | `gemini-embedding-001` @ 768 | Ollama `nomic-embed-text` @ 768 |
 | Ranking | Hybrid → RRF → section dedup (no CE) | Hybrid → RRF → section dedup → local CE |
 | Cross-encoder rerank | ❌ `ce_skip_reason=hosted_ce_disabled` | ✅ |
-| Monitoring | External keep-alive hits `/api/health?mode=db` (DB reachable). Cited-Ask monitor is JH-41 in a private ops repo, not this repo (once daily at 12:03 PM America/Chicago) | Local `/api/health` readiness (Postgres + Ollama) |
+| Monitoring | External keep-alive hits `/api/health?mode=db` (DB reachable). Cited-Ask monitor is JH-41 in a private ops repo, not this repo (once daily at 12:03 PM America/Chicago). Public last-success + how to verify: [`docs/ops.md`](docs/ops.md#public-ask-monitor-evidence-jh-66) | Local `/api/health` readiness (Postgres + Ollama) |
 | Vehicle catalog + manual browser | ✅ | ✅ |
 | Ask → cited generated answer | ✅ (Gemini) | ✅ (Ollama, or Gemini if key set) |
 | BYO corpora / private garage / multimodal (M1–M3) | ❌ | ✅ |
@@ -86,7 +86,7 @@ Full clone path, footguns, and paired-ask ablation: [`GETTING_STARTED.md`](GETTI
 
 - [`docs/VISION.md`](docs/VISION.md) — product / why  
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — contracts / how  
-- [`docs/ops.md`](docs/ops.md) — CI gates (what a green run proves) + Ask monitor policy (pass / degraded pass / fail). Cited-Ask monitor lives in a private ops repo (JH-41), not here (once daily at 12:03 PM America/Chicago).  
+- [`docs/ops.md`](docs/ops.md) — CI gates (what a green run proves) + Ask monitor policy (pass / degraded pass / fail) + public last-success / stranger verify (JH-66). Cited-Ask monitor lives in a private ops repo (JH-41), not here (once daily at 12:03 PM America/Chicago).  
 - [`docs/incidents/2026-08-jh17-supabase-pause.md`](docs/incidents/2026-08-jh17-supabase-pause.md) — JH-17 pause and what landed after  
 - [`GETTING_STARTED.md`](GETTING_STARTED.md) — operator path  
 - [`FAQ.md`](FAQ.md) — Technical FAQ  

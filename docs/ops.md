@@ -38,7 +38,7 @@ Local full suite (when you have the sibling repo / live emit): `pytest` from rep
 - Production / hosted smoke (`POST /api/ask` against the live demo).
 - A scheduled workflow. This clone is dormant by design; GitHub disables schedules on inactive repos.
 
-**Cited-Ask monitor (JH-41)** lives in a private ops repo, not this repo. It is the scheduled fixture Ask probe (once daily at 12:03 PM America/Chicago). Failures and degraded results open deduped GitHub issues. Do not add a schedule here to cover that. Scoring is in the Ask monitor policy section below. Local `/api/health` remains the clone readiness check.
+**Cited-Ask monitor (JH-41)** lives in a private ops repo, not this repo. It is the scheduled fixture Ask probe (once daily at 12:03 PM America/Chicago). Failures and degraded results open deduped GitHub issues. Do not add a schedule here to cover that. Scoring is in the Ask monitor policy section below. Public last-success and a stranger verify step: [Public Ask-monitor evidence (JH-66)](#public-ask-monitor-evidence-jh-66). Local `/api/health` remains the clone readiness check.
 
 ## Degraded Ask response (JH-46)
 
@@ -83,6 +83,41 @@ Score a hosted Ask probe as follows:
 | HTTP error, `error_class` without a degraded body, or degraded with zero citations | **fail** |
 
 A degraded 200 is still useful: extractive manual excerpts plus clickable citations. It is not a full Gemini answer and must not be scored as a silent pass.
+
+## Public Ask-monitor evidence (JH-66)
+
+The daily job is private. This repo has no scheduled Production smoke (see [CI](#ci-this-repo)). There is **no public Ask-monitor badge**. The only public workflow badge is [CI](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml) (`CI - passing` as of 2026-09-24). That badge proves lint / typecheck / tests / build — not cited Ask. Do not invent a private-repo badge URL; a stranger gets a 404.
+
+| Signal | When | Score | What a stranger can check |
+|---|---|---|---|
+| Last private monitor run (**owner-attested**) | Passing as of **2026-09-24** (JH-66) | **pass** (owner) | **Unknown** from a public clone — the Actions run is not public |
+| One-shot public cited-Ask probe | **2026-09-24 06:03:49 UTC** | **pass** (`outcome: "answered"`, 2 citations) | Repeat the curl below and score with the table above |
+
+```json
+{
+  "probed_at": "2026-09-24T06:03:49Z",
+  "url": "https://mechanic-rag.vercel.app/api/ask",
+  "vehicle_id": "fixture:honda-s2000-demo",
+  "question": "What is the oil drain plug torque?",
+  "http_status": 200,
+  "outcome": "answered",
+  "citations_n": 2
+}
+```
+
+**How a stranger verifies** (hosted Ask at probe time — **not** proof the daily job ran):
+
+```bash
+curl -sS -D- --max-time 90 -X POST "https://mechanic-rag.vercel.app/api/ask" \
+  -H "content-type: application/json" \
+  -d '{"vehicle_id":"fixture:honda-s2000-demo","question":"What is the oil drain plug torque?"}'
+```
+
+Expect HTTP 200. Score `outcome` plus citations with the policy table. Storefront screenshots of the same fixture question live under [`docs/assets/demo/`](assets/demo/) — they show cited Ask in the UI, not the schedule.
+
+**How the last-success line stays current.** After a private daily pass (or a fail / degraded pass), the operator updates the owner-attested row above. Do not claim an SLO or HA. A green probe here is not a keep-alive `SELECT 1`.
+
+**Unknown (from a public clone):** exact private run timestamp and Actions URL; whether the last owner-attested pass was the 12:03 PM America/Chicago schedule or a manual dispatch; keep-alive Worker / Actions (also private — no public badge).
 
 ## Public Ask abuse shield (JH-42)
 
