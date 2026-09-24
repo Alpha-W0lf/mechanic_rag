@@ -39,7 +39,7 @@ export type VlmResult = {
   pages?: number[];
 };
 
-export function isVlmEnabled(env: NodeJS.ProcessEnv = process.env): boolean {
+export function isVlmEnabled(env: NodeJS.Dict<string> = process.env): boolean {
   const v = (env.MECHANIC_VLM || '').trim().toLowerCase();
   return v === '1' || v === 'true' || v === 'yes' || v === 'on';
 }

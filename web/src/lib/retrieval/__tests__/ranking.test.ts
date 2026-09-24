@@ -249,6 +249,7 @@ describe('citations', () => {
           page_start: 1,
           page_end: 1,
           document_name: 'demo',
+          provenance: null,
         },
       ],
     ]);

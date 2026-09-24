@@ -61,10 +61,10 @@ const loadChunksByIds = vi.fn(async (ids: string[]) => {
 });
 
 vi.mock('@/server/retrievers', () => ({
-  vehicleExists: (...args: unknown[]) => vehicleExists(...args),
-  vectorSearch: (...args: unknown[]) => vectorSearch(...args),
-  lexicalSearch: (...args: unknown[]) => lexicalSearch(...args),
-  loadChunksByIds: (...args: unknown[]) => loadChunksByIds(...args),
+  vehicleExists: (...args: never[]) => (vehicleExists as (...a: never[]) => unknown)(...args),
+  vectorSearch: (...args: never[]) => (vectorSearch as (...a: never[]) => unknown)(...args),
+  lexicalSearch: (...args: never[]) => (lexicalSearch as (...a: never[]) => unknown)(...args),
+  loadChunksByIds: (...args: never[]) => (loadChunksByIds as (...a: never[]) => unknown)(...args),
 }));
 
 vi.mock('@/server/ask_image_channel', () => ({
@@ -88,8 +88,8 @@ vi.mock('@/server/providers', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/server/providers')>();
   return {
     ...actual,
-    embedText: (...args: unknown[]) => embedText(...args),
-    generateAnswer: (...args: unknown[]) => generateAnswer(...args),
+    embedText: (...args: never[]) => (embedText as (...a: never[]) => unknown)(...args),
+    generateAnswer: (...args: never[]) => (generateAnswer as (...a: never[]) => unknown)(...args),
   };
 });
 

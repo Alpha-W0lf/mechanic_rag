@@ -61,7 +61,7 @@ export type AskFailure = {
 
 /** Env-gated Guide 02 ablation: skip CE intentionally (≠ natural degrade). */
 export function isForceRrfOnlyEnv(
-  env: NodeJS.ProcessEnv = process.env,
+  env: NodeJS.Dict<string> = process.env,
 ): boolean {
   return env.MECHANIC_FORCE_RRF_ONLY === '1';
 }

@@ -9,7 +9,7 @@ GitHub Actions workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.ym
 | Job | Gate | What a green run proves |
 |---|---|---|
 | `web` | `pnpm lint` (`next lint`) | ESLint is clean. Lint **fails the gate** (no `\|\| true`, no `continue-on-error`). |
-| `web` | `pnpm typecheck` (`tsc --noEmit`) | TypeScript is clean under `web/tsconfig.json`. |
+| `web` | `pnpm typecheck` (`tsc --noEmit`) | TypeScript is clean under `web/tsconfig.json` (app + tests). Pre-existing test mock typing was fixed so this gate is honest — not silenced. Injectable env helpers take `NodeJS.Dict<string>` (type-only; same runtime). |
 | `web` | `pnpm test` (`vitest run`) | Existing Vitest unit tests pass. |
 | `web` | `pnpm build` | Next.js production compile succeeds. |
 | `python` | `public_fail_closed.py fixtures` | Public `fixtures/` has no OEM PDFs, no `private_oem` / `private_gold` path tokens, no forbidden `rights_class`. Fail-closed. |
@@ -24,7 +24,7 @@ GitHub Actions workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.ym
 | `integration` | Needs the sibling `second_brain` program fixtures, a live Vehicle Gold emit, or a running Compose/Next/Ollama stack. Those trees are not in this public clone. |
 | `slow` | OEM PDF corpus under gitignored `rag_input/`, or anything that would call network / Ollama / Postgres. |
 
-Local full suite (when you have the sibling repo / live emit): `pytest` from repo root. Tests skip with a reason when those trees are absent; CI **deselects** them so a missing sibling is not a silent skip of an intended gate.
+Local full suite (when you have the sibling repo / live emit): `pytest` from repo root. Tests skip with a reason when those trees are absent; CI **deselects** them so a missing sibling is not a silent skip of an intended gate. `tests/test_parser.py` and `tests/test_chunking.py` are **collect-ignored** (legacy OEM PDF smokes; they import `google.genai` from the `legacy` extra).
 
 **Not in this repo's CI (by design):**
 

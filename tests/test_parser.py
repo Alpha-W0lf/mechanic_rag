@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Test script for the PDF parser implementation."""
+"""Legacy OEM PDF smoke (not a unit test).
+
+Collected-ignored by tests/conftest.py: importing parse.py needs the
+`legacy` extra (`google.genai`) and rag_input/ PDFs (gitignored).
+"""
 
 import sys
 from pathlib import Path

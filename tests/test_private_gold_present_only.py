@@ -24,6 +24,14 @@ PROGRAM_VALID = (
 
 CAT_VID = "cat:demo-synthetic-f150"
 
+pytestmark = [
+    pytest.mark.integration,
+    pytest.mark.skipif(
+        not (PROGRAM_VALID / "minimal_manifest.json").is_file(),
+        reason="sibling second_brain program fixtures not present (public clone / CI)",
+    ),
+]
+
 
 def _met_sidecar(*, friend: bool = False, zero_gap: bool = False) -> dict:
     return {

@@ -66,7 +66,7 @@ function connectionHostname(connectionString: string): string | null {
  * `DATABASE_URL`; the client does not rewrite ports.
  */
 export function resolvePoolConfig(
-  env: NodeJS.ProcessEnv = process.env,
+  env: NodeJS.Dict<string> = process.env,
 ): ResolvedPoolConfig {
   const connectionString = env.DATABASE_URL || LOCAL_COMPOSE_DATABASE_URL;
   const connectionTimeoutMillis = Number(env.DB_TIMEOUT_MS || 5000);
