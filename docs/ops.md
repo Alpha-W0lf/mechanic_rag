@@ -8,7 +8,7 @@ GitHub Actions workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.ym
 
 | Job | Gate | What a green run proves |
 |---|---|---|
-| `web` | `pnpm lint` (`next lint`) | ESLint is clean. Lint **fails the gate** (no `\|\| true`, no `continue-on-error`). |
+| `web` | `pnpm lint` (`next lint --max-warnings 0`) | ESLint is clean. Warnings and errors fail the gate (no `\|\| true`, no `continue-on-error`). |
 | `web` | `pnpm typecheck` (`tsc --noEmit`) | TypeScript is clean under `web/tsconfig.json` (app + tests). Pre-existing test mock typing was fixed so this gate is honest — not silenced. Injectable env helpers take `NodeJS.Dict<string>` (type-only; same runtime). |
 | `web` | `pnpm test` (`vitest run`) | Existing Vitest unit tests pass. |
 | `web` | `pnpm build` | Next.js production compile succeeds. |
