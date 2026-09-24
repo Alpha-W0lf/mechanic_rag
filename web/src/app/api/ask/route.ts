@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { handleAsk, validateAskRequest } from '@/server/ask';
 import { PUBLIC_ASK_ERROR } from '@/server/ask_errors';
+import { logAsk } from '@/server/ask_log';
 import { consumeAskRateLimit } from '@/server/ask_rate_limit';
 
 export const runtime = 'nodejs';
@@ -18,14 +19,11 @@ export async function POST(req: NextRequest) {
 
   const limited = await consumeAskRateLimit({ headers: req.headers });
   if (!limited.ok) {
-    console.log(
-      JSON.stringify({
-        event: 'ask',
-        outcome: 'rate_limited',
-        error_class: 'rate_limited',
-        limit: limited.reason,
-      }),
-    );
+    logAsk({
+      outcome: 'rate_limited',
+      error_class: 'rate_limited',
+      limit: limited.reason,
+    });
     return NextResponse.json(
       {
         error: PUBLIC_ASK_ERROR.rate_limited,

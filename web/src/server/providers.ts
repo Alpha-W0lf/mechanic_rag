@@ -43,6 +43,7 @@ export class GeminiError extends Error {
     message: string,
     readonly httpStatus?: number,
     readonly googleStatus?: string,
+    readonly attempts?: number,
   ) {
     super(message);
   }
@@ -111,11 +112,11 @@ async function readGeminiError(
   }
 }
 
-export async function geminiFetch(
+async function geminiFetchCounted(
   url: string,
   init: RequestInit,
   opts?: { timeoutMs?: number; sleep?: SleepFn; random?: () => number },
-): Promise<Response> {
+): Promise<{ response: Response; attempts: number }> {
   const timeoutMs =
     opts?.timeoutMs ?? Number(process.env.OLLAMA_TIMEOUT_MS || 60000);
   const sleep =
@@ -136,23 +137,37 @@ export async function geminiFetch(
         await sleep(geminiBackoffMs(attempt, random));
         continue;
       }
-      return res;
+      return { response: res, attempts: attempt + 1 };
     } finally {
       clearTimeout(t);
     }
   }
-  return new Response(null, { status: 503 });
+  return {
+    response: new Response(null, { status: 503 }),
+    attempts: maxAttempts,
+  };
+}
+
+export async function geminiFetch(
+  url: string,
+  init: RequestInit,
+  opts?: { timeoutMs?: number; sleep?: SleepFn; random?: () => number },
+): Promise<Response> {
+  const { response } = await geminiFetchCounted(url, init, opts);
+  return response;
 }
 
 function throwGeminiHttp(
   kind: 'embed' | 'generate',
   res: Response,
   googleStatus?: string,
+  attempts?: number,
 ): never {
   throw new GeminiError(
     `gemini ${kind} failed: ${res.status}`,
     res.status,
     googleStatus,
+    attempts,
   );
 }
 
@@ -201,7 +216,7 @@ export async function embedText(
 async function geminiGenerate(
   system: string,
   user: string,
-): Promise<{ text: string; model: string }> {
+): Promise<{ text: string; model: string; attempts: number }> {
   const key = geminiKey();
   const model = process.env.GEMINI_MODEL || DEFAULT_GEMINI_GENERATE_MODEL;
   const timeoutMs = Number(process.env.OLLAMA_TIMEOUT_MS || 60000);
@@ -211,7 +226,7 @@ async function geminiGenerate(
   if (model.startsWith('gemma-')) {
     generationConfig.thinkingConfig = { thinkingLevel: 'minimal' };
   }
-  const res = await geminiFetch(
+  const { response: res, attempts } = await geminiFetchCounted(
     geminiUrl(model, 'generateContent'),
     {
       method: 'POST',
@@ -226,21 +241,28 @@ async function geminiGenerate(
   );
   if (!res.ok) {
     const { googleStatus } = await readGeminiError(res);
-    throwGeminiHttp('generate', res, googleStatus);
+    throwGeminiHttp('generate', res, googleStatus, attempts);
   }
   const data = (await res.json()) as {
     candidates?: { content?: { parts?: { text?: string }[] } }[];
   };
   const parts = data.candidates?.[0]?.content?.parts ?? [];
   const text = parts.map((p) => p.text ?? '').join('');
-  if (!text) throw new GeminiError('gemini generate returned no text');
-  return { text, model };
+  if (!text) {
+    throw new GeminiError(
+      'gemini generate returned no text',
+      undefined,
+      undefined,
+      attempts,
+    );
+  }
+  return { text, model, attempts };
 }
 
 export async function generateAnswer(
   system: string,
   user: string,
-): Promise<{ text: string; model: string }> {
+): Promise<{ text: string; model: string; attempts?: number }> {
   if (geminiKey()) return geminiGenerate(system, user);
   return ollamaGenerateAnswer(system, user);
 }

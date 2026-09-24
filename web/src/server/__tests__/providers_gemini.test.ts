@@ -116,6 +116,7 @@ describe('hosted Gemini generate/embed', () => {
     expect(out).toEqual({
       text: 'Torque is 39 N·m [1]',
       model: DEFAULT_GEMINI_GENERATE_MODEL,
+      attempts: 1,
     });
     expect(DEFAULT_GEMINI_GENERATE_MODEL).toBe('gemma-4-26b-a4b-it');
 
@@ -130,6 +131,21 @@ describe('hosted Gemini generate/embed', () => {
     expect(body.generationConfig.thinkingConfig).toEqual({
       thinkingLevel: 'minimal',
     });
+  });
+
+  it('reports gen attempts after one 503 retry then success', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(new Response('busy', { status: 503 }))
+      .mockResolvedValueOnce(
+        jsonResponse(200, {
+          candidates: [{ content: { parts: [{ text: 'ok' }] } }],
+        }),
+      );
+    vi.stubGlobal('fetch', fetchMock);
+    const out = await generateAnswer('sys', 'user');
+    expect(out.attempts).toBe(2);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
   it('does not set Gemma thinkingConfig when GEMINI_MODEL is Flash', async () => {
@@ -155,6 +171,7 @@ describe('hosted Gemini generate/embed', () => {
       name: 'GeminiError',
       httpStatus: 429,
       googleStatus: 'RESOURCE_EXHAUSTED',
+      attempts: GEMINI_RETRY.maxAttempts,
     });
     expect(fetchMock).toHaveBeenCalledTimes(GEMINI_RETRY.maxAttempts);
   });

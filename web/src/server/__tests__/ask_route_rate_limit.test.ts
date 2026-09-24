@@ -81,6 +81,7 @@ describe('POST /api/ask rate shield', () => {
       retryAfterSec: 42,
       reason: 'client_minute',
     });
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined);
     const result = await postAsk();
     expect(result.status).toBe(429);
     expect(result.body).toEqual({
@@ -90,6 +91,25 @@ describe('POST /api/ask rate shield', () => {
     expect(result.retryAfter).toBe('42');
     expect(result.raw).not.toMatch(/203\.0\.113\.10|ENOTFOUND|ask_rate_buckets/i);
     expect(handleAsk).not.toHaveBeenCalled();
+    const logged = logSpy.mock.calls
+      .map(([msg]) => {
+        if (typeof msg !== 'string') return null;
+        try {
+          return JSON.parse(msg) as Record<string, unknown>;
+        } catch {
+          return null;
+        }
+      })
+      .filter((row): row is Record<string, unknown> => row?.event === 'ask');
+    expect(logged).toHaveLength(1);
+    expect(logged[0]).toEqual({
+      event: 'ask',
+      outcome: 'rate_limited',
+      error_class: 'rate_limited',
+      limit: 'client_minute',
+    });
+    expect(JSON.stringify(logged[0])).not.toMatch(/203\.0\.113/);
+    logSpy.mockRestore();
   });
 
   it('returns 429 when the global daily cap is hit', async () => {

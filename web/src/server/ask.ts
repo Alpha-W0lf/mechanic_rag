@@ -21,6 +21,7 @@ import {
   type AskErrorClass,
 } from './ask_errors';
 import { maybeDegradedAsk, buildExtractiveCitedAnswer } from './ask_degrade';
+import { logAsk, readGenAttempts } from './ask_log';
 import { embedText, generateAnswer, isGeminiServing } from './providers';
 import {
   lexicalSearch,
@@ -118,6 +119,9 @@ export async function handleAsk(
   const forceRrfOnly = isForceRrfOnlyEnv();
   let retrievedCitations: Citation[] = [];
   let retrievedRows: Map<string, ChunkRow> | null = null;
+  let genMs: number | undefined;
+  let genAttempts: number | undefined;
+  let genStarted = 0;
 
   try {
     const exists = await vehicleExists(req.vehicle_id);
@@ -137,13 +141,6 @@ export async function handleAsk(
       // Embedding provider unreachable (hosted Gemini quota / local Ollama
       // down). Degrade to lexical-only extractive answers instead of 503.
       const embedClass = errorClassForEmbedFailure(embedErr);
-      logAsk({
-        requestId,
-        vehicle_id: req.vehicle_id,
-        outcome: 'extractive_fallback',
-        error_class: embedClass,
-        reason: embedErr instanceof Error ? embedErr.message : String(embedErr),
-      });
       return await extractiveFallback({
         vehicleId: req.vehicle_id,
         question: req.question,
@@ -152,6 +149,7 @@ export async function handleAsk(
         diagnosticsOn,
         requestId,
         error_class: embedClass,
+        startedAt: t0,
       });
     }
 
@@ -296,6 +294,15 @@ export async function handleAsk(
     retrievedRows = rows;
 
     if (citations.length === 0) {
+      logAsk({
+        requestId,
+        vehicle_id: req.vehicle_id,
+        vector_count: vector.length,
+        lexical_count: lexical.length,
+        image_count: image.length,
+        outcome: 'insufficient_evidence',
+        total_ms: Date.now() - t0,
+      });
       return insufficientEvidenceResult({
         diagnosticsOn,
         requestId,
@@ -334,10 +341,15 @@ export async function handleAsk(
         ? `\n\nDiagram assist (layout only; specs must come from citations):\n${vlm.notes.trim()}\n`
         : '';
 
-    const { text, model } = await generateAnswer(
+    genStarted = Date.now();
+    const generated = await generateAnswer(
       ASK_SYSTEM_PROMPT,
       `Vehicle: ${req.vehicle_id}\nQuestion: ${req.question}\n\nContext:\n${labeledContext}${vlmBlock}`,
     );
+    genMs = Date.now() - genStarted;
+    genAttempts =
+      typeof generated.attempts === 'number' ? generated.attempts : 1;
+    const { text, model } = generated;
     generatorModel = model;
     const filtered = filterAnswerToKnownLabels(text, citations);
 
@@ -401,6 +413,8 @@ export async function handleAsk(
       vehicle_id: req.vehicle_id,
       ...diag,
       outcome: 'answered',
+      gen_attempts: genAttempts,
+      gen_ms: genMs,
       total_ms: Date.now() - t0,
     });
 
@@ -419,6 +433,10 @@ export async function handleAsk(
       diagnosticsOn,
       requestId,
     });
+    if (genStarted > 0) {
+      genMs = Date.now() - genStarted;
+      genAttempts = readGenAttempts(err) ?? 1;
+    }
     if (degraded) {
       logAsk({
         requestId,
@@ -426,7 +444,8 @@ export async function handleAsk(
         outcome: 'degraded',
         error_class: degraded.error_class,
         citation_count: degraded.citations.length,
-        error: err instanceof Error ? err.message : String(err),
+        gen_attempts: genAttempts,
+        gen_ms: genMs,
         total_ms: Date.now() - t0,
       });
       return degraded;
@@ -436,8 +455,9 @@ export async function handleAsk(
       requestId,
       vehicle_id: req.vehicle_id,
       outcome: 'dependency_error',
-      error: err instanceof Error ? err.message : String(err),
       error_class: failure.error_class,
+      gen_attempts: genAttempts,
+      gen_ms: genMs,
       total_ms: Date.now() - t0,
     });
     return failure;
@@ -452,6 +472,7 @@ type ExtractiveArgs = {
   diagnosticsOn: boolean;
   requestId: string;
   error_class: AskErrorClass;
+  startedAt: number;
 };
 
 /**
@@ -484,6 +505,15 @@ export async function extractiveFallback(args: ExtractiveArgs) {
   const lexicalMs = Date.now() - lStarted;
 
   if (hits.length === 0) {
+    logAsk({
+      requestId: args.requestId,
+      vehicle_id: args.vehicleId,
+      outcome: 'insufficient_evidence',
+      error_class: args.error_class,
+      lexical_count: 0,
+      lexical_ms: lexicalMs,
+      total_ms: Date.now() - args.startedAt,
+    });
     return insufficientEvidenceResult({
       diagnosticsOn: args.diagnosticsOn,
       requestId: args.requestId,
@@ -521,16 +551,15 @@ export async function extractiveFallback(args: ExtractiveArgs) {
   const answer = built?.answer ?? DEGRADED_ASK_BANNER;
   const usedCitations = built?.citations ?? citations;
 
-  if (args.diagnosticsOn) {
-    logAsk({
-      requestId: args.requestId,
-      vehicle_id: args.vehicleId,
-      outcome: 'degraded',
-      error_class: args.error_class,
-      lexical_count: hits.length,
-      lexical_ms: lexicalMs,
-    });
-  }
+  logAsk({
+    requestId: args.requestId,
+    vehicle_id: args.vehicleId,
+    outcome: 'degraded',
+    error_class: args.error_class,
+    lexical_count: hits.length,
+    lexical_ms: lexicalMs,
+    total_ms: Date.now() - args.startedAt,
+  });
 
   const result: AskSuccess = {
     answer,
@@ -550,9 +579,4 @@ export async function extractiveFallback(args: ExtractiveArgs) {
       : null,
   };
   return result;
-}
-
-function logAsk(fields: Record<string, unknown>) {
-  // Structured ask log — never private chunk bodies.
-  console.log(JSON.stringify({ event: 'ask', ...fields }));
 }
