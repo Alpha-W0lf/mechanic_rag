@@ -30,6 +30,14 @@ PROGRAM_FIXTURES = (
 VALID = PROGRAM_FIXTURES / "valid"
 INVALID = PROGRAM_FIXTURES / "invalid"
 
+pytestmark = [
+    pytest.mark.integration,
+    pytest.mark.skipif(
+        not (VALID / "minimal_manifest.json").is_file(),
+        reason="sibling second_brain program fixtures not present (public clone / CI)",
+    ),
+]
+
 
 def _validate(path: Path, *, profile: str = "public", allowlist: list[Path] | None = None):
     roots = allowlist if allowlist is not None else [PROGRAM_FIXTURES]

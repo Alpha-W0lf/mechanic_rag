@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Test script for enhanced chunking system."""
+"""Legacy OEM PDF chunking smoke (not a unit test).
+
+Collected-ignored by tests/conftest.py: importing parse.py needs the
+`legacy` extra (`google.genai`) and rag_input/ PDFs (gitignored).
+"""
 
 import sys
 from pathlib import Path

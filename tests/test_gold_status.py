@@ -32,6 +32,14 @@ PROGRAM_VALID = (
 VEHICLE_A = "fixture:demo-s2000-ap1"
 VEHICLE_B = "fixture:demo-miata-nb"
 
+pytestmark = [
+    pytest.mark.integration,
+    pytest.mark.skipif(
+        not (PROGRAM_VALID / "minimal_manifest.json").is_file(),
+        reason="sibling second_brain program fixtures not present (public clone / CI)",
+    ),
+]
+
 
 def _stage_vehicle_dir(
     dst: Path,

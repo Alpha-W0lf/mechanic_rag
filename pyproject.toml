@@ -42,3 +42,11 @@ mecharag = "mecharag.__main__:main"
 [tool.setuptools.packages.find]
 include = ["mecharag*"]
 exclude = ["scripts*", "web*", "output*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+markers = [
+    "integration: sibling second_brain fixtures, live Vehicle Gold emit, or a running Compose/Next/Ollama stack",
+    "slow: OEM PDF corpus (rag_input/ is gitignored) or network / Ollama / Postgres",
+]

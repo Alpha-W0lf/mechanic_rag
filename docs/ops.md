@@ -2,6 +2,38 @@
 
 Short operational policy. Not a monitor implementation (that is a separate ticket).
 
+## CI (this repo)
+
+GitHub Actions workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). Two jobs on `ubuntu-latest`, in parallel, PR + push to `main`. Later steps in a job use `if: success() || failure()` so a lint failure still records typecheck/Vitest (and fail-closed still records pytest). The job stays red. No paid runners. No scheduled Production smoke here.
+
+| Job | Gate | What a green run proves |
+|---|---|---|
+| `web` | `pnpm lint` (`next lint --max-warnings 0`) | ESLint is clean. Warnings and errors fail the gate (no `\|\| true`, no `continue-on-error`). |
+| `web` | `pnpm typecheck` (`tsc --noEmit`) | TypeScript is clean under `web/tsconfig.json` (app + tests). Pre-existing test mock typing was fixed so this gate is honest — not silenced. Injectable env helpers take `NodeJS.Dict<string>` (type-only; same runtime). |
+| `web` | `pnpm test` (`vitest run`) | Existing Vitest unit tests pass. |
+| `web` | `pnpm build` | Next.js production compile succeeds. |
+| `python` | `public_fail_closed.py fixtures` | Public `fixtures/` has no OEM PDFs, no `private_oem` / `private_gold` path tokens, no forbidden `rights_class`. Fail-closed. |
+| `python` | `pytest -m "not integration and not slow"` | Fast unit tests for `mecharag/` + `scripts/` that need **no** network, Ollama, or Postgres. |
+
+**Python pin:** `3.13` (same as [`docs/dev_setup.md`](dev_setup.md) / [`.python-version`](../.python-version)). `pyproject.toml` allows `>=3.11`. Dependencies are cached.
+
+**Markers** (see `[tool.pytest.ini_options]` in `pyproject.toml`):
+
+| Mark | Why it is out of this CI subset |
+|---|---|
+| `integration` | Needs the sibling `second_brain` program fixtures, a live Vehicle Gold emit, or a running Compose/Next/Ollama stack. Those trees are not in this public clone. |
+| `slow` | OEM PDF corpus under gitignored `rag_input/`, or anything that would call network / Ollama / Postgres. |
+
+Local full suite (when you have the sibling repo / live emit): `pytest` from repo root. Tests skip with a reason when those trees are absent; CI **deselects** them so a missing sibling is not a silent skip of an intended gate. `tests/test_parser.py` and `tests/test_chunking.py` are **collect-ignored** (legacy OEM PDF smokes; they import `google.genai` from the `legacy` extra).
+
+**Not in this repo's CI (by design):**
+
+- Full eval suite (`mecharag eval --golden evals/`).
+- Production / hosted smoke (`POST /api/ask` against the live demo).
+- A scheduled workflow. This clone is dormant by design; GitHub disables schedules on inactive repos.
+
+**Cited-Ask monitor lives in the hub.** [Alpha-W0lf/second_brain](https://github.com/Alpha-W0lf/second_brain) `.github/workflows/mechanic-ask-monitor.yml` (JH-41) is the scheduled fixture Ask probe (once daily at 12:03 PM America/Chicago; UTC crons `3 17` and `3 18` with a Chicago-hour gate + `workflow_dispatch`). Failures and degraded results open deduped GitHub issues assigned to Alpha-W0lf. Do not add a schedule here to “cover” that. Local `/api/health` remains the clone readiness check.
+
 ## Degraded Ask response (JH-46)
 
 `POST /api/ask` returns **HTTP 200** `outcome: "degraded"` in two cases (both require ≥1 citation):
@@ -48,7 +80,7 @@ A degraded 200 is still useful: extractive manual excerpts plus clickable citati
 | Per hashed IP / UTC day | `ASK_RATE_LIMIT_PER_DAY` | **100** | Single-client grind |
 | Global / UTC day | `ASK_RATE_LIMIT_GLOBAL_DAY` | **800** | Embedding RPD (~1K). Stay below 1K |
 
-Change a ceiling by setting the env var on Vercel and redeploying. Non-positive or non-numeric values fall back to the default. The 6-hourly synthetic Ask monitor is 4 requests/day from rotating IPs — well under every ceiling; no IP allowlist.
+Change a ceiling by setting the env var on Vercel and redeploying. Non-positive or non-numeric values fall back to the default. The once-daily synthetic Ask monitor (12:03 PM America/Chicago) is well under every ceiling; no IP allowlist.
 
 **Admission order.** Increment client minute, then client day, then global. A client-limit deny does **not** increment the global bucket — otherwise ~800 denied 10/min bursts from one IP would 429 everyone until UTC midnight without spending Gemini quota. A minute deny also skips the client-day increment (a rejected burst must not burn the 100/day budget). Global is incremented only for requests both client checks admitted.
 
@@ -66,7 +98,7 @@ If `ask_rate_buckets` is missing (migration not applied yet) or the limiter quer
 {"event":"ask_rate_limit","warning":"fail_open","reason":"undefined_table"|"store_error"}
 ```
 
-Why fail-open: Production apply is operator-owned after review; a missing table or limiter-DB hiccup must not turn the demo into a 429 outage (and must not fail the 6-hourly monitor). The cost is a window where abuse can still spend Gemini quota until the table exists or the store recovers. Ask itself still fails closed on real DB/Gemini errors.
+Why fail-open: Production apply is operator-owned after review; a missing table or limiter-DB hiccup must not turn the demo into a 429 outage (and must not fail the once-daily monitor). The cost is a window where abuse can still spend Gemini quota until the table exists or the store recovers. Ask itself still fails closed on real DB/Gemini errors.
 
 ### Local Compose
 

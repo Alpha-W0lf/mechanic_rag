@@ -46,7 +46,9 @@ describe('gemini retry helpers', () => {
       .mockResolvedValueOnce(new Response('busy', { status: 503 }))
       .mockResolvedValueOnce(new Response('ok', { status: 200 }));
     vi.stubGlobal('fetch', fetchMock);
-    const sleep = vi.fn(async () => undefined);
+    const sleep = vi.fn(async (ms: number) => {
+      void ms;
+    });
 
     const res = await geminiFetch(
       'https://generativelanguage.googleapis.com/v1beta/models/x:generateContent',
@@ -62,7 +64,9 @@ describe('gemini retry helpers', () => {
   it('geminiFetch retries 429 then gives up after maxAttempts', async () => {
     const fetchMock = vi.fn().mockResolvedValue(new Response('slow down', { status: 429 }));
     vi.stubGlobal('fetch', fetchMock);
-    const sleep = vi.fn(async () => undefined);
+    const sleep = vi.fn(async (ms: number) => {
+      void ms;
+    });
 
     const res = await geminiFetch('https://example.test/generate', { method: 'POST' }, {
       sleep,
@@ -75,7 +79,9 @@ describe('gemini retry helpers', () => {
   it('does not retry 400', async () => {
     const fetchMock = vi.fn().mockResolvedValue(new Response('bad', { status: 400 }));
     vi.stubGlobal('fetch', fetchMock);
-    const sleep = vi.fn(async () => undefined);
+    const sleep = vi.fn(async (ms: number) => {
+      void ms;
+    });
     const res = await geminiFetch('https://example.test/generate', { method: 'POST' }, {
       sleep,
     });

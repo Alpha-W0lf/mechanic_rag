@@ -58,13 +58,13 @@ export type PurgeExpired = (now: Date) => Promise<void>;
 export type ConsumeAskRateLimitInput = {
   headers: Headers;
   now?: Date;
-  env?: NodeJS.ProcessEnv;
+  env?: NodeJS.Dict<string>;
   incrementBucket?: IncrementBucket;
   purgeExpired?: PurgeExpired;
 };
 
 function envPositiveInt(
-  env: NodeJS.ProcessEnv,
+  env: NodeJS.Dict<string>,
   key: string,
   fallback: number,
 ): number {
@@ -76,7 +76,7 @@ function envPositiveInt(
 }
 
 export function resolveAskRateLimits(
-  env: NodeJS.ProcessEnv = process.env,
+  env: NodeJS.Dict<string> = process.env,
 ): AskRateLimits {
   return {
     perMinute: envPositiveInt(
@@ -132,7 +132,7 @@ export function isMissingRateLimitTable(err: unknown): boolean {
 
 let missingSaltWarned = false;
 
-function resolveSalt(env: NodeJS.ProcessEnv): string {
+function resolveSalt(env: NodeJS.Dict<string>): string {
   const salt = env.ASK_RATE_LIMIT_SALT?.trim();
   if (salt) return salt;
   if (!missingSaltWarned) {

@@ -9,9 +9,15 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from mecharag.private_gold_source import PrivateGoldSource
 
-from test_private_gold_present_only import CAT_VID, stage_present_only_cat
+from test_private_gold_present_only import (
+    CAT_VID,
+    PROGRAM_VALID,
+    stage_present_only_cat,
+)
 
 SOFT_ADJUST_ASK_MET_VEHICLE = "cat:demo-synthetic-f150"
 FIXTURE_S2000 = "fixture:honda-s2000-demo"
@@ -23,6 +29,11 @@ def test_soft_adjust_ask_met_vehicle_matches_q1_lock() -> None:
     assert SOFT_ADJUST_ASK_MET_VEHICLE != FIXTURE_S2000
 
 
+@pytest.mark.integration
+@pytest.mark.skipif(
+    not (PROGRAM_VALID / "minimal_manifest.json").is_file(),
+    reason="sibling second_brain program fixtures not present (public clone / CI)",
+)
 def test_soft_adjust_pack_load_exposes_ask_met_vehicle(tmp_path: Path) -> None:
     root = stage_present_only_cat(tmp_path / "private_gold_g15")
     docs = PrivateGoldSource(root).load_all()

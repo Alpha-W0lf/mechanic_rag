@@ -39,11 +39,16 @@ def _stage_minimal_pack(dst: Path) -> Path:
 
 @pytest.fixture
 def gold_root(tmp_path: Path) -> Path:
+    if not (PROGRAM_VALID / "minimal_manifest.json").is_file():
+        pytest.skip(
+            "sibling second_brain program fixtures not present (public clone / CI)"
+        )
     root = tmp_path / "private_gold_met"
     _stage_minimal_pack(root)
     return root
 
 
+@pytest.mark.integration
 def test_discover_and_load_happy(gold_root: Path) -> None:
     source = PrivateGoldSource(gold_root)
     releases = source.discover()
@@ -59,6 +64,7 @@ def test_discover_and_load_happy(gold_root: Path) -> None:
     assert "oil capacity" in m["units"][0]["text"].lower()
 
 
+@pytest.mark.integration
 def test_path_escape_rejected(gold_root: Path, tmp_path: Path) -> None:
     source = PrivateGoldSource(gold_root)
     outside = tmp_path / "outside.txt"
@@ -74,6 +80,7 @@ def test_drive_url_root_rejected() -> None:
         PrivateGoldSource("gdrive://bucket/path")
 
 
+@pytest.mark.integration
 def test_reject_cat_without_gold_status(gold_root: Path) -> None:
     """Guide 13 Soft Adjust: cat:/private_oem without sidecar fail-closes."""
     manifest_path = gold_root / "minimal_manifest.json"
@@ -86,6 +93,7 @@ def test_reject_cat_without_gold_status(gold_root: Path) -> None:
         source.load_all()
 
 
+@pytest.mark.integration
 def test_hash_mismatch_rejected(gold_root: Path) -> None:
     (gold_root / "minimal_p1.txt").write_text("tampered", encoding="utf-8")
     source = PrivateGoldSource(gold_root)
@@ -116,6 +124,7 @@ def test_fixtures_root_rejected_for_private_gold(
     assert rc == 2
 
 
+@pytest.mark.integration
 def test_empty_units_after_resolve_rejected(gold_root: Path) -> None:
     source = PrivateGoldSource(gold_root)
     release = {

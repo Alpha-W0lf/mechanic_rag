@@ -37,10 +37,13 @@ def _live_available() -> bool:
     )
 
 
-pytestmark = pytest.mark.skipif(
-    not _live_available(),
-    reason="Vehicle live RAG Gold emit missing (L1: mapper CI still Met)",
-)
+pytestmark = [
+    pytest.mark.integration,
+    pytest.mark.skipif(
+        not _live_available(),
+        reason="Vehicle live RAG Gold emit missing (L1: mapper CI still Met)",
+    ),
+]
 
 
 @pytest.fixture
