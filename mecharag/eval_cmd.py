@@ -224,8 +224,8 @@ def run_eval(args) -> int:
         "avg_ce_latency_ms": round(avg_ce, 2) if avg_ce is not None else None,
         "ask_http_ok": ask_ok if not args.retrieval_only else None,
         "model_status": {
-            "embedding": "candidate pending lock (nomic-embed-text@768)",
-            "ce": "candidate pending lock (MiniLM / transformers_js); freeze only after paired ask evidence + human",
+            "embedding": "frozen (Tom override — flat delta; no lift claim; nomic-embed-text@768)",
+            "ce": "frozen (Tom override — flat delta; no lift claim; Xenova/ms-marco-MiniLM-L-6-v2)",
         },
         "historical_proxy_note": (
             "Pass-8c proxy ce_vs_rrf_delta_hits=+1 / n=5 is NOT freeze evidence."

@@ -208,6 +208,7 @@ async function bestEffortPurge(purge: PurgeExpired, now: Date): Promise<void> {
   }
 }
 
+// Security residual: fail-open logging emits presence/reason only; never logs or prints ASK_RATE_LIMIT_SALT.
 function logFailOpen(kind: 'undefined_table' | 'store_error'): void {
   console.warn(
     JSON.stringify({
