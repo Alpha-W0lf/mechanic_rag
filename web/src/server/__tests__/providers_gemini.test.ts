@@ -140,7 +140,7 @@ describe('hosted Gemini generate/embed', () => {
   });
 
   it('generate maps exhausted 429 to GeminiError with RESOURCE_EXHAUSTED', async () => {
-    const fetchMock = vi.fn().mockResolvedValue(
+    const fetchMock = vi.fn().mockImplementation(() =>
       jsonResponse(429, { error: { status: 'RESOURCE_EXHAUSTED', code: 429 } }),
     );
     vi.stubGlobal('fetch', fetchMock);
