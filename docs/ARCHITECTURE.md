@@ -131,7 +131,7 @@ flowchart LR
 |-------|--------|-------------------|
 | External keep-alive → `GET /api/health?mode=db` | Hosted function can open Postgres (`SELECT 1`). DB reachable after idle. | Gemini `generateContent` works. Ask returns an answer. Citations are present. |
 | Default `GET /api/health` on hosted (`GEMINI_API_KEY` set) | Postgres up. Gemini path is treated ready because the **key is present** — there is no live Gemini ping | That Ask answers with citations |
-| Synthetic Ask monitor (JH-41, a private ops repo; once daily at 12:03 PM America/Chicago) | Hosted Ask scored per [`ops.md`](./ops.md); deduped GitHub issues on fail or degraded. Not implemented in this repository. Public last-success / stranger verify: [`ops.md` JH-66](./ops.md#public-ask-monitor-evidence-jh-66). | In-repo CI. Keep-alive `SELECT 1`. |
+| Synthetic Ask monitor (JH-41, a private ops repo; once daily at 12:03 PM America/Chicago) | Hosted Ask scored per [`ops.md`](./ops.md); deduped GitHub issues on fail or degraded. Not implemented in this repository. Public evidence pack / stranger verify: [`ops.md` JH-66 / JH-48.9](./ops.md#public-ask-monitor-evidence-jh-66). | In-repo CI. Keep-alive `SELECT 1`. |
 
 A green keep-alive is a pause/wake / DB-reachable signal. It is **not** a cited-Ask monitor. See also §9.1 (pool hardening vs keep-alive). Do not put project refs, pooler hosts, or keys in this document.
 
