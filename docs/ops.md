@@ -72,6 +72,58 @@ Why fail-open: Production apply is operator-owned after review; a missing table 
 
 The limiter uses the same `DATABASE_URL` / pool. Fresh Compose volumes load `003_ask_rate_limit.sql` from `docker-entrypoint-initdb.d`. Existing volumes: `./scripts/migrate.sh`. To disable locally (no store calls): `ASK_RATE_LIMIT_DISABLED=1` in `web/.env.local`.
 
+## Supabase Data API lock (JH-52)
+
+Supabase PostgREST exposes every `public` table to the project's `anon` / `authenticated` keys unless RLS is on and/or those roles are revoked. Before this lock, Production `vehicles`, `documents`, `chunks`, `index_state`, and `chunk_image_embeddings` had RLS **off** and `anon` could `SELECT` (verified 2026-09-23 CT). `ask_rate_buckets` was already locked in `003_ask_rate_limit.sql`.
+
+**Product path is unchanged.** Next.js uses `pg` + `DATABASE_URL` (`web/src/server/db.ts`). Ingest (`mecharag ingest`, `mecharag embed-images`) uses `psycopg` + the same URL. Neither talks to PostgREST or supabase-js. Postgres table owners bypass RLS unless `FORCE ROW LEVEL SECURITY` — this migration does **not** FORCE. Assumption: the `DATABASE_URL` role owns (or is superuser for) the public tables it created. Confirm with the snippet below before applying on Production.
+
+Leftover `scripts/ingest/ingest.py` and `scripts/deploy/upload_assets.py` still call supabase-js with `SUPABASE_SERVICE_ROLE_KEY`. Those are **not** product paths (ARCHITECTURE: stale). `service_role` bypasses RLS; they would not break if someone still ran them. They are not used by Ask.
+
+`004_lock_data_api.sql` also `ALTER DEFAULT PRIVILEGES … REVOKE` from `anon`/`authenticated` (same role gate) so a later `CREATE TABLE` by the applying role does not inherit Supabase's default GRANT. That revoke is scoped to objects created by `current_user` after apply.
+
+### Apply (operator-owned)
+
+Production: apply `db/migrations/004_lock_data_api.sql` yourself after review (exact SQL is in that file and in the JH-52 PR). Local Compose / existing volume:
+
+```bash
+# Compose must be up. DATABASE_URL defaults to localhost:5433.
+psql "${DATABASE_URL:-postgres://mechanic:mechanic@localhost:5433/mechanic_rag}" \
+  -v ON_ERROR_STOP=1 -f db/migrations/004_lock_data_api.sql
+# Re-run: must be a no-op (exit 0).
+psql "${DATABASE_URL:-postgres://mechanic:mechanic@localhost:5433/mechanic_rag}" \
+  -v ON_ERROR_STOP=1 -f db/migrations/004_lock_data_api.sql
+```
+
+`docker-compose.yml` initdb currently mounts `001` and `003` only (pre-existing: `002` is also unmounted). Fresh volumes still need the `psql -f` above, or `./scripts/migrate.sh`. `004` is idempotent; Compose has no `anon`/`authenticated`, so the REVOKE block is skipped.
+
+### Verification SQL (run on Production after apply)
+
+Lists every public base table: RLS flags, owner vs the connected role, and whether `anon` still has table privileges. Expected after apply: `relrowsecurity` true, `relforcerowsecurity` false, `anon_select`/`anon_insert`/`anon_update`/`anon_delete` false (or NULL if the `anon` role is absent). `current_user` should match `owner` (or be a superuser) — that is the owner-bypass assumption.
+
+```sql
+SELECT
+  c.relname AS table_name,
+  c.relrowsecurity,
+  c.relforcerowsecurity,
+  pg_get_userbyid(c.relowner) AS owner,
+  current_user,
+  current_user = pg_get_userbyid(c.relowner) AS connected_is_owner,
+  CASE WHEN EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon')
+       THEN has_table_privilege('anon', c.oid, 'SELECT') END AS anon_select,
+  CASE WHEN EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon')
+       THEN has_table_privilege('anon', c.oid, 'INSERT') END AS anon_insert,
+  CASE WHEN EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon')
+       THEN has_table_privilege('anon', c.oid, 'UPDATE') END AS anon_update,
+  CASE WHEN EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon')
+       THEN has_table_privilege('anon', c.oid, 'DELETE') END AS anon_delete
+FROM pg_class c
+JOIN pg_namespace n ON n.oid = c.relnamespace
+WHERE n.nspname = 'public'
+  AND c.relkind = 'r'
+ORDER BY 1;
+```
+
 ### Why not in-memory or Hobby WAF alone
 
 Per-isolate memory counters are not shared across Vercel Fluid isolates, so a script can bypass them. Hobby WAF includes **1** rate-limit rule, fixed window **10s–10min**, keys IP/JA4 only — no daily window and no global embedding budget. See the JH-42 PR for doc URLs.
