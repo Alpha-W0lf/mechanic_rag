@@ -74,6 +74,18 @@ describe('ask contract stays thin (no skip_ce)', () => {
   });
 });
 
+describe('public Ask module surface (JH-71)', () => {
+  it('keeps the same named exports on @/server/ask', async () => {
+    const ask = await import('@/server/ask');
+    expect(typeof ask.handleAsk).toBe('function');
+    expect(typeof ask.validateAskRequest).toBe('function');
+    expect(typeof ask.extractiveFallback).toBe('function');
+    expect(typeof ask.isForceRrfOnlyEnv).toBe('function');
+    expect(typeof ask.parseCeRuntimeMode).toBe('function');
+    expect(typeof ask.rankingDiagnosticFlags).toBe('function');
+  });
+});
+
 describe('opts.ce still injects for tests when ablation env off', () => {
   it('FakeCrossEncoder remains usable as opts.ce inject', async () => {
     vi.stubEnv('MECHANIC_FORCE_RRF_ONLY', '0');
