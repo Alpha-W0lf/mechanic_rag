@@ -381,6 +381,10 @@ curl -sS -D- "https://mechanic-rag.vercel.app/api/health?mode=db"
 
 Live `GET /api/health` distinguishes liveness, db probe, and readiness. Do not regress to always-`{"status":"ok"}` as the only contract.
 
+**Ops: keep-alive vs pool hardening.** `GET /api/health?mode=db` (JH-29) proves the hosted function can still open a `SELECT 1` after idle — it is a pause/wake probe, not a pool-sizing proof. Hosted `pg.Pool` hardening (small per-isolate `max`, 5s idle timeout, Vercel `attachDatabasePool`, Supavisor transaction mode on port 6543) is what keeps concurrent isolates from multiplying the old `max: 10` against Supabase Free. A green keep-alive does **not** mean the client pool is safe; a healthy pool does **not** replace the keep-alive. Public JSON still must not include driver/pooler/host text.
+
+**Hosted `DATABASE_URL`:** copy **Transaction pooler** (port **6543**) from the Supabase Connect dialog. Session-mode / direct strings (port 5432) are accepted with the same small pool; prefer 6543 on Vercel. Never log or commit the host.
+
 ### 9.2 Ask path logs (structured)
 
 Emit: request id, `vehicle_id`, vector/lexical counts + latencies, RRF result size, section-dedup drops (if any), **CE N/K**, **CE latency**, **`rerank_degraded`**, chosen `chunk_id`s, embedding/index/generator/**CE** versions, outcome. **Do not** log private chunk bodies by default.
