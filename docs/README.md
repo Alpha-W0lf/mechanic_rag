@@ -4,8 +4,8 @@ Thin map for diligence readers. Start at the repo root for the overview and clon
 
 | Doc | Role |
 |-----|------|
-| [`../README.md`](../README.md) | Overview / skim |
-| [`../GETTING_STARTED.md`](../GETTING_STARTED.md) | Clean-clone operator path |
+| [`../README.md`](../README.md) | Overview / skim / hosted-in-60s path |
+| [`../GETTING_STARTED.md`](../GETTING_STARTED.md) | Clean-clone operator path (Dev Container & host) |
 | [`../FAQ.md`](../FAQ.md) | Technical FAQ |
 | [`VISION.md`](VISION.md) | Product why |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Contracts / how |

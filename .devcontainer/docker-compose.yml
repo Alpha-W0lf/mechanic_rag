@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm
+    volumes:
+      - ..:/workspace:cached
+    network_mode: service:postgres
+    environment:
+      - DATABASE_URL=postgres://mechanic:mechanic@localhost:5432/mechanic_rag
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mechanic
+      POSTGRES_PASSWORD: mechanic
+      POSTGRES_DB: mechanic_rag
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ../db/migrations/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+      - ../db/migrations/002_chunk_image_embeddings.sql:/docker-entrypoint-initdb.d/002_chunk_image_embeddings.sql:ro
+      - ../db/migrations/003_ask_rate_limit.sql:/docker-entrypoint-initdb.d/003_ask_rate_limit.sql:ro
+      - ../db/migrations/004_lock_data_api.sql:/docker-entrypoint-initdb.d/004_lock_data_api.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mechanic -d mechanic_rag"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:

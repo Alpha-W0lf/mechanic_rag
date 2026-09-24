@@ -1,27 +1,45 @@
 # Mechanic RAG
 
-Cited answers from automotive service docs — hosted: vector + Postgres FTS → RRF → section dedup → cited answer. Local MiniLM CE optional (Compose; n=44 delta 0, no lift).
+Cited answers from automotive service docs. Hybrid retrieval (**vector + Postgres FTS**) → **RRF** fusion → **section dedup** → cited answer with exact document, section, and page locators.
 
 Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
 
-🔗 **Live demo:** [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) — pick the fixture vehicle and ask a service question; answers cite document, section, and page.
+---
+
+### Try hosted in 60s (zero install, no GPU / models)
+
+The fastest path to evaluate Mechanic RAG is the live demo — no Docker, no Ollama, no model downloads.
+
+1. Open 🔗 **[mechanic-rag.vercel.app](https://mechanic-rag.vercel.app)**.
+2. The fixture vehicle (`fixture:honda-s2000-demo`) is pre-selected.
+3. Enter a question (e.g. `What is the oil drain plug torque?`) and click **Ask**.
+4. Inspect the cited answer: each numbered marker `[1]`, `[2]` links directly to the verified document, section (`1 Engine Oil > 1-1 Specification`), and page number.
+
+Or test via curl against the hosted JSON endpoint:
+```bash
+curl -sS -X POST "https://mechanic-rag.vercel.app/api/ask" \
+  -H "content-type: application/json" \
+  -d '{"vehicle_id":"fixture:honda-s2000-demo","question":"What is the oil drain plug torque?"}'
+```
 
 **Production durability.** The free-tier database paused after inactivity and took the live demo down. An external daily keep-alive now prevents that. The free-tier path was then hardened: model backoff with graceful degraded answers, a daily synthetic Ask monitor that files issues, an abuse shield, and a locked-down database API. Incident write-up: [`docs/incidents/2026-08-jh17-supabase-pause.md`](docs/incidents/2026-08-jh17-supabase-pause.md).
 
 ![Live demo — asking the fixture S2000 a service question and getting a cited answer](docs/assets/demo/live-demo.gif)
 
-### What runs where
+### Hosted demo vs local clone
 
-Topology detail: [`docs/ARCHITECTURE.md` §3.1 Production topology](docs/ARCHITECTURE.md#31-production-topology-hosted-demo). **Local Docker Compose + Ollama remains the clone/reproduction authority.**
+The hosted demo and local clone share the same retrieval core, but run on different serving tiers. **Never confuse local clone with the hosted deployment:**
 
-| Concern | Live demo | Local clone |
+| Concern | Live hosted demo (fastest eval) | Local clone (reproduction authority) |
 |---|---|---|
+| Prerequisites | Web browser or `curl` | Docker Compose, Node 22, Python 3.11+, host Ollama |
+| GPU / Model downloads | **None** (serverless Gemini free tier) | Ollama models: `nomic-embed-text` (~274MB) + `gemma4:e2b` (~1.6GB) |
 | App | Vercel Hobby — Next.js in `web/` | `pnpm dev` in `web/` |
 | Database | Supabase Free Postgres + pgvector | Compose Postgres + pgvector (host **5433**) |
 | Generator | Gemini API free tier `gemma-4-26b-a4b-it` (`GEMINI_MODEL` override) | Ollama `gemma4:e2b` (fallback `qwen3.5:4b`) |
 | Embeddings | `gemini-embedding-001` @ 768 | Ollama `nomic-embed-text` @ 768 |
-| Ranking | Hybrid → RRF → section dedup (no CE) | Hybrid → RRF → section dedup → local CE |
-| Cross-encoder rerank | ❌ `ce_skip_reason=hosted_ce_disabled` | ✅ |
+| Ranking | Hybrid vector + lexical → RRF → section dedup | Hybrid vector + lexical → RRF → section dedup → optional local CE |
+| Cross-encoder rerank | ❌ Skipped (`ce_skip_reason=hosted_ce_disabled`) | ✅ Optional MiniLM CE (n=44 delta 0, no lift claim) |
 | Monitoring | External keep-alive hits `/api/health?mode=db` (DB reachable). Cited-Ask monitor is JH-41 in a private ops repo, not this repo (once daily at 12:03 PM America/Chicago). Public last-success + how to verify: [`docs/ops.md`](docs/ops.md#public-ask-monitor-evidence-jh-66) | Local `/api/health` readiness (Postgres + Ollama) |
 | Vehicle catalog + manual browser | ✅ | ✅ |
 | Ask → cited generated answer | ✅ (Gemini) | ✅ (Ollama, or Gemini if key set) |
@@ -61,7 +79,12 @@ Hosted Production (the live demo) is that path. Local Compose may add MiniLM CE 
 2. **Hosted ranking = vector + Postgres FTS → RRF → section dedup** — CE is not on the live path (`hosted_ce_disabled`). Local MiniLM CE is Compose-only / optional.
 3. **Eval-backed ranking honesty** — local CE kept by freeze-override; **no** earned citation-lift claim (n=44 delta 0) — depth in [`FAQ.md`](FAQ.md) / [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
 
-### Try it
+### Try it locally
+
+If you want to run the stack locally rather than using the hosted demo:
+
+- **Option A: Dev Container (`.devcontainer/`)** — Instant VS Code or GitHub Codespaces (Free tier) container environment with Postgres+pgvector and dependencies installed. Run Ask without downloading multi-GB local models by pointing to Gemini API or using extractive lexical verification.
+- **Option B: Local clone with Docker Compose + host Ollama** — The full local reproduction authority.
 
 ```bash
 ./scripts/stranger_smoke.sh
