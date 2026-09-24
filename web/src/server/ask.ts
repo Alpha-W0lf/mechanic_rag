@@ -13,7 +13,8 @@ import {
   rerankWithDegrade,
   type CrossEncoder,
 } from './cross_encoder';
-import { embedText, generateAnswer, OllamaError } from './providers';
+import { toPublicAskFailure, type AskErrorClass } from './ask_errors';
+import { embedText, generateAnswer } from './providers';
 import {
   lexicalSearch,
   loadChunksByIds,
@@ -45,6 +46,7 @@ export type AskSuccess = {
 export type AskFailure = {
   error: string;
   status: number;
+  error_class?: AskErrorClass;
 };
 
 /** Env-gated Guide 02 ablation: skip CE intentionally (≠ natural degrade). */
@@ -380,25 +382,17 @@ export async function handleAsk(
       diagnostics: diagnosticsOn ? diag : null,
     };
   } catch (err) {
-    if (err instanceof OllamaError || (err as { name?: string })?.name === 'AbortError') {
-      logAsk({
-        requestId,
-        vehicle_id: req.vehicle_id,
-        outcome: 'dependency_error',
-        error: err instanceof Error ? err.message : String(err),
-        total_ms: Date.now() - t0,
-      });
-      return { error: 'Upstream dependency failure (Ollama)', status: 503 };
-    }
-    // Postgres / unexpected
+    // JH-46: extractive degrade on generator_unavailable is out of scope here.
+    const failure = toPublicAskFailure(err);
     logAsk({
       requestId,
       vehicle_id: req.vehicle_id,
       outcome: 'dependency_error',
       error: err instanceof Error ? err.message : String(err),
+      error_class: failure.error_class,
       total_ms: Date.now() - t0,
     });
-    return { error: 'Upstream dependency failure (database or internal)', status: 503 };
+    return failure;
   }
 }
 

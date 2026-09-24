@@ -70,7 +70,7 @@ Full clone path, footguns, and paired-ask ablation: [`GETTING_STARTED.md`](GETTI
 | Store | Compose Postgres + pgvector (host **5433**) |
 | CLI | `mecharag ingest` / `mecharag eval` |
 | Embeddings | Hosted demo: `gemini-embedding-001` @ 768 · local: Ollama `nomic-embed-text` @ 768 (frozen) |
-| Generator | Hosted demo: `gemini-3.6-flash` · local: Ollama `gemma4:e2b` (fallback `qwen3.5:4b`) |
+| Generator | Hosted demo: `gemma-4-26b-a4b-it` · local: Ollama `gemma4:e2b` (fallback `qwen3.5:4b`) |
 | Ranking | Hybrid → RRF → section dedup → local CE (degrade on failure) |
 
 ### Deeper docs

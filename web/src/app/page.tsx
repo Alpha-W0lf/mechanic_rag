@@ -26,6 +26,7 @@ type AskResponse = {
   visual_assets?: VisualAsset[];
   outcome?: string;
   error?: string;
+  error_class?: string;
 };
 
 const DEFAULT_VEHICLE = "fixture:honda-s2000-demo";
