@@ -1,5 +1,5 @@
 /**
- * Public Ask error taxonomy (JH-39).
+ * Public Ask error taxonomy (JH-39 + JH-46 `embedding_unavailable`).
  *
  * Server logs may keep raw driver text. HTTP bodies must not leak
  * FATAL / ENOTFOUND / pooler host / tenant refs (PR #2 posture).
@@ -7,6 +7,7 @@
 
 export const ASK_ERROR_CLASSES = [
   'generator_unavailable',
+  'embedding_unavailable',
   'database_unavailable',
   'rate_limited',
   'internal',
@@ -16,6 +17,7 @@ export type AskErrorClass = (typeof ASK_ERROR_CLASSES)[number];
 
 export const PUBLIC_ASK_ERROR: Record<AskErrorClass, string> = {
   generator_unavailable: 'Upstream dependency failure (generator)',
+  embedding_unavailable: 'Upstream dependency failure (embedding)',
   database_unavailable: 'Upstream dependency failure (database)',
   rate_limited: 'Rate limited; try again shortly',
   internal: 'Internal error',
@@ -114,7 +116,14 @@ export function isRateLimitedError(err: unknown): boolean {
   return ollamaStatus(err) === 429;
 }
 
+export function isEmbeddingError(err: unknown): boolean {
+  const msg = errMessage(err);
+  if (/^gemini embed\b/i.test(msg)) return true;
+  return errName(err) === 'OllamaError' && /^embed\b/i.test(msg);
+}
+
 export function isGeneratorError(err: unknown): boolean {
+  if (isEmbeddingError(err)) return false;
   if (asGemini(err)) return true;
   if (errName(err) === 'OllamaError') return true;
   if (errName(err) === 'AbortError') return true;
@@ -122,8 +131,19 @@ export function isGeneratorError(err: unknown): boolean {
   return /^gemini /i.test(msg);
 }
 
+/**
+ * Class for the embedText catch: that site is always an embedding failure.
+ * 429 stays rate_limited; everything else is embedding_unavailable
+ * (including AbortError timeouts). Do not call this for generate errors.
+ */
+export function errorClassForEmbedFailure(err: unknown): AskErrorClass {
+  if (isRateLimitedError(err)) return 'rate_limited';
+  return 'embedding_unavailable';
+}
+
 export function classifyAskError(err: unknown): AskErrorClass {
   if (isRateLimitedError(err)) return 'rate_limited';
+  if (isEmbeddingError(err)) return 'embedding_unavailable';
   if (isGeneratorError(err)) return 'generator_unavailable';
   if (isDatabaseError(err)) return 'database_unavailable';
   return 'internal';

@@ -15,7 +15,11 @@ import {
   type CrossEncoder,
 } from './cross_encoder';
 import { DEGRADED_ASK_BANNER } from '@/lib/ask_copy';
-import { toPublicAskFailure, type AskErrorClass } from './ask_errors';
+import {
+  errorClassForEmbedFailure,
+  toPublicAskFailure,
+  type AskErrorClass,
+} from './ask_errors';
 import { maybeDegradedAsk, buildExtractiveCitedAnswer } from './ask_degrade';
 import { embedText, generateAnswer, isGeminiServing } from './providers';
 import {
@@ -130,12 +134,14 @@ export async function handleAsk(
       embeddingModel = emb.model;
       embedMs = Date.now() - embStarted;
     } catch (embedErr) {
-      // Embedding provider unreachable (e.g. serverless deploy without
-      // Ollama). Degrade to lexical-only extractive answers instead of 503.
+      // Embedding provider unreachable (hosted Gemini quota / local Ollama
+      // down). Degrade to lexical-only extractive answers instead of 503.
+      const embedClass = errorClassForEmbedFailure(embedErr);
       logAsk({
         requestId,
         vehicle_id: req.vehicle_id,
         outcome: 'extractive_fallback',
+        error_class: embedClass,
         reason: embedErr instanceof Error ? embedErr.message : String(embedErr),
       });
       return await extractiveFallback({
@@ -145,6 +151,7 @@ export async function handleAsk(
         docFamily: req.doc_family,
         diagnosticsOn,
         requestId,
+        error_class: embedClass,
       });
     }
 
@@ -444,12 +451,15 @@ type ExtractiveArgs = {
   docFamily?: string;
   diagnosticsOn: boolean;
   requestId: string;
+  error_class: AskErrorClass;
 };
 
 /**
  * Serverless degrade path: when no embedding provider is reachable,
  * skip vector/image channels and answer extractively from lexical retrieval.
  * Banner is shared honest copy (not “local Ollama only”).
+ * HTTP 200 + outcome=degraded when lexical hits exist; zero hits stay
+ * insufficient_evidence.
  */
 export async function extractiveFallback(args: ExtractiveArgs) {
   const lStarted = Date.now();
@@ -515,7 +525,8 @@ export async function extractiveFallback(args: ExtractiveArgs) {
     logAsk({
       requestId: args.requestId,
       vehicle_id: args.vehicleId,
-      outcome: 'answered_extractive',
+      outcome: 'degraded',
+      error_class: args.error_class,
       lexical_count: hits.length,
       lexical_ms: lexicalMs,
     });
@@ -524,12 +535,14 @@ export async function extractiveFallback(args: ExtractiveArgs) {
   const result: AskSuccess = {
     answer,
     citations: usedCitations,
-    outcome: 'answered',
+    outcome: 'degraded',
+    error_class: args.error_class,
     visual_assets: [],
     diagnostics: args.diagnosticsOn
       ? {
           request_id: args.requestId,
           mode: 'extractive_lexical_fallback',
+          error_class: args.error_class,
           match_tier: matchTier,
           lexical_count: hits.length,
           lexical_ms: lexicalMs,

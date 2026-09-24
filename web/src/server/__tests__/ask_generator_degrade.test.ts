@@ -247,8 +247,10 @@ describe('handleAsk generator degrade (JH-46)', () => {
     });
   });
 
-  it('embed fallback copy is honest (no local-Ollama-only implication)', async () => {
-    embedText.mockRejectedValue(new Error('gemini embed failed: 503'));
+  it('embed failure with lexical hits → degraded + embedding_unavailable', async () => {
+    embedText.mockRejectedValue(
+      new GeminiError('gemini embed failed: 503', 503, 'UNAVAILABLE'),
+    );
     const { handleAsk } = await import('@/server/ask');
     const result = await handleAsk({
       vehicle_id: 'fixture:honda-s2000-demo',
@@ -256,8 +258,59 @@ describe('handleAsk generator degrade (JH-46)', () => {
     });
     expect(isFailure(result)).toBe(false);
     if (isFailure(result)) return;
+    expect(result.outcome).toBe('degraded');
+    expect(result.error_class).toBe('embedding_unavailable');
+    expect(result.error_class).not.toBe('generator_unavailable');
     expect(result.answer).toContain(DEGRADED_ASK_BANNER);
     expect(result.answer).not.toMatch(/local Ollama/i);
+    expect(result.citations.length).toBeGreaterThanOrEqual(1);
+    expect(generateAnswer).not.toHaveBeenCalled();
+  });
+
+  it('embed 429 with lexical hits → degraded + rate_limited', async () => {
+    embedText.mockRejectedValue(
+      new GeminiError('gemini embed failed: 429', 429, 'RESOURCE_EXHAUSTED'),
+    );
+    const { handleAsk } = await import('@/server/ask');
+    const result = await handleAsk({
+      vehicle_id: 'fixture:honda-s2000-demo',
+      question: 'What is the oil drain plug torque?',
+    });
+    expect(isFailure(result)).toBe(false);
+    if (isFailure(result)) return;
+    expect(result.outcome).toBe('degraded');
+    expect(result.error_class).toBe('rate_limited');
+  });
+
+  it('embed failure with zero lexical hits → insufficient_evidence unchanged', async () => {
+    embedText.mockRejectedValue(
+      new GeminiError('gemini embed failed: 503', 503, 'UNAVAILABLE'),
+    );
+    lexicalSearch.mockResolvedValue([]);
+    const { handleAsk } = await import('@/server/ask');
+    const result = await handleAsk({
+      vehicle_id: 'fixture:honda-s2000-demo',
+      question: 'What is the oil drain plug torque?',
+    });
+    expect(isFailure(result)).toBe(false);
+    if (isFailure(result)) return;
+    expect(result.outcome).toBe('insufficient_evidence');
+    expect(result.citations).toEqual([]);
+    expect(result.error_class).toBeUndefined();
+    expect(generateAnswer).not.toHaveBeenCalled();
+  });
+
+  it('local Ollama embed failure still extractive-degrades (not a 503)', async () => {
+    embedText.mockRejectedValue(new OllamaError('embed failed: 503', 503));
+    const { handleAsk } = await import('@/server/ask');
+    const result = await handleAsk({
+      vehicle_id: 'fixture:honda-s2000-demo',
+      question: 'What is the oil drain plug torque?',
+    });
+    expect(isFailure(result)).toBe(false);
+    if (isFailure(result)) return;
+    expect(result.outcome).toBe('degraded');
+    expect(result.error_class).toBe('embedding_unavailable');
     expect(result.citations.length).toBeGreaterThanOrEqual(1);
   });
 });

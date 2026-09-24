@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   classifyAskError,
+  errorClassForEmbedFailure,
   PUBLIC_ASK_ERROR,
   toPublicAskFailure,
 } from '@/server/ask_errors';
@@ -46,6 +47,46 @@ describe('classifyAskError / toPublicAskFailure', () => {
     expect(classifyAskError(new Error('gemini generate failed: 503'))).toBe(
       'generator_unavailable',
     );
+  });
+
+  it('maps Gemini embed failures to embedding_unavailable (not generator)', () => {
+    const embed503 = new GeminiError('gemini embed failed: 503', 503, 'UNAVAILABLE');
+    expect(classifyAskError(embed503)).toBe('embedding_unavailable');
+    expect(toPublicAskFailure(embed503)).toEqual({
+      error: PUBLIC_ASK_ERROR.embedding_unavailable,
+      error_class: 'embedding_unavailable',
+      status: 503,
+    });
+    expect(classifyAskError(new GeminiError('gemini embed missing values'))).toBe(
+      'embedding_unavailable',
+    );
+    expect(classifyAskError(new OllamaError('embed failed: 503', 503))).toBe(
+      'embedding_unavailable',
+    );
+  });
+
+  it('maps embed 429 to rate_limited (not embedding_unavailable)', () => {
+    expect(
+      classifyAskError(
+        new GeminiError('gemini embed failed: 429', 429, 'RESOURCE_EXHAUSTED'),
+      ),
+    ).toBe('rate_limited');
+  });
+
+  it('errorClassForEmbedFailure is embedding_unavailable except 429', () => {
+    expect(
+      errorClassForEmbedFailure(
+        new GeminiError('gemini embed failed: 503', 503, 'UNAVAILABLE'),
+      ),
+    ).toBe('embedding_unavailable');
+    const abort = new Error('This operation was aborted');
+    abort.name = 'AbortError';
+    expect(errorClassForEmbedFailure(abort)).toBe('embedding_unavailable');
+    expect(
+      errorClassForEmbedFailure(
+        new GeminiError('gemini embed failed: 429', 429, 'RESOURCE_EXHAUSTED'),
+      ),
+    ).toBe('rate_limited');
   });
 
   it('maps OllamaError to generator_unavailable; 429 to rate_limited', () => {
