@@ -135,6 +135,29 @@ describe('extractiveSnippet / buildExtractiveCitedAnswer', () => {
       buildExtractiveCitedAnswer([citation('1', 'missing')], new Map()),
     ).toBeNull();
   });
+
+  it('keeps original labels when an empty middle row is skipped', () => {
+    const citations = [
+      citation('1', 'a'),
+      citation('2', 'empty'),
+      citation('3', 'c'),
+    ];
+    const rows = new Map([
+      ['a', row('a', CHUNK_A)],
+      ['empty', row('empty', '   ')],
+      ['c', row('c', CHUNK_B)],
+    ]);
+    const built = buildExtractiveCitedAnswer(citations, rows);
+    expect(built).not.toBeNull();
+    if (!built) return;
+    expect(built.citations.map((c) => c.label)).toEqual(['1', '3']);
+    expect(built.citations.map((c) => c.chunk_id)).toEqual(['a', 'c']);
+    expect(built.answer).toContain('[1]');
+    expect(built.answer).toContain('[3]');
+    expect(built.answer).not.toContain('[2]');
+    const markers = [...built.answer.matchAll(/\[(\d+)\]/g)].map((m) => m[1]);
+    expect(markers).toEqual(built.citations.map((c) => c.label));
+  });
 });
 
 describe('maybeDegradedAsk', () => {
