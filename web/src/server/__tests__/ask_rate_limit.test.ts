@@ -12,6 +12,9 @@
  * 8. Header preference: x-vercel-forwarded-for, then x-real-ip, then
  *    first x-forwarded-for hop.
  * 9. Env knobs change the ceilings; invalid values fall back to defaults.
+ * 10. Client-limit denies do not increment the global bucket (no amplification).
+ * 11. Global cap only counts requests the client limits admitted.
+ * 12. Minute deny skips the client-day increment (rejected burst ≠ daily spend).
  */
 import { createHmac } from 'crypto';
 import { readFileSync } from 'fs';
@@ -197,6 +200,10 @@ describe('consumeAskRateLimit', () => {
     expect(result.reason).toBe('client_minute');
     // 15:04:05Z → 55s left in the UTC minute.
     expect(result.retryAfterSec).toBe(55);
+    const ids = incrementBucket.mock.calls.map((c) => String(c[0]));
+    expect(ids).toHaveLength(1);
+    expect(ids[0]).toContain(':m:');
+    expect(ids.some((id) => id.startsWith('g:'))).toBe(false);
   });
 
   it('returns deny when the per-client day bucket is over', async () => {
@@ -212,6 +219,49 @@ describe('consumeAskRateLimit', () => {
     expect(result.reason).toBe('client_day');
     // 15:04:05Z → seconds until 2026-09-25T00:00:00Z
     expect(result.retryAfterSec).toBe(32_155);
+    const ids = incrementBucket.mock.calls.map((c) => String(c[0]));
+    expect(ids).toHaveLength(2);
+    expect(ids.some((id) => id.startsWith('g:'))).toBe(false);
+  });
+
+  it('does not increment global when many client-minute denies arrive', async () => {
+    let globalCount = 5;
+    incrementBucket.mockImplementation(async (bucketId: string) => {
+      if (String(bucketId).startsWith('g:')) {
+        globalCount += 1;
+        return globalCount;
+      }
+      return 11;
+    });
+    for (let i = 0; i < 50; i++) {
+      const result = await consume();
+      expect(result.ok).toBe(false);
+      if (!result.ok) expect(result.reason).toBe('client_minute');
+    }
+    expect(globalCount).toBe(5);
+    expect(
+      incrementBucket.mock.calls.every((c) => !String(c[0]).startsWith('g:')),
+    ).toBe(true);
+  });
+
+  it('counts the global cap only for requests the client limits admitted', async () => {
+    const counts = { minute: 0, day: 0, global: 0 };
+    incrementBucket.mockImplementation(async (bucketId: string) => {
+      const id = String(bucketId);
+      if (id.startsWith('g:')) return ++counts.global;
+      if (id.includes(':d:')) return ++counts.day;
+      return ++counts.minute;
+    });
+    const outcomes: boolean[] = [];
+    for (let i = 0; i < 11; i++) {
+      const result = await consume();
+      outcomes.push(result.ok);
+    }
+    expect(outcomes.filter(Boolean)).toHaveLength(10);
+    expect(outcomes[10]).toBe(false);
+    expect(counts.minute).toBe(11);
+    expect(counts.day).toBe(10);
+    expect(counts.global).toBe(10);
   });
 
   it('returns deny when the global daily cap is over (client still under)', async () => {
@@ -294,6 +344,12 @@ describe('limiter SQL surface', () => {
     expect(sql).toMatch(/DELETE FROM ask_rate_buckets WHERE expires_at < now\(\)/);
     expect(sql).toMatch(/bucket_id TEXT PRIMARY KEY/);
     expect(sql).not.toMatch(/^\s+ip\s/im);
+    expect(sql).toMatch(/ENABLE ROW LEVEL SECURITY/);
+    expect(sql).not.toMatch(/FORCE ROW LEVEL SECURITY/);
+    expect(sql).not.toMatch(/CREATE POLICY/);
+    expect(sql).toMatch(/REVOKE ALL ON ask_rate_buckets FROM anon/);
+    expect(sql).toMatch(/REVOKE ALL ON ask_rate_buckets FROM authenticated/);
+    expect(sql).toMatch(/pg_roles/);
   });
 
   it('incrementAskBucket binds only bucket_id + expires_at (never a raw IP)', async () => {

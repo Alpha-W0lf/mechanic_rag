@@ -200,6 +200,14 @@ export async function purgeExpiredAskBuckets(now: Date): Promise<void> {
   await query(PURGE_EXPIRED_SQL, [now.toISOString()]);
 }
 
+async function bestEffortPurge(purge: PurgeExpired, now: Date): Promise<void> {
+  try {
+    await purge(now);
+  } catch {
+    // TTL cleanup is best-effort; a failed DELETE must not block Ask.
+  }
+}
+
 function logFailOpen(kind: 'undefined_table' | 'store_error'): void {
   console.warn(
     JSON.stringify({
@@ -227,40 +235,45 @@ export async function consumeAskRateLimit(
   const dayId = utcDayId(now);
 
   try {
-    // Sequential on the hosted pool (max 2). Do not Promise.all three
-    // query() calls — that can check out more clients than the isolate has.
+    // Admission order (do not let denied client traffic fill the global
+    // cap — that would 429 everyone until UTC midnight without spending
+    // Gemini quota). Sequential on the hosted pool (max 2).
+    //
+    // 1) Increment client minute. Over → deny; skip day and global.
+    // 2) Increment client day. Over → deny; skip global.
+    // 3) Increment global only after both client checks admitted.
+    // Skipping the day increment on a minute deny is deliberate: a
+    // rejected burst must not burn the client's 100/day either.
     const minuteCount = await increment(
       `c:${hash}:m:${minuteId}`,
       minuteExpiresAt(now),
     );
-    const dayCount = await increment(`c:${hash}:d:${dayId}`, dayExpiresAt(now));
-    const globalCount = await increment(`g:d:${dayId}`, dayExpiresAt(now));
-
-    try {
-      await purge(now);
-    } catch {
-      // TTL cleanup is best-effort; a failed DELETE must not block Ask.
-    }
-
-    if (globalCount > limits.globalDay) {
+    if (minuteCount > limits.perMinute) {
+      await bestEffortPurge(purge, now);
       return {
         ok: false,
-        reason: 'global_day',
-        retryAfterSec: secondsUntilNextUtcDay(now),
+        reason: 'client_minute',
+        retryAfterSec: secondsUntilNextUtcMinute(now),
       };
     }
+
+    const dayCount = await increment(`c:${hash}:d:${dayId}`, dayExpiresAt(now));
     if (dayCount > limits.perDay) {
+      await bestEffortPurge(purge, now);
       return {
         ok: false,
         reason: 'client_day',
         retryAfterSec: secondsUntilNextUtcDay(now),
       };
     }
-    if (minuteCount > limits.perMinute) {
+
+    const globalCount = await increment(`g:d:${dayId}`, dayExpiresAt(now));
+    await bestEffortPurge(purge, now);
+    if (globalCount > limits.globalDay) {
       return {
         ok: false,
-        reason: 'client_minute',
-        retryAfterSec: secondsUntilNextUtcMinute(now),
+        reason: 'global_day',
+        retryAfterSec: secondsUntilNextUtcDay(now),
       };
     }
     return { ok: true };
