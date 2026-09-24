@@ -54,6 +54,14 @@ Local full suite (when you have the sibling repo / live emit): `pytest` from rep
 
 `error_class` on a degraded body is one of `generator_unavailable` | `embedding_unavailable` | `rate_limited`. No `degraded: true` flag — `outcome` is the discriminator. Database failures stay HTTP 503 `error_class: "database_unavailable"` (not degraded). Zero retrieved chunks (including embed-fail + empty lexical) stay `insufficient_evidence`.
 
+## Ask log fields (JH-50)
+
+Every Ask that enters `handleAsk` emits exactly one `event:ask` JSON stdout line. It is **not** gated by `MECHANIC_DIAGNOSTICS` (that flag still gates only the public response `diagnostics` object). Typical fields: `outcome`, `generator_model`, `embedding_model`, `ce_skip_reason`, retrieval counts, per-stage ms (`embed_ms`, `vector_ms`, `lexical_ms`, `gen_ms`, `total_ms`), `gen_attempts` (Gemini generate tries, 1–4), and `error_class` when the Ask degraded or failed.
+
+When `ce_skip_reason` is set, `ce_n` / `ce_k` / `ce_ranked_chunk_ids` are omitted. Chunk-id lists are capped at the first 10 plus a `*_n` count. Hosted `image_degraded` / `clip_query_unavailable` (image channel not actually running) is omitted from the line; those fields stay when CLIP actually ran.
+
+**Abuse-shield 429s emit a minimal line** (`outcome: rate_limited`, `error_class: rate_limited`, `limit: client_minute|client_day|global_day`) from `POST /api/ask` before `handleAsk`. No IP, salt, or bucket hash. Gemini 429s that reach `handleAsk` still log as `outcome: degraded` (or `dependency_error`) with `error_class: rate_limited`.
+
 ## Ask monitor policy
 
 Score a hosted Ask probe as follows:
