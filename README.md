@@ -10,15 +10,20 @@ Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
 
 ### What runs where
 
-| Capability | Live demo | Local clone |
-|---|---|---|
-| Vehicle catalog + manual browser | ✅ | ✅ |
-| Ask → cited, generated answer (Gemini) | ✅ | ✅ (or Ollama) |
-| Hybrid vector + lexical retrieval, RRF fusion | ✅ | ✅ |
-| Cross-encoder rerank | ❌ | ✅ |
-| BYO corpora / private garage / multimodal (M1–M3) | ❌ | ✅ |
+Topology detail: [`docs/ARCHITECTURE.md` §3.1 Production topology](docs/ARCHITECTURE.md#31-production-topology-hosted-demo). **Local Docker Compose + Ollama remains the clone/reproduction authority.**
 
-Embeddings on both paths are 768-dim: the public fixture corpus uses `gemini-embedding-001`; local/private corpora default to Ollama `nomic-embed-text` (see [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md)).
+| Concern | Live demo | Local clone |
+|---|---|---|
+| App | Vercel Hobby — Next.js in `web/` | `pnpm dev` in `web/` |
+| Database | Supabase Free Postgres + pgvector | Compose Postgres + pgvector (host **5433**) |
+| Generator | Gemini API free tier `gemma-4-26b-a4b-it` (`GEMINI_MODEL` override) | Ollama `gemma4:e2b` (fallback `qwen3.5:4b`) |
+| Embeddings | `gemini-embedding-001` @ 768 | Ollama `nomic-embed-text` @ 768 |
+| Ranking | Hybrid → RRF → section dedup (no CE) | Hybrid → RRF → section dedup → local CE |
+| Cross-encoder rerank | ❌ `ce_skip_reason=hosted_ce_disabled` | ✅ |
+| Monitoring | External keep-alive hits `/api/health?mode=db` (DB reachable). Does **not** prove cited Ask (planned JH-41) | Local `/api/health` readiness (Postgres + Ollama) |
+| Vehicle catalog + manual browser | ✅ | ✅ |
+| Ask → cited generated answer | ✅ (Gemini) | ✅ (Ollama, or Gemini if key set) |
+| BYO corpora / private garage / multimodal (M1–M3) | ❌ | ✅ |
 
 ![Ask outcome — cited answer](docs/assets/demo/ask-outcome.png)
 

@@ -1,8 +1,8 @@
 # Mechanic RAG — Architecture (v1)
 
-**Status:** Binding contracts SSOT · *(2026-08-25: hosted public demo serves queries via Gemini — see `evals/MODEL_FREEZE_STATUS.md`; contracts unchanged)* · Vertical slice implemented · Formal embed/CE **frozen (owner decision)** · **LICENSE:** PolyForm-NC 1.0.0 · Fixtures-only public packaging complete · Private-gold-source path implemented (fixture + synthetic + live pilot) · Personal-garage multimodal M1–M3 done (flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
+**Status:** Binding contracts SSOT · *(2026-09-24: Production topology at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) is Vercel Hobby + Supabase Free + Gemini API free tier — see §3.1; clone/repro remains Compose + Ollama)* · Vertical slice implemented · Formal embed/CE **frozen (owner decision)** · **LICENSE:** PolyForm-NC 1.0.0 · Fixtures-only public packaging complete · Private-gold-source path implemented (fixture + synthetic + live pilot) · Personal-garage multimodal M1–M3 done (flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
-**Updated:** 2026-07-27 (Align: M2 image channel + M3 optional VLM contracts)  
+**Updated:** 2026-09-24 (JH-40: honest Production topology; rejected-cloud language labeled historical)  
 **Owner:** Tom  
 **Lenses:** Senior AI Engineer (primary); Data Engineer; Backend  
 
@@ -13,7 +13,7 @@ This document freezes v1 components, data contracts, ranking, corpus boundaries,
 
 > **Terminology:** `Guide NN` tags mark numbered internal build milestones — historical provenance for when a capability landed. They are read-only history; current truth is what this document states.
 
-**Non-authoritative for v1:** `docs/api_contracts.md`, `docs/dev_setup.md`, `db/schema.sql`, `supabase/**`, Supabase/Gemini/multimodal research notes, and the **retired** stub ask under deleted `web/app/`. Live product path is `web/src/app/api/ask` + `web/src/server/ask.ts`.
+**Non-authoritative for v1:** `docs/api_contracts.md`, `docs/dev_setup.md`, `db/schema.sql`, leftover `supabase/**` client/schema files (hosted demo uses `pg` + `DATABASE_URL`, not that tree), Gemini/multimodal research notes, and the **retired** stub ask under deleted `web/app/`. Live product path is `web/src/app/api/ask` + `web/src/server/ask.ts`.
 
 ---
 
@@ -29,26 +29,30 @@ Mechanic RAG is a **public, product-shaped RAG** over automotive service documen
 
 ---
 
-## 2. Locked stack (do not reopen)
+## 2. Locked stack (local clone / reproduction authority)
+
+This table is the **clone-and-run** lock. Reviewers who only read this table used to conclude “no Supabase / no hosted demo.” That was true as a *required clone dependency* in 2026-07; it is **not** a description of Production. Production is §3.1.
 
 | Concern | Choice | Lock |
 |---------|--------|------|
 | Web app | Next.js App Router under **`web/src/app`** | MR1 |
 | Offline ingest | Python CLI (`mecharag` package); not a web service | — |
-| Database | Local **Compose Postgres + pgvector only** — **no Supabase** | D3, D12 |
-| Generator | Host **Ollama**; portfolio default `gemma4:e2b`, fallback `qwen3.5:4b` | D4, D1 |
-| Embeddings | One **local** embedding adapter (prefer Ollama-hosted); fixed model + dimension locked after fixture benchmark | — |
+| Database (clone) | Local **Compose Postgres + pgvector** on host **5433** | D3 |
+| Generator (clone) | Host **Ollama**; portfolio default `gemma4:e2b`, fallback `qwen3.5:4b` | D4, D1 |
+| Embeddings (clone) | Ollama `nomic-embed-text` @ 768 (freeze record); hosted serving uses Gemini — §3.1 | — |
 | Lexical | Postgres generated **`tsvector` + GIN**, config **`simple`** | MR2 |
-| Ranking | Vector + lexical → **RRF** → optional **section dedup** → **local cross-encoder** (N→K); **degrade to RRF-only** on CE failure; eval must show lift or justify keep | MR2 |
+| Ranking (clone) | Vector + lexical → **RRF** → optional **section dedup** → **local cross-encoder** (N→K); **degrade to RRF-only** on CE failure; eval must show lift or justify keep. Hosted skips CE — §3.1 / §7.5 | MR2 |
 | Modality v1 | Text-only; multimodal hooks only | D10 |
 | Vehicle identity | year + make + model + engine (+ nullable trim). **Not VIN-centric** | S4 |
 | Public corpus | Fixtures only; fail-closed | D5, P1 |
 | Private corpus | Local Gold root; Drive is **human delivery only** | GD1–GD5 |
-| Cloud DB / hosted demo | Rejected | D12, D11 |
+| Cloud DB / hosted demo | **Historical (2026-07-12):** rejected as a *required* clone/runtime dependency (D12, D11) so strangers could reproduce on Compose + Ollama alone. **Superseded 2026-08-24/25** for the public demo URL — Production runs hosted free tiers (§3.1). Do not read this row as “Production has no cloud.” | D12, D11 (historical) |
 
 ---
 
 ## 3. Runtime overview
+
+Local clone / **reproduction authority** (Compose + Ollama + local CE):
 
 ```text
 Public fixtures/  OR  private local Gold root (config; never both as default)
@@ -81,7 +85,51 @@ Public fixtures/  OR  private local Gold root (config; never both as default)
 
 **Integration boundary:** Postgres. Do not add FastAPI, queues, a second vector store, Kafka, or Drive/Google APIs to v1.
 
-**Host Ollama:** generation (and embeddings if selected). Never a required cloud LLM/DB.
+**Host Ollama (clone path):** generation (and embeddings if selected). A local clone never requires a cloud LLM or cloud DB. The **hosted demo does** — Gemini API + Supabase Free — see §3.1.
+
+### 3.1 Production topology (hosted demo)
+
+Public demo: [https://mechanic-rag.vercel.app](https://mechanic-rag.vercel.app). This is a **free-tier showcase**, not an SLO. The local Compose + Ollama path above remains the clone/reproduction authority.
+
+**What actually runs**
+
+| Layer | Production (hosted demo) | Local clone (reproduction) |
+|-------|--------------------------|----------------------------|
+| App | **Vercel Hobby** — Next.js App Router in `web/` | `pnpm dev` in `web/` |
+| Database | **Supabase Free** Postgres + pgvector via `DATABASE_URL` | Compose Postgres + pgvector, host **5433** (`docker-compose.yml`) |
+| Generator | Gemini API **free tier**, default **`gemma-4-26b-a4b-it`** (JH-39). Override with `GEMINI_MODEL` (full replace; no automatic second-model failover in code) | Ollama `gemma4:e2b` (operator fallback `qwen3.5:4b`) |
+| Embeddings | **`gemini-embedding-001` @ 768** (`EMBEDDING_MODEL_GEMINI` / `EMBEDDING_DIM`) | Ollama `nomic-embed-text` @ 768 (freeze record) |
+| Ranking | Hybrid vector + lexical → **RRF** → **section dedup** → top-K. **Never** imports `@xenova/transformers`. Diagnostics: `ce_skip_reason=hosted_ce_disabled` (JH-38). Not ablation (`ablation_rrf_only`) and not `rerank_degraded` | Same retrieve/fuse, then **local cross-encoder** (N→K); degrade to RRF on CE failure |
+| Hosted `pg.Pool` | `max` **2**, idle **5s**, SSL, `attachDatabasePool` from `@vercel/functions` when `VERCEL` is set (JH-37) | Unchanged: `max` 10, idle 30s, no SSL, no Vercel attach |
+| Gemini 429/503 | Exponential backoff + jitter, **max 4 attempts**, then fail (JH-39) | n/a (Ollama path) |
+| Public Ask errors | `error_class`: `generator_unavailable` \| `database_unavailable` \| `rate_limited` \| `internal` (JH-39) | Same taxonomy; local generator failures are Ollama |
+| Keep-alive | External **Cloudflare Worker + GitHub Actions** hit `GET /api/health?mode=db` (JH-29). In-repo weekly Action was removed **2026-08-25** so this dormant repo would not lose schedules | Local curl of the same contract |
+
+```mermaid
+flowchart LR
+  Browser --> Vercel["Vercel Hobby / Next.js web/"]
+  Vercel --> Ask["POST /api/ask"]
+  Vercel --> Health["GET /api/health"]
+  Ask --> PG["Supabase Free Postgres + pgvector"]
+  Ask --> Gemini["Gemini API free tier"]
+  Health --> PG
+  KA["External keep-alive\nCF Worker + GitHub Actions"] --> DbProbe["/api/health?mode=db"]
+  DbProbe --> PG
+  Gemini --> Gen["gemma-4-26b-a4b-it"]
+  Gemini --> Emb["gemini-embedding-001 @ 768"]
+```
+
+**Hosted ranking honesty (JH-38).** Before JH-38 the hosted path still dynamically imported `@xenova/transformers` and then degraded (`ce_unavailable`) because that import does not succeed on Vercel Hobby. Reviewers therefore already saw **RRF + section dedup** on Production. JH-38 makes that skip deliberate (`ce_skip_reason=hosted_ce_disabled`) and never reaches the import. Same ranking as before; now on purpose. Local still reranks with the cross-encoder.
+
+**Keep-alive: what it proves vs what it does not.**
+
+| Probe | Proves | Does **not** prove |
+|-------|--------|-------------------|
+| External keep-alive → `GET /api/health?mode=db` | Hosted function can open Postgres (`SELECT 1`). DB reachable after idle. | Gemini `generateContent` works. Ask returns an answer. Citations are present. |
+| Default `GET /api/health` on hosted (`GEMINI_API_KEY` set) | Postgres up. Gemini path is treated ready because the **key is present** — there is no live Gemini ping | That Ask answers with citations |
+| Planned synthetic Ask monitor (JH-41) | *(not shipped)* | — this is the probe that should prove cited Ask |
+
+A green keep-alive is a pause/wake / DB-reachable signal. It is **not** a cited-Ask monitor. See also §9.1 (pool hardening vs keep-alive). Do not put project refs, pooler hosts, or keys in this document.
 
 ---
 
@@ -101,7 +149,7 @@ Public fixtures/  OR  private local Gold root (config; never both as default)
 
 **MR1 — app tree (done in Guide 01):** Canonical tree is **`web/src/app` only**. Root `web/app/` is **removed**. Do not recreate a dual app tree — Next ignores `src/app` when root `app/` exists.
 
-**Stale paths (do not extend):** `db/schema.sql`, `supabase/**`, Gemini multimodal ingest, `scripts/deploy/upload_assets.py` as product paths.
+**Stale paths (do not extend):** `db/schema.sql`, leftover `supabase/**` client/schema tree (hosted demo does **not** use that folder — it uses `pg` + `DATABASE_URL`), Gemini multimodal ingest, `scripts/deploy/upload_assets.py` as product paths.
 
 ---
 
@@ -281,7 +329,7 @@ If the reranker fails, **fail open to fused (+ optional dedup) order** — do no
 | CE unavailable / init fail | Serve top-K from post-RRF (+ dedup) list; mark `rerank_degraded=true` |
 | CE timeout | Same degrade; do not block ask forever |
 | CE returns empty / all invalid IDs | Same degrade; never invent chunks |
-| Hosted Gemini serving (`GEMINI_API_KEY` / `isGeminiServing()`) | Never import `@xenova/transformers`; serve top-K from post-RRF (+ dedup); `ce_skip_reason=hosted_ce_disabled`. **Not** `rerank_degraded` and **not** `ablation_rrf_only` |
+| Hosted Gemini serving (`GEMINI_API_KEY` / `isGeminiServing()`) | Never import `@xenova/transformers`; serve top-K from post-RRF (+ dedup); `ce_skip_reason=hosted_ce_disabled`. **Not** `rerank_degraded` and **not** `ablation_rrf_only`. Hosted never successfully ran CE before JH-38 (dynamic import failed on Vercel); this is the same ranking, now deliberate |
 | CE succeeds | Use CE order for context top-K |
 
 `rerank_degraded` must appear in structured ask logs and in `diagnostics` when the development flag is on. Degrade skips CE only — citation validation and insufficient-evidence rules still apply.
@@ -290,7 +338,7 @@ If the reranker fails, **fail open to fused (+ optional dedup) order** — do no
 
 1. Take top **K** chunks (CE order, or RRF order if degraded) within a bounded token/char budget.
 2. Assign server-side citation labels (`[1]`, `[2]`, …).
-3. Pass only labeled context to Ollama.
+3. Pass only labeled context to the generator (local Ollama / hosted Gemini).
 4. Generator may reference only those labels; unknown labels are rejected.
 5. Citation metadata is assembled from DB rows — never from model-invented paths.
 
@@ -347,7 +395,7 @@ Optional later (not required for vertical slice): `doc_family`, bounded `history
 
 **No evidence:** HTTP 200 with an explicit insufficient-evidence answer and empty/minimal citations — **not** invented mechanical advice.
 
-**Dependency failure** (Postgres/Ollama timeout/unreachable): non-200 error — do not fabricate an answer.
+**Dependency failure** (Postgres / Ollama / hosted Gemini timeout or unreachable after retries): non-200 error with public `error_class` (JH-39) — do not fabricate an answer.
 
 **Out of default response:** VLM notes until `MECHANIC_VLM` is on. **M3 Met (2026-07-27):** optional local VLM assist (`gemma4:e2b`), fail-open, text citations own torque/spec; cache-hit PNGs only.
 
@@ -382,7 +430,7 @@ curl -sS -D- "https://mechanic-rag.vercel.app/api/health?mode=db"
 
 Live `GET /api/health` distinguishes liveness, db probe, and readiness. Do not regress to always-`{"status":"ok"}` as the only contract.
 
-**Ops: keep-alive vs pool hardening.** `GET /api/health?mode=db` (JH-29) proves the hosted function can still open a `SELECT 1` after idle — it is a pause/wake probe, not a pool-sizing proof. Hosted `pg.Pool` hardening (small per-isolate `max`, 5s idle timeout, Vercel `attachDatabasePool`, Supavisor transaction mode on port 6543) is what keeps concurrent isolates from multiplying the old `max: 10` against Supabase Free. A green keep-alive does **not** mean the client pool is safe; a healthy pool does **not** replace the keep-alive. Public JSON still must not include driver/pooler/host text.
+**Ops: keep-alive vs pool hardening vs Ask.** `GET /api/health?mode=db` (JH-29) is what the external Cloudflare Worker + GitHub Actions keep-alive hits. It proves Postgres `SELECT 1` after idle — a pause/wake / **DB reachable** probe — not a pool-sizing proof and **not** a Gemini generate or cited-Ask proof (that monitor is planned JH-41). Hosted default readiness treats Gemini as ready when `GEMINI_API_KEY` is set and Postgres is up; it does not call Gemini. Hosted `pg.Pool` hardening (small per-isolate `max`, 5s idle timeout, Vercel `attachDatabasePool`, Supavisor transaction mode on port 6543) is what keeps concurrent isolates from multiplying the old `max: 10` against Supabase Free. A green keep-alive does **not** mean the client pool is safe, that Gemini answered, or that citations came back; a healthy pool does **not** replace the keep-alive. Public JSON still must not include driver/pooler/host text.
 
 **Hosted `DATABASE_URL`:** copy **Transaction pooler** (port **6543**) from the Supabase Connect dialog. Session-mode / direct strings (port 5432) are accepted with the same small pool; prefer 6543 on Vercel. Never log or commit the host.
 
@@ -476,7 +524,7 @@ Mechanic must not query Drive, Ford queues, PTS, or raw Bronze. It may store imp
 - Hosted black-box reranker as default (Cohere/Voyage) without N/K, degrade, and eval lift
 - Second-stage **LLM** re-score as a substitute for the local CE stage
 - True MMR (unless later evals justify; then separate decision)
-- Supabase / cloud Postgres
+- **Historical (2026-07-12):** “Supabase / cloud Postgres” and “required Vercel/hosted demo” as *clone* non-goals (D12, D11). **Not current Production:** the public demo has run Vercel Hobby + Supabase Free + Gemini since 2026-08-24/25 (§3.1). Still a non-goal: requiring cloud to clone or treating leftover `supabase/**` as a product path
 - Drive or Google API clients
 - Ford capture / CDP / bulk ops inside this repo
 - Raw PDF ingest as the public path
@@ -496,15 +544,15 @@ Guide 01 vertical slice landed. This table is **post-slice**, not pre-implement.
 | Area | Guide 01 today | Still open (portfolio v1 / later) |
 |------|----------------|-----------------------------------|
 | App tree | `web/src/app` only; root `web/app` gone | Do not recreate dual trees |
-| `/api/ask` | Real hybrid → RRF → section dedup → CE → Ollama + DB citations; **Guide 15 Soft Adjust ask smoke** (synthetic Soft Adjust vehicle) | Packaging polish; live Soft Adjust full-corpus upsert (ops) |
-| Deps | `pg` + `@xenova/transformers` in `web/package.json`; Ollama via HTTP | — |
-| Compose | `docker-compose.yml` Postgres+pgvector | — |
+| `/api/ask` | Hybrid → RRF → section dedup → **local CE** → Ollama + DB citations; hosted Gemini path skips CE (§3.1 / JH-38) and generates with `gemma-4-26b-a4b-it`. **Guide 15 Soft Adjust ask smoke** | Packaging polish; live Soft Adjust full-corpus upsert (ops) |
+| Deps | `pg` + `@xenova/transformers` in `web/package.json`; Ollama via HTTP; hosted Gemini via REST when `GEMINI_API_KEY` is set | Hosted never loads transformers (JH-38) |
+| Compose | `docker-compose.yml` Postgres+pgvector on host **5433** (clone authority) | Hosted demo uses Supabase Free via `DATABASE_URL` (§3.1) |
 | Ingest | `mecharag ingest --source fixtures`; **private-gold** Guide 11–**14** (fixture + Soft Adjust synthetic + live Soft Adjust pilot) | Friend Drive Soft Adjust Review Met / dual-product Done (out) |
 | Schema | `db/migrations/001_init.sql` (§6-shaped) | Grow catalog features as library sync lands |
 | Ranking | §7 order live; `section_dedup.ts`; CE with degrade; Guide 02 env ablation `MECHANIC_FORCE_RRF_ONLY` + paired ask fields | LICENSE Met Guide 10a; fixtures-only public flip Met Guide 10b |
-| Health | Liveness ≠ readiness; `?mode=db` is Postgres-only; hosted readiness does not require Ollama when Gemini is set | — |
+| Health | Liveness ≠ readiness; `?mode=db` is Postgres-only keep-alive (JH-29); hosted readiness does not require Ollama when Gemini is set | Cited-Ask monitor (JH-41) not shipped |
 | Evals/tests | **n=44** S2000 fixture goldens (Guide 04–08; T1 +3 synthetic confusable sections) + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 08 paired ask delta **0** / helps=0; Guide 05 keep history; Guide 09 Path B freeze-override; Guide 11–15 PrivateGold / Soft Adjust ask unit tests | Soft Adjust golden suite (E2) deferred; live Soft Adjust full upsert ops |
-| Generator | Default / smoke: `gemma4:e2b`; fallback `qwen3.5:4b` (pass 8c historical proxy baseline) | — |
+| Generator | Local smoke: `gemma4:e2b`; fallback `qwen3.5:4b` (pass 8c historical proxy). Hosted default: `gemma-4-26b-a4b-it` via Gemini (`GEMINI_MODEL` override) | — |
 
 **Honesty line:** The vertical slice and fixtures-only public packaging are complete — that does **not** mean earned CE lift, OSI open source, or dual-product Done. The private-gold-source path is implemented (fixture multi-vehicle, synthetic present-only, a live receipt→`gold_status` pilot, and a synthetic ask smoke where incomplete Gold may return `insufficient_evidence`) — that does **not** mean friend-Drive review, Ford PTS, Drive ingest, or full live-corpus upsert are done. Embedding + CE are **frozen by explicit owner decision** (`evals/MODEL_FREEZE_STATUS.md`) despite the n=44 paired-ask delta of **0** / helps=0 (**no** lift claim). The keep history is retained. **LICENSE** is PolyForm-NC 1.0.0 (source-available / non-commercial — **not** OSI open source / **not** MIT). A small early proxy run (`ce_vs_rrf_delta_hits=+1`, n=5) is **not** freeze evidence.
 
@@ -539,6 +587,6 @@ Order used by Write-dev-guide / Implement. Steps **1–7 done** for Guide 01; st
 | GD1–GD5 | §5.1 Drive human-only; local Gold ingest |
 | P1 | §5.3 public fail-closed; private permissive |
 
-**Embedding model/dimension** and **CE model/runtime:** **Frozen (Tom override)** Guide 09 — `nomic-embed-text@768`; Xenova MiniLM CE / `classification`. Paired-ask n=44 delta **0** (no lift claim). See `evals/MODEL_FREEZE_STATUS.md`. Do not reopen as Supabase/cloud/hosted-reranker-default.
+**Embedding model/dimension** and **CE model/runtime:** **Frozen (Tom override)** Guide 09 — local `nomic-embed-text@768`; Xenova MiniLM CE / `classification`. Paired-ask n=44 delta **0** (no lift claim). See `evals/MODEL_FREEZE_STATUS.md`. Hosted serving embeddings are `gemini-embedding-001@768` (dimension-compatible; 2026-08-25). Do not reopen freeze as “hosted-reranker-default” or pretend Production has no cloud DB — that contradiction is retired in §2 / §3.1 (JH-40).
 
 **Superseded:** Pass 2 “no neural/cross-encoder reranker in v1” — overridden 2026-07-12 by portfolio MR2 + `hybrid_rag_reranker_decision.md`.
