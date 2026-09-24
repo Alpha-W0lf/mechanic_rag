@@ -6,6 +6,8 @@ import { consumeAskRateLimit } from '@/server/ask_rate_limit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+/** Hobby Ask bound: same 60s generate/embed budget as OLLAMA_TIMEOUT_MS. */
+export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);

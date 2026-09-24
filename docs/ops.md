@@ -2,6 +2,12 @@
 
 Scoring and operator policy for the hosted demo. The synthetic Ask monitor itself (JH-41) lives in a private ops repo and is not implemented here.
 
+## Free-tier ceiling
+
+Production is Vercel Hobby + Supabase Free + Gemini API free tier. Platform pause/delete and free-tier quota remain residual risks: a paused or deleted tenant, or a Gemini/Supabase quota exhaustion, can take the public demo down even when this repo is green. The external keep-alive (`GET /api/health?mode=db`) and the daily cited-Ask monitor (JH-41, private ops repo) mitigate inactivity pause and surface Ask failures; they are not high availability and this demo has no SLO.
+
+`POST /api/ask` exports `maxDuration = 60` (Next.js App Router) so Vercel Hobby cannot leave Ask running past the same 60s generate/embed budget already used by `OLLAMA_TIMEOUT_MS`.
+
 ## CI (this repo)
 
 GitHub Actions workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). Two jobs on `ubuntu-latest`, in parallel, PR + push to `main`. Later steps in a job use `if: success() || failure()` so a lint failure still records typecheck/Vitest (and fail-closed still records pytest). The job stays red. No paid runners. No scheduled Production smoke here.
@@ -60,7 +66,7 @@ Local full suite (when you have the sibling repo / live emit): `pytest` from rep
 
 Every Ask that enters `handleAsk` emits exactly one `event:ask` JSON stdout line. It is **not** gated by `MECHANIC_DIAGNOSTICS` (that flag still gates only the public response `diagnostics` object). Typical fields: `outcome`, `generator_model`, `embedding_model`, `ce_skip_reason`, retrieval counts, per-stage ms (`embed_ms`, `vector_ms`, `lexical_ms`, `gen_ms`, `total_ms`), `gen_attempts` (Gemini generate tries, 1–4), and `error_class` when the Ask degraded or failed.
 
-When `ce_skip_reason` is set, `ce_n` / `ce_k` / `ce_ranked_chunk_ids` are omitted. Chunk-id lists are capped at the first 10 plus a `*_n` count. Hosted `image_degraded` / `clip_query_unavailable` (image channel not actually running) is omitted from the line; those fields stay when CLIP actually ran.
+When `ce_skip_reason` is set, `ce_n` / `ce_k` / `ce_ranked_chunk_ids` are omitted. Chunk-id lists are capped at the first 10 plus a `*_n` count. `clip_query_unavailable` / `image_channel_disabled` (channel never ran) are omitted from the line; `image_degrade_reason=hosted_image_channel_disabled` is kept so the hosted Gemini CLIP skip is explicit. Those fields also stay when CLIP actually ran.
 
 **Abuse-shield 429s emit a minimal line** (`outcome: rate_limited`, `error_class: rate_limited`, `limit: client_minute|client_day|global_day`) from `POST /api/ask` before `handleAsk`. No IP, salt, or bucket hash. Gemini 429s that reach `handleAsk` still log as `outcome: degraded` (or `dependency_error`) with `error_class: rate_limited`.
 

@@ -3,13 +3,19 @@
  *
  * Business rules:
   - MECHANIC_IMAGE_CHANNEL=0 → skip (ablation off).
+  - Hosted Gemini serving (`isGeminiServing()`) → skip CLIP spawn
+    (storefront is text RAG; no Python [m2] on Vercel).
   - Missing CLIP embed or empty index → empty hits (text RRF unchanged).
   - Hits always carry paired text chunk content (Option A).
  */
 
 import type { RetrieverHit } from '@/lib/retrieval/types';
 import { embedClipQueryText } from './clip_query';
+import { isGeminiServing } from './providers';
 import { imageSearch } from './retrievers';
+
+export const HOSTED_IMAGE_CHANNEL_SKIP_REASON =
+  'hosted_image_channel_disabled';
 
 export type ImageChannelResult = {
   hits: RetrieverHit[];
@@ -38,6 +44,14 @@ export async function retrieveImageChannel(input: {
       ms: Date.now() - t0,
       degraded: true,
       reason: 'image_channel_disabled',
+    };
+  }
+  if (isGeminiServing()) {
+    return {
+      hits: [],
+      ms: Date.now() - t0,
+      degraded: true,
+      reason: HOSTED_IMAGE_CHANNEL_SKIP_REASON,
     };
   }
 

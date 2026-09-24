@@ -83,6 +83,18 @@ describe('buildAskLogLine', () => {
     expect(line.image_degrade_reason).toBeUndefined();
   });
 
+  it('keeps hosted_image_channel_disabled on the event:ask line', () => {
+    const line = buildAskLogLine({
+      outcome: 'answered',
+      image_degraded: true,
+      image_degrade_reason: 'hosted_image_channel_disabled',
+      image_count: 0,
+    });
+    expect(line.image_degraded).toBe(true);
+    expect(line.image_degrade_reason).toBe('hosted_image_channel_disabled');
+    expect(line.image_count).toBe(0);
+  });
+
   it('keeps image_degraded when the image channel actually ran', () => {
     const empty = buildAskLogLine({
       image_degraded: true,
