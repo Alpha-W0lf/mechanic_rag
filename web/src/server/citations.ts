@@ -54,26 +54,39 @@ export function assembleContext(
   };
 }
 
-const CITATION_MARKER_RE = /\[(\d+)\]/g;
-
-/** Remove `[n]` whose n is not in the assembled set; keep known markers and labels. */
+/**
+ * Remove `[n]` whose n is not in the assembled set.
+ * Cleanup is local to each removed marker: at most one adjacent list
+ * separator (` ,` / `, `) or a single space/tab on one side. Everything
+ * else is copied byte-identical — no whole-answer whitespace/punct rewrite.
+ */
 function stripUnknownCitationMarkers(
   answer: string,
   allowed: ReadonlySet<string>,
 ): string {
-  const stripped = answer.replace(CITATION_MARKER_RE, (full, n: string) =>
-    allowed.has(n) ? full : '',
-  );
-  if (stripped === answer) return answer;
-  return stripped
-    .replace(/,(?:\s*,)+/g, ',')
-    .replace(/ , /g, ' ')
-    .replace(/[ \t]+([.,;:])/g, '$1')
-    .replace(/,+(?=[.,;:])/g, '')
-    .replace(/,\s*$/g, '')
-    .replace(/^,\s*/g, '')
-    .replace(/[ \t]{2,}/g, ' ')
-    .replace(/^[ \t]+|[ \t]+$/g, '');
+  const re = /\[(\d+)\]/g;
+  let out = '';
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(answer)) !== null) {
+    if (allowed.has(m[1])) continue;
+    let start = m.index;
+    let end = m.index + m[0].length;
+    const prefix = answer.slice(0, start);
+    const suffix = answer.slice(end);
+    const leftComma = prefix.match(/,[ \t]*$/)?.[0].length ?? 0;
+    const rightComma = suffix.match(/^,[ \t]*/)?.[0].length ?? 0;
+    const leftSpace = prefix.match(/[ \t]$/)?.[0].length ?? 0;
+    const rightSpace = suffix.match(/^[ \t]/)?.[0].length ?? 0;
+    if (leftComma) start -= leftComma;
+    else if (rightComma) end += rightComma;
+    else if (leftSpace) start -= leftSpace;
+    else if (rightSpace) end += rightSpace;
+    out += answer.slice(last, start);
+    last = end;
+  }
+  if (last === 0) return answer;
+  return out + answer.slice(last);
 }
 
 /** Keep referenced assembled labels (stable, possibly sparse); strip unknown `[n]`. */

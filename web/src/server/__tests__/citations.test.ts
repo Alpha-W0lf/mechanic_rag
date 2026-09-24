@@ -92,6 +92,13 @@ describe('filterAnswerToKnownLabels — label-stable subset', () => {
     expect(filtered.citations).toEqual(assembled);
     expect(filtered.answer).toBe('No citations in this answer.');
   });
+
+  it('returns an answer with no unknown markers byte-identical', () => {
+    const answer = 'Torque : 30 N·m [1].\n  - sub item';
+    const filtered = filterAnswerToKnownLabels(answer, [citation('1', 'a')]);
+    expect(filtered.answer).toBe(answer);
+    expect(filtered.citations.map((c) => c.label)).toEqual(['1']);
+  });
 });
 
 describe('filterAnswerToKnownLabels — unknown markers stripped', () => {
@@ -124,6 +131,11 @@ describe('filterAnswerToKnownLabels — unknown markers stripped', () => {
       citation('1', 'a'),
     ]);
     expect(leading.answer).toBe('See [1].');
+
+    const leadingBare = filterAnswerToKnownLabels('[99], see [1]', [
+      citation('1', 'a'),
+    ]);
+    expect(leadingBare.answer).toBe('see [1]');
   });
 
   it('handles adjacent markers [1][3] and leaves known ones untouched', () => {
@@ -161,5 +173,23 @@ describe('filterAnswerToKnownLabels — unknown markers stripped', () => {
     expect(filtered.answer).toBe('Invented only.');
     // No known label referenced → existing branch: keep full assembled list.
     expect(filtered.citations.map((c) => c.label)).toEqual(['1', '2']);
+  });
+
+  it('does not rewrite an indented list line when stripping [99] elsewhere', () => {
+    const answer = 'Intro [99].\n  - sub item\nMore [1].';
+    const filtered = filterAnswerToKnownLabels(answer, [citation('1', 'a')]);
+    expect(filtered.answer.split('\n')[1]).toBe(answer.split('\n')[1]);
+    expect(filtered.answer.split('\n')[1]).toBe('  - sub item');
+    expect(filtered.answer).not.toMatch(/\[99\]/);
+    expect(filtered.answer).toContain('[1]');
+  });
+
+  it('does not strip spaces before punctuation away from the removed marker', () => {
+    const filtered = filterAnswerToKnownLabels('Torque : 30 N·m [99].', [
+      citation('1', 'a'),
+    ]);
+    expect(filtered.answer.startsWith('Torque : 30 N·m')).toBe(true);
+    expect(filtered.answer).toBe('Torque : 30 N·m.');
+    expect(filtered.answer).not.toMatch(/\[99\]/);
   });
 });
