@@ -81,7 +81,7 @@ describe('GET /api/health', () => {
       checks: { postgres: false },
     });
     expect(JSON.stringify(result.body)).not.toMatch(
-      /ENOTFOUND|tenant\/user|npliiuigpenkrqaewtdf|FATAL/i,
+      /ENOTFOUND|tenant\/user|abcdefghijklmnopqrst|FATAL/i,
     );
     expect(checkOllama).not.toHaveBeenCalled();
   });
@@ -89,7 +89,7 @@ describe('GET /api/health', () => {
   it('connect-error throw from checkPostgres is 503 JSON, not empty 500', async () => {
     checkPostgres.mockRejectedValue(
       new Error(
-        '(ENOTFOUND) tenant/user postgres.npliiuigpenkrqaewtdf not found',
+        '(ENOTFOUND) tenant/user postgres.abcdefghijklmnopqrst not found',
       ),
     );
     const result = await getHealth('http://localhost/api/health');
@@ -97,7 +97,7 @@ describe('GET /api/health', () => {
     expect(result.status).toBe(503);
     expect(result.raw.length).toBeGreaterThan(0);
     expect(JSON.stringify(result.body)).not.toMatch(
-      /ENOTFOUND|tenant\/user|npliiuigpenkrqaewtdf|FATAL/i,
+      /ENOTFOUND|tenant\/user|abcdefghijklmnopqrst|FATAL/i,
     );
     expect(result.body.status).toBe('not_ready');
   });

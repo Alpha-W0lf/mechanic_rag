@@ -27,7 +27,7 @@ describe('checkPostgres', () => {
     const pool = {
       connect: vi.fn(async () => {
         throw new Error(
-          '(ENOTFOUND) tenant/user postgres.npliiuigpenkrqaewtdf not found',
+          '(ENOTFOUND) tenant/user postgres.abcdefghijklmnopqrst not found',
         );
       }),
     };

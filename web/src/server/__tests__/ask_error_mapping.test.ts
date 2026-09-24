@@ -93,7 +93,7 @@ vi.mock('@/server/providers', async (importOriginal) => {
   };
 });
 
-const LEAK = /ENOTFOUND|tenant\/user|npliiuigpenkrqaewtdf|FATAL/i;
+const LEAK = /ENOTFOUND|tenant\/user|abcdefghijklmnopqrst|FATAL/i;
 
 describe('handleAsk error taxonomy', () => {
   beforeEach(() => {
@@ -143,7 +143,7 @@ describe('handleAsk error taxonomy', () => {
 
   it('pooler FATAL from vehicleExists maps to database_unavailable without leak', async () => {
     const dbErr = new Error(
-      '(ENOTFOUND) tenant/user postgres.npliiuigpenkrqaewtdf not found',
+      '(ENOTFOUND) tenant/user postgres.abcdefghijklmnopqrst not found',
     );
     (dbErr as { code?: string }).code = 'ENOTFOUND';
     vehicleExists.mockRejectedValue(dbErr);

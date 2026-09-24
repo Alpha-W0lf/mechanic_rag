@@ -42,7 +42,7 @@ describe('GET /api/vehicles', () => {
   it('sanitizes pooler FATAL to coherent 503 JSON (no tenant ref leak)', async () => {
     listAskableVehicles.mockRejectedValue(
       new Error(
-        '(ENOTFOUND) tenant/user postgres.npliiuigpenkrqaewtdf not found',
+        '(ENOTFOUND) tenant/user postgres.abcdefghijklmnopqrst not found',
       ),
     );
     const result = await getVehicles();
@@ -53,7 +53,7 @@ describe('GET /api/vehicles', () => {
       error_class: 'database_unavailable',
     });
     expect(result.raw).not.toMatch(
-      /ENOTFOUND|tenant\/user|npliiuigpenkrqaewtdf|FATAL/i,
+      /ENOTFOUND|tenant\/user|abcdefghijklmnopqrst|FATAL/i,
     );
   });
 });

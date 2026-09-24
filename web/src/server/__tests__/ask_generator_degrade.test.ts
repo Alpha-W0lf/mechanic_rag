@@ -196,7 +196,7 @@ describe('handleAsk generator degrade (JH-46)', () => {
 
   it('database failure is database_unavailable, not degraded', async () => {
     const dbErr = new Error(
-      '(ENOTFOUND) tenant/user postgres.npliiuigpenkrqaewtdf not found',
+      '(ENOTFOUND) tenant/user postgres.abcdefghijklmnopqrst not found',
     );
     (dbErr as { code?: string }).code = 'ENOTFOUND';
     vehicleExists.mockRejectedValue(dbErr);
