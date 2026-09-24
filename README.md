@@ -6,7 +6,7 @@ Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
 
 🔗 **Live demo:** [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) — pick the fixture vehicle and ask a service question; answers cite document, section, and page.
 
-**Production durability.** The 2026 hosted-demo outage (JH-17) was a Supabase Free auto-pause after inactivity: the Next.js shell stayed up and every Postgres path failed. JH-29 added an external keep-alive (Cloudflare Worker plus GitHub Actions) against `GET /api/health?mode=db` so a `SELECT 1` counts as store activity. Phase 7 then hardened the free-tier path: a free-tier Gemini model with backoff (JH-36/39), a public error taxonomy with HTTP 200 degraded answers when generate/embed fail after retries (JH-46), a small per-isolate Postgres pool (JH-37), a daily synthetic Ask monitor in a private ops repo that opens GitHub issues on fail (JH-41 — no public link), a per-hashed-IP and global Ask abuse shield (JH-42), and a Supabase Data API lock so PostgREST `anon` cannot read public tables (JH-52). A green keep-alive proves the DB is reachable after idle, not that Ask returned citations; scoring is in [`docs/ops.md`](docs/ops.md). Incident write-up: [`docs/incidents/2026-08-jh17-supabase-pause.md`](docs/incidents/2026-08-jh17-supabase-pause.md).
+**Production durability.** The 2026 hosted-demo outage (JH-17) was a Supabase Free auto-pause after inactivity: the Next.js shell stayed up and every Postgres path failed. JH-29 added an external keep-alive (Cloudflare Worker plus GitHub Actions) against `GET /api/health?mode=db` so a `SELECT 1` counts as store activity. Phase 7 then hardened the free-tier path: a free-tier Gemini model with backoff (JH-36/39), a public error taxonomy with HTTP 200 degraded answers when generate/embed fail after retries (JH-46), a small per-isolate Postgres pool (JH-37), a daily synthetic Ask monitor in the private [second_brain](https://github.com/Alpha-W0lf/second_brain) hub (12:03 PM America/Chicago) that opens deduped GitHub issues on fail or degraded (JH-41), a per-hashed-IP and global Ask abuse shield (JH-42), and a Supabase Data API lock so PostgREST `anon` cannot read public tables (JH-52). A green keep-alive proves the DB is reachable after idle, not that Ask returned citations; scoring is in [`docs/ops.md`](docs/ops.md). Incident write-up: [`docs/incidents/2026-08-jh17-supabase-pause.md`](docs/incidents/2026-08-jh17-supabase-pause.md).
 
 ![Live demo — asking the fixture S2000 a service question and getting a cited answer](docs/assets/demo/live-demo.gif)
 
@@ -22,7 +22,7 @@ Topology detail: [`docs/ARCHITECTURE.md` §3.1 Production topology](docs/ARCHITE
 | Embeddings | `gemini-embedding-001` @ 768 | Ollama `nomic-embed-text` @ 768 |
 | Ranking | Hybrid → RRF → section dedup (no CE) | Hybrid → RRF → section dedup → local CE |
 | Cross-encoder rerank | ❌ `ce_skip_reason=hosted_ce_disabled` | ✅ |
-| Monitoring | External keep-alive hits `/api/health?mode=db` (DB reachable). Daily Ask monitor (JH-41, private ops repo) scores cited Ask — [`docs/ops.md`](docs/ops.md) | Local `/api/health` readiness (Postgres + Ollama) |
+| Monitoring | External keep-alive hits `/api/health?mode=db` (DB reachable). Cited-Ask monitor is JH-41 in the [second_brain](https://github.com/Alpha-W0lf/second_brain) hub, not this repo (once daily at 12:03 PM America/Chicago) | Local `/api/health` readiness (Postgres + Ollama) |
 | Vehicle catalog + manual browser | ✅ | ✅ |
 | Ask → cited generated answer | ✅ (Gemini) | ✅ (Ollama, or Gemini if key set) |
 | BYO corpora / private garage / multimodal (M1–M3) | ❌ | ✅ |
@@ -84,7 +84,7 @@ Full clone path, footguns, and paired-ask ablation: [`GETTING_STARTED.md`](GETTI
 
 - [`docs/VISION.md`](docs/VISION.md) — product / why  
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — contracts / how  
-- [`docs/ops.md`](docs/ops.md) — CI gates + Ask monitor policy (pass / degraded pass / fail). JH-41 daily Ask monitor lives in a private ops repo, not here.  
+- [`docs/ops.md`](docs/ops.md) — CI gates (what a green run proves) + Ask monitor policy (pass / degraded pass / fail). Cited-Ask monitor lives in the [second_brain](https://github.com/Alpha-W0lf/second_brain) hub (JH-41), not here (once daily at 12:03 PM America/Chicago).  
 - [`docs/incidents/2026-08-jh17-supabase-pause.md`](docs/incidents/2026-08-jh17-supabase-pause.md) — JH-17 pause and what landed after  
 - [`GETTING_STARTED.md`](GETTING_STARTED.md) — operator path  
 - [`FAQ.md`](FAQ.md) — Technical FAQ  
