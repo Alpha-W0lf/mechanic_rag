@@ -25,8 +25,8 @@
   "avg_ce_latency_ms": 129.75,
   "ask_http_ok": 44,
   "model_status": {
-    "embedding": "candidate pending lock (nomic-embed-text@768)",
-    "ce": "candidate pending lock (MiniLM / transformers_js); freeze only after paired ask evidence + human"
+    "embedding": "frozen (Tom override — flat delta; no lift claim; nomic-embed-text@768)",
+    "ce": "frozen (Tom override — flat delta; no lift claim; Xenova/ms-marco-MiniLM-L-6-v2)"
   },
   "historical_proxy_note": "Pass-8c qwen-era proxy fields (rrf_only_retrieval_hits / ce_vs_rrf_delta_hits=+1 / n=5) are NOT freeze evidence.",
   "note": "No invented public-release thresholds. ce_vs_rrf_ask_delta_hits uses citation\u2229gold on both arms only.",

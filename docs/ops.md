@@ -153,6 +153,12 @@ If `ask_rate_buckets` is missing (migration not applied yet) or the limiter quer
 
 Why fail-open: Production apply is operator-owned after review; a missing table or limiter-DB hiccup must not turn the demo into a 429 outage (and must not fail the once-daily monitor). The cost is a window where abuse can still spend Gemini quota until the table exists or the store recovers. Ask itself still fails closed on real DB/Gemini errors.
 
+### Security residual (free-tier)
+
+- **Fail-open limiter residual:** The Postgres-backed rate limiter deliberately fails open on store errors to avoid false-positive demo outages; an adversary hitting the endpoint during a database outage could consume Gemini free-tier embedding quota. No paid WAF or external DDoS shield is used.
+- **SSL residual (rejectUnauthorized: false):** Serverless database connections in `web/src/server/db.ts` use `ssl: { rejectUnauthorized: false }` (`sslmode=require` equivalent). Connection traffic is encrypted in transit, but server CA verification is omitted in the serverless runtime.
+- **Salt privacy:** `ASK_RATE_LIMIT_SALT` is hashed with client IPs and never logged or exposed (presence-only / missing-salt warnings only).
+
 ### Local Compose
 
 The limiter uses the same `DATABASE_URL` / pool. Fresh Compose volumes load `003_ask_rate_limit.sql` from `docker-entrypoint-initdb.d`. Existing volumes: `./scripts/migrate.sh`. To disable locally (no store calls): `ASK_RATE_LIMIT_DISABLED=1` in `web/.env.local`.

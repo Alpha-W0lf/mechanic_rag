@@ -89,7 +89,7 @@ export function resolvePoolConfig(
     connectionString,
     connectionTimeoutMillis,
     ...HOSTED_POOL_LIMITS,
-    // node-pg equivalent of sslmode=require (encrypt; no CA file in the function).
+    // Security residual: node-pg equivalent of sslmode=require (encrypt; no CA file in function; rejectUnauthorized: false).
     ssl: { rejectUnauthorized: false },
     attachToVercelLifecycle: Boolean(env.VERCEL),
   };
