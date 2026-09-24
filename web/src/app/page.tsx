@@ -1,7 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DEGRADED_ASK_BANNER,
+  HOSTED_CE_OFF_CHIP,
+  HOSTED_CE_OFF_LINE,
   stripDegradedBanner,
 } from "@/lib/ask_copy";
 import { renderAnswerCitationNodes } from "@/lib/answer_citations";
@@ -170,6 +172,12 @@ export default function Home() {
         </p>
         <p className="mt-1 text-xs text-ink-muted">
           Public clone uses synthetic fixtures only; multimodal opt-in locally.
+        </p>
+        <p className="mt-1 text-xs text-ink-muted flex flex-wrap items-center gap-1.5">
+          <span className="inline-block rounded border border-border bg-surface px-1.5 py-0.5 text-[11px] font-mono text-ink-muted">
+            {HOSTED_CE_OFF_CHIP}
+          </span>
+          <span>{HOSTED_CE_OFF_LINE}</span>
         </p>
       </header>
 
