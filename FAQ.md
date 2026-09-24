@@ -93,6 +93,12 @@ The freeze is an **explicit owner decision**, **not** earned lift from ablation.
 
 **Forbidden:** “CE improves citations” on n=30/38/44; historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` as lift or freeze evidence. Full freeze honesty: [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
 
+## 12. Can I evaluate Mechanic RAG without downloading multi-GB models?
+
+**Yes.**
+- **Hosted path (≤60 seconds):** The live deployment at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) runs the complete hybrid retrieval + RRF + section dedup pipeline using free-tier serverless Gemini generation and embeddings. No local software or model downloads required.
+- **Local Dev Container / clone:** In `.devcontainer/` or local clone, you can set `GEMINI_API_KEY` in `web/.env.local` to use hosted Gemini generation, or verify the lexical retrieval and extractive degrade path without running local Ollama or pulling multi-GB models. Multi-GB local models (`gemma4:e2b`, `nomic-embed-text`) are only needed if you wish to run fully offline local LLM generation.
+
 ---
 
 **Clone path:** [`GETTING_STARTED.md`](GETTING_STARTED.md) · **Skim:** [`README.md`](README.md)

@@ -2,10 +2,15 @@
 
 Clone-depth path for the **hybrid → RRF → section dedup → local CE** product slice.
 
-- Skim + Try it: [`README.md`](README.md)
+- Hosted demo in 60s (zero install, no local models): [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app)
+- Skim + Overview: [`README.md`](README.md)
 - Contracts: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 - Product why: [`docs/VISION.md`](docs/VISION.md)
 - Technical FAQ: [`FAQ.md`](FAQ.md)
+
+> **Looking for the fastest evaluation?** Use the hosted demo above. It runs the full hybrid vector + FTS → RRF → section dedup pipeline with citation labels on the synthetic Honda S2000 fixture without installing Docker, Python, Node, or pulling multi-GB models.
+>
+> If you are cloning to develop locally, you can use the optional **Dev Container** (`.devcontainer/`) or follow the clean-clone steps below.
 
 **Fast path:** from repo root, `./scripts/stranger_smoke.sh` (Docker + Ollama preflight → Compose → `web/.env.local` → fixture ingest → fail-closed). Then pull models, `cd web && pnpm install && pnpm dev`, and run health/ask below.
 
@@ -24,7 +29,18 @@ This is the stranger-clone path for a **fixtures-only** public repo. Public corp
 
 ---
 
-## Clean-clone path
+## Clean-clone options
+
+Choose between two clean-clone setups:
+
+### Option A: Dev Container (`.devcontainer/`)
+Open this repository in VS Code using the **Remote - Containers** extension (or GitHub Codespaces on the free tier). The devcontainer automatically:
+- Starts a containerized Postgres 16 + pgvector database service with all migrations (`001`–`004`) applied.
+- Installs Python 3.12/3.13 and Node 22 with `pnpm`.
+- Installs the `mecharag` CLI in editable mode.
+- Does **not** require downloading multi-GB Ollama models. You can test Ask via the free-tier Gemini API (add `GEMINI_API_KEY` to `web/.env.local`) or verify the lexical retrieval and extractive degrade paths.
+
+### Option B: Local host environment (Docker Compose + host Ollama)
 
 From repo root, in order:
 
