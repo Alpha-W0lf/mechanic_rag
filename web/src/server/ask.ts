@@ -14,13 +14,20 @@ import {
   rerankWithDegrade,
   type CrossEncoder,
 } from './cross_encoder';
-import { toPublicAskFailure, type AskErrorClass } from './ask_errors';
+import { DEGRADED_ASK_BANNER } from '@/lib/ask_copy';
+import {
+  errorClassForEmbedFailure,
+  toPublicAskFailure,
+  type AskErrorClass,
+} from './ask_errors';
+import { maybeDegradedAsk, buildExtractiveCitedAnswer } from './ask_degrade';
 import { embedText, generateAnswer, isGeminiServing } from './providers';
 import {
   lexicalSearch,
   loadChunksByIds,
   vehicleExists,
   vectorSearch,
+  type ChunkRow,
 } from './retrievers';
 import { retrieveImageChannel } from './ask_image_channel';
 import { insufficientEvidenceResult } from './ask_outcome';
@@ -39,9 +46,11 @@ export { validateAskRequest } from './ask_request';
 export type AskSuccess = {
   answer: string;
   citations: Citation[];
-  outcome: 'answered' | 'insufficient_evidence';
+  outcome: 'answered' | 'insufficient_evidence' | 'degraded';
   diagnostics: Record<string, unknown> | null;
   visual_assets: VisualAsset[];
+  /** Present when outcome is `degraded` — the generator failure class. */
+  error_class?: AskErrorClass;
 };
 
 export type AskFailure = {
@@ -107,6 +116,8 @@ export async function handleAsk(
   let embeddingModel = process.env.EMBEDDING_MODEL || 'nomic-embed-text';
   let generatorModel = process.env.OLLAMA_MODEL || 'gemma4:e2b';
   const forceRrfOnly = isForceRrfOnlyEnv();
+  let retrievedCitations: Citation[] = [];
+  let retrievedRows: Map<string, ChunkRow> | null = null;
 
   try {
     const exists = await vehicleExists(req.vehicle_id);
@@ -123,12 +134,14 @@ export async function handleAsk(
       embeddingModel = emb.model;
       embedMs = Date.now() - embStarted;
     } catch (embedErr) {
-      // Embedding provider unreachable (e.g. serverless deploy without
-      // Ollama). Degrade to lexical-only extractive answers instead of 503.
+      // Embedding provider unreachable (hosted Gemini quota / local Ollama
+      // down). Degrade to lexical-only extractive answers instead of 503.
+      const embedClass = errorClassForEmbedFailure(embedErr);
       logAsk({
         requestId,
         vehicle_id: req.vehicle_id,
         outcome: 'extractive_fallback',
+        error_class: embedClass,
         reason: embedErr instanceof Error ? embedErr.message : String(embedErr),
       });
       return await extractiveFallback({
@@ -138,6 +151,7 @@ export async function handleAsk(
         docFamily: req.doc_family,
         diagnosticsOn,
         requestId,
+        error_class: embedClass,
       });
     }
 
@@ -278,6 +292,8 @@ export async function handleAsk(
       finalChunks,
       rows,
     );
+    retrievedCitations = citations;
+    retrievedRows = rows;
 
     if (citations.length === 0) {
       return insufficientEvidenceResult({
@@ -396,7 +412,25 @@ export async function handleAsk(
       diagnostics: diagnosticsOn ? diag : null,
     };
   } catch (err) {
-    // JH-46: extractive degrade on generator_unavailable is out of scope here.
+    const degraded = maybeDegradedAsk({
+      err,
+      citations: retrievedCitations,
+      rows: retrievedRows,
+      diagnosticsOn,
+      requestId,
+    });
+    if (degraded) {
+      logAsk({
+        requestId,
+        vehicle_id: req.vehicle_id,
+        outcome: 'degraded',
+        error_class: degraded.error_class,
+        citation_count: degraded.citations.length,
+        error: err instanceof Error ? err.message : String(err),
+        total_ms: Date.now() - t0,
+      });
+      return degraded;
+    }
     const failure = toPublicAskFailure(err);
     logAsk({
       requestId,
@@ -417,13 +451,15 @@ type ExtractiveArgs = {
   docFamily?: string;
   diagnosticsOn: boolean;
   requestId: string;
+  error_class: AskErrorClass;
 };
 
 /**
- * Serverless degrade path: when no embedding provider is reachable
- * (e.g. hosted deploy without Ollama), skip vector/image channels and
- * answer extractively from lexical retrieval. The answer is prefixed
- * with [Retrieval mode] so callers never mistake it for generated text.
+ * Serverless degrade path: when no embedding provider is reachable,
+ * skip vector/image channels and answer extractively from lexical retrieval.
+ * Banner is shared honest copy (not “local Ollama only”).
+ * HTTP 200 + outcome=degraded when lexical hits exist; zero hits stay
+ * insufficient_evidence.
  */
 export async function extractiveFallback(args: ExtractiveArgs) {
   const lStarted = Date.now();
@@ -456,24 +492,6 @@ export async function extractiveFallback(args: ExtractiveArgs) {
     });
   }
 
-  const raw = hits[0].content.trim();
-  const cut = raw.slice(0, 480);
-  const lastStop = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('.\n'));
-  const snippet = (lastStop > 120 ? cut.slice(0, lastStop + 1) : cut).trim();
-
-  let answer =
-    `[Retrieval mode] Cited passages from the service documentation ` +
-    `(generative answers require the local Ollama path):
-
-${snippet}`;
-  if (hits[1]?.content) {
-    answer +=
-      `
-
-Also relevant (${hits[1].document_name ?? 'same document'}): ` +
-      `${hits[1].content.trim().slice(0, 240)}\u2026`;
-  }
-
   const citations: Citation[] = hits.slice(0, 3).map((h, i) => ({
     label: String(i + 1),
     chunk_id: h.chunk_id,
@@ -484,12 +502,31 @@ Also relevant (${hits[1].document_name ?? 'same document'}): ` +
     page_start: h.page_start ?? null,
     page_end: h.page_end ?? null,
   }));
+  const rows = new Map<string, ChunkRow>();
+  for (const h of hits.slice(0, 3)) {
+    rows.set(h.chunk_id, {
+      chunk_id: h.chunk_id,
+      document_id: h.document_id,
+      vehicle_id: h.vehicle_id ?? args.vehicleId,
+      doc_family: h.doc_family ?? '',
+      content: h.content,
+      section_path: h.section_path ?? null,
+      page_start: h.page_start ?? null,
+      page_end: h.page_end ?? null,
+      document_name: h.document_name ?? null,
+      provenance: null,
+    });
+  }
+  const built = buildExtractiveCitedAnswer(citations, rows);
+  const answer = built?.answer ?? DEGRADED_ASK_BANNER;
+  const usedCitations = built?.citations ?? citations;
 
   if (args.diagnosticsOn) {
     logAsk({
       requestId: args.requestId,
       vehicle_id: args.vehicleId,
-      outcome: 'answered_extractive',
+      outcome: 'degraded',
+      error_class: args.error_class,
       lexical_count: hits.length,
       lexical_ms: lexicalMs,
     });
@@ -497,13 +534,15 @@ Also relevant (${hits[1].document_name ?? 'same document'}): ` +
 
   const result: AskSuccess = {
     answer,
-    citations,
-    outcome: 'answered',
+    citations: usedCitations,
+    outcome: 'degraded',
+    error_class: args.error_class,
     visual_assets: [],
     diagnostics: args.diagnosticsOn
       ? {
           request_id: args.requestId,
           mode: 'extractive_lexical_fallback',
+          error_class: args.error_class,
           match_tier: matchTier,
           lexical_count: hits.length,
           lexical_ms: lexicalMs,

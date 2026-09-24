@@ -102,7 +102,7 @@ Public demo: [https://mechanic-rag.vercel.app](https://mechanic-rag.vercel.app).
 | Ranking | Hybrid vector + lexical → **RRF** → **section dedup** → top-K. **Never** imports `@xenova/transformers`. Diagnostics: `ce_skip_reason=hosted_ce_disabled` (JH-38). Not ablation (`ablation_rrf_only`) and not `rerank_degraded` | Same retrieve/fuse, then **local cross-encoder** (N→K); degrade to RRF on CE failure |
 | Hosted `pg.Pool` | `max` **2**, idle **5s**, SSL, `attachDatabasePool` from `@vercel/functions` when `VERCEL` is set (JH-37) | Unchanged: `max` 10, idle 30s, no SSL, no Vercel attach |
 | Gemini 429/503 | Exponential backoff + jitter, **max 4 attempts**, then fail (JH-39) | n/a (Ollama path) |
-| Public Ask errors | `error_class`: `generator_unavailable` \| `database_unavailable` \| `rate_limited` \| `internal` (JH-39) | Same taxonomy; local generator failures are Ollama |
+| Public Ask errors | `error_class`: `generator_unavailable` \| `embedding_unavailable` \| `database_unavailable` \| `rate_limited` \| `internal` (JH-39 + JH-46). HTTP 200 `outcome: "degraded"` when generate/embed fails after retries and ≥1 citation exists; database stays 503 | Same taxonomy; local generate failures stay 503; local embed-down may extractive-degrade |
 | Keep-alive | External **Cloudflare Worker + GitHub Actions** hit `GET /api/health?mode=db` (JH-29). In-repo weekly Action was removed **2026-08-25** so this dormant repo would not lose schedules | Local curl of the same contract |
 
 ```mermaid
@@ -395,7 +395,7 @@ Optional later (not required for vertical slice): `doc_family`, bounded `history
 
 **No evidence:** HTTP 200 with an explicit insufficient-evidence answer and empty/minimal citations — **not** invented mechanical advice.
 
-**Dependency failure** (Postgres / Ollama / hosted Gemini timeout or unreachable after retries): non-200 error with public `error_class` (JH-39) — do not fabricate an answer.
+**Dependency failure:** Postgres stays non-200 `database_unavailable` (JH-39) — do not fabricate an answer. Hosted Gemini generate/embed 429/503 after retries **with ≥1 citation**: HTTP 200 `outcome: "degraded"` plus `error_class` (`generator_unavailable` \| `embedding_unavailable` \| `rate_limited`) and extractive excerpts only (JH-46). Zero citations, or local generate failure: existing non-200 `error_class`.
 
 **Out of default response:** VLM notes until `MECHANIC_VLM` is on. **M3 Met (2026-07-27):** optional local VLM assist (`gemma4:e2b`), fail-open, text citations own torque/spec; cache-hit PNGs only.
 

@@ -82,6 +82,7 @@ Full clone path, footguns, and paired-ask ablation: [`GETTING_STARTED.md`](GETTI
 
 - [`docs/VISION.md`](docs/VISION.md) — product / why  
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — contracts / how  
+- [`docs/ops.md`](docs/ops.md) — Ask monitor policy (pass / degraded pass / fail)  
 - [`GETTING_STARTED.md`](GETTING_STARTED.md) — operator path  
 - [`FAQ.md`](FAQ.md) — Technical FAQ  
 - [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md) — freeze honesty (override ≠ lift)  

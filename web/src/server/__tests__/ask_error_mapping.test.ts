@@ -107,7 +107,7 @@ describe('handleAsk error taxonomy', () => {
     vi.unstubAllEnvs();
   });
 
-  it('Gemini 503 generate maps to generator_unavailable (not database)', async () => {
+  it('Gemini 503 generate with retrieved chunks degrades (not a database 503)', async () => {
     generateAnswer.mockRejectedValue(
       new GeminiError('gemini generate failed: 503', 503, 'UNAVAILABLE'),
     );
@@ -116,16 +116,16 @@ describe('handleAsk error taxonomy', () => {
       vehicle_id: 'fixture:honda-s2000-demo',
       question: 'What is the oil drain plug torque?',
     });
-    expect(result).toEqual({
-      error: PUBLIC_ASK_ERROR.generator_unavailable,
-      error_class: 'generator_unavailable',
-      status: 503,
-    });
+    expect('status' in result).toBe(false);
+    if ('status' in result) return;
+    expect(result.outcome).toBe('degraded');
+    expect(result.error_class).toBe('generator_unavailable');
+    expect(result.citations.length).toBeGreaterThanOrEqual(1);
     expect(JSON.stringify(result)).not.toMatch(LEAK);
     expect(JSON.stringify(result)).not.toMatch(/database/i);
   });
 
-  it('Gemini 429 maps to rate_limited', async () => {
+  it('Gemini 429 with retrieved chunks degrades as rate_limited (HTTP 200 shape)', async () => {
     generateAnswer.mockRejectedValue(
       new GeminiError('gemini generate failed: 429', 429, 'RESOURCE_EXHAUSTED'),
     );
@@ -134,11 +134,11 @@ describe('handleAsk error taxonomy', () => {
       vehicle_id: 'fixture:honda-s2000-demo',
       question: 'What is the oil drain plug torque?',
     });
-    expect(result).toEqual({
-      error: PUBLIC_ASK_ERROR.rate_limited,
-      error_class: 'rate_limited',
-      status: 429,
-    });
+    expect('status' in result).toBe(false);
+    if ('status' in result) return;
+    expect(result.outcome).toBe('degraded');
+    expect(result.error_class).toBe('rate_limited');
+    expect(result.citations.length).toBeGreaterThanOrEqual(1);
   });
 
   it('pooler FATAL from vehicleExists maps to database_unavailable without leak', async () => {
