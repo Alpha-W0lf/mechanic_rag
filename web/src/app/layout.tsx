@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Mechanic RAG",
   description:
-    "Cited answers from automotive service docs — hybrid RAG (vector + lexical → RRF → CE). Synthetic fixtures for the public clone.",
+    "Cited answers from automotive service docs — hosted: vector + Postgres FTS → RRF → section dedup → cited answer. Local MiniLM CE optional (Compose; n=44 delta 0, no lift). Synthetic fixtures for the public clone.",
 };
 
 export default function RootLayout({

@@ -1,6 +1,6 @@
 # Mechanic RAG
 
-Cited answers from automotive service docs — hybrid RAG (vector + lexical → RRF → cross-encoder).
+Cited answers from automotive service docs — hosted: vector + Postgres FTS → RRF → section dedup → cited answer. Local MiniLM CE optional (Compose; n=44 delta 0, no lift).
 
 Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
 
@@ -33,7 +33,7 @@ Topology detail: [`docs/ARCHITECTURE.md` §3.1 Production topology](docs/ARCHITE
 
 ### The problem
 
-Service manuals bury torque specs and procedures across sections and pages. Teams and owners still dig by hand. Mechanic RAG retrieves with **hybrid search**, fuses candidates (**RRF**), optionally reranks (**cross-encoder**), and returns an answer with **citations** (document, section, page). The public clone proves the product path on synthetic fixtures — not a notebook sketch and not OEM redistribution.
+Service manuals bury torque specs and procedures across sections and pages. Teams and owners still dig by hand. Hosted Mechanic RAG retrieves with **vector + Postgres FTS**, fuses candidates (**RRF**), **section-dedups**, and returns an answer with **citations** (document, section, page). Local Compose may add MiniLM CE (optional; no lift). The public clone proves the product path on synthetic fixtures — not a notebook sketch and not OEM redistribution.
 
 AI Knowledge Base keeps **coding agents** current (RAG + MCP over AI notes). Mechanic is **product RAG over vehicle service docs** with citation-backed answers and a multi-vehicle catalog shape.
 
@@ -41,23 +41,25 @@ AI Knowledge Base keeps **coding agents** current (RAG + MCP over AI notes). Mec
 
 ```mermaid
 flowchart LR
-  A[Ask] --> H[Hybrid retrieve]
-  H --> R[RRF fuse]
-  R --> C[CE rerank]
-  C --> O[Cited answer]
+  A[Ask] --> H[vector + Postgres FTS]
+  H --> R[RRF]
+  R --> D[section dedup]
+  D --> O[Cited answer]
 ```
 
+Hosted Production (the live demo) is that path. Local Compose may add MiniLM CE after section dedup — optional, not required, **no lift claim** (n=44 delta 0).
+
 1. Select a vehicle and ask a service question.
-2. Retrieve with vehicle-filtered **vector + lexical** search.
+2. Retrieve with vehicle-filtered **vector + Postgres FTS**.
 3. Fuse candidates with **RRF**, then **section dedup** (default on).
-4. Optionally **cross-encoder** rerank (degrades to RRF if CE fails).
-5. Return an answer with **citations** (document, section, page).
+4. Return an answer with **citations** (document, section, page).
+5. Local Compose only: optional MiniLM CE after dedup (degrades to RRF if CE fails). Hosted skips CE (`ce_skip_reason=hosted_ce_disabled`).
 
 ### Key engineering decisions
 
 1. **Fixtures vs private garage split** — stranger path = `fixtures/` + fail-closed; private Gold/garage via explicit env roots; no OEM in public git.
-2. **Hybrid → RRF → section dedup → CE with degrade** — spine stays useful if CE fails.
-3. **Eval-backed ranking honesty** — CE kept by freeze-override; **no** earned citation-lift claim (n=44 delta 0) — depth in [`FAQ.md`](FAQ.md) / [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
+2. **Hosted ranking = vector + Postgres FTS → RRF → section dedup** — CE is not on the live path (`hosted_ce_disabled`). Local MiniLM CE is Compose-only / optional.
+3. **Eval-backed ranking honesty** — local CE kept by freeze-override; **no** earned citation-lift claim (n=44 delta 0) — depth in [`FAQ.md`](FAQ.md) / [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
 
 ### Try it
 
@@ -78,7 +80,7 @@ Full clone path, footguns, and paired-ask ablation: [`GETTING_STARTED.md`](GETTI
 | CLI | `mecharag ingest` / `mecharag eval` |
 | Embeddings | Hosted demo: `gemini-embedding-001` @ 768 · local: Ollama `nomic-embed-text` @ 768 (frozen) |
 | Generator | Hosted demo: `gemma-4-26b-a4b-it` · local: Ollama `gemma4:e2b` (fallback `qwen3.5:4b`) |
-| Ranking | Hybrid → RRF → section dedup → local CE (degrade on failure) |
+| Ranking | Hosted: vector + Postgres FTS → RRF → section dedup. Local Compose: optional MiniLM CE (no lift, n=44 delta 0) |
 
 ### Deeper docs
 
