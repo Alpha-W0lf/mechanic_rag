@@ -2,7 +2,7 @@
 
 **Status:** Binding contracts SSOT · *(2026-09-24: Production topology at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) is Vercel Hobby + Supabase Free + Gemini API free tier — see §3.1; clone/repro remains Compose + Ollama)* · Vertical slice implemented · Formal embed/CE **frozen (owner decision)** · **LICENSE:** PolyForm-NC 1.0.0 · Fixtures-only public packaging complete · Private-gold-source path implemented (fixture + synthetic + live pilot) · Personal-garage multimodal M1–M3 done (flags default off) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
-**Updated:** 2026-09-24 (JH-52: Data API lock; JH-42 abuse shield; JH-40 topology)  
+**Updated:** 2026-09-24 (JH-49: Production durability + JH-17 incident note; JH-52 / JH-42 / JH-40)  
 **Owner:** Tom  
 **Lenses:** Senior AI Engineer (primary); Data Engineer; Backend  
 
@@ -91,6 +91,8 @@ Public fixtures/  OR  private local Gold root (config; never both as default)
 
 Public demo: [https://mechanic-rag.vercel.app](https://mechanic-rag.vercel.app). This is a **free-tier showcase**, not an SLO. The local Compose + Ollama path above remains the clone/reproduction authority.
 
+**Production durability.** The 2026 hosted-demo outage (JH-17) was a Supabase Free auto-pause after inactivity: the Next.js shell stayed up and every Postgres path failed. JH-29 added an external keep-alive (Cloudflare Worker plus GitHub Actions) against `GET /api/health?mode=db` so a `SELECT 1` counts as store activity. Phase 7 then hardened the free-tier path: a free-tier Gemini model with backoff (JH-36/39), a public error taxonomy with HTTP 200 degraded answers when generate/embed fail after retries (JH-46), a small per-isolate Postgres pool (JH-37), a daily synthetic Ask monitor in a private ops repo that opens GitHub issues on fail (JH-41 — no public link), a per-hashed-IP and global Ask abuse shield (JH-42), and a Supabase Data API lock so PostgREST `anon` cannot read public tables (JH-52). A green keep-alive proves the DB is reachable after idle, not that Ask returned citations; scoring is in [`docs/ops.md`](./ops.md). Incident write-up: [`docs/incidents/2026-08-jh17-supabase-pause.md`](./incidents/2026-08-jh17-supabase-pause.md).
+
 **What actually runs**
 
 | Layer | Production (hosted demo) | Local clone (reproduction) |
@@ -129,7 +131,7 @@ flowchart LR
 |-------|--------|-------------------|
 | External keep-alive → `GET /api/health?mode=db` | Hosted function can open Postgres (`SELECT 1`). DB reachable after idle. | Gemini `generateContent` works. Ask returns an answer. Citations are present. |
 | Default `GET /api/health` on hosted (`GEMINI_API_KEY` set) | Postgres up. Gemini path is treated ready because the **key is present** — there is no live Gemini ping | That Ask answers with citations |
-| Planned synthetic Ask monitor (JH-41) | *(not shipped)* | — this is the probe that should prove cited Ask |
+| Synthetic Ask monitor (JH-41, private ops repo) | Hosted Ask scored per [`ops.md`](./ops.md) (`answered` / degraded-pass / fail); opens a GitHub issue on fail. Not implemented in this repository. | In-repo CI. Keep-alive `SELECT 1`. |
 
 A green keep-alive is a pause/wake / DB-reachable signal. It is **not** a cited-Ask monitor. See also §9.1 (pool hardening vs keep-alive). Do not put project refs, pooler hosts, or keys in this document.
 
@@ -434,7 +436,7 @@ curl -sS -D- "https://mechanic-rag.vercel.app/api/health?mode=db"
 
 Live `GET /api/health` distinguishes liveness, db probe, and readiness. Do not regress to always-`{"status":"ok"}` as the only contract.
 
-**Ops: keep-alive vs pool hardening vs Ask.** `GET /api/health?mode=db` (JH-29) is what the external Cloudflare Worker + GitHub Actions keep-alive hits. It proves Postgres `SELECT 1` after idle — a pause/wake / **DB reachable** probe — not a pool-sizing proof and **not** a Gemini generate or cited-Ask proof (that monitor is planned JH-41). Hosted default readiness treats Gemini as ready when `GEMINI_API_KEY` is set and Postgres is up; it does not call Gemini. Hosted `pg.Pool` hardening (small per-isolate `max`, 5s idle timeout, Vercel `attachDatabasePool`, Supavisor transaction mode on port 6543) is what keeps concurrent isolates from multiplying the old `max: 10` against Supabase Free. A green keep-alive does **not** mean the client pool is safe, that Gemini answered, or that citations came back; a healthy pool does **not** replace the keep-alive. Public JSON still must not include driver/pooler/host text.
+**Ops: keep-alive vs pool hardening vs Ask.** `GET /api/health?mode=db` (JH-29) is what the external Cloudflare Worker + GitHub Actions keep-alive hits. It proves Postgres `SELECT 1` after idle — a pause/wake / **DB reachable** probe — not a pool-sizing proof and **not** a Gemini generate or cited-Ask proof (that monitor is JH-41 in a private ops repo; scoring in [`ops.md`](./ops.md)). Hosted default readiness treats Gemini as ready when `GEMINI_API_KEY` is set and Postgres is up; it does not call Gemini. Hosted `pg.Pool` hardening (small per-isolate `max`, 5s idle timeout, Vercel `attachDatabasePool`, Supavisor transaction mode on port 6543) is what keeps concurrent isolates from multiplying the old `max: 10` against Supabase Free. A green keep-alive does **not** mean the client pool is safe, that Gemini answered, or that citations came back; a healthy pool does **not** replace the keep-alive. Public JSON still must not include driver/pooler/host text.
 
 **Hosted `DATABASE_URL`:** copy **Transaction pooler** (port **6543**) from the Supabase Connect dialog. Session-mode / direct strings (port 5432) are accepted with the same small pool; prefer 6543 on Vercel. Never log or commit the host.
 
@@ -554,7 +556,7 @@ Guide 01 vertical slice landed. This table is **post-slice**, not pre-implement.
 | Ingest | `mecharag ingest --source fixtures`; **private-gold** Guide 11–**14** (fixture + Soft Adjust synthetic + live Soft Adjust pilot) | Friend Drive Soft Adjust Review Met / dual-product Done (out) |
 | Schema | `db/migrations/001_init.sql` (§6-shaped) | Grow catalog features as library sync lands |
 | Ranking | §7 order live; `section_dedup.ts`; CE with degrade; Guide 02 env ablation `MECHANIC_FORCE_RRF_ONLY` + paired ask fields | LICENSE Met Guide 10a; fixtures-only public flip Met Guide 10b |
-| Health | Liveness ≠ readiness; `?mode=db` is Postgres-only keep-alive (JH-29); hosted readiness does not require Ollama when Gemini is set | Cited-Ask monitor (JH-41) not shipped |
+| Health | Liveness ≠ readiness; `?mode=db` is Postgres-only keep-alive (JH-29); hosted readiness does not require Ollama when Gemini is set | Cited-Ask monitor (JH-41) lives in a private ops repo; scoring in [`ops.md`](./ops.md) |
 | Evals/tests | **n=44** S2000 fixture goldens (Guide 04–08; T1 +3 synthetic confusable sections) + vitest; lexical metrics `*_lexical_proxy`; ask lift = citation∩gold; Guide 08 paired ask delta **0** / helps=0; Guide 05 keep history; Guide 09 Path B freeze-override; Guide 11–15 PrivateGold / Soft Adjust ask unit tests | Soft Adjust golden suite (E2) deferred; live Soft Adjust full upsert ops |
 | Generator | Local smoke: `gemma4:e2b`; fallback `qwen3.5:4b` (pass 8c historical proxy). Hosted default: `gemma-4-26b-a4b-it` via Gemini (`GEMINI_MODEL` override) | — |
 
