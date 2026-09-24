@@ -249,7 +249,7 @@ describe('handleAsk event:ask line (JH-50)', () => {
 
   it('database_unavailable: one line with error_class, no raw driver text', async () => {
     const dbErr = new Error(
-      '(ENOTFOUND) tenant/user postgres.npliiuigpenkrqaewtdf not found',
+      '(ENOTFOUND) tenant/user postgres.abcdefghijklmnopqrst not found',
     );
     (dbErr as { code?: string }).code = 'ENOTFOUND';
     vehicleExists.mockRejectedValue(dbErr);
@@ -267,7 +267,7 @@ describe('handleAsk event:ask line (JH-50)', () => {
     expect(logged[0]?.error_class).toBe('database_unavailable');
     expect(logged[0]?.error).toBeUndefined();
     expect(JSON.stringify(logged[0])).not.toMatch(
-      /ENOTFOUND|npliiuigpenkrqaewtdf|postgres/i,
+      /ENOTFOUND|abcdefghijklmnopqrst|postgres/i,
     );
     logSpy.mockRestore();
   });
