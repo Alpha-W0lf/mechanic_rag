@@ -10,7 +10,13 @@ export async function GET() {
     const vehicles = await listAskableVehicles();
     return NextResponse.json({ vehicles });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'vehicles list failed';
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error(
+      '[vehicles] list failed',
+      err instanceof Error ? err.message : err,
+    );
+    return NextResponse.json(
+      { error: 'Upstream dependency failure (database or internal)' },
+      { status: 503 },
+    );
   }
 }

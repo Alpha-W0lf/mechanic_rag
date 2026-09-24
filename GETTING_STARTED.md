@@ -88,6 +88,8 @@ Copy these targets from README Try it (do not invent vehicle/question IDs):
 
 ```bash
 curl -s localhost:3000/api/health
+# Postgres-only probe (200 iff SELECT 1 succeeds; 503 JSON on failure)
+curl -sS -D- "http://localhost:3000/api/health?mode=db"
 curl -s -X POST localhost:3000/api/ask \
   -H 'content-type: application/json' \
   -d '{"vehicle_id":"fixture:honda-s2000-demo","question":"What is the oil drain plug torque?"}'
