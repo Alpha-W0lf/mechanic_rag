@@ -2,11 +2,29 @@
 
 Scoring and operator policy for the hosted demo. The synthetic Ask monitor itself (JH-41) lives in a private ops repo and is not implemented here.
 
-## Free-tier ceiling
+## Free-tier ceiling & durability residual (JH-48.9)
 
 Production is Vercel Hobby + Supabase Free + Gemini API free tier. Platform pause/delete and free-tier quota remain residual risks: a paused or deleted tenant, or a Gemini/Supabase quota exhaustion, can take the public demo down even when this repo is green. The external keep-alive (`GET /api/health?mode=db`) and the daily cited-Ask monitor (JH-41, private ops repo) mitigate inactivity pause and surface Ask failures; they are not high availability and this demo has no SLO.
 
 `POST /api/ask` exports `maxDuration = 60` (Next.js App Router) so Vercel Hobby cannot leave Ask running past the same 60s generate/embed budget already used by `OLLAMA_TIMEOUT_MS`.
+
+### Durability target & residual risk posture
+
+- **Target dimension:** Durability 8.5 → 8.7–9.0 (JH-48.9).
+- **Parallel ×4 durability mitigations (Verified):**
+  1. **Inactivity keep-alive (`GET /api/health?mode=db`, JH-29):** External Cloudflare Worker + GitHub Actions keep Supabase Free active with lightweight `SELECT 1` queries to prevent the 7-day inactivity pause that caused the JH-17 incident.
+  2. **Generator backoff & retry (JH-39):** Hosted Gemini generator retries transient HTTP 429 / 503 errors with exponential backoff and jitter up to 4 attempts (`MAX_GEN_ATTEMPTS = 4`).
+  3. **Extractive degraded fallback (JH-46):** When Gemini generation or embedding fails after retries, `POST /api/ask` returns HTTP 200 with `outcome: "degraded"` and verbatim manual excerpts with citations rather than an unhandled 500.
+  4. **Postgres-backed abuse shield (JH-42):** Fixed UTC windows (per-IP 10/min, 100/day; global 800/day) protect against burst abuse and Gemini embedding quota (~1K RPD) exhaustion.
+  - Additionally, the private daily synthetic Ask monitor (JH-41, 12:03 PM America/Chicago) proactively verifies cited-Ask health and opens deduped GitHub issues on failures.
+- **Remaining dock — platform pause/delete class (honest residual):**
+  - The remaining durability dock is the platform pause/delete class inherent to free-tier hosting:
+    - Supabase Free compute auto-pause after prolonged inactivity or project deletion per Supabase retention policies.
+    - Vercel Hobby deployment deactivation, rate limits, or project pause.
+    - Provider free-tier quota reset or policy modifications.
+  - **Evidence vs. HA:** Public evidence (keep-alive probe logs, live smoke checks, reproducible stranger curls) can raise confidence that the system is currently operational, durable, and architecturally resilient, but **evidence cannot create High Availability (HA)**.
+  - **Paid HA is strictly forbidden:** No paid multi-region Postgres replication, no Supabase Pro, no Vercel Pro, and no paid APM/monitoring services.
+  - **No SLO/HA claim:** We do not claim any SLO, SLA, or 99.9% uptime. Downtime due to platform pause or deletion remains an honest, unavoidable free-tier residual risk.
 
 ## CI (this repo)
 
@@ -38,7 +56,7 @@ Local full suite (when you have the sibling repo / live emit): `pytest` from rep
 - Full eval suite (`mecharag eval --golden evals/`).
 - Scheduled Production / hosted smoke. This clone is dormant by design; GitHub disables schedules on inactive repos, and daily scheduled monitoring (JH-41) runs in a private ops repo. To test Production Ask health manually, dispatch the `prod_ask_smoke` job via `workflow_dispatch` or run `python scripts/checks/prod_ask_smoke.py`.
 
-**Cited-Ask monitor (JH-41)** lives in a private ops repo, not this repo. It is the scheduled fixture Ask probe (once daily at 12:03 PM America/Chicago). Failures and degraded results open deduped GitHub issues. Do not add a schedule here to cover that. Scoring is in the Ask monitor policy section below. Public last-success and stranger verify steps: [Public Ask-monitor evidence (JH-66 / JH-48.6)](#public-ask-monitor-evidence-jh-66). Local `/api/health` remains the clone readiness check.
+**Cited-Ask monitor (JH-41)** lives in a private ops repo, not this repo. It is the scheduled fixture Ask probe (once daily at 12:03 PM America/Chicago). Failures and degraded results open deduped GitHub issues. Do not add a schedule here to cover that. Scoring is in the Ask monitor policy section below. Public evidence pack and stranger verify steps: [Public evidence pack & Ask-monitor (JH-66 / JH-48.6 / JH-48.9)](#public-ask-monitor-evidence-jh-66). Local `/api/health` remains the clone readiness check.
 
 ## Degraded Ask response (JH-46)
 
@@ -85,7 +103,9 @@ Score a hosted Ask probe as follows:
 A degraded 200 is still useful: extractive manual excerpts plus clickable citations. It is not a full Gemini answer and must not be scored as a silent pass.
 
 <a id="public-ask-monitor-evidence-jh-66"></a>
-## Public Ask-monitor evidence (JH-66 / JH-48.6)
+<a id="public-ask-monitor-evidence-jh-66--jh-486"></a>
+<a id="public-evidence-pack-jh-489"></a>
+## Public evidence pack & Ask-monitor (JH-66 / JH-48.6 / JH-48.9)
 
 The daily scheduled monitor (JH-41) lives in a private ops repo and is not visible to public clones. This repository has no scheduled Production smoke (see [CI](#ci-this-repo)), but provides an on-demand Production Ask smoke probe via `workflow_dispatch` (JH-48.4) in [`.github/workflows/ci.yml`](../.github/workflows/ci.yml).
 
@@ -95,44 +115,155 @@ The daily scheduled monitor (JH-41) lives in a private ops repo and is not visib
 
 Do **not** invent private-repo badge URLs for the daily monitor; a stranger gets a 404.
 
-| Signal | When | Score | What a stranger can check |
+### Dated public evidence signals
+
+| Signal | When | Result / Score | What a stranger can check |
 |---|---|---|---|
-| Last private monitor run (**owner-attested**) | Passing as of **2026-09-24** (JH-66) | **pass** (owner) | **Unknown** from a public clone — the Actions run is not public |
-| Last public smoke check (**owner-attested**) | **2026-09-24 19:21 UTC** (JH-48.6) | **pass** (`outcome: "answered"`, 2 citations) | Reproduce via `prod_ask_smoke.py`, GitHub Actions `workflow_dispatch`, or curl below |
-| One-shot public cited-Ask probe | **2026-09-24 19:21:40 UTC** | **pass** (`outcome: "answered"`, 2 citations) | Repeat the curl below and score with the table above |
+| **Database keep-alive probe (`GET /api/health?mode=db`)** | **2026-09-24 19:47:53 UTC** (JH-48.9) | **ready** (`status: "ready"`, `checks.postgres: true`) | Curl `GET /api/health?mode=db` below (proves Postgres is awake & reachable after idle; prevents inactivity auto-pause) |
+| **Readiness probe (`GET /api/health`)** | **2026-09-24 19:47:52 UTC** (JH-48.9) | **ready** (`status: "ready"`, `checks: { postgres: true, ollama: false }`) | Curl `GET /api/health` below (Next.js serverless execution + DB reachable + Gemini key present) |
+| **Vehicle catalog probe (`GET /api/vehicles`)** | **2026-09-24 19:47:56 UTC** (JH-48.9) | **200 OK** (`["fixture:honda-s2000-demo"]`) | Curl `GET /api/vehicles` below (proves Postgres query execution against `vehicles` table) |
+| **Public smoke check (`prod_ask_smoke.py`)** | **2026-09-24 19:48:03 UTC** (JH-48.9) | **pass** (`outcome: "answered"`, 2 citations, ~2.0s) | Reproduce via `prod_ask_smoke.py`, GitHub Actions `workflow_dispatch`, or Ask curl below |
+| **One-shot public cited-Ask probe (`POST /api/ask`)** | **2026-09-24 19:48:03 UTC** (JH-48.9) | **pass** (`outcome: "answered"`, 2 citations: `[1], [3]`) | Direct curl below (proves hybrid vector + FTS retrieval, RRF fusion, section dedup, Gemini generation, citation links) |
+| Last private monitor run (**owner-attested**) | Passing as of **2026-09-24** (JH-66 / JH-41) | **pass** (owner) | **Unknown** from a public clone — the Actions run is not public |
+
+### Live evidence snapshots (verbatim public responses)
+
+**Keep-alive probe snapshot (`GET /api/health?mode=db`):**
 
 ```json
 {
-  "probed_at": "2026-09-24T19:21:40Z",
+  "probed_at": "2026-09-24T19:47:53Z",
+  "url": "https://mechanic-rag.vercel.app/api/health?mode=db",
+  "http_status": 200,
+  "status": "ready",
+  "mode": "db",
+  "checks": {
+    "postgres": true
+  }
+}
+```
+
+**Live cited-Ask probe snapshot (`POST /api/ask`):**
+
+```json
+{
+  "probed_at": "2026-09-24T19:48:03Z",
   "url": "https://mechanic-rag.vercel.app/api/ask",
   "vehicle_id": "fixture:honda-s2000-demo",
   "question": "What is the oil drain plug torque?",
   "http_status": 200,
   "outcome": "answered",
-  "citations_n": 2
+  "answer": "The oil drain plug torque is 39 N·m (29 lbf·ft) [1], [3].",
+  "citations_n": 2,
+  "citations": [
+    {
+      "label": "1",
+      "chunk_id": "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
+      "document_id": "fixture-s2000-service-manual",
+      "section_path": "1 Engine Oil > 1-1 Specification",
+      "page_start": 3,
+      "page_end": 3
+    },
+    {
+      "label": "3",
+      "chunk_id": "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2",
+      "document_id": "fixture-s2000-service-manual",
+      "section_path": "1 Engine Oil > 1-2 Oil Filter Replacement",
+      "page_start": 4,
+      "page_end": 4
+    }
+  ]
 }
 ```
 
-**How a stranger verifies** (hosted Ask at probe time — **not** proof the daily job ran):
+### Reproducible stranger curls (multi-layer verification)
+
+Any stranger can verify each layer of the hosted architecture directly without secrets, tokens, or repo settings:
+
+**1. Database keep-alive probe (verifies Postgres is awake & prevents pause):**
+
+```bash
+curl -sS -D- "https://mechanic-rag.vercel.app/api/health?mode=db"
+```
+*Expected:* HTTP 200 `{"status":"ready","mode":"db","checks":{"postgres":true}}`.
+
+**2. General readiness probe (verifies serverless process + DB + Gemini key):**
+
+```bash
+curl -sS -D- "https://mechanic-rag.vercel.app/api/health"
+```
+*Expected:* HTTP 200 `{"status":"ready","mode":"readiness","checks":{"postgres":true,"ollama":false}}`.
+
+**3. Vehicle catalog probe (verifies Postgres query execution):**
+
+```bash
+curl -sS -D- "https://mechanic-rag.vercel.app/api/vehicles"
+```
+*Expected:* HTTP 200 `{"vehicles":["fixture:honda-s2000-demo"]}`.
+
+**4. End-to-end cited Ask probe (verifies hybrid retrieval, RRF, section dedup, Gemini generation, and citations):**
 
 ```bash
 curl -sS -D- --max-time 90 -X POST "https://mechanic-rag.vercel.app/api/ask" \
   -H "content-type: application/json" \
   -d '{"vehicle_id":"fixture:honda-s2000-demo","question":"What is the oil drain plug torque?"}'
 ```
+*Expected:* HTTP 200 with `outcome: "answered"` (or `outcome: "degraded"` with ≥1 citation) and citations array with document locators.
+
+### Keep-alive last-success details & operational context
+
+The external keep-alive mechanism hits `GET /api/health?mode=db` regularly (via Cloudflare Worker + GitHub Actions).
+- **Why keep-alive exists:** Supabase Free auto-pauses compute instances after prolonged inactivity (the root cause of the historical JH-17 outage). The keep-alive probe issues a lightweight `SELECT 1` through the hardened `pg.Pool`, registering store activity and keeping compute warm.
+- **Keep-alive vs. Ask smoke:**
+  - A green keep-alive proves **database compute reachability** (`SELECT 1`), not that the Gemini model is available or that cited Ask returned valid answers.
+  - A passing Ask smoke probe proves **end-to-end RAG functionality** (embedding generation, hybrid vector similarity + Postgres lexical FTS, RRF fusion, section deduplication, Gemini generation, citation formatting).
+  - An Ask failure does not necessarily mean the database paused (e.g. Gemini quota exhaustion); conversely, a passing keep-alive does not assure Ask is functional. Together, both signals provide comprehensive visibility.
+
+### Production Ask Smoke path (JH-48.4)
 
 Alternatively, run the smoke probe script locally or via GitHub Actions `workflow_dispatch`:
 
 ```bash
-python scripts/checks/prod_ask_smoke.py
+python3 scripts/checks/prod_ask_smoke.py
 ```
+
+Standard library only (`urllib.request`, `json`, `argparse`). Evaluates the response against the Ask monitor policy table and exits 0 on pass / degraded pass, or 1 on failure.
 
 **How to run via GitHub Actions (`workflow_dispatch`):**
 1. Go to the [CI Workflow](https://github.com/Alpha-W0lf/mechanic_rag/actions/workflows/ci.yml) on GitHub.
 2. If you have repo dispatch access (or in your own fork with network egress), select **Run workflow**, keep the default `ask_url`, and trigger the run.
 3. The `prod_ask_smoke` job executes `prod_ask_smoke.py` and records pass / degraded pass / fail directly in public Actions logs.
 
-Expect HTTP 200. Score `outcome` plus citations with the policy table. Storefront screenshots of the same fixture question live under [`docs/assets/demo/`](assets/demo/) — they show cited Ask in the UI, not the schedule. *(Note for repo owners: if archiving operator-run evidence, store screenshots under `docs/assets/ops/` with private org tokens, internal repo names, and runner IDs redacted; never invent fake screenshots or publish private monitor URLs).*
+### Public smoke scheduling note (why on-demand vs. scheduled)
+
+- **Why this public repo uses on-demand `workflow_dispatch`:**
+  1. *GitHub dormant repo policy:* GitHub Actions automatically disables scheduled workflows (`cron`) on repositories with no commit activity after 60 days. An automated cron would silently stop running on an inactive public clone.
+  2. *Quota preservation:* Automated cron runs in public clones would consume unauthenticated Gemini free-tier quota (~1K embedding RPD) and Supabase Free compute unnecessarily.
+  3. *Dedicated private monitor (JH-41):* The scheduled synthetic monitor runs once daily at 12:03 PM America/Chicago in a separate private operations repository where maintainer alerts and deduplicated GitHub issues are actively processed.
+- **How to wire scheduled public smoke in a fork or deployment (optional):**
+  If you are running your own deployment and wish to enable an automated daily smoke check in GitHub Actions, add a `schedule` trigger to `.github/workflows/ci.yml`:
+  ```yaml
+  on:
+    pull_request:
+    push:
+      branches: [ main ]
+    workflow_dispatch:
+      inputs:
+        ask_url:
+          description: "Ask endpoint URL to probe for smoke check"
+          required: false
+          default: "https://mechanic-rag.vercel.app/api/ask"
+    schedule:
+      - cron: '0 12 * * *'  # 12:00 UTC daily smoke check
+  ```
+  And update the job condition to:
+  ```yaml
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+  ```
+
+### Operational boundaries & residual reminder
+
+Storefront screenshots of the same fixture question live under [`docs/assets/demo/`](assets/demo/) — they show cited Ask in the UI, not the schedule. *(Note for repo owners: if archiving operator-run evidence, store screenshots under `docs/assets/ops/` with private org tokens, internal repo names, and runner IDs redacted; never invent fake screenshots or publish private monitor URLs).*
 
 **How the last-success line stays current.** After a private daily pass (or a fail / degraded pass), the operator updates the owner-attested row above. Do not claim an SLO or HA. A green probe here is not a keep-alive `SELECT 1`.
 
