@@ -1,0 +1,54 @@
+Required Notice: Copyright (c) 2026 Tom Chacko
+
+This repository is licensed under the PolyForm Noncommercial License 1.0.0
+(see LICENSE). It is source-available / non-commercial. It is not OSI open
+source and is not MIT.
+
+This NOTICE is attribution and honesty for the public portfolio clone and
+hosted fixture demo. It does not change LICENSE. It is not a grant of extra
+rights.
+
+Public corpus (synthetic fixtures only)
+---------------------------------------
+
+The public git tree and the hosted demo at mechanic-rag.vercel.app use
+synthetic fixtures only. The committed public corpus is
+fixtures/honda_s2000_demo/ (manifest rights_class = synthetic_fixture;
+provenance.transform_name = synthetic_author). The service-manual text in
+that tree is original demo content. It is not OEM manual text and is not
+extracted from Honda service publications.
+
+This repository does not claim OEM rights. It does not authorize
+reproduction, redistribution, or sublicensing of OEM service manuals or
+other manufacturer documentation. Official vehicle names (for example
+Honda, S2000) appear only as catalog / vehicle_id labels for the
+synthetic demo. No affiliation, endorsement, or license from any
+manufacturer is claimed or implied.
+
+Private / garage corpora, if used at all, stay outside this public tree
+(local gold roots; never the public clone default).
+
+Third-party software and hosted services
+----------------------------------------
+
+This git tree does not vendor third-party source trees or copy their
+upstream NOTICE files. Direct dependencies are declared in
+pyproject.toml and web/package.json. Locked versions are in uv.lock and
+web/pnpm-lock.yaml. Each installed package carries its own license with
+the artifact from the registry. Those licenses are independent of
+PolyForm Noncommercial unless a given package says otherwise.
+
+This NOTICE does not invent per-package copyright holders, license
+texts, or a complete transitive bill of materials. Read the installed
+package metadata for those notices.
+
+The hosted demo runs on free-tier Vercel, Supabase, and Gemini. Local
+clone uses Compose Postgres + pgvector (image pgvector/pgvector:pg16)
+and host Ollama. Runtime models named in README (Gemini API models;
+Ollama nomic-embed-text / gemma4:e2b or documented fallbacks; optional
+local MiniLM CE weights) are pulled or called at runtime. This
+repository does not redistribute those model weights or those providers'
+software.
+
+See LICENSE for the terms that apply to this software. See SECURITY.md
+for how to report vulnerabilities (no secrets).
