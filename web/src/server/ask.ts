@@ -10,11 +10,12 @@ import {
 } from './citations';
 import {
   createCrossEncoderFromEnv,
+  HOSTED_CE_SKIP_REASON,
   rerankWithDegrade,
   type CrossEncoder,
 } from './cross_encoder';
 import { toPublicAskFailure, type AskErrorClass } from './ask_errors';
-import { embedText, generateAnswer } from './providers';
+import { embedText, generateAnswer, isGeminiServing } from './providers';
 import {
   lexicalSearch,
   loadChunksByIds,
@@ -100,6 +101,7 @@ export async function handleAsk(
   let rerankDegraded = false;
   let ablationRrfOnly = false;
   let ceError: string | undefined;
+  let ceSkipReason: string | undefined;
   let ceRuntimeMode: string | undefined;
   let ceModel = process.env.CE_MODEL || 'cross-encoder/ms-marco-MiniLM-L-6-v2';
   let embeddingModel = process.env.EMBEDDING_MODEL || 'nomic-embed-text';
@@ -207,7 +209,8 @@ export async function handleAsk(
       });
     }
 
-    // Ablation: intentional RRF(+dedup)-only — distinct from natural CE degrade.
+    // Ablation: intentional RRF(+dedup)-only — distinct from natural CE degrade
+    // and from hosted Gemini CE skip (never import @xenova/transformers).
     let finalChunks: Array<RrfResult | CeResult> = fused.slice(0, ceTopK);
     const preCeShortlistIds = fused.slice(0, ceTopN).map((c) => c.chunk_id);
     let preCeShortlistChunkIds: string[] | undefined = preCeShortlistIds;
@@ -224,6 +227,16 @@ export async function handleAsk(
       ceRuntimeMode = undefined;
       // Do not create/call CE when ablating (opts.ce still available for tests
       // when FORCE is unset). Rank metrics use RRF shortlist order on both arms.
+    } else if (isGeminiServing()) {
+      const flags = rankingDiagnosticFlags({
+        forceRrfOnly: false,
+        ceFailedOrUnavailable: false,
+      });
+      ablationRrfOnly = flags.ablation_rrf_only;
+      rerankDegraded = flags.rerank_degraded;
+      ceModel = 'skipped_hosted';
+      ceRuntimeMode = undefined;
+      ceSkipReason = HOSTED_CE_SKIP_REASON;
     } else {
       const ce = opts?.ce ?? (await createCrossEncoderFromEnv().catch(() => null));
       if (!ce) {
@@ -350,6 +363,7 @@ export async function handleAsk(
       rerank_degraded: rerankDegraded,
       ablation_rrf_only: ablationRrfOnly,
       ce_error: ceError,
+      ce_skip_reason: ceSkipReason,
       ce_runtime_mode: ceRuntimeMode,
       chunk_ids: usedChunkIds,
       pre_ce_shortlist_chunk_ids: preCeShortlistChunkIds,

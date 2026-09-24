@@ -281,6 +281,7 @@ If the reranker fails, **fail open to fused (+ optional dedup) order** — do no
 | CE unavailable / init fail | Serve top-K from post-RRF (+ dedup) list; mark `rerank_degraded=true` |
 | CE timeout | Same degrade; do not block ask forever |
 | CE returns empty / all invalid IDs | Same degrade; never invent chunks |
+| Hosted Gemini serving (`GEMINI_API_KEY` / `isGeminiServing()`) | Never import `@xenova/transformers`; serve top-K from post-RRF (+ dedup); `ce_skip_reason=hosted_ce_disabled`. **Not** `rerank_degraded` and **not** `ablation_rrf_only` |
 | CE succeeds | Use CE order for context top-K |
 
 `rerank_degraded` must appear in structured ask logs and in `diagnostics` when the development flag is on. Degrade skips CE only — citation validation and insufficient-evidence rules still apply.
