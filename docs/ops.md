@@ -10,7 +10,7 @@ Production is Vercel Hobby + Supabase Free + Gemini API free tier. Platform paus
 
 ## CI (this repo)
 
-GitHub Actions workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). Two jobs on `ubuntu-latest`, in parallel, PR + push to `main`. Later steps in a job use `if: success() || failure()` so a lint failure still records typecheck/Vitest (and fail-closed still records pytest). The job stays red. No paid runners. No scheduled Production smoke here.
+GitHub Actions workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). Two jobs on `ubuntu-latest`, in parallel, PR + push to `main`, plus an on-demand `workflow_dispatch` Production Ask smoke probe (`prod_ask_smoke`). Later steps in a job use `if: success() || failure()` so a lint failure still records typecheck/Vitest (and fail-closed still records pytest). The job stays red. No paid runners. No scheduled Production smoke here.
 
 | Job | Gate | What a green run proves |
 |---|---|---|
@@ -20,6 +20,7 @@ GitHub Actions workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.ym
 | `web` | `pnpm build` | Next.js production compile succeeds. |
 | `python` | `public_fail_closed.py fixtures` | Public `fixtures/` has no OEM PDFs, no `private_oem` / `private_gold` path tokens, no forbidden `rights_class`. Fail-closed. |
 | `python` | `pytest -m "not integration and not slow"` | Fast unit tests for `mecharag/` + `scripts/` that need **no** network, Ollama, or Postgres. |
+| `prod_ask_smoke` (`workflow_dispatch` only) | `prod_ask_smoke.py` | Live Production cited-Ask probe against `https://mechanic-rag.vercel.app/api/ask`. Proves Production Ask health on demand without spending free-tier quota on every push/PR. |
 
 **Python pin:** `3.13` (same as [`docs/dev_setup.md`](dev_setup.md) / [`.python-version`](../.python-version)). `pyproject.toml` allows `>=3.11`. Dependencies are cached.
 
@@ -35,8 +36,7 @@ Local full suite (when you have the sibling repo / live emit): `pytest` from rep
 **Not in this repo's CI (by design):**
 
 - Full eval suite (`mecharag eval --golden evals/`).
-- Production / hosted smoke (`POST /api/ask` against the live demo).
-- A scheduled workflow. This clone is dormant by design; GitHub disables schedules on inactive repos.
+- Scheduled Production / hosted smoke. This clone is dormant by design; GitHub disables schedules on inactive repos, and daily scheduled monitoring (JH-41) runs in a private ops repo. To test Production Ask health manually, dispatch the `prod_ask_smoke` job via `workflow_dispatch` or run `python scripts/checks/prod_ask_smoke.py`.
 
 **Cited-Ask monitor (JH-41)** lives in a private ops repo, not this repo. It is the scheduled fixture Ask probe (once daily at 12:03 PM America/Chicago). Failures and degraded results open deduped GitHub issues. Do not add a schedule here to cover that. Scoring is in the Ask monitor policy section below. Public last-success and a stranger verify step: [Public Ask-monitor evidence (JH-66)](#public-ask-monitor-evidence-jh-66). Local `/api/health` remains the clone readiness check.
 
@@ -111,6 +111,12 @@ The daily job is private. This repo has no scheduled Production smoke (see [CI](
 curl -sS -D- --max-time 90 -X POST "https://mechanic-rag.vercel.app/api/ask" \
   -H "content-type: application/json" \
   -d '{"vehicle_id":"fixture:honda-s2000-demo","question":"What is the oil drain plug torque?"}'
+```
+
+Alternatively, run the smoke probe script locally or via GitHub Actions `workflow_dispatch`:
+
+```bash
+python scripts/checks/prod_ask_smoke.py
 ```
 
 Expect HTTP 200. Score `outcome` plus citations with the policy table. Storefront screenshots of the same fixture question live under [`docs/assets/demo/`](assets/demo/) — they show cited Ask in the UI, not the schedule.
