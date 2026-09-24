@@ -4,7 +4,7 @@ Short operational policy. Not a monitor implementation (that is a separate ticke
 
 ## CI (this repo)
 
-GitHub Actions workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). Two jobs on `ubuntu-latest`, in parallel, PR + push to `main`. No paid runners. No scheduled Production smoke here.
+GitHub Actions workflow: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). Two jobs on `ubuntu-latest`, in parallel, PR + push to `main`. Later steps in a job use `if: success() || failure()` so a lint failure still records typecheck/Vitest (and fail-closed still records pytest). The job stays red. No paid runners. No scheduled Production smoke here.
 
 | Job | Gate | What a green run proves |
 |---|---|---|
