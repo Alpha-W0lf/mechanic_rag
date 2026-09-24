@@ -20,8 +20,9 @@ Binding order is **RRF → optional section dedup → CE**. Dedup operates on fu
 |--------|---------|
 | `rerank_degraded=true` | CE failed/timed out/returned empty — ask **fails open** to post-RRF (+ dedup) order. Production safety. |
 | `ablation_rrf_only=true` / `MECHANIC_FORCE_RRF_ONLY=1` | **Intentional** RRF-only arm for paired ablation evals. Not a failure. |
+| `ce_skip_reason=hosted_ce_disabled` (hosted Gemini / `GEMINI_API_KEY` set) | **Intentional** hosted skip: Ask never imports `@xenova/transformers`. Not ablation and not a CE failure (`rerank_degraded` stays false). |
 
-Do not conflate degrade with ablation. Degrade rate and ablation diagnostics are separate fields; freeze checklists treat them differently. See ARCHITECTURE §7.5 and [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
+Do not conflate degrade with ablation, or either with the hosted CE skip. Degrade rate and ablation diagnostics are separate fields; freeze checklists treat them differently. See ARCHITECTURE §7.5 and [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
 
 ## 4. Why fixtures only — why never Drive / Ford / OEM PDFs here?
 

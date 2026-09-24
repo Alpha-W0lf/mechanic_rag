@@ -4,6 +4,10 @@
  */
 
 import type { RrfResult, CeResult } from '@/lib/retrieval/types';
+import { isGeminiServing } from './providers';
+
+/** Hosted Gemini serving never loads @xenova/transformers (≠ ablation, ≠ degrade). */
+export const HOSTED_CE_SKIP_REASON = 'hosted_ce_disabled';
 
 /** Degenerate when max(score) - min(score) ≤ this ε (guide Soft pin). */
 export const CE_SCORE_DEGENERATE_EPS = 1e-3;
@@ -191,6 +195,9 @@ export function sortScoredChunkIds(
 
 /** Lazy transformers.js CE — degrades if load/infer fails. */
 export async function getTransformersCrossEncoder(): Promise<CrossEncoder> {
+  if (isGeminiServing()) {
+    throw new Error(HOSTED_CE_SKIP_REASON);
+  }
   if (transformersCe) return transformersCe;
   const modelId =
     process.env.CE_MODEL || 'Xenova/ms-marco-MiniLM-L-6-v2';
@@ -270,6 +277,10 @@ export async function getTransformersCrossEncoder(): Promise<CrossEncoder> {
 }
 
 export function createCrossEncoderFromEnv(): Promise<CrossEncoder> {
+  // Hard-skip on hosted Gemini: never reach fake CE or the transformers import.
+  if (isGeminiServing()) {
+    return Promise.reject(new Error(HOSTED_CE_SKIP_REASON));
+  }
   const runtime = (process.env.CE_RUNTIME || 'transformers_js').toLowerCase();
   if (runtime === 'fake') {
     return Promise.resolve(new FakeCrossEncoder('success'));
