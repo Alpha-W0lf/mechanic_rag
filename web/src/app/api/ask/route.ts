@@ -31,5 +31,6 @@ export async function POST(req: NextRequest) {
     outcome: result.outcome,
     diagnostics: result.diagnostics,
     visual_assets: result.visual_assets,
+    ...(result.error_class ? { error_class: result.error_class } : {}),
   });
 }

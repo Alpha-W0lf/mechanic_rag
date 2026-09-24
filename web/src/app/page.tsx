@@ -1,5 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
+import {
+  DEGRADED_ASK_BANNER,
+  stripDegradedBanner,
+} from "@/lib/ask_copy";
 
 type Citation = {
   label: string;
@@ -216,6 +220,18 @@ export default function Home() {
         </section>
       )}
 
+      {outcome === "degraded" && answer && (
+        <section className="mb-6">
+          <div className="outcome-panel outcome-degraded" role="status">
+            <span className="outcome-label">Degraded</span>
+            <p className="text-sm mb-3">{DEGRADED_ASK_BANNER}</p>
+            <div className="whitespace-pre-wrap text-sm leading-relaxed text-ink">
+              {stripDegradedBanner(answer)}
+            </div>
+          </div>
+        </section>
+      )}
+
       {citations.length > 0 && (
         <section>
           <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-muted mb-3">
@@ -231,12 +247,16 @@ export default function Home() {
               return (
                 <li
                   key={c.chunk_id}
+                  id={`citation-${c.label}`}
                   className="border border-border rounded-[var(--radius-lg)] p-4 text-sm bg-surface"
                 >
                   <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                    <span className="font-semibold text-accent">
+                    <a
+                      href={`#citation-${c.label}`}
+                      className="font-semibold text-accent underline-offset-2 hover:underline"
+                    >
                       [{c.label}]
-                    </span>
+                    </a>
                     <span className="font-medium text-ink">{c.document_id}</span>
                   </div>
                   <div className="mt-1 text-ink-muted">

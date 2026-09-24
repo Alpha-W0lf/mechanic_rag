@@ -136,3 +136,9 @@ body {
   background: var(--success-ground);
   border: 1px solid var(--success-border);
 }
+
+.outcome-degraded {
+  background: var(--warn-ground);
+  color: var(--warn-ink);
+  border: 1px solid var(--warn-border);
+}
