@@ -3,6 +3,11 @@
 export const DEGRADED_ASK_BANNER =
   'AI summary temporarily unavailable; showing the most relevant manual excerpts.';
 
+export const HOSTED_CE_OFF_CHIP = 'CE off on hosted';
+export const HOSTED_CE_SKIP_REASON = 'ce_skip_reason=hosted_ce_disabled';
+export const HOSTED_CE_OFF_LINE =
+  'Hosted cross-encoder is off (ce_skip_reason=hosted_ce_disabled) · hybrid RRF + section dedup (local CE optional).';
+
 export function stripDegradedBanner(answer: string): string {
   if (answer.startsWith(DEGRADED_ASK_BANNER)) {
     return answer.slice(DEGRADED_ASK_BANNER.length).trim();

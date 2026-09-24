@@ -205,7 +205,7 @@ psql "${DATABASE_URL:-postgres://mechanic:mechanic@localhost:5433/mechanic_rag}"
   -v ON_ERROR_STOP=1 -f db/migrations/004_lock_data_api.sql
 ```
 
-`docker-compose.yml` initdb mounts `001`–`004` in filename order (JH-47). Fresh volumes apply them on first boot. Existing volumes: `./scripts/migrate.sh` (skips `*DRAFT*`). `004` is idempotent; Compose has no `anon`/`authenticated`, so the REVOKE block is skipped.
+`docker-compose.yml` initdb mounts `001`–`004` in filename order (JH-47). Fresh volumes apply them on first boot. Existing volumes: `./scripts/migrate.sh` (skips `*DRAFT*`; planning drafts moved to `docs/drafts/` in JH-48.8). `004` is idempotent; Compose has no `anon`/`authenticated`, so the REVOKE block is skipped.
 
 ### Verification SQL (run on Production after apply)
 
