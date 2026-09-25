@@ -39,6 +39,16 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="Postgres URL (default: DATABASE_URL)",
     )
+    ingest_p.add_argument(
+        "--vehicle-id",
+        default=None,
+        help="Optional vehicle_id filter to stage ingest (e.g. cat:2003-honda-s2000)",
+    )
+    ingest_p.add_argument(
+        "--doc-family",
+        default=None,
+        help="Optional doc_family filter to stage ingest (e.g. owners_manual, wiring, service_manual)",
+    )
 
     eval_p = sub.add_parser(
         "eval",

@@ -5,7 +5,7 @@
 
 Cited answers from automotive service docs. Hybrid retrieval (**vector + Postgres FTS**) → **RRF** fusion → **section dedup** → cited answer with exact document, section, and page locators.
 
-Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
+Hosted demo answers across the complete Honda S2000 service manual, owner's manual, and wiring diagrams; stranger clone runs reproducible synthetic fixtures locally.
 
 ---
 
@@ -14,9 +14,9 @@ Public clone uses synthetic Honda S2000 fixtures; personal garage stays local.
 The fastest path to evaluate Mechanic RAG is the live demo — no Docker, no Ollama, no model downloads.
 
 1. Open 🔗 **[mechanic-rag.vercel.app](https://mechanic-rag.vercel.app)**.
-2. The fixture vehicle (`fixture:honda-s2000-demo`) is pre-selected.
-3. Enter a question (e.g. `What is the oil drain plug torque?`) and click **Ask**.
-4. Inspect the cited answer: each numbered marker `[1]`, `[2]` links directly to the verified document, section (`1 Engine Oil > 1-1 Specification`), and page number.
+2. Select the full S2000 manual (`cat:2003-honda-s2000`) or the synthetic demo vehicle (`fixture:honda-s2000-demo`).
+3. Enter a question (e.g. `What is the front brake pad inspection procedure?` or `What fluid does the rear differential use?`) and click **Ask**.
+4. Inspect the cited answer: each numbered marker `[1]`, `[2]` links directly to the verified document, section, and page number.
 
 Or test via curl against the hosted JSON endpoint:
 ```bash
@@ -48,7 +48,7 @@ The hosted demo and local clone share the same retrieval core, but run on differ
 | Monitoring | External keep-alive hits `/api/health?mode=db` (DB reachable). Cited-Ask monitor is JH-41 in a private ops repo, not this repo (once daily at 12:03 PM America/Chicago). Public evidence pack + how to verify via curl / `workflow_dispatch` smoke: [`docs/ops.md`](docs/ops.md#public-ask-monitor-evidence-jh-66--jh-486) | Local `/api/health` readiness (Postgres + Ollama) |
 | Vehicle catalog + manual browser | ✅ | ✅ |
 | Ask → cited generated answer | ✅ (Gemini) | ✅ (Ollama, or Gemini if key set) |
-| BYO corpora / private garage / multimodal (M1–M3) | ❌ | ✅ |
+| BYO corpora / private garage / multimodal (M1–M3) | Served from personal-garage S2000 Gold (`cat:2003-honda-s2000`) | ✅ (Local garage Gold + optional M1–M3) |
 
 ![Ask outcome — cited answer](docs/assets/demo/ask-outcome.png)
 

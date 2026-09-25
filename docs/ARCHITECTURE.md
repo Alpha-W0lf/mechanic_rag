@@ -1,8 +1,8 @@
 # Mechanic RAG — Architecture (v1)
 
-**Status:** Binding contracts SSOT · *(2026-09-24: Production topology at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) is Vercel Hobby + Supabase Free + Gemini API free tier — see §3.1; clone/repro remains Compose + Ollama)* · Vertical slice implemented · Formal embed/CE **frozen (owner decision)** · **LICENSE:** PolyForm-NC 1.0.0 · Fixtures-only public packaging complete · Private-gold-source path implemented (fixture + synthetic + live pilot) · Personal-garage multimodal M1–M3 **parked** (flags default off; not the storefront) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
+**Status:** Binding contracts SSOT · *(2026-09-24 Tom LOCK: Production topology at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) is Vercel Hobby + Supabase Free + Gemini API free tier — see §3.1; hosted DB may hold PrivateGold text+embeddings for `cat:2003-honda-s2000`; git/CI fail-closed unchanged; clone/repro remains Compose + Ollama)* · Vertical slice implemented · Formal embed/CE **frozen (owner decision)** · **LICENSE:** PolyForm-NC 1.0.0 · Fixtures-only public packaging complete · Private-gold-source path implemented (fixture + synthetic + live pilot) · Personal-garage multimodal M1–M3 **parked** (flags default off; not the storefront) · **Not** dual-product Done · **Not** friend Drive→Mechanic · **Not** earned CE lift · **Not** OSI open source  
 **Created:** 2026-07-12  
-**Updated:** 2026-09-24 (JH-47 leftover path cleanup; JH-53 citation-marker hygiene; JH-49 / JH-52 / JH-42 / JH-40)  
+**Updated:** 2026-09-24 (JH-74 Tom LOCK hosted PrivateGold S2000 unlock; JH-47 leftover path cleanup; JH-53 citation-marker hygiene; JH-49 / JH-52 / JH-42 / JH-40)  
 **Owner:** Tom  
 **Lenses:** Senior AI Engineer (primary); Data Engineer; Backend  
 
@@ -46,7 +46,7 @@ This table is the **clone-and-run** lock. Reviewers who only read this table use
 | Vehicle identity | year + make + model + engine (+ nullable trim). **Not VIN-centric** | S4 |
 | Public corpus | Fixtures only; fail-closed | D5, P1 |
 | Private corpus | Local Gold root; Drive is **human delivery only** | GD1–GD5 |
-| Cloud DB / hosted demo | **Historical (2026-07-12):** rejected as a *required* clone/runtime dependency (D12, D11) so strangers could reproduce on Compose + Ollama alone. **Superseded 2026-08-24/25** for the public demo URL — Production runs hosted free tiers (§3.1). Do not read this row as “Production has no cloud.” | D12, D11 (historical) |
+| Cloud DB / hosted demo | **Overturned for demo ops (2026-09-24 Tom LOCK):** D12 historical rejection superseded; Production Supabase + Vercel are the live public demo stack (§3.1). Local clone remains reproducible on Compose + Ollama alone (§2). | D12, D11 (historical / overturned for demo ops) |
 
 ---
 
@@ -181,7 +181,7 @@ One versioned **NormalizedDocumentManifest** interface; two adapters:
 
 Downstream chunk/embed/upsert code is shared. Do **not** use a single adapter toggled by a dangerous “trust mode” flag that can point public defaults at private roots.
 
-### 5.3 Public fail-closed
+### 5.3 Public fail-closed & hosted split (Tom LOCK 2026-09-24)
 
 Public clone/CI/release checks **fail closed** if:
 
@@ -190,6 +190,11 @@ Public clone/CI/release checks **fail closed** if:
 - Manifest class is not in the public allowlist
 
 Private local ingest intentionally does **not** enforce a legal/rights gate (P1). The two worlds must never share roots, credentials, or default config.
+
+**Hosted Production vs git/stranger clone split (Tom LOCK 2026-09-24):**
+- **Git clone / CI / strangers:** public corpus remains **fixtures only** (`fixtures/honda_s2000_demo`). `scripts/checks/public_fail_closed.py` and GitHub Actions CI run on fixtures unchanged and continue to strictly reject `private_oem`, raw PDFs, and non-fixture vehicle IDs in the git repository.
+- **Production hosted DB (Supabase):** may hold owner-accepted PrivateGold text + embeddings for `cat:2003-honda-s2000` (service manual, owner's manual, wiring diagrams; text and embeddings only — no raw PDFs, no page images).
+- **Ingest boundary:** Production ingest is executed out-of-band by the operator from a local Mac environment (`MECHANIC_PRIVATE_GOLD_ROOT`). No private Gold, bronze PDFs, or credentials are ever committed to `Alpha-W0lf/mechanic_rag`.
 
 ### 5.4 Gold granularity (MR4)
 
@@ -533,7 +538,7 @@ Mechanic must not query Drive, Ford queues, PTS, or raw Bronze. It may store imp
 - Hosted black-box reranker as default (Cohere/Voyage) without N/K, degrade, and eval lift
 - Second-stage **LLM** re-score as a substitute for the local CE stage
 - True MMR (unless later evals justify; then separate decision)
-- **Historical (2026-07-12):** “Supabase / cloud Postgres” and “required Vercel/hosted demo” as *clone* non-goals (D12, D11). **Not current Production:** the public demo has run Vercel Hobby + Supabase Free + Gemini since 2026-08-24/25 (§3.1). Still a non-goal: requiring cloud to clone or treating the retired supabase-js tree as a product path
+- **Historical (2026-07-12) / Overturned for demo ops (2026-09-24 Tom LOCK):** D12 historical rejection superseded for demo ops; Production runs Vercel Hobby + Supabase Free + Gemini (§3.1). Still a non-goal: requiring cloud to clone or treating the retired supabase-js tree as a product path
 - Drive or Google API clients
 - Ford capture / CDP / bulk ops inside this repo
 - Raw PDF ingest as the public path

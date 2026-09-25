@@ -116,6 +116,27 @@ export function filterAnswerToKnownLabels(
 export const INSUFFICIENT_EVIDENCE_ANSWER =
   'Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.';
 
+/**
+ * Detect when generator text refuses or signals insufficient evidence
+ * so true misses return outcome=insufficient_evidence with empty/minimal citations.
+ */
+export function isEvidenceInsufficient(text: string): boolean {
+  if (!text) return true;
+  const lower = text.toLowerCase();
+  return (
+    lower.includes('insufficient evidence') ||
+    lower.includes('insufficient information') ||
+    lower.includes('insufficient context') ||
+    lower.includes('not enough information') ||
+    lower.includes('not sufficient information') ||
+    /context does not (?:contain|mention|provide|have)/i.test(text) ||
+    /provided (?:context|text|manuals?|documents?) (?:does not|do not) (?:contain|provide|mention|have)/i.test(text) ||
+    /no (?:information|mention|evidence) (?:is provided|in the provided|in the context)/i.test(text) ||
+    /cannot (?:answer|find|determine) (?:.*?) (?:in|from|based on) (?:the )?(?:provided )?(?:context|information|evidence)/i.test(text) ||
+    /cannot (?:answer|find|determine) (?:this|from|based on) (?:the )?(?:provided )?(?:context|information|evidence)/i.test(text)
+  );
+}
+
 export const ASK_SYSTEM_PROMPT = `You are Mechanic RAG, an advisory automotive assistant.
 Answer ONLY from the labeled context blocks. Cite sources using [1], [2], etc.
 If the context is insufficient, say so clearly and do not invent specs or procedures.

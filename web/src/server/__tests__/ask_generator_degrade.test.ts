@@ -313,4 +313,22 @@ describe('handleAsk generator degrade (JH-46)', () => {
     expect(result.error_class).toBe('embedding_unavailable');
     expect(result.citations.length).toBeGreaterThanOrEqual(1);
   });
+
+  it('JH-73: generator refusing due to insufficient evidence returns outcome=insufficient_evidence with empty citations', async () => {
+    generateAnswer.mockResolvedValueOnce({
+      text: 'The provided context does not contain information to answer this question.',
+      model: 'gemma-4-26b-a4b-it',
+      attempts: 1,
+    });
+    const { handleAsk } = await import('@/server/ask');
+    const result = await handleAsk({
+      vehicle_id: 'fixture:honda-s2000-demo',
+      question: 'What is the ABS module pinout?',
+    });
+    expect(isFailure(result)).toBe(false);
+    if (isFailure(result)) return;
+    expect(result.outcome).toBe('insufficient_evidence');
+    expect(result.citations).toEqual([]);
+    expect(result.answer).toContain('Insufficient evidence');
+  });
 });
