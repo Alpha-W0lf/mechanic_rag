@@ -44,7 +44,7 @@ The hosted demo and local clone share the same retrieval core, but run on differ
 | Generator | Gemini API free tier `gemma-4-26b-a4b-it` (`GEMINI_MODEL` override) | Ollama `gemma4:e2b` (fallback `qwen3.5:4b`) |
 | Embeddings | `gemini-embedding-001` @ 768 | Ollama `nomic-embed-text` @ 768 |
 | Ranking | Hybrid vector + lexical → RRF → section dedup | Hybrid vector + lexical → RRF → section dedup → optional local CE |
-| Cross-encoder rerank | ❌ Skipped (`ce_skip_reason=hosted_ce_disabled`) | ✅ Optional MiniLM CE (n=44 delta 0, no lift claim) |
+| Cross-encoder | Hosted: skipped | Compose: MiniLM CE (see Key decision #3) |
 | Monitoring | External keep-alive hits `/api/health?mode=db` (DB reachable). Cited-Ask monitor is JH-41 in a private ops repo, not this repo (once daily at 12:03 PM America/Chicago). Public evidence pack + how to verify via curl / `workflow_dispatch` smoke: [`docs/ops.md`](docs/ops.md#public-ask-monitor-evidence-jh-66--jh-486) | Local `/api/health` readiness (Postgres + Ollama) |
 | Vehicle catalog + manual browser | ✅ | ✅ |
 | Ask → cited generated answer | ✅ (Gemini) | ✅ (Ollama, or Gemini if key set) |
@@ -56,9 +56,7 @@ The hosted demo and local clone share the same retrieval core, but run on differ
 
 ### The problem
 
-Service manuals bury torque specs and procedures across sections and pages. Teams and owners still dig by hand. Hosted Mechanic RAG retrieves with **vector + Postgres FTS**, fuses candidates (**RRF**), **section-dedups**, and returns an answer with **citations** (document, section, page). Local Compose may add MiniLM CE (optional; no lift). The public clone proves the product path on synthetic fixtures — not a notebook sketch and not OEM redistribution.
-
-AI Knowledge Base keeps **coding agents** current (RAG + MCP over AI notes). Mechanic is **product RAG over vehicle service docs** with citation-backed answers and a multi-vehicle catalog shape.
+Service manuals bury torque specs and procedures across sections and pages. Teams and owners still dig by hand. Hosted Mechanic RAG retrieves with **vector + Postgres FTS**, fuses candidates (**RRF**), **section-dedups**, and returns an answer with **citations** (document, section, page).
 
 ### How it works
 
@@ -70,18 +68,18 @@ flowchart LR
   D --> O[Cited answer]
 ```
 
-Hosted Production (the live demo) is that path. Local Compose may add MiniLM CE after section dedup — optional, not required, **no lift claim** (n=44 delta 0).
+Hosted Production (the live demo) is that path. Local Compose may add MiniLM CE after section dedup (details in Key decision #3).
 
 1. Select a vehicle and ask a service question.
 2. Retrieve with vehicle-filtered **vector + Postgres FTS**.
 3. Fuse candidates with **RRF**, then **section dedup** (default on).
 4. Return an answer with **citations** (document, section, page).
-5. Local Compose only: optional MiniLM CE after dedup (degrades to RRF if CE fails). Hosted skips CE (`ce_skip_reason=hosted_ce_disabled`).
+5. Local Compose may run MiniLM CE after dedup (degrades to RRF if CE fails). Hosted skips CE.
 
 ### Key engineering decisions
 
 1. **Fixtures vs private garage split** — stranger path = `fixtures/` + fail-closed; private Gold/garage via explicit env roots; no OEM in public git.
-2. **Hosted ranking = vector + Postgres FTS → RRF → section dedup** — CE is not on the live path (`hosted_ce_disabled`). Local MiniLM CE is Compose-only / optional.
+2. **Hosted ranking = vector + Postgres FTS → RRF → section dedup** — CE not on the live path (`hosted_ce_disabled`). Local MiniLM CE is Compose-only.
 3. **Eval-backed ranking honesty** — local CE kept by freeze-override; **no** earned citation-lift claim (n=44 delta 0) — depth in [`FAQ.md`](FAQ.md) / [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
 
 ### Try it locally
@@ -108,7 +106,7 @@ Full clone path, footguns, and paired-ask ablation: [`GETTING_STARTED.md`](GETTI
 | CLI | `mecharag ingest` / `mecharag eval` |
 | Embeddings | Hosted demo: `gemini-embedding-001` @ 768 · local: Ollama `nomic-embed-text` @ 768 (frozen) |
 | Generator | Hosted demo: `gemma-4-26b-a4b-it` · local: Ollama `gemma4:e2b` (fallback `qwen3.5:4b`) |
-| Ranking | Hosted: vector + Postgres FTS → RRF → section dedup. Local Compose: optional MiniLM CE (no lift, n=44 delta 0) |
+| Ranking | Hosted: vector + Postgres FTS → RRF → section dedup. Local Compose: + MiniLM CE (details: Key decision #3). |
 
 ### Deeper docs
 
