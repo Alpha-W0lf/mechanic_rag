@@ -368,3 +368,76 @@ ORDER BY 1;
 ### Why not in-memory or Hobby WAF alone
 
 Per-isolate memory counters are not shared across Vercel Fluid isolates, so a script can bypass them. Hobby WAF includes **1** rate-limit rule, fixed window **10s–10min**, keys IP/JA4 only — no daily window and no global embedding budget. See the JH-42 PR for doc URLs.
+
+## PrivateGold S2000 Ingest Runbook (JH-74 / Tom LOCK 2026-09-24)
+
+Operator guide for ingesting personal-garage Honda S2000 PrivateGold into Production Supabase (free tier).
+
+### Operational Constraints & Model Binding
+1. **Binding Embedder:** Production queries use `gemini-embedding-001` @ 768 (`web/src/server/providers.ts`). Ingest **must** use Gemini (`MECHANIC_EMBEDDING_PROVIDER=gemini`), not Ollama/nomic, to avoid vector space mismatch.
+2. **Free-tier Embedding RPD Bottleneck:** Gemini Embedding 1 free tier allows ~1000 requests per day (RPD). Ingesting the full S2000 corpus (~2488 units) takes ~3 calendar days or staged family execution.
+3. **Skip Hosting Images:** Default ingest processes text units only. Do **not** run `mecharag embed-images` or upload `assets/` (273 MB). Free Supabase storage fits text+embeddings (~≤30 MB).
+4. **Secrets:** Ingest credentials (`GEMINI_API_KEY`, `DATABASE_URL`) are read from local env or 1Password. Never commit secrets to git.
+
+### Staged Ingest Commands (Mac Local)
+
+```bash
+export MECHANIC_PRIVATE_GOLD_ROOT=/Users/tom/var/mechanic_garage/gold
+export MECHANIC_EMBEDDING_PROVIDER=gemini
+export EMBEDDING_MODEL=gemini-embedding-001
+export EMBEDDING_DIM=768
+export GEMINI_API_KEY=...       # Supabase / Vercel Gemini project key
+export DATABASE_URL=...         # Supabase connection string (pooler session mode)
+
+cd /Users/tom/Documents/Git/mechanic_rag
+
+# Stage 1: Owners manual (~276 units, fits in Day 1 quota)
+.venv/bin/python -m mecharag ingest --source private-gold \
+  --root "$MECHANIC_PRIVATE_GOLD_ROOT" \
+  --vehicle-id cat:2003-honda-s2000 \
+  --doc-family owners_manual
+
+# Stage 2: Wiring diagrams (~255 units)
+.venv/bin/python -m mecharag ingest --source private-gold \
+  --root "$MECHANIC_PRIVATE_GOLD_ROOT" \
+  --vehicle-id cat:2003-honda-s2000 \
+  --doc-family wiring
+
+# Stage 3: Service manual (~1957 units, resume across days; idempotent hash check skips existing)
+.venv/bin/python -m mecharag ingest --source private-gold \
+  --root "$MECHANIC_PRIVATE_GOLD_ROOT" \
+  --vehicle-id cat:2003-honda-s2000 \
+  --doc-family service_manual
+```
+
+### Verification Curls (Post-Ingest Smoke)
+
+```bash
+# Verify vehicle is listed
+curl -sS https://mechanic-rag.vercel.app/api/vehicles | jq .
+# Expect "cat:2003-honda-s2000" in response array
+
+# Smoke queries on brakes, rear diff, and engine displacement
+VID=cat:2003-honda-s2000
+for q in \
+  "What is the front brake pad inspection procedure?" \
+  "What fluid does the rear differential use?" \
+  "What is the engine displacement / F20C specification?"
+do
+  curl -sS -X POST https://mechanic-rag.vercel.app/api/ask \
+    -H 'content-type: application/json' \
+    -d "{\"vehicle_id\":\"$VID\",\"question\":\"$q\"}" | jq '{outcome,n:(.citations|length),answer:(.answer[:180])}'
+done
+```
+
+Expected result: `outcome: "answered"` with ≥1 citation for each smoke topic.
+
+### Rollback Plan
+If rollback is needed:
+```sql
+DELETE FROM chunks WHERE vehicle_id = 'cat:2003-honda-s2000';
+DELETE FROM documents WHERE vehicle_id = 'cat:2003-honda-s2000';
+DELETE FROM vehicles WHERE vehicle_id = 'cat:2003-honda-s2000';
+```
+Deleting `cat:2003-honda-s2000` rows instantly restores fixture-only catalog behavior in the UI and API. No code rollback or git purge required.
+

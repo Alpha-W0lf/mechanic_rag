@@ -24,9 +24,13 @@ Binding order is **RRF → optional section dedup → CE**. Dedup operates on fu
 
 Do not conflate degrade with ablation, or either with the hosted CE skip. Degrade rate and ablation diagnostics are separate fields; freeze checklists treat them differently. See ARCHITECTURE §7.5 and [`evals/MODEL_FREEZE_STATUS.md`](evals/MODEL_FREEZE_STATUS.md).
 
-## 4. Why fixtures only — why never Drive / Ford / OEM PDFs here?
+## 4. Why fixtures only in git — what about the hosted demo?
 
-Public corpus boundary is **`fixtures/` only** (synthetic). Drive sync, Ford/PTS bulk, and OEM PDFs live outside this repo so public git stays legally clean and stranger-cloneable. PrivateGold / Drive / Ford are deferred adapters — packaging must not claim they are in-product here. See ARCHITECTURE §5.
+Public git repository boundary is **`fixtures/` only** (synthetic). Drive sync, Ford/PTS bulk, and raw OEM PDFs live outside this repo so public git stays legally clean, lightweight, and stranger-cloneable.
+
+**Hosted Production vs stranger clone:**
+- **Git clone / stranger path:** uses synthetic `fixtures/` with public fail-closed validation (`scripts/checks/public_fail_closed.py`).
+- **Hosted production demo (`https://mechanic-rag.vercel.app`):** serves cited answers from owner-accepted personal-garage Honda S2000 Gold (`cat:2003-honda-s2000`, ~2.5k units across service manual, owner's manual, and wiring diagrams) ingested directly into the hosted Supabase database. The hosted demo demonstrates full-scale OEM manual retrieval, while the repository clone remains clean and reproducible on synthetic fixtures. See ARCHITECTURE §5.3.
 
 ## 5. Are embed/CE frozen? What does paired ask delta `0` mean?
 

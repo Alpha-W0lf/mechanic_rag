@@ -3,6 +3,8 @@ import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import Home from "@/app/page";
 import {
+  CORPUS_COVERS_CHIP,
+  CORPUS_COVERS_SUMMARY,
   HOSTED_CE_OFF_CHIP,
   HOSTED_CE_OFF_LINE,
   HOSTED_CE_SKIP_REASON,
@@ -36,5 +38,12 @@ describe('JH-48.7: Live UI "CE off on hosted" chip', () => {
     // Constraint verification: no fabricated lift claim in rendered output
     expect(html).not.toMatch(/ce lift/i);
     expect(html).not.toMatch(/cross-encoder lift/i);
+  });
+
+  it('exports valid copy for JH-73 Corpus covers chip', () => {
+    expect(CORPUS_COVERS_CHIP).toBe("Corpus covers");
+    expect(CORPUS_COVERS_SUMMARY).toContain("Honda S2000 service manual");
+    expect(CORPUS_COVERS_SUMMARY).not.toMatch(/risk/i);
+    expect(CORPUS_COVERS_SUMMARY).not.toMatch(/copyright/i);
   });
 });

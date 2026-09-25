@@ -127,3 +127,22 @@ def test_upsert_skips_before_embed_when_content_hash_exists(
     embedder.embed.assert_not_called()
     chunk.assert_not_called()
     upsert.assert_not_called()
+
+
+def test_cli_ingest_parser_accepts_vehicle_id_and_doc_family() -> None:
+    from mecharag.__main__ import main
+    import pytest
+
+    with pytest.raises(SystemExit) as exc:
+        main([
+            "ingest",
+            "--source",
+            "private-gold",
+            "--vehicle-id",
+            "cat:2003-honda-s2000",
+            "--doc-family",
+            "owners_manual",
+            "--help",
+        ])
+    assert exc.value.code == 0
+

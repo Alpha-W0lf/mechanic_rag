@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import {
+  CORPUS_COVERS_CHIP,
+  CORPUS_COVERS_SUMMARY,
   DEGRADED_ASK_BANNER,
   HOSTED_CE_OFF_CHIP,
   HOSTED_CE_OFF_LINE,
@@ -39,6 +41,8 @@ type AskResponse = {
 const DEFAULT_VEHICLE = "fixture:honda-s2000-demo";
 
 function pickDefaultVehicle(ids: string[]): string {
+  const oem = ids.find((id) => id === "cat:2003-honda-s2000");
+  if (oem) return oem;
   const fixture = ids.find((id) => id.startsWith("fixture:"));
   return fixture ?? ids[0] ?? DEFAULT_VEHICLE;
 }
@@ -171,7 +175,7 @@ export default function Home() {
           hybrid RAG.
         </p>
         <p className="mt-1 text-xs text-ink-muted">
-          Public clone uses synthetic fixtures only; multimodal opt-in locally.
+          Hosted demo answers from Honda S2000 service documentation; clone runs synthetic fixtures locally.
         </p>
         <p className="mt-1 text-xs text-ink-muted flex flex-wrap items-center gap-1.5">
           <span className="inline-block rounded border border-border bg-surface px-1.5 py-0.5 text-[11px] font-mono text-ink-muted">
@@ -250,6 +254,12 @@ export default function Home() {
               "No sufficient indexed evidence for this question."
             )}
           </p>
+          <div className="mt-3 pt-3 border-t border-border flex flex-wrap items-center gap-1.5 text-xs text-ink-muted">
+            <span className="inline-block rounded border border-border bg-surface px-1.5 py-0.5 text-[11px] font-mono font-medium text-ink">
+              {CORPUS_COVERS_CHIP}
+            </span>
+            <span>{CORPUS_COVERS_SUMMARY}</span>
+          </div>
         </div>
       )}
 

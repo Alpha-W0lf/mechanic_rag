@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 import {
   assembleContext,
   filterAnswerToKnownLabels,
+  isEvidenceInsufficient,
   type Citation,
 } from '@/server/citations';
 import type { ChunkRow } from '@/server/retrievers';
@@ -191,5 +192,43 @@ describe('filterAnswerToKnownLabels — unknown markers stripped', () => {
     expect(filtered.answer.startsWith('Torque : 30 N·m')).toBe(true);
     expect(filtered.answer).toBe('Torque : 30 N·m.');
     expect(filtered.answer).not.toMatch(/\[99\]/);
+  });
+});
+
+describe('JH-73: isEvidenceInsufficient detection for true misses', () => {
+  it('detects standard refusal phrases and returns true', () => {
+    expect(
+      isEvidenceInsufficient(
+        'The provided context does not contain information about the front brake pads.',
+      ),
+    ).toBe(true);
+    expect(
+      isEvidenceInsufficient(
+        'Insufficient evidence in the indexed manuals for this vehicle.',
+      ),
+    ).toBe(true);
+    expect(
+      isEvidenceInsufficient(
+        'I cannot find any information about the ABS module pinout in the provided context.',
+      ),
+    ).toBe(true);
+    expect(
+      isEvidenceInsufficient(
+        'There is not enough information in the context to determine the torque spec.',
+      ),
+    ).toBe(true);
+  });
+
+  it('returns false for actual answers with citation grounding', () => {
+    expect(
+      isEvidenceInsufficient(
+        'The front brake pad thickness should be inspected according to [1]. Minimum thickness is 1.6 mm.',
+      ),
+    ).toBe(false);
+    expect(
+      isEvidenceInsufficient(
+        'The oil drain plug torque is 39 N·m (29 lbf·ft) [1].',
+      ),
+    ).toBe(false);
   });
 });

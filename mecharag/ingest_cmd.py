@@ -205,6 +205,16 @@ def _ingest_fixtures(args, run_id: str, database_url: str) -> int:
                 except Exception:  # noqa: BLE001 — isolate load failures
                     failed += 1
                     logger.exception("document failed path=%s", mpath)
+            if getattr(args, "vehicle_id", None):
+                items = [
+                    it for it in items
+                    if str(it.manifest.get("vehicle_id")) == args.vehicle_id
+                ]
+            if getattr(args, "doc_family", None):
+                items = [
+                    it for it in items
+                    if str(it.manifest.get("doc_family")) == args.doc_family
+                ]
             up_i, up_s, up_f = _upsert_loaded_documents(conn, embedder, items)
             inserted += up_i
             skipped += up_s
@@ -254,6 +264,16 @@ def _ingest_private_gold(args, run_id: str, database_url: str) -> int:
             logger.info(
                 "%s", soft_adjust_honesty_log_message(sa_status, sa_path)
             )
+        if getattr(args, "vehicle_id", None):
+            documents = [
+                d for d in documents
+                if str(d.manifest.get("vehicle_id")) == args.vehicle_id
+            ]
+        if getattr(args, "doc_family", None):
+            documents = [
+                d for d in documents
+                if str(d.manifest.get("doc_family")) == args.doc_family
+            ]
     except (PrivateGoldSourceError, GoldStatusError) as exc:
         logger.error("%s", exc)
         return 2

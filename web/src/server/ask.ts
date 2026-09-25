@@ -5,6 +5,7 @@ import {
   ASK_SYSTEM_PROMPT,
   assembleContext,
   filterAnswerToKnownLabels,
+  isEvidenceInsufficient,
   type Citation,
 } from './citations';
 import type { CrossEncoder } from './cross_encoder';
@@ -262,6 +263,25 @@ export async function handleAsk(
       typeof generated.attempts === 'number' ? generated.attempts : 1;
     const { text, model } = generated;
     generatorModel = model;
+
+    // JH-73: When evidence doesn't support Q and generator signals insufficient evidence,
+    // return insufficient_evidence with empty/minimal citations for true misses.
+    if (isEvidenceInsufficient(text)) {
+      logAsk({
+        requestId,
+        vehicle_id: req.vehicle_id,
+        outcome: 'insufficient_evidence',
+        gen_attempts: genAttempts,
+        gen_ms: genMs,
+        total_ms: Date.now() - t0,
+      });
+      return insufficientEvidenceResult({
+        diagnosticsOn,
+        requestId,
+        minimal: true,
+      });
+    }
+
     const filtered = filterAnswerToKnownLabels(text, citations);
 
     const provenanceByDocumentId = new Map<
