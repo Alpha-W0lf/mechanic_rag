@@ -10,8 +10,8 @@ Thin map for diligence readers. Start at the repo root for the overview and clon
 | [`VISION.md`](VISION.md) | Product why |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Contracts / how |
 | [`api_contracts.md`](api_contracts.md) | Ask/health contract (derived from the live route; SSOT is ARCHITECTURE §8) |
-| [`ops.md`](ops.md) | CI gates (what a green run proves) + Ask monitor policy + durability public evidence pack & stranger verify (JH-66 / JH-48.6 / JH-48.9) + public Ask abuse shield (JH-42) + Data API lock (JH-52). No scheduled Production smoke here — cited-Ask monitor is JH-41 in a private ops repo (once daily at 12:03 PM America/Chicago). |
-| [`incidents/2026-08-jh17-supabase-pause.md`](incidents/2026-08-jh17-supabase-pause.md) | JH-17 hosted-demo pause (cleaned incident note; no project refs) |
+| [`ops.md`](ops.md) | CI gates (what a green run proves) + Ask monitor policy + durability public evidence pack & stranger verify + public Ask abuse shield + Data API lock. No scheduled Production smoke here — the cited-Ask monitor runs from a private ops repo (once daily at 12:03 PM America/Chicago). |
+| [`incidents/2026-08-supabase-pause.md`](incidents/2026-08-supabase-pause.md) | Hosted-demo pause incident (cleaned incident note; no project refs) |
 | [`../evals/MODEL_FREEZE_STATUS.md`](../evals/MODEL_FREEZE_STATUS.md) | Embed/CE freeze honesty (no lift claim) |
 | [`../evals/evidence/`](../evals/evidence/) | Multimodal eval + ablation evidence artifacts |
 
@@ -32,6 +32,6 @@ Reference material from the original build (Aug 2025), kept as engineering conte
 
 ## Historical / ops (not product contracts)
 
-- [`incidents/2026-08-jh17-supabase-pause.md`](incidents/2026-08-jh17-supabase-pause.md) — 2026 hosted-demo outage after Supabase Free inactivity pause (JH-17) and the Phase 7 durability work that followed
+- [`incidents/2026-08-supabase-pause.md`](incidents/2026-08-supabase-pause.md) — 2026 hosted-demo outage after Supabase Free inactivity pause, and the durability work that followed
 
 The LICENSE is source-available / non-commercial — not OSI open source.
