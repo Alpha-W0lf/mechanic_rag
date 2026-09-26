@@ -17,8 +17,6 @@
   "rrf_only_ask_hits": 39,
   "ce_ask_hits": 39,
   "ce_vs_rrf_ask_delta_hits": 0,
-<<<<<<< Updated upstream
-=======
   "gold_mrr_rrf": 0.8258,
   "gold_mrr_ce": 0.8371,
   "gold_recall_at_1_rrf": 0.75,
@@ -29,24 +27,19 @@
   "gold_in_rrf_top_k_rate": 0.9091,
   "rank_metric_cases_scored": 44,
   "rank_metric_cases_skipped": 0,
->>>>>>> Stashed changes
   "lexical_proxy_retrieval_hits": 8,
   "recall_at_k_lexical_proxy": 0.1818,
   "mrr_lexical_proxy": 0.1818,
   "citation_correctness_rate": 1.0,
   "degrade_rate": 0.0,
-<<<<<<< Updated upstream
-  "avg_ce_latency_ms": 129.75,
-=======
   "avg_ce_latency_ms": 822.66,
->>>>>>> Stashed changes
   "ask_http_ok": 44,
   "model_status": {
-    "embedding": "frozen (Tom override — flat delta; no lift claim; nomic-embed-text@768)",
-    "ce": "frozen (Tom override — flat delta; no lift claim; Xenova/ms-marco-MiniLM-L-6-v2)"
+    "embedding": "candidate pending lock (nomic-embed-text@768)",
+    "ce": "candidate pending lock (MiniLM / transformers_js); freeze only after paired ask evidence + human"
   },
-  "historical_proxy_note": "Pass-8c qwen-era proxy fields (rrf_only_retrieval_hits / ce_vs_rrf_delta_hits=+1 / n=5) are NOT freeze evidence.",
-  "note": "No invented public-release thresholds. ce_vs_rrf_ask_delta_hits uses citation\u2229gold on both arms only.",
+  "historical_proxy_note": "Pass-8c proxy ce_vs_rrf_delta_hits=+1 / n=5 is NOT freeze evidence.",
+  "note": "Citation\u2229gold delta is smoke; gold_mrr_*/gold_recall_at_* are the CE experiment signal (not auto-freeze). Cosine \u2260 CE lift.",
   "cases": [
     {
       "id": "g01-oil-drain-torque",
@@ -59,11 +52,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 158,
-=======
         "ce_latency_ms": 711,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -75,9 +64,6 @@
         "cited_section_paths": [
           "1 Engine Oil > 1-1 Specification",
           "1 Engine Oil > 1-2 Oil Filter Replacement"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9",
@@ -128,7 +114,6 @@
         "ce_score_mean": -8.104877734184265,
         "ce_score_variance": 35.60445569463086,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -150,11 +135,6 @@
         "cited_section_paths": [
           "1 Engine Oil > 1-1 Specification",
           "1 Engine Oil > 1-2 Oil Filter Replacement"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 12665
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9",
@@ -220,7 +200,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 59523
->>>>>>> Stashed changes
     },
     {
       "id": "g02-oil-capacity",
@@ -233,11 +212,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 143,
-=======
         "ce_latency_ms": 873,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -247,9 +222,6 @@
         ],
         "cited_section_paths": [
           "1 Engine Oil > 1-1 Specification"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
@@ -300,7 +272,6 @@
         "ce_score_mean": -8.742856651544571,
         "ce_score_variance": 27.21773504662476,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -320,11 +291,6 @@
         ],
         "cited_section_paths": [
           "1 Engine Oil > 1-1 Specification"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 12914
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
@@ -390,7 +356,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 23206
->>>>>>> Stashed changes
     },
     {
       "id": "g03-clutch-free-play",
@@ -403,11 +368,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 122,
-=======
         "ce_latency_ms": 828,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -417,9 +378,6 @@
         ],
         "cited_section_paths": [
           "2 Clutch > 2-1 Pedal Free Play"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944",
@@ -470,7 +428,6 @@
         "ce_score_mean": -10.152899646759034,
         "ce_score_variance": 17.00348309507107,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -490,11 +447,6 @@
         ],
         "cited_section_paths": [
           "2 Clutch > 2-1 Pedal Free Play"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 13332
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944",
@@ -560,7 +512,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 22083
->>>>>>> Stashed changes
     },
     {
       "id": "g04-spark-plug-gap",
@@ -573,23 +524,12 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 108,
-=======
         "ce_latency_ms": 799,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
-<<<<<<< Updated upstream
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-1 Specification"
-        ]
-=======
           "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
           "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0"
         ],
@@ -646,7 +586,6 @@
         "ce_score_mean": -8.842280054092408,
         "ce_score_variance": 25.90337032092423,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -662,17 +601,6 @@
         "ce_model": "skipped_ablation",
         "outcome": "answered",
         "cited_chunk_ids": [
-<<<<<<< Updated upstream
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
-        ],
-        "cited_section_paths": [
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "3 Spark Plugs > 3-1 Specification"
-        ]
-      },
-      "elapsed_ms": 12321
-=======
           "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e"
         ],
         "cited_section_paths": [
@@ -742,7 +670,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 21933
->>>>>>> Stashed changes
     },
     {
       "id": "g05-valve-clearance",
@@ -755,11 +682,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 108,
-=======
         "ce_latency_ms": 794,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -769,9 +692,6 @@
         ],
         "cited_section_paths": [
           "5 Valve Clearance > 5-1 Inspection"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
@@ -822,7 +742,6 @@
         "ce_score_mean": -9.516238981485367,
         "ce_score_variance": 19.49451134111119,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -842,11 +761,6 @@
         ],
         "cited_section_paths": [
           "5 Valve Clearance > 5-1 Inspection"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 12260
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
@@ -912,7 +826,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 19441
->>>>>>> Stashed changes
     },
     {
       "id": "g06-coolant-capacity",
@@ -925,11 +838,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 97,
-=======
         "ce_latency_ms": 800,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -939,9 +848,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-1 Coolant"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069",
@@ -992,7 +898,6 @@
         "ce_score_mean": -9.607607889175416,
         "ce_score_variance": 18.240501029516345,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -1012,11 +917,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-1 Coolant"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 11150
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069",
@@ -1082,7 +982,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 18764
->>>>>>> Stashed changes
     },
     {
       "id": "g07-spark-plug-torque",
@@ -1095,11 +994,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 182,
-=======
         "ce_latency_ms": 872,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -1109,9 +1004,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-1 Specification"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
@@ -1162,7 +1054,6 @@
         "ce_score_mean": -8.074389588832855,
         "ce_score_variance": 25.059264052046327,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -1182,11 +1073,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-1 Specification"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 14204
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
@@ -1252,7 +1138,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 21302
->>>>>>> Stashed changes
     },
     {
       "id": "g08-mtf-capacity",
@@ -1265,11 +1150,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 169,
-=======
         "ce_latency_ms": 822,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -1279,9 +1160,6 @@
         ],
         "cited_section_paths": [
           "6 Transmission Fluid > 6-1 Specification"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
@@ -1332,7 +1210,6 @@
         "ce_score_mean": -8.651105783879757,
         "ce_score_variance": 18.728211084065943,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -1352,11 +1229,6 @@
         ],
         "cited_section_paths": [
           "6 Transmission Fluid > 6-1 Specification"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 12955
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
@@ -1422,7 +1294,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 19854
->>>>>>> Stashed changes
     },
     {
       "id": "g09-thermostat-open",
@@ -1435,11 +1306,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 131,
-=======
         "ce_latency_ms": 836,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -1449,9 +1316,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-2 Thermostat"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308",
@@ -1502,7 +1366,6 @@
         "ce_score_mean": -9.15811243057251,
         "ce_score_variance": 33.87823913061627,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -1522,11 +1385,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-2 Thermostat"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 12556
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308",
@@ -1592,7 +1450,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 20962
->>>>>>> Stashed changes
     },
     {
       "id": "g10-hard-miss-abs-module",
@@ -1605,37 +1462,13 @@
         "retrieval_hit_via_citations_deprecated": false,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 217,
-=======
         "ce_latency_ms": 944,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
           "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
-<<<<<<< Updated upstream
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
-          "fixture-s2000-service-manual:v1:c8:36490e2dc2335491d10d9e0a",
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944",
-          "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9"
-        ],
-        "cited_section_paths": [
-          "root",
-          "3 Spark Plugs > 3-1 Specification",
-          "3 Spark Plugs",
-          "3 Spark Plugs > 3-2 Replacement Interval",
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "5 Valve Clearance > 5-1 Inspection",
-          "2 Clutch > 2-1 Pedal Free Play",
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque"
-        ]
-=======
           "fixture-s2000-service-manual:v1:c5:b5a7625bf7589cb20c263866",
           "fixture-s2000-service-manual:v1:c8:36490e2dc2335491d10d9e0a",
           "fixture-s2000-service-manual:v1:c18:8c303dec2dd1e3858ed1d76d",
@@ -1703,7 +1536,6 @@
         "ce_score_mean": -10.686935997009277,
         "ce_score_variance": 1.928626848565673,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -1737,11 +1569,6 @@
           "5 Valve Clearance > 5-1 Inspection",
           "2 Clutch > 2-1 Pedal Free Play",
           "1 Engine Oil > 1-3 Oil Filler Cap Torque"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 10255
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
@@ -1807,7 +1634,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 18382
->>>>>>> Stashed changes
     },
     {
       "id": "g11-clutch-fluid-type",
@@ -1820,11 +1646,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 357,
-=======
         "ce_latency_ms": 798,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -1834,9 +1656,6 @@
         ],
         "cited_section_paths": [
           "2 Clutch > 2-2 Hydraulic Fluid"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
@@ -1887,7 +1706,6 @@
         "ce_score_mean": -9.00843687057495,
         "ce_score_variance": 15.73546907346998,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -1907,11 +1725,6 @@
         ],
         "cited_section_paths": [
           "2 Clutch > 2-2 Hydraulic Fluid"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 13919
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
@@ -1977,7 +1790,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 19367
->>>>>>> Stashed changes
     },
     {
       "id": "g12-exhaust-valve-clearance",
@@ -1990,11 +1802,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 208,
-=======
         "ce_latency_ms": 801,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -2004,9 +1812,6 @@
         ],
         "cited_section_paths": [
           "5 Valve Clearance > 5-1 Inspection"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
@@ -2057,7 +1862,6 @@
         "ce_score_mean": -9.439663696289063,
         "ce_score_variance": 19.702477358676777,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -2077,11 +1881,6 @@
         ],
         "cited_section_paths": [
           "5 Valve Clearance > 5-1 Inspection"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 12462
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
@@ -2147,7 +1946,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 19899
->>>>>>> Stashed changes
     },
     {
       "id": "g13-oil-grade",
@@ -2160,11 +1958,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 106,
-=======
         "ce_latency_ms": 804,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -2174,9 +1968,6 @@
         ],
         "cited_section_paths": [
           "1 Engine Oil > 1-1 Specification"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
@@ -2227,7 +2018,6 @@
         "ce_score_mean": -9.624936866760255,
         "ce_score_variance": 14.229342826955772,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -2247,11 +2037,6 @@
         ],
         "cited_section_paths": [
           "1 Engine Oil > 1-1 Specification"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 12943
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
@@ -2317,7 +2102,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 19828
->>>>>>> Stashed changes
     },
     {
       "id": "g14-oil-filter-turn",
@@ -2330,11 +2114,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 111,
-=======
         "ce_latency_ms": 761,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -2344,9 +2124,6 @@
         ],
         "cited_section_paths": [
           "1 Engine Oil > 1-2 Oil Filter Replacement"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2",
@@ -2397,7 +2174,6 @@
         "ce_score_mean": -9.881304252147675,
         "ce_score_variance": 11.216055742576776,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -2417,11 +2193,6 @@
         ],
         "cited_section_paths": [
           "1 Engine Oil > 1-2 Oil Filter Replacement"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 10945
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2",
@@ -2487,7 +2258,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 19410
->>>>>>> Stashed changes
     },
     {
       "id": "g15-spark-plug-type",
@@ -2500,11 +2270,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 102,
-=======
         "ce_latency_ms": 766,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -2514,9 +2280,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-1 Specification"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
@@ -2567,7 +2330,6 @@
         "ce_score_mean": -8.546268475055694,
         "ce_score_variance": 20.68740905836746,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -2587,11 +2349,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-1 Specification"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 12009
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
@@ -2657,7 +2414,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 19918
->>>>>>> Stashed changes
     },
     {
       "id": "g16-spark-interval",
@@ -2670,11 +2426,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 112,
-=======
         "ce_latency_ms": 764,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -2684,9 +2436,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-2 Replacement Interval"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
@@ -2737,7 +2486,6 @@
         "ce_score_mean": -9.051753520965576,
         "ce_score_variance": 19.70394602669787,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -2757,11 +2505,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-2 Replacement Interval"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 14212
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
@@ -2827,7 +2570,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 21468
->>>>>>> Stashed changes
     },
     {
       "id": "g17-coolant-mix",
@@ -2840,11 +2582,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 100,
-=======
         "ce_latency_ms": 753,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -2854,9 +2592,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-1 Coolant"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069",
@@ -2907,7 +2642,6 @@
         "ce_score_mean": -9.216717636585235,
         "ce_score_variance": 14.024639587930256,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -2927,11 +2661,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-1 Coolant"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 12508
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069",
@@ -2997,7 +2726,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 19779
->>>>>>> Stashed changes
     },
     {
       "id": "g18-radiator-cap",
@@ -3010,11 +2738,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 114,
-=======
         "ce_latency_ms": 785,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -3024,9 +2748,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-1 Coolant"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069",
@@ -3077,7 +2798,6 @@
         "ce_score_mean": -10.137391710281372,
         "ce_score_variance": 12.483531595901901,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -3097,11 +2817,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-1 Coolant"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 14130
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069",
@@ -3167,7 +2882,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 22517
->>>>>>> Stashed changes
     },
     {
       "id": "g19-thermostat-full-open",
@@ -3180,11 +2894,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 111,
-=======
         "ce_latency_ms": 766,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -3194,9 +2904,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-2 Thermostat"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308",
@@ -3247,7 +2954,6 @@
         "ce_score_mean": -9.193623995780944,
         "ce_score_variance": 33.043759868964926,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -3267,11 +2973,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-2 Thermostat"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 13183
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308",
@@ -3337,7 +3038,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 21485
->>>>>>> Stashed changes
     },
     {
       "id": "g20-mtf-fill",
@@ -3350,11 +3050,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 193,
-=======
         "ce_latency_ms": 776,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -3364,9 +3060,6 @@
         ],
         "cited_section_paths": [
           "6 Transmission Fluid > 6-1 Specification"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
@@ -3417,7 +3110,6 @@
         "ce_score_mean": -8.900064837932586,
         "ce_score_variance": 15.354881022907218,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -3437,11 +3129,6 @@
         ],
         "cited_section_paths": [
           "6 Transmission Fluid > 6-1 Specification"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 13701
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
@@ -3507,7 +3194,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 20768
->>>>>>> Stashed changes
     },
     {
       "id": "g21-clutch-pushrod",
@@ -3520,11 +3206,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 110,
-=======
         "ce_latency_ms": 786,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -3534,9 +3216,6 @@
         ],
         "cited_section_paths": [
           "2 Clutch > 2-1 Pedal Free Play"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944",
@@ -3587,7 +3266,6 @@
         "ce_score_mean": -10.071123170852662,
         "ce_score_variance": 18.391520452943453,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -3607,11 +3285,6 @@
         ],
         "cited_section_paths": [
           "2 Clutch > 2-1 Pedal Free Play"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 13104
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944",
@@ -3677,7 +3350,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 21294
->>>>>>> Stashed changes
     },
     {
       "id": "g22-spark-misfire-inspect",
@@ -3690,11 +3362,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 117,
-=======
         "ce_latency_ms": 763,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -3704,9 +3372,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-2 Replacement Interval"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
@@ -3757,7 +3422,6 @@
         "ce_score_mean": -9.069177013635635,
         "ce_score_variance": 18.721832101161915,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -3777,11 +3441,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-2 Replacement Interval"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 11025
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
@@ -3847,7 +3506,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 18405
->>>>>>> Stashed changes
     },
     {
       "id": "g23-hard-miss-brake-pad-pn",
@@ -3860,37 +3518,13 @@
         "retrieval_hit_via_citations_deprecated": false,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 111,
-=======
         "ce_latency_ms": 776,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
           "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
-<<<<<<< Updated upstream
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
-          "fixture-s2000-service-manual:v1:c8:36490e2dc2335491d10d9e0a",
-          "fixture-s2000-service-manual:v1:c15:ee36e69f0f02e08c3bed7651",
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944"
-        ],
-        "cited_section_paths": [
-          "root",
-          "3 Spark Plugs > 3-2 Replacement Interval",
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "2 Clutch > 2-2 Hydraulic Fluid",
-          "3 Spark Plugs",
-          "4 Cooling System > 4-3 Cooling Fan Switch Temperature",
-          "3 Spark Plugs > 3-1 Specification",
-          "2 Clutch > 2-1 Pedal Free Play"
-        ]
-=======
           "fixture-s2000-service-manual:v1:c5:b5a7625bf7589cb20c263866",
           "fixture-s2000-service-manual:v1:c18:8c303dec2dd1e3858ed1d76d",
           "fixture-s2000-service-manual:v1:c1:52ad538188053a3d31cd3c26",
@@ -3958,7 +3592,6 @@
         "ce_score_mean": -10.331784182786942,
         "ce_score_variance": 4.961501695408153,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -3992,11 +3625,6 @@
           "4 Cooling System > 4-3 Cooling Fan Switch Temperature",
           "3 Spark Plugs > 3-1 Specification",
           "2 Clutch > 2-1 Pedal Free Play"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 12976
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
@@ -4062,7 +3690,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 18187
->>>>>>> Stashed changes
     },
     {
       "id": "g24-hard-miss-ecu-pinout",
@@ -4075,37 +3702,13 @@
         "retrieval_hit_via_citations_deprecated": false,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 125,
-=======
         "ce_latency_ms": 767,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
           "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
-<<<<<<< Updated upstream
-          "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
-          "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
-          "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
-          "fixture-s2000-service-manual:v1:c8:36490e2dc2335491d10d9e0a",
-          "fixture-s2000-service-manual:v1:c16:c79e1ff40ef2fb2cf881c7f8",
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f"
-        ],
-        "cited_section_paths": [
-          "root",
-          "5 Valve Clearance > 5-1 Inspection",
-          "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
-          "3 Spark Plugs > 3-2 Replacement Interval",
-          "3 Spark Plugs > 3-1 Specification",
-          "3 Spark Plugs",
-          "5 Valve Clearance",
-          "1 Engine Oil > 1-1 Specification"
-        ]
-=======
           "fixture-s2000-service-manual:v1:c8:36490e2dc2335491d10d9e0a",
           "fixture-s2000-service-manual:v1:c5:b5a7625bf7589cb20c263866",
           "fixture-s2000-service-manual:v1:c18:8c303dec2dd1e3858ed1d76d",
@@ -4173,7 +3776,6 @@
         "ce_score_mean": -10.708181118965149,
         "ce_score_variance": 2.153596985032469,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -4207,11 +3809,6 @@
           "3 Spark Plugs",
           "5 Valve Clearance",
           "1 Engine Oil > 1-1 Specification"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 13089
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
@@ -4277,7 +3874,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 19156
->>>>>>> Stashed changes
     },
     {
       "id": "g25-hard-miss-tsb-oil",
@@ -4290,37 +3886,13 @@
         "retrieval_hit_via_citations_deprecated": false,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 117,
-=======
         "ce_latency_ms": 749,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
           "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
-<<<<<<< Updated upstream
-          "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
-          "fixture-s2000-service-manual:v1:c1:52ad538188053a3d31cd3c26",
-          "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
-          "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
-          "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
-          "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069",
-          "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9"
-        ],
-        "cited_section_paths": [
-          "root",
-          "6 Transmission Fluid > 6-1 Specification",
-          "1 Engine Oil",
-          "1 Engine Oil > 1-1 Specification",
-          "2 Clutch > 2-2 Hydraulic Fluid",
-          "3 Spark Plugs > 3-2 Replacement Interval",
-          "4 Cooling System > 4-1 Coolant",
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque"
-        ]
-=======
           "fixture-s2000-service-manual:v1:c1:52ad538188053a3d31cd3c26",
           "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
           "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
@@ -4388,7 +3960,6 @@
         "ce_score_mean": -9.970205688476563,
         "ce_score_variance": 3.0162276070442795,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -4422,11 +3993,6 @@
           "3 Spark Plugs > 3-2 Replacement Interval",
           "4 Cooling System > 4-1 Coolant",
           "1 Engine Oil > 1-3 Oil Filler Cap Torque"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 12193
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
@@ -4492,7 +4058,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 18530
->>>>>>> Stashed changes
     },
     {
       "id": "g26-never-mix-clutch-fluid",
@@ -4505,11 +4070,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 99,
-=======
         "ce_latency_ms": 792,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -4519,9 +4080,6 @@
         ],
         "cited_section_paths": [
           "2 Clutch > 2-2 Hydraulic Fluid"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
@@ -4572,7 +4130,6 @@
         "ce_score_mean": -9.383309864997864,
         "ce_score_variance": 17.49921816830089,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -4592,11 +4149,6 @@
         ],
         "cited_section_paths": [
           "2 Clutch > 2-2 Hydraulic Fluid"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 15791
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
@@ -4662,7 +4214,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 19102
->>>>>>> Stashed changes
     },
     {
       "id": "g27-wrong-oil-20w50",
@@ -4675,11 +4226,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 123,
-=======
         "ce_latency_ms": 772,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -4689,9 +4236,6 @@
         ],
         "cited_section_paths": [
           "1 Engine Oil > 1-1 Specification"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
@@ -4742,7 +4286,6 @@
         "ce_score_mean": -9.636935079097748,
         "ce_score_variance": 13.84780966455503,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -4762,11 +4305,6 @@
         ],
         "cited_section_paths": [
           "1 Engine Oil > 1-1 Specification"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 18347
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
@@ -4832,7 +4370,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 22869
->>>>>>> Stashed changes
     },
     {
       "id": "g28-never-atf-in-mtf",
@@ -4845,19 +4382,13 @@
         "retrieval_hit_via_citations_deprecated": false,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 110,
-=======
         "ce_latency_ms": 802,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
         "outcome": "answered",
         "cited_chunk_ids": [
           "fixture-s2000-service-manual:v1:c18:8c303dec2dd1e3858ed1d76d",
-<<<<<<< Updated upstream
-=======
           "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
           "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
           "fixture-s2000-service-manual:v1:c5:b5a7625bf7589cb20c263866",
@@ -4878,27 +4409,12 @@
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c18:8c303dec2dd1e3858ed1d76d",
->>>>>>> Stashed changes
           "fixture-s2000-service-manual:v1:c7:86880f3f28e55c993fa3906c",
           "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
           "fixture-s2000-service-manual:v1:c1:52ad538188053a3d31cd3c26",
           "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
           "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2",
           "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9",
-<<<<<<< Updated upstream
-          "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944"
-        ],
-        "cited_section_paths": [
-          "6 Transmission Fluid",
-          "2 Clutch > 2-2 Hydraulic Fluid",
-          "6 Transmission Fluid > 6-1 Specification",
-          "1 Engine Oil",
-          "1 Engine Oil > 1-1 Specification",
-          "1 Engine Oil > 1-2 Oil Filter Replacement",
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque",
-          "2 Clutch > 2-1 Pedal Free Play"
-        ]
-=======
           "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944",
           "fixture-s2000-service-manual:v1:c0:378b8bb5cd02258fb9d5ea65",
           "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
@@ -4940,7 +4456,6 @@
         "ce_score_mean": -9.478626680374145,
         "ce_score_variance": 7.480933480891797,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -4974,11 +4489,6 @@
           "1 Engine Oil > 1-2 Oil Filter Replacement",
           "1 Engine Oil > 1-3 Oil Filler Cap Torque",
           "2 Clutch > 2-1 Pedal Free Play"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 11941
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c18:8c303dec2dd1e3858ed1d76d",
@@ -5044,7 +4554,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 18592
->>>>>>> Stashed changes
     },
     {
       "id": "g29-multi-thermo-vs-coolant",
@@ -5057,11 +4566,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 112,
-=======
         "ce_latency_ms": 794,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -5073,9 +4578,6 @@
         "cited_section_paths": [
           "4 Cooling System > 4-2 Thermostat",
           "4 Cooling System > 4-1 Coolant"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308",
@@ -5126,7 +4628,6 @@
         "ce_score_mean": -8.535291290283203,
         "ce_score_variance": 22.84873741155537,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -5148,11 +4649,6 @@
         "cited_section_paths": [
           "4 Cooling System > 4-2 Thermostat",
           "4 Cooling System > 4-1 Coolant"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 16832
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308",
@@ -5218,7 +4714,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 20488
->>>>>>> Stashed changes
     },
     {
       "id": "g30-multi-spark-gap-vs-torque",
@@ -5231,11 +4726,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 114,
-=======
         "ce_latency_ms": 786,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -5245,9 +4736,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-1 Specification"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
@@ -5298,7 +4786,6 @@
         "ce_score_mean": -8.382450997829437,
         "ce_score_variance": 25.9182268587042,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -5318,11 +4805,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-1 Specification"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 17442
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c9:871f79f958b16e363b929e1e",
@@ -5388,7 +4870,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 23137
->>>>>>> Stashed changes
     },
     {
       "id": "g31-trap-thermo-full-open",
@@ -5401,11 +4882,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 110,
-=======
         "ce_latency_ms": 776,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -5415,9 +4892,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-2 Thermostat"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308",
@@ -5468,7 +4942,6 @@
         "ce_score_mean": -8.893368887901307,
         "ce_score_variance": 30.56368636228089,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -5488,11 +4961,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-2 Thermostat"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 17699
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308",
@@ -5558,7 +5026,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 19280
->>>>>>> Stashed changes
     },
     {
       "id": "g32-trap-spark-gap-only",
@@ -5571,11 +5038,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 106,
-=======
         "ce_latency_ms": 803,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -5587,9 +5050,6 @@
         "cited_section_paths": [
           "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
           "3 Spark Plugs > 3-1 Specification"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
@@ -5640,7 +5100,6 @@
         "ce_score_mean": -8.848727428913117,
         "ce_score_variance": 24.462611550720293,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -5662,11 +5121,6 @@
         "cited_section_paths": [
           "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
           "3 Spark Plugs > 3-1 Specification"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 17095
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
@@ -5732,7 +5186,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 20375
->>>>>>> Stashed changes
     },
     {
       "id": "g33-trap-oil-filter-turn",
@@ -5745,11 +5198,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 138,
-=======
         "ce_latency_ms": 848,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -5759,9 +5208,6 @@
         ],
         "cited_section_paths": [
           "1 Engine Oil > 1-2 Oil Filter Replacement"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2",
@@ -5812,7 +5258,6 @@
         "ce_score_mean": -9.843363904953003,
         "ce_score_variance": 12.162774736831807,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -5832,11 +5277,6 @@
         ],
         "cited_section_paths": [
           "1 Engine Oil > 1-2 Oil Filter Replacement"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 15933
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2",
@@ -5902,7 +5342,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 21637
->>>>>>> Stashed changes
     },
     {
       "id": "g34-trap-clutch-pushrod",
@@ -5915,11 +5354,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 109,
-=======
         "ce_latency_ms": 804,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -5929,9 +5364,6 @@
         ],
         "cited_section_paths": [
           "2 Clutch > 2-1 Pedal Free Play"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944",
@@ -5982,7 +5414,6 @@
         "ce_score_mean": -10.160413789749146,
         "ce_score_variance": 18.26034153986124,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -6002,11 +5433,6 @@
         ],
         "cited_section_paths": [
           "2 Clutch > 2-1 Pedal Free Play"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 16141
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c6:e1212a8d0c00556ee6a87944",
@@ -6072,7 +5498,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 18745
->>>>>>> Stashed changes
     },
     {
       "id": "g35-trap-exhaust-clearance",
@@ -6085,11 +5510,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 99,
-=======
         "ce_latency_ms": 756,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -6099,9 +5520,6 @@
         ],
         "cited_section_paths": [
           "5 Valve Clearance > 5-1 Inspection"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
@@ -6152,7 +5570,6 @@
         "ce_score_mean": -9.288761794567108,
         "ce_score_variance": 19.132829565975378,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -6172,11 +5589,6 @@
         ],
         "cited_section_paths": [
           "5 Valve Clearance > 5-1 Inspection"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 15491
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c17:ee83c90767b672ddde7cb1a3",
@@ -6242,7 +5654,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 18879
->>>>>>> Stashed changes
     },
     {
       "id": "g36-trap-mtf-filler-hole",
@@ -6255,11 +5666,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 101,
-=======
         "ce_latency_ms": 904,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -6269,9 +5676,6 @@
         ],
         "cited_section_paths": [
           "6 Transmission Fluid > 6-1 Specification"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
@@ -6322,7 +5726,6 @@
         "ce_score_mean": -10.262284302711487,
         "ce_score_variance": 7.549625456391243,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -6342,11 +5745,6 @@
         ],
         "cited_section_paths": [
           "6 Transmission Fluid > 6-1 Specification"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 19944
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c19:e6fc73a6805f6dc9428718b8",
@@ -6412,7 +5810,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 28300
->>>>>>> Stashed changes
     },
     {
       "id": "g37-trap-spark-interval",
@@ -6425,11 +5822,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 100,
-=======
         "ce_latency_ms": 989,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -6439,9 +5832,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-2 Replacement Interval"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
@@ -6492,7 +5882,6 @@
         "ce_score_mean": -9.00201394557953,
         "ce_score_variance": 20.03072924535355,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -6512,11 +5901,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-2 Replacement Interval"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 16865
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c10:dd4ff0bebc38b0a902725b58",
@@ -6582,7 +5966,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 26450
->>>>>>> Stashed changes
     },
     {
       "id": "g38-trap-radiator-cap-psi",
@@ -6595,11 +5978,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 102,
-=======
         "ce_latency_ms": 948,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -6609,9 +5988,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-1 Coolant"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069",
@@ -6662,7 +6038,6 @@
         "ce_score_mean": -9.821225047111511,
         "ce_score_variance": 16.196614176064287,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -6682,11 +6057,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-1 Coolant"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 16590
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c13:d93b71c0a5c64843c88bc069",
@@ -6752,7 +6122,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 23913
->>>>>>> Stashed changes
     },
     {
       "id": "g39-trap-filler-cap-torque",
@@ -6765,11 +6134,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 114,
-=======
         "ce_latency_ms": 914,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -6779,9 +6144,6 @@
         ],
         "cited_section_paths": [
           "1 Engine Oil > 1-3 Oil Filler Cap Torque"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9",
@@ -6832,7 +6194,6 @@
         "ce_score_mean": -7.057966721057892,
         "ce_score_variance": 31.464105495726137,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -6852,11 +6213,6 @@
         ],
         "cited_section_paths": [
           "1 Engine Oil > 1-3 Oil Filler Cap Torque"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 15794
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9",
@@ -6922,7 +6278,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 23997
->>>>>>> Stashed changes
     },
     {
       "id": "g40-trap-fan-switch-temp",
@@ -6935,11 +6290,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 143,
-=======
         "ce_latency_ms": 1028,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -6949,9 +6300,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-3 Cooling Fan Switch Temperature"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c15:ee36e69f0f02e08c3bed7651",
@@ -7002,7 +6350,6 @@
         "ce_score_mean": -7.867012822628022,
         "ce_score_variance": 22.69391642987025,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -7022,11 +6369,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-3 Cooling Fan Switch Temperature"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 15590
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c15:ee36e69f0f02e08c3bed7651",
@@ -7092,7 +6434,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 23794
->>>>>>> Stashed changes
     },
     {
       "id": "g41-trap-hot-inspection-gap",
@@ -7105,11 +6446,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 123,
-=======
         "ce_latency_ms": 1050,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -7119,9 +6456,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
@@ -7172,7 +6506,6 @@
         "ce_score_mean": -9.40116035938263,
         "ce_score_variance": 17.870026635952428,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -7192,11 +6525,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 15974
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
@@ -7262,7 +6590,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 26101
->>>>>>> Stashed changes
     },
     {
       "id": "g42-trap-drain-not-filler-torque",
@@ -7275,11 +6602,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 116,
-=======
         "ce_latency_ms": 892,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -7291,9 +6614,6 @@
         "cited_section_paths": [
           "1 Engine Oil > 1-1 Specification",
           "1 Engine Oil > 1-2 Oil Filter Replacement"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9",
@@ -7344,7 +6664,6 @@
         "ce_score_mean": -7.382713210582733,
         "ce_score_variance": 19.22054039685564,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -7360,22 +6679,10 @@
         "ce_model": "skipped_ablation",
         "outcome": "answered",
         "cited_chunk_ids": [
-<<<<<<< Updated upstream
-          "fixture-s2000-service-manual:v1:c4:1e5065354e5c3894adce0af9",
-=======
->>>>>>> Stashed changes
           "fixture-s2000-service-manual:v1:c2:02cf8874b98aa02be1f8551f",
           "fixture-s2000-service-manual:v1:c3:cb9fce9ad036aaee15a6d5c2"
         ],
         "cited_section_paths": [
-<<<<<<< Updated upstream
-          "1 Engine Oil > 1-3 Oil Filler Cap Torque",
-          "1 Engine Oil > 1-1 Specification",
-          "1 Engine Oil > 1-2 Oil Filter Replacement"
-        ]
-      },
-      "elapsed_ms": 18044
-=======
           "1 Engine Oil > 1-1 Specification",
           "1 Engine Oil > 1-2 Oil Filter Replacement"
         ],
@@ -7443,7 +6750,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 29974
->>>>>>> Stashed changes
     },
     {
       "id": "g43-trap-thermo-not-fan-switch",
@@ -7456,11 +6762,7 @@
         "retrieval_hit_via_citations_deprecated": true,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 125,
-=======
         "ce_latency_ms": 842,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -7470,9 +6772,6 @@
         ],
         "cited_section_paths": [
           "4 Cooling System > 4-2 Thermostat"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c15:ee36e69f0f02e08c3bed7651",
@@ -7523,7 +6822,6 @@
         "ce_score_mean": -8.829758965969086,
         "ce_score_variance": 20.519679667502285,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -7539,17 +6837,6 @@
         "ce_model": "skipped_ablation",
         "outcome": "answered",
         "cited_chunk_ids": [
-<<<<<<< Updated upstream
-          "fixture-s2000-service-manual:v1:c15:ee36e69f0f02e08c3bed7651",
-          "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308"
-        ],
-        "cited_section_paths": [
-          "4 Cooling System > 4-3 Cooling Fan Switch Temperature",
-          "4 Cooling System > 4-2 Thermostat"
-        ]
-      },
-      "elapsed_ms": 18211
-=======
           "fixture-s2000-service-manual:v1:c14:f52ecaaa472752dc06ebe308"
         ],
         "cited_section_paths": [
@@ -7619,7 +6906,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 27935
->>>>>>> Stashed changes
     },
     {
       "id": "g44-trap-cold-install-gap-not-hot",
@@ -7632,11 +6918,7 @@
         "retrieval_hit_via_citations_deprecated": false,
         "rerank_degraded": false,
         "ablation_rrf_only": false,
-<<<<<<< Updated upstream
-        "ce_latency_ms": 136,
-=======
         "ce_latency_ms": 803,
->>>>>>> Stashed changes
         "ce_runtime_mode": "classification",
         "generator_model": "gemma4:e2b",
         "ce_model": "Xenova/ms-marco-MiniLM-L-6-v2",
@@ -7646,9 +6928,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection"
-<<<<<<< Updated upstream
-        ]
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
@@ -7699,7 +6978,6 @@
         "ce_score_mean": -8.578087270259857,
         "ce_score_variance": 16.859236542920403,
         "ce_score_degenerate": false
->>>>>>> Stashed changes
       },
       "ask_rrf_only": {
         "ok": true,
@@ -7719,11 +6997,6 @@
         ],
         "cited_section_paths": [
           "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection"
-<<<<<<< Updated upstream
-        ]
-      },
-      "elapsed_ms": 20364
-=======
         ],
         "pre_ce_shortlist_chunk_ids": [
           "fixture-s2000-service-manual:v1:c11:93fdd2b26768406d9bd88ab0",
@@ -7789,7 +7062,6 @@
         "cosine_runtime_not_ce_lift": false
       },
       "elapsed_ms": 25840
->>>>>>> Stashed changes
     }
   ]
 }
