@@ -1,6 +1,6 @@
 # API contracts (derived)
 
-**SSOT:** [`ARCHITECTURE.md` §8](./ARCHITECTURE.md#8-ask-api-contract-v1-target) and §7.6 (citation labels + page locators). This page is a short mirror of the live route and types. Do not treat it as a second source of truth.
+**SSOT:** [`ARCHITECTURE.md` §8](./ARCHITECTURE.md#8-ask-api-contract) and §7.6 (citation labels + page locators). This page is a short mirror of the live route and types. Do not treat it as a second source of truth.
 
 **Derived from:** `web/src/app/api/ask/route.ts`, `web/src/server/ask_request.ts` (`AskRequest`), `web/src/server/ask.ts` (`AskSuccess` / `AskFailure`), `web/src/server/citations.ts` (`Citation`), `web/src/server/ask_errors.ts`, `web/src/app/api/health/route.ts`.
 
