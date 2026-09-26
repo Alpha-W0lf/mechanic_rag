@@ -8,7 +8,7 @@ Packaging around a shippable fixtures clone path + honest paired-ask ablation ev
 
 ## 1. Why hybrid → RRF → section dedup → local CE?
 
-**MR2** locks the ranking order: vehicle-filtered vector + lexical (independent) → **RRF** fuse → optional **section dedup** → local **cross-encoder** (top N → top K) → context + citations. Hybrid gives complementary recall; RRF fuses ranks without pretending scores are comparable similarities; section dedup diversifies same-section near-dupes before CE; CE reranks query–chunk pairs locally. Do not invent parallel scorers or advertise “MMR” until true embedding-similarity MMR exists with evals. See ARCHITECTURE §7.
+The ranking order is locked: vehicle-filtered vector + lexical (independent) → **RRF** fuse → optional **section dedup** → local **cross-encoder** (top N → top K) → context + citations. Hybrid gives complementary recall; RRF fuses ranks without pretending scores are comparable similarities; section dedup diversifies same-section near-dupes before CE; CE reranks query–chunk pairs locally. Do not invent parallel scorers or advertise “MMR” until true embedding-similarity MMR exists with evals. See ARCHITECTURE §7.
 
 ## 2. Why section dedup before CE, not after?
 
@@ -91,7 +91,7 @@ The freeze is an **explicit owner decision**, **not** earned lift from ablation.
 
 **Why CE stays in the stack anyway:**
 
-1. **Architecture completeness** — hybrid → RRF → section dedup → local CE N→K is the designed ranking path (MR2).  
+1. **Architecture completeness** — hybrid → RRF → section dedup → local CE N→K is the designed ranking path.  
 2. **Production degrade path** — when CE fails/times out, `rerank_degraded=true` fails open to post-RRF order (see §3). That is distinct from intentional `ablation_rrf_only` / `MECHANIC_FORCE_RRF_ONLY=1`.  
 3. **Demo + measurement** — local rerank, latency, and degrade behavior are portfolio-relevant even without citation∩gold asymmetry.
 

@@ -150,7 +150,7 @@ v1 portfolio ship is **M0 text-only**, but architecture must **not paint us into
 |----|--------|
 | DB | Clone: Compose Postgres + pgvector. Production: Supabase Free via `DATABASE_URL` (ARCHITECTURE §3.1). Clone must not require cloud. |
 | Generator default | Ollama **`gemma4:e2b`** (fallback `qwen3.5:4b`) |
-| Ranking | Hybrid → RRF → local CE (N→K); degrade to RRF-only; eval lift (MR2) |
+| Ranking | Hybrid → RRF → local CE (N→K); degrade to RRF-only; eval lift |
 | Public corpus | Synthetic redistributable fixtures |
 | Modality v1 | **Text RAG storefront.** M1–M3 personal-garage paths exist and stay parked / off the public demo |
 | Vehicle model | Multi-vehicle schema from v1 |
