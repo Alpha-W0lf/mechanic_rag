@@ -1,37 +1,32 @@
-# Mechanic RAG — Portfolio Vision (v1)
+# Mechanic RAG — Portfolio Vision
 
-**Status:** Active portfolio vision · Formal embed/CE **frozen** (not earned lift) · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · Fixtures-only public packaging · **GitHub visibility public** · Personal-garage multimodal paths exist locally (flags default **off**) · **Not** dual-product Done · **Not** friend Drive→Mechanic ingest · **Not** OSI open source  
+**Status:** Active portfolio project. Fixtures-only public packaging is complete, and the embedding/cross-encoder model choice is frozen by deliberate decision (see [`MODEL_FREEZE_STATUS.md`](../evals/MODEL_FREEZE_STATUS.md) for the honest evidence trail). Not yet true: an earned cross-encoder lift, a completed second-vehicle build, or an OSI-licensed release — the license is PolyForm Noncommercial (source-available, non-commercial).
 
 > **Terminology:** `M1`–`M3` label the three multimodal milestone stages (linked visuals → image retrieval → vision-assisted answers). Read them as stage names; current truth is what this document states.
-**Created:** 2026-07-12  
-**Updated:** 2026-09-24 (added a hosted topology pointer to ARCHITECTURE §3.1; M1–M3 labeled parked)  
-**Owner:** Tom  
-**Repo:** `mechanic_rag` (renamed from `mechainic_rag`; Python import package remains `mecharag`)  
 
-**Diligence:** [`ARCHITECTURE.md`](./ARCHITECTURE.md) · [`../GETTING_STARTED.md`](../GETTING_STARTED.md) · [`../FAQ.md`](../FAQ.md) · [`../evals/MODEL_FREEZE_STATUS.md`](../evals/MODEL_FREEZE_STATUS.md)
+**Created:** 2026-07-12 · **Updated:** 2026-09-24 (added a hosted topology pointer to ARCHITECTURE §3.1; M1–M3 labeled parked)
 
-**Non-binding archives:** numbered build notes under `docs/` — history only; this file wins on intent.
+**Diligence reading:** [`ARCHITECTURE.md`](./ARCHITECTURE.md) · [`../GETTING_STARTED.md`](../GETTING_STARTED.md) · [`../FAQ.md`](../FAQ.md) · [`../evals/MODEL_FREEZE_STATUS.md`](../evals/MODEL_FREEZE_STATUS.md)
+
+**Non-binding archives:** the numbered build notes under `docs/` are history only — this file wins on current intent.
 
 ---
 
 ## 1. What this is
 
-A **public, product-shaped RAG** system over **automotive service documentation**, demonstrating senior AI engineering craft:
+A public, product-shaped RAG system over automotive service documentation, built to demonstrate senior AI engineering craft:
 
-- Chunking + embeddings + hybrid retrieval (vector + lexical)
+- Chunking, embeddings, and hybrid retrieval (vector + lexical)
 - Citation-backed answers
-- Eval harness (≥30 cases)
-- Stranger-runnable packaging (GETTING_STARTED, fixtures, no OEM PDF redistribution)
-- A data layer designed for a **growing multi-vehicle documentation library** (not a one-off single-manual demo)
+- A real eval harness (≥30 cases)
+- Stranger-runnable packaging (`GETTING_STARTED.md`, fixtures, no OEM PDF redistribution)
+- A data layer designed for a growing multi-vehicle documentation library, not a one-off single-manual demo
 
-**Audience:** GitHub reviewers / hiring diligence — not a commercial shop product.
+**Audience:** GitHub reviewers and hiring diligence — this isn't a commercial shop product.
 
-**Domain exemplar for public storytelling:** Honda S2000–shaped **synthetic** fixtures.  
-**Local private data (optional):** a personal garage fleet may be ingested via an explicit local gold root (`PrivateGoldSource`) — never raw OEM PDFs in public git; never Mechanic←Drive ingest. Strangers who only run fixtures see the public Honda demo only.
+**Public storytelling exemplar:** synthetic, Honda S2000–shaped fixtures. Optionally, a personal garage's real vehicle corpus can be ingested through an explicit local Gold root (`PrivateGoldSource`) — never raw OEM PDFs in public git, and never any kind of automated sync into it. Anyone who only runs the fixtures sees the public Honda demo only.
 
-**Related ops (separate):** A friend shop library / Drive delivery program is **not** Mechanic ingest input and is not linked from this public surface.
-
-**Public/private boundary:** Real OEM documents stay in private libraries. This public portfolio repo accepts only synthetic/redistributable fixtures, keeps private corpus roots out of git, and must fail public-release checks if OEM/private artifacts appear.
+**Public/private boundary:** real OEM documents stay in private storage. This public repo accepts only synthetic, redistributable fixtures, keeps private corpus roots out of git entirely, and its release checks fail closed if any private artifact appears.
 
 ---
 
@@ -39,94 +34,92 @@ A **public, product-shaped RAG** system over **automotive service documentation*
 
 | Slot | Proof |
 |------|--------|
-| Product RAG | End-to-end ask → retrieve → generate → citations |
-| Retrieval quality | Hybrid → RRF → local cross-encoder (N→K) + eval vs RRF-only (path live; paired-ask still flat — **no** lift claim; CE stays in stack) |
-| Data engineering for RAG | Multi-vehicle catalog, ingest idempotency, status-aware corpus growth |
-| Engineering honesty | No fake candidates in product ask; freeze-by-override ≠ earned CE lift; fixtures-only flip ≠ OSI open source; local private gold lanes ≠ friend Drive Done |
+| Product RAG | End-to-end ask → retrieve → generate → cite, working |
+| Retrieval quality | Hybrid → RRF → local cross-encoder, evaluated against RRF-only (the paired-ask result is flat — no lift claim — and the cross-encoder stays in the stack anyway; see §7.4/§7.7 of the architecture doc) |
+| Data engineering for RAG | A multi-vehicle catalog, idempotent ingest, status-aware corpus growth |
+| Engineering honesty | No fabricated candidates on the live ask path; the model freeze is by deliberate decision, not because it earned a measured lift; fixtures-only packaging is not the same claim as an OSI license |
 
 ---
 
-## 3. Relationship to the vehicle docs library
+## 3. Relationship to the broader vehicle-docs library
 
-Mechanic is the **RAG consumer**, not a Ford bulk downloader.
+Mechanic is the RAG consumer here, not a bulk document downloader.
 
 | Concern | Owner |
 |---------|--------|
-| Capture queue / raw PDFs / PTS ops | Separate private capture tooling |
-| Process / unify → per-vehicle packages | Separate library program |
-| Chunk → embed → index → ask → eval | **This repo** |
-| Public redistributable corpus | Synthetic fixtures in this repo only |
+| Capture queue, raw source documents | A separate, private capture pipeline |
+| Processing / normalizing into per-vehicle packages | A separate library program |
+| Chunk → embed → index → ask → eval | This repo |
+| Public redistributable corpus | Synthetic fixtures, in this repo only |
 
-**Status awareness (required in product thinking):**
+**A vehicle being fully captured doesn't mean it's RAG-ready** — those are two different states, and the product needs to track both explicitly:
 
-Operators (and eventually APIs/docs) must distinguish:
+1. Capture status (pending / incomplete / complete / failed)
+2. Process/normalize status (not started → ready / failed / stale)
+3. RAG index status (not indexed / indexed / needs reindex)
 
-1. **Capture status** (pending / incomplete / complete / failed / …)
-2. **Process / unify status** (not_started → ready / failed / stale)
-3. **RAG index status** (not_indexed / indexed / reindex_needed)
+v1 can implement a minimal catalog table for this even before a private sync system lands.
 
-A vehicle that is capture-complete is **not** automatically RAG-ready. Portfolio v1 may implement a **minimal catalog table** even if private sync lands later.
-
-**Growth expectation:** Fleet expands for years. Schema, ingest, and evals must assume many `vehicle_id`s and doc families (`service_manual`, `wiring`, `connectors`, …).
+**Growth expectation:** the fleet is expected to grow for years. Schema, ingest, and evals are all built assuming many `vehicle_id`s and document families (`service_manual`, `wiring`, `connectors`, and more later).
 
 ---
 
-## 4. v1 scope (text-first, multi-vehicle-ready)
+## 4. v1 scope
 
 **In scope**
-- Text chunks only (synthetic/public fixtures for public clones)
-- Hybrid lexical + vector retrieval → RRF → local cross-encoder rerank (N→K; degrade to RRF-only)
-- Citations (vehicle, document/family, section, page range when available)
-- Eval set + smoke path (incl. CE lift vs RRF-only)
-- Docs: README, GETTING_STARTED, architecture, FAQ/tradeoffs, `.env.example`, fork/run welcome
-- Generator: local **Ollama** — operator default **`gemma4:e2b`** (smoke-tested); fallback **`qwen3.5:4b`** (an earlier baseline, kept as the fallback). Hosted public demo generates with Gemini — see [`ARCHITECTURE.md` §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo).
-- **Clone / reproduction DB:** local Postgres + pgvector via Docker Compose (host **5433**)
-- Multi-vehicle **schema + catalog** (even if fixtures only ship 1–2 synthetic vehicles)
+- Text chunks only (synthetic/public fixtures for the public clone)
+- Hybrid lexical + vector retrieval → RRF → local cross-encoder rerank (degrades cleanly to RRF-only)
+- Citations (vehicle, document/family, section, page range where available)
+- An eval set and smoke path, including the cross-encoder-lift comparison
+- Full docs: README, GETTING_STARTED, architecture, FAQ, `.env.example` — genuinely fork-and-run friendly
+- Generator: local Ollama, defaulting to `gemma4:e2b` (fallback `qwen3.5:4b`); the hosted public demo generates with Gemini instead — see [`ARCHITECTURE.md` §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo)
+- Clone/reproduction database: local Postgres + pgvector via Docker Compose (host port 5433)
+- A real multi-vehicle schema and catalog from day one, even while fixtures currently ship only 1-2 synthetic vehicles
 
-**Hosted topology (public demo, not the clone lock):** Vercel Hobby + Supabase Free Postgres (app uses `pg` + `DATABASE_URL`, not supabase-js) + Gemini API free tier. Detail and honesty lines: [`ARCHITECTURE.md` §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo). Clone/repro remains Compose + Ollama.
+**Hosted topology (the public demo, distinct from the clone's own stack):** Vercel Hobby + Supabase Free Postgres (the app uses `pg` + `DATABASE_URL` directly, not a Supabase client library) + the Gemini API free tier. Full detail: [`ARCHITECTURE.md` §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo). The clone/reproduction path stays Compose + Ollama regardless.
 
-**Out of scope for v1**
-- Claiming public demo **requires** VLM/image channel on (M1–M3 are **parked** personal-garage paths; flags are not the storefront; M0 text remains the stranger-runnable path) — see §5
+**Explicitly out of scope for v1:**
+- Claiming the public demo requires a vision/image channel — the multimodal stages (M1-M3) are parked, personal-garage-only paths behind flags; the text-only path (M0) is what strangers actually run (see §5)
 - Redistributing OEM PDFs
-- Requiring cloud DB / Vercel to clone, or treating a retired supabase-js client tree as a product path
-- Ford PTS auth, bulk orchestrator, or CDP capture inside this repo
-- Treating the hosted free-tier demo as an SLO
-- “Perfect” coverage of any real OEM corpus
-- Blocking public v1 on completion of Ford processing/unification
+- Requiring a cloud database or Vercel account just to clone and run this locally
+- Any bulk document-capture tooling (auth flows, capture queues) inside this repo
+- Treating the hosted free-tier demo as an SLA-backed service
+- Claiming "perfect" coverage of any real OEM corpus
+- Blocking the public v1 release on the separate library program's own completion
 
 ---
 
-## 5. Extensibility — multimodal roadmap (design now; implement by stage)
+## 5. Multimodal roadmap (designed now, built stage by stage)
 
-v1 portfolio ship is **M0 text-only**, but architecture must **not paint us into a corner**. Each later stage must remain **public-portfolio viable** (fixtures-only public clone; private OEM stays local; honest claims).
+The v1 portfolio ship is text-only (M0), but the architecture is deliberately built so later stages don't require a rewrite. Each stage stays public-portfolio viable: fixtures-only on the public clone, private OEM data stays local, and every claim stays honest about what's actually live where.
 
-| Stage | Name | Ship claim (honest) | Status (2026-07-27 Align) |
-|-------|------|---------------------|---------------------------|
-| **M0** | Text RAG (v1) | Hybrid retrieve → RRF → CE → citations over **text** | **Met** (fixtures + personal garage) |
-| **M1** | Linked visuals | Text hits can **show** page/figure assets joined by locators | **Met** on personal garage; **parked** for public storefront — ask never rasterizes; `GET /api/assets` may |
-| **M2** | Multimodal retrieve | Also retrieve via image/caption channels; fuse ID lists | **Met** on personal garage; **parked** — CLIP optional `[m2]`; Option A text citations |
-| **M3** | Vision answers | Optional VLM path for diagram questions; text remains source of torque/spec truth | **Met** on personal garage; **parked** — `MECHANIC_VLM` **default off**; cache-hit PNGs only |
+| Stage | Name | Honest ship claim | Status |
+|-------|------|---------------------|--------|
+| M0 | Text RAG (v1) | Hybrid retrieve → RRF → cross-encoder → citations, over text | **Live** (fixtures + personal garage) |
+| M1 | Linked visuals | Text hits can show a page/figure asset joined by a stable locator | Working in the personal garage; parked for the public storefront — ask never rasterizes an image itself, though the assets endpoint may |
+| M2 | Multimodal retrieve | Also retrieves via an image/caption channel, fused into the same ranked ID lists | Working in the personal garage; parked publicly — CLIP is an optional extra, paired with a text citation |
+| M3 | Vision answers | An optional vision-model path for diagram questions; text stays the source of truth for torque/spec values | Working in the personal garage; parked publicly — the flag defaults off, and only cache-hit images are served |
 
-**Honest public claim:** The storefront is **M0 text RAG**. M1–M3 are **parked** personal-garage work (code remains; flags are not the public demo). Do **not** market “vision RAG replaces manuals” or imply VLM / image retrieve is on by default.
+**The honest public claim: the storefront is M0, text-only RAG.** M1-M3 are real, working, parked personal-garage capabilities — the code exists, but the flags stay off for the public demo. This is never marketed as "vision RAG replaces manuals," and image retrieval is never implied to be on by default.
 
-**Design rules (binding):**
-1. Chunk / retrieval **interfaces** accept a modality field (`text` now; `image` / `table` later).
-2. Storage schema leaves room for optional secondary embeddings (nullable columns / separate collections) without rewriting the ask API contract.
-3. Fusion / ranking stays modality-agnostic on ID lists: RRF (+ optional section dedup) → local CE on **text** pairs in M0/M1; multimodal CE is M2+.
-4. **Anti-rework:** prefer stable page/document locators so text Gold/chunks are not discarded when assets arrive.
-5. Do **not** implement M1–M3 inside unrelated text guides; each stage needs its own guide + DoD + eval honesty.
+**Design rules that keep this true going forward:**
+1. Chunk/retrieval interfaces carry a modality field (`text` now; `image`/`table` reserved for later).
+2. The storage schema leaves room for optional secondary embeddings (nullable columns or separate tables) without needing to rewrite the ask API contract.
+3. Fusion and ranking stay modality-agnostic on ID lists in, ranked list out; the cross-encoder scores text pairs only through M1, with a genuinely multimodal cross-encoder deferred to M2+.
+4. Stable page/document locators are preferred throughout, so text Gold data is never discarded once visual assets do arrive.
+5. Each stage gets its own scoped implementation and its own honesty check — multimodal work never gets folded silently into unrelated text-path changes.
 
-**Explicit:** Multimodal docs must not redefine the **M0 v1** finish line. M1–M3 are roadmap stages, not silent scope on text ingest.
+Multimodal work never redefines the M0 v1 finish line — these are roadmap stages, not silent scope creep on the text-only path.
 
 ---
 
-## 6. Extensibility — library growth (binding)
+## 6. Library growth (binding)
 
-1. Every chunk and citation carries `vehicle_id` (and preferably year/make/model metadata).
-2. Doc family is first-class (`service_manual` | `wiring` | `connectors` | future).
-3. Ingest is **per-vehicle idempotent**; adding vehicle N must not require reindexing 1..N-1 unless schema migrates.
-4. Config selects corpus root: `fixtures/` (public) vs private library path (local only).
-5. Catalog lists vehicles × families × process/index status (minimal v1 OK).
+1. Every chunk and citation carries a `vehicle_id` (and ideally year/make/model metadata).
+2. Document family is first-class (`service_manual` | `wiring` | `connectors` | future families).
+3. Ingest is per-vehicle idempotent — adding vehicle N never requires reindexing vehicles 1 through N-1, unless the schema itself migrates.
+4. The corpus root is a config choice: `fixtures/` for public, or a private library path for local-only use.
+5. The catalog lists vehicles × families × process/index status (a minimal version is fine for v1).
 
 ---
 
@@ -134,48 +127,47 @@ v1 portfolio ship is **M0 text-only**, but architecture must **not paint us into
 
 | Layer | Decision |
 |-------|----------|
-| Product docs | **This VISION** is SSOT for Mechanic product intent |
-| Library program | Separate private library program (not linked from this public surface) |
-| Code | Next.js `web/src/app` + hybrid→RRF→section dedup→CE + Ollama citations; stub ask **retired** |
-| Database | **Clone:** Compose Postgres+pgvector. **Production demo:** Supabase Free via `pg` + `DATABASE_URL` ([ARCHITECTURE §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo)). Not supabase-js. |
-| Multimodal plans | Archive / defer |
-| Scratch wipe? | **No** |
-| Real Ford corpus | Private ingest **after** process/unify; not required for public DoD |
+| Product docs | This vision document is the source of truth for product intent |
+| Library program | A separate, private program — not linked from this public surface |
+| Code | Next.js `web/src/app` + hybrid → RRF → section dedup → cross-encoder + Ollama-generated, cited answers |
+| Database | Clone: Compose Postgres + pgvector. Production demo: Supabase Free via `pg` + `DATABASE_URL` ([ARCHITECTURE §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo)) — never a Supabase client library |
+| Multimodal plans | Archived/deferred until a stage is explicitly authorized |
+| Real OEM corpus | Ingested privately, after the separate library program processes it — never required for the public v1 release |
 
 ---
 
-## 8. Locked decisions (Mechanic)
+## 8. Locked decisions
 
-| ID | Choice |
+| Decision | Choice |
 |----|--------|
-| DB | Clone: Compose Postgres + pgvector. Production: Supabase Free via `DATABASE_URL` (ARCHITECTURE §3.1). Clone must not require cloud. |
-| Generator default | Ollama **`gemma4:e2b`** (fallback `qwen3.5:4b`) |
-| Ranking | Hybrid → RRF → local CE (N→K); degrade to RRF-only; eval lift |
-| Public corpus | Synthetic redistributable fixtures |
-| Modality v1 | **Text RAG storefront.** M1–M3 personal-garage paths exist and stay parked / off the public demo |
-| Vehicle model | Multi-vehicle schema from v1 |
-| OEM PDFs | Never in public git |
+| Database | Clone: Compose Postgres + pgvector. Production: Supabase Free via `DATABASE_URL` (ARCHITECTURE §3.1). The clone must never require a cloud dependency. |
+| Default generator | Ollama `gemma4:e2b` (fallback `qwen3.5:4b`) |
+| Ranking | Hybrid → RRF → local cross-encoder; degrades to RRF-only; evaluated against a lift target |
+| Public corpus | Synthetic, redistributable fixtures only |
+| v1 modality | Text-RAG storefront. M1-M3 personal-garage paths exist and stay parked, off the public demo |
+| Vehicle model | Multi-vehicle schema from v1 onward |
+| OEM PDFs | Never committed to public git |
 
 ---
 
-## 9. Success (portfolio v1)
+## 9. What's actually proven (portfolio v1)
 
-Honest progress. Checked items = **path exists with evidence**. Fixtures-only public packaging is Met — still **not** earned CE lift, **not** OSI open source, **not** Drive-as-ingest / friend Drive Done / dual-product Done (local private gold lanes may exist; Gold can still be incomplete).
+Every checked item below has real, working evidence behind it — not just an intention.
 
-- [x] Real retrieve path (no fake candidates)
-- [x] Hybrid → RRF → local CE + citations in API response (include `vehicle_id` / doc family); embed/CE later **frozen** (not earned lift)
-- [x] ≥30 eval cases with documented metrics (incl. CE lift vs RRF-only or justified keep) — current discriminative set n=**44** flat (helps=0/hurts=0); CE remains in pipeline; **no** lift claim; proxy `+1`/`n=5` retired as freeze evidence
-- [x] Clone-and-run with fixtures (no OEM PDFs; Compose Postgres) — README Try it; fixtures only
-- [x] README + GETTING_STARTED + architecture + FAQ — packaging + honesty for n/delta + freeze + LICENSE + fixtures-only public flip
-- [x] Extensibility notes for multimodal **and** multi-vehicle library growth in architecture (not full private sync required)
-- [x] Minimal vehicle catalog (even if fixture-backed) — `vehicles` + fixture ingest
-- [x] Formal embed/CE **freeze** — Path B override (n=44 `ce_vs_rrf_ask_delta_hits=0`; frozen despite flat delta; **not** earned lift — see `evals/MODEL_FREEZE_STATUS.md`)
-- [x] Public flip / portfolio “v1 Done” marketing claim — **fixtures-only** (fail-closed OK; freeze = override not lift; PolyForm-NC ≠ OSI)
+- [x] A real retrieval path, with no fabricated candidates
+- [x] Hybrid → RRF → local cross-encoder + citations in the live API response, including `vehicle_id`/document family
+- [x] A ≥30-case eval set with documented metrics, including the cross-encoder-lift comparison — the current discriminative set is n=44, flat (0 cases helped, 0 hurt); the cross-encoder stays in the pipeline regardless, with no lift claimed (an earlier n=5 proxy result is explicitly not treated as evidence — see `MODEL_FREEZE_STATUS.md`)
+- [x] Clone-and-run with fixtures only — no OEM PDFs, just Compose Postgres — via the README's "try it" path
+- [x] Full packaging: README, GETTING_STARTED, architecture doc, FAQ — including honest documentation of the freeze, the eval delta, the license, and the fixtures-only public boundary
+- [x] Documented extensibility for both the multimodal roadmap and multi-vehicle library growth, in the architecture doc
+- [x] A minimal vehicle catalog, fixture-backed, with real ingest behind it
+- [x] A formal embedding/cross-encoder freeze, made by deliberate decision despite a flat measured delta (see `MODEL_FREEZE_STATUS.md` for the complete evidence trail)
+- [x] A public "v1 done" claim scoped honestly to fixtures-only packaging — not to an earned lift, not to an OSI license, and not to a second vehicle's corpus being fully live
 
-**§9 checked rows mean capability + fixtures-only public flip packaging exist with evidence.** Freeze-by-override while paired-ask delta stays **0** — freeze ≠ earned CE lift. LICENSE is source-available / non-commercial — **not** OSI open source. Fixtures flip ≠ Drive / second-vehicle themes. Local private gold Met ≠ friend Drive Done ≠ dual-product Done.
+**What this list does and doesn't mean, stated once clearly:** each checked item means the capability exists with real evidence behind it — not that every stretch goal is finished. The model freeze is a deliberate decision, not an earned lift. The license (PolyForm Noncommercial) is source-available, not OSI open source. A working private-Gold ingest pilot is not the same claim as a fully completed second-vehicle corpus or an automated intake pipeline. Each of these is a distinct, specific claim, and none of them should be read into the others.
 
 ---
 
-## 10. Alignment with senior AI eng portfolio
+## 10. Alignment with the broader senior AI engineering portfolio
 
-Demonstrates production-shaped RAG (not a notebook): APIs, hybrid retrieval → fusion → cross-encoder rerank, evals, packaging, honest limitations, and DE-aware corpus growth — complementary to AlphaGuard (agents/streaming) and Eyeglass (MLOps/CV). The private capture → process → Mechanic path is the **real** long-horizon data story; public git stays legally clean.
+This project demonstrates production-shaped RAG — not a notebook: real APIs, hybrid retrieval → fusion → cross-encoder reranking, a genuine eval harness, real packaging, and honestly-stated limitations, with a data-engineering-aware approach to corpus growth. It complements AlphaGuard (agents/streaming) and Eyeglass (MLOps/CV) as a portfolio set. The private capture → process → Mechanic pipeline is the real, long-horizon data story here; the public git history stays legally clean throughout.
