@@ -1,4 +1,4 @@
-# Hosted demo outage — Supabase Free inactivity pause (JH-17)
+# Hosted demo outage — Supabase Free inactivity pause
 
 **Status:** Historical incident note for reviewers. Not a product contract and not a restore runbook.  
 **When:** Last known healthy deploy ~2026-08-25. External probes 2026-09-24 00:56–00:57 UTC.  
@@ -9,7 +9,7 @@
 | **Verified** | Observed in the 2026-09-24 public probes, this repo’s git history, or a merged PR. |
 | **Unverified** | Plausible, but not observed from a public clone. |
 
-This file is a cleaned rewrite of an earlier JH-17 RCA that was never merged. That draft branched from 2026-08-25 `main`, conflicts with current `docs/README.md`, and repeated a Supabase project identifier that `/api/vehicles` had echoed in raw driver text. The identifier is omitted here on purpose.
+This file is a cleaned rewrite of an earlier root-cause draft that was never merged. That draft branched from 2026-08-25 `main`, conflicts with current `docs/README.md`, and repeated a Supabase project identifier that `/api/vehicles` had echoed in raw driver text. The identifier is omitted here on purpose.
 
 ## What failed
 
@@ -32,7 +32,7 @@ Ask validation still worked (`vehicle_id` required; camelCase rejected). The pag
 
 **What public probes showed (Verified):** the hosted database URL still targeted a Supabase pooler tenant the pooler no longer knew. Shared pooler hostnames resolved; the project API hostname and direct DB hostname were NXDOMAIN. That is not a Next.js regression, a wrong password (those FATALS look different), or a missing `vehicles` table (that error appears only after a successful login).
 
-**Pause vs delete vs stale env ref (Unverified at investigation time):** the original RCA could not split those three without the owner dashboard. Later work in this repo — especially the external keep-alive against `GET /api/health?mode=db` (JH-29) — treats the recurring risk as free-tier inactivity pause. This note follows that framing and does not restate project refs.
+**Pause vs delete vs stale env ref (Unverified at investigation time):** the original investigation could not split those three without the owner dashboard. Later work in this repo — especially the external keep-alive against `GET /api/health?mode=db` — treats the recurring risk as free-tier inactivity pause. This note follows that framing and does not restate project refs.
 
 A keep-alive cannot recreate a missing tenant. It can only run `SELECT 1` when connect still works.
 
@@ -40,22 +40,22 @@ A keep-alive cannot recreate a missing tenant. It can only run `SELECT 1` when c
 
 Do not copy the August/September investigation as current architecture. As of later merged PRs on this repo (**Verified**):
 
-- Hosted health no longer requires Ollama when `GEMINI_API_KEY` is set. `GET /api/health?mode=db` is a Postgres-only probe; connect failures must not escape as an empty 500 (JH-29).
-- Architecture describes Production as Vercel Hobby + Supabase Free + Gemini (JH-40). The 2026-07 “cloud DB rejected” line is historical clone policy, not a description of the live URL.
-- Hosted generator default is `gemma-4-26b-a4b-it` with retry/backoff (JH-39), not the August `gemini-3.6-flash` default.
+- Hosted health no longer requires Ollama when `GEMINI_API_KEY` is set. `GET /api/health?mode=db` is a Postgres-only probe; connect failures must not escape as an empty 500.
+- The architecture doc describes Production as Vercel Hobby + Supabase Free + Gemini. The 2026-07 "cloud DB rejected" line is historical clone policy, not a description of the live URL.
+- The hosted generator default is `gemma-4-26b-a4b-it` with retry/backoff, not the August `gemini-3.6-flash` default.
 - `/api/vehicles` leaking raw driver text was real in that investigation. Do not re-publish the leaked token.
 
 ## What landed after
 
-| Ticket | What changed (Verified from merged PRs unless noted) |
-|--------|------------------------------------------------------|
-| JH-29 (#2) | Hosted health contract + `GET /api/health?mode=db`. External Cloudflare Worker + GitHub Actions hit that probe. |
-| JH-36 / JH-39 (#3) | Free-tier Gemini serving; JH-39 is the backoff (exponential + jitter, max 4 attempts) and current default `gemma-4-26b-a4b-it`. JH-36 is not named in this repo’s git history. |
-| JH-37 (#5) | Hosted `pg.Pool` max 2, 5s idle, SSL, Vercel `attachDatabasePool`. |
-| JH-46 (#6) | Public `error_class` taxonomy; HTTP 200 `outcome: "degraded"` with extractive excerpts when generate/embed fail after retries and ≥1 citation exists. |
-| JH-41 | Daily synthetic Ask monitor in a private ops repo (12:03 PM America/Chicago). Scores hosted Ask per [`ops.md`](../ops.md) and opens deduped GitHub issues on fail or degraded. Public evidence pack / stranger verify: [`ops.md` JH-66 / JH-48.9](../ops.md#public-ask-monitor-evidence-jh-66). |
-| JH-42 (#8) | Per hashed-IP 10/min + 100/day and global 800/day Ask shield. Pre-Ask HTTP 429. Fail-open if the limiter table is missing. |
-| JH-52 (#10) | RLS (no FORCE, no policies) + revoke `anon` / `authenticated` on public tables so PostgREST cannot read the demo corpus. App stays `pg` + `DATABASE_URL`. |
+| PR | What changed (Verified from merged PRs unless noted) |
+|----|------------------------------------------------------|
+| [#2](https://github.com/Alpha-W0lf/mechanic_rag/pull/2) | Hosted health contract + `GET /api/health?mode=db`. An external Cloudflare Worker + GitHub Action hit that probe. |
+| [#3](https://github.com/Alpha-W0lf/mechanic_rag/pull/3) | Free-tier Gemini serving, including retry/backoff (exponential + jitter, max 4 attempts) and the current default generator `gemma-4-26b-a4b-it`. |
+| [#5](https://github.com/Alpha-W0lf/mechanic_rag/pull/5) | Hosted `pg.Pool` max 2, 5s idle, SSL, Vercel `attachDatabasePool`. |
+| [#6](https://github.com/Alpha-W0lf/mechanic_rag/pull/6) | Public `error_class` taxonomy; HTTP 200 `outcome: "degraded"` with extractive excerpts when generate/embed fail after retries and at least one citation exists. |
+| — | A daily synthetic Ask monitor in a private ops repo (12:03 PM America/Chicago) scores hosted Ask per [`ops.md`](../ops.md) and opens deduplicated GitHub issues on failure or degradation. Public evidence pack / stranger verify: [`ops.md`](../ops.md#public-evidence-pack). |
+| [#8](https://github.com/Alpha-W0lf/mechanic_rag/pull/8) | Per-hashed-IP 10/min + 100/day and global 800/day Ask shield. A pre-Ask HTTP 429. Fails open if the limiter table is missing. |
+| [#10](https://github.com/Alpha-W0lf/mechanic_rag/pull/10) | Row-level security (no FORCE, no policies) + revoked `anon`/`authenticated` on public tables, so PostgREST can't read the demo corpus. The app itself stays on `pg` + `DATABASE_URL`. |
 
 A green keep-alive is **DB reachable after idle**. It is not cited Ask. Monitor scoring: [`docs/ops.md`](../ops.md).
 
