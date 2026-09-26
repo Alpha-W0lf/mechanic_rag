@@ -65,7 +65,7 @@ The 2025 stub (`{question, history}`, `page_number`, `{status:"ok"}` only) is re
 | `diagnostics` | Object only when `MECHANIC_DIAGNOSTICS=1`; otherwise `null`. Never private chunk bodies. |
 | `visual_assets` | Parked M1. Empty on the public text-RAG path. Shape when present: `{ chunk_id, document_id, page_start, content_type, href }`. |
 
-Hosted generate/embed failure after retries with ≥1 citation: HTTP **200** `outcome: "degraded"` plus `error_class` and extractive excerpts (JH-46). That is not a 5xx.
+Hosted generate/embed failure after retries with ≥1 citation: HTTP **200** `outcome: "degraded"` plus `error_class` and extractive excerpts. That is not a 5xx.
 
 ### 1.3 Non-200
 

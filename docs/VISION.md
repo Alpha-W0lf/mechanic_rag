@@ -4,7 +4,7 @@
 
 > **Terminology:** `Guide NN` / `M1–M3` tags mark numbered internal build milestones — historical provenance for when a capability landed. Read them as labels; current truth is what this document states.
 **Created:** 2026-07-12  
-**Updated:** 2026-09-24 (JH-47: hosted topology pointer to ARCHITECTURE §3.1; M1–M3 labeled parked)  
+**Updated:** 2026-09-24 (added a hosted topology pointer to ARCHITECTURE §3.1; M1–M3 labeled parked)  
 **Owner:** Tom  
 **Repo:** `mechanic_rag` (renamed from `mechainic_rag`; Python import package remains `mecharag`)  
 
