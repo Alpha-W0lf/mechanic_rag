@@ -1,194 +1,63 @@
-# Model freeze status (Guide 01 → Guide 09)
+# Model freeze status
 
 | Lock | Model in use | Status |
 |------|--------------|--------|
-| Embedding model + dim | Ollama `nomic-embed-text` @ 768 | **Frozen (Tom override — flat delta; no lift claim)** — Guide 09 Path B (pass 152). |
-| CE model + runtime | `Xenova/ms-marco-MiniLM-L-6-v2` via `transformers_js` (`classification` mode on 2026-07-17 Guide 08 paired run) | **Frozen (Tom override — flat delta; no lift claim)** — Guide 09 Path B (pass 152). Paired ask delta remains **0** on n=44. |
+| Embedding model + dimension | Ollama `nomic-embed-text` @ 768 | **Frozen by deliberate decision** — flat measured delta, no lift claim (2026-07-18). |
+| Cross-encoder model + runtime | `Xenova/ms-marco-MiniLM-L-6-v2` via `transformers_js`, `classification` mode | **Frozen by deliberate decision** — flat measured delta, no lift claim (2026-07-18). Paired-ask delta stays **0** across every eval round through n=44. |
 
-## Freeze checklist (human-only)
+## What it took to freeze this (the checklist that was actually satisfied)
 
-Do **not** flip status to frozen unless **all** are true and a human authors the freeze:
+A freeze here means declaring the embedding and/or cross-encoder model IDs locked for portfolio ranking claims — not merely "present in the ask path." Before that claim was made, all of the following had to be true, and a human had to make the call explicitly:
 
-1. Paired ask ablation metrics present under generator **`gemma4:e2b`** (`rrf_only_ask_hits`, `ce_ask_hits`, `ce_vs_rrf_ask_delta_hits`).
-2. Shared hit predicate = cited `chunk_id` ∩ allowed evidence (not answer-substring alone).
-3. CE model id + **CE runtime mode** (`classification` vs `cosine`) recorded.
-4. Degrade rate recorded (and distinct from `ablation_rrf_only`).
-5. Golden set ≥30 on S2000 fixture (Guide 04 path complete; current evidence n=44 after Guide 08 T1).
-6. **Forbidden:** freeze on proxy `ce_vs_rrf_delta_hits=+1` / `n=5` / lexical proxy alone.
+1. Paired ask ablation metrics present, under the same generator (`gemma4:e2b`): `rrf_only_ask_hits`, `ce_ask_hits`, `ce_vs_rrf_ask_delta_hits`.
+2. A precisely shared hit predicate — cited `chunk_id` intersected with the allowed evidence set, not a looser answer-substring match.
+3. The cross-encoder's model ID and runtime mode (`classification` vs `cosine`) recorded exactly.
+4. The degrade rate recorded, and kept distinct from an RRF-only ablation run.
+5. A golden eval set of at least 30 cases on the S2000 fixture corpus (current evidence: n=44).
+6. **Explicitly forbidden as freeze evidence:** an early proxy result (`ce_vs_rrf_delta_hits=+1` on n=5) — far too small a sample to freeze a model choice on, called out and rejected on its own terms below.
 
-**Unlock paths:** (Lift) stronger citation∩gold asymmetry, **or** (Override) explicit Tom Path B lock despite flat delta — see Guide 09 below. If paired delta is flat/negative and no override: leave **candidate**; human may write keep-with-justification (MR2) — do not invent lift language.
+**The honest bottom line, stated plainly:** across four progressively larger evaluation rounds, the paired-ask delta between RRF-only and RRF+cross-encoder ranking was **exactly zero, every time.** The cross-encoder was frozen into the stack anyway — deliberately, not because it earned the freeze through measured improvement. That distinction is the whole point of this document.
 
-### Keep-with-justification (Guide 05 — authored 2026-07-16; historical)
+## Why the cross-encoder stays in the pipeline despite a flat delta
 
-**Decision (historical):** Keep embedding and cross-encoder as **candidates** (not frozen). Keep the cross-encoder **in the ranking pipeline**.
+The cross-encoder remains in the stack for architecture completeness (the intended pipeline is hybrid → RRF → section dedup → cross-encoder), as a real demonstration of local reranking, for latency measurement, and to exercise the degrade-to-RRF-only reliability path — not because it measurably improved citation accuracy on these evals. That's stated directly rather than implied otherwise.
 
-**Status supersession (Guide 09):** Guide 09 Path B **supersedes status** (candidates → **frozen by Tom override**). Historical keep honesty below is retained — delta **0** still true; freeze is **override**, not earned lift.
+## Evaluation history (paired ask ablation, RRF-only vs. RRF + cross-encoder)
 
-**Evidence (Guide 04 paired ask):** n=30, generator `gemma4:e2b`, CE `Xenova/ms-marco-MiniLM-L-6-v2` in `classification` mode, `rrf_only_ask_hits=26`, `ce_ask_hits=26`, `ce_vs_rrf_ask_delta_hits=0`, `degrade_rate=0.0`, `avg_ce_latency_ms≈94.7`.
+Each round used the same generator (`gemma4:e2b`), the same cross-encoder (`Xenova/ms-marco-MiniLM-L-6-v2`, `classification` mode), and the same hit definition (cited `chunk_id` ∩ gold evidence) unless noted. Retained here for history — the current, authoritative evidence is the n=44 round.
 
-**Evidence refresh (Guide 07 Path A — 2026-07-17):** n=38 (+8 traps g31–g38), `rrf_only_ask_hits=34`, `ce_ask_hits=34`, `ce_vs_rrf_ask_delta_hits=0`, CE-helps=0 / CE-hurts=0.
+| Date | n | RRF-only hits | RRF+CE hits | Delta | CE-helps / CE-hurts | Degrade rate | Avg. CE latency | Note |
+|------|---|---|---|---|---|---|---|---|
+| 2026-07-13 | 12 | 11 | 11 | **0** | — | — | — | Earliest round; too small to be current eval maturity — not cited as such |
+| 2026-07-14 | 30 | 26 | 26 | **0** | — | 0.0 | ≈94.7ms | A parallel lexical-proxy metric (8 hits) was tracked separately and is not a lift measure |
+| 2026-07-17 | 38 | 34 | 34 | **0** | 0 / 0 | — | — | Added 8 harder "trap" cases designed to be confusable |
+| 2026-07-17 | 44 | 39 | 39 | **0** | **0 / 0** | 0.0 | ≈129.8ms | Added 3 synthetic confusable sections + 6 more trap cases; 39/44 both-hit, 5 both-miss; see `evals/last_run_summary.json` |
 
-**Evidence refresh (Guide 08 T1 — 2026-07-17):** n=44 (+3 synthetic confusable `###` + g39–g44 anti-paraphrase traps), same generator/CE/mode, `rrf_only_ask_hits=39`, `ce_ask_hits=39`, `ce_vs_rrf_ask_delta_hits=0`, **CE-helps=0**, **CE-hurts=0**, `degrade_rate=0.0`, `avg_ce_latency_ms≈129.8` — see `evals/last_run_summary.json`. Traps: 5/6 both-hit, g44 both-miss; still **no** citation∩gold asymmetry.
+**Not freeze evidence, and explicitly rejected as such:** an even earlier proxy run (2026-07-12, n=5) showed `ce_vs_rrf_delta_hits=+1` using a looser answer-substring hit definition on a different generator era (`qwen3.5:4b`) — a sample far too small, and a hit definition too loose, to support any real conclusion. It is called out here specifically so it's never mistaken for supporting evidence.
 
-1. Paired-ask citation∩gold delta was **0** on n=30, n=38, and again **0** on n=44 after T1.  
-2. *(Historical)* Models remained **candidates**, not frozen — until Guide 09 override.  
-3. Cross-encoder **stays in the stack** for architecture completeness (hybrid → RRF → section dedup → CE N→K), demo of local rerank, latency measurement, and degrade-to-fusion reliability — not because it improved this metric.  
-4. **Do not** claim CE improved citation hits on these runs. Historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` remains **forbidden** as lift or freeze evidence.
+## The freeze decision itself (2026-07-18)
 
-### Formal freeze packaging (Guide 06)
+Given a persistently flat delta across four rounds of increasingly rigorous evaluation, the embedding and cross-encoder model choices were frozen by explicit, deliberate decision — not because the cross-encoder proved a measurable lift. Required honesty, stated directly:
 
-**What “freeze” means (interview language):** Declaring embedding and/or CE model IDs **locked** for portfolio ranking claims — not merely “present in the ask path.”
+1. The paired-ask citation∩gold delta was 0 on n=30, n=38, and n=44.
+2. The models are frozen by deliberate decision, not because the cross-encoder proved lift.
+3. The cross-encoder stays in the stack regardless (see above for why).
+4. This freeze does not claim the cross-encoder improved citation hits on these runs.
+5. This freeze is not an earned cross-encoder lift claim. Separately: the project's license (PolyForm Noncommercial) is not an OSI open-source license, and the fixtures-only public packaging is not the same claim as a completed second-vehicle or dual-product build — none of these should be read into each other.
 
-**Guide 05 keep-with-justification ≠ freeze.** Keeping CE in the stack with an honesty note is gate 1 (keep-in-stack). Formal freeze is gate 2 and is **human-only**.
-
-**Evidence alone was insufficient to earn a freeze from lift:** Guide 04 (n=30), Guide 07 (n=38), and Guide 08 T1 (n=44) all recorded `ce_vs_rrf_ask_delta_hits=0` with CE-helps=0 / CE-hurts=0. Flat delta after T1 confusable sections does **not** earn a freeze claim from ablation.
-
-**Tom lock (2026-07-17):** Formal freeze was **parked** until new evidence or explicit override. Guide 07/08 did **not** auto-freeze.
-
-**Guide 09 (2026-07-18):** Explicit Tom Path **B** override **unparked** freeze — see section below. Public flip remains a **separate** gate.
-
-**Before any human freeze:** complete the six-item **Freeze checklist (human-only)** in this file (process fields). Path B override does **not** invent new metric gates and does **not** use historical proxy `ce_vs_rrf_delta_hits=+1` / `n=5` as freeze evidence.
-
-**Related:** Freeze ≠ earned CE lift. Guide 10a LICENSE (PolyForm-NC) ≠ OSI open source. Guide 10b fixtures-only flip Met ≠ earned CE lift.
-
-### Formal freeze — Tom override (Guide 09)
-
-**Decision (Tom Path B — pass 152, 2026-07-18):** Freeze embedding and cross-encoder model IDs for portfolio ranking claims via **explicit override**, despite flat paired-ask ablation.
-
-**Evidence cited (Guide 08 current; `evals/last_run_summary.json`):**
-
-| Field | Value |
-|-------|-------|
-| n_cases | 44 |
-| generator | `gemma4:e2b` |
-| CE model | `Xenova/ms-marco-MiniLM-L-6-v2` |
-| CE runtime mode | `classification` |
-| rrf_only_ask_hits | 39 |
-| ce_ask_hits | 39 |
-| ce_vs_rrf_ask_delta_hits | **0** |
-| CE-helps / CE-hurts | **0 / 0** |
-| degrade_rate | 0.0 |
-| avg_ce_latency_ms | ≈129.8 |
-
-**Required honesty (Guide 09):**
-
-1. Paired-ask citation∩gold delta was **0** on n=30, n=38, and **n=44**.  
-2. Models are **frozen by Tom override**, not because CE proved lift.  
-3. Cross-encoder **stays in the stack**.  
-4. **Do not** claim CE improved citation hits on these runs.  
-5. Guide 09 freeze **≠** earned CE lift. Guide 10a LICENSE ≠ OSI open source. Guide 10b fixtures-only flip Met **≠** earned CE lift. Guide 11 PrivateGoldSource fixture-first Met **≠** live Soft Adjust / dual-product Done.
-
-**Unlock used:** Override unlock (flat delta + Tom Path B lock) — **not** lift unlock. **Forbidden:** “earned freeze from ablation”; proxy `+1` / `n=5` as proof.
-
-## Generator (not a freeze lock)
-
-| Preference | Status |
-|------------|--------|
-| Primary `gemma4:e2b` | Confirmed on paired Guide 02 run (`generator_models_seen`) — **not** a model freeze lock |
-| Pass 8c baseline | **qwen3.5:4b** historical proxy / qwen-era only |
-
-## Historical proxy baseline (2026-07-12 pass 8c) — NOT freeze evidence
-
-| Metric | Value | Honesty |
-|--------|-------|---------|
-| n_cases | 5 | Too small; proxy era |
-| rrf_only_retrieval_hits (lexical FTS proxy) | 4 | **Not** RRF-only ask |
-| ce_or_ask_path_hits (answer-substring) | 5 | **Not** citation∩gold |
-| ce_vs_rrf_delta_hits | +1 | **Proxy theater — do not freeze on this** |
-| generator | qwen3.5:4b | Different era |
-
-## Guide 08 paired ask ablation results (2026-07-17) — current evidence
-
-Source: `evals/last_run_summary.json` after T1 synthetic confusable sections + g39–g44 + twin-process paired ask:
-
-```bash
-# CE-on :3000 (FORCE unset) + RRF-only :3001 (MECHANIC_FORCE_RRF_ONLY=1)
-mecharag eval --golden evals/ \
-  --ask-url http://127.0.0.1:3000/api/ask \
-  --ask-url-rrf-only http://127.0.0.1:3001/api/ask
-```
-
-| Field | Value |
-|-------|-------|
-| Date / run | 2026-07-17 Guide 08 Implement |
-| n_cases | 44 |
-| paired_cases_scored | 44 (0 asymmetric failures) |
-| generator | `gemma4:e2b` |
-| CE model | `Xenova/ms-marco-MiniLM-L-6-v2` |
-| CE runtime mode | `classification` |
-| rrf_only_ask_hits | 39 |
-| ce_ask_hits | 39 |
-| ce_vs_rrf_ask_delta_hits | **0** |
-| CE-helps (CE hit, RRF miss) | **0** |
-| CE-hurts (RRF hit, CE miss) | **0** |
-| both_hit / both_miss | 39 / 5 |
-| T1 sections | +3 synthetic confusable `###` (1-3, 3-3, 4-3) |
-| trap band (g39–g44) | 5 both-hit; g44 both-miss |
-| degrade_rate | 0.0 |
-| avg_ce_latency_ms | 129.8 |
-| Evidence status | Flat — **no lift**; freeze later via Guide 09 **override** (not auto-freeze from this run) |
-
-## Guide 07 paired ask ablation results (2026-07-17) — superseded n
-
-Retained for history; **current** evidence is Guide 08 n=44 above.
-
-| Field | Value |
-|-------|-------|
-| Date / run | 2026-07-17 Guide 07 Implement |
-| n_cases | 38 |
-| rrf_only_ask_hits / ce_ask_hits | 34 / 34 |
-| ce_vs_rrf_ask_delta_hits | **0** |
-| CE-helps / CE-hurts | 0 / 0 |
-| Status at run | **candidate** — flat; superseded by Guide 08 evidence; freeze later Guide 09 override |
-
-## Guide 04 paired ask ablation results (2026-07-14) — superseded n
-
-Retained for history; **current** evidence is Guide 08 n=44 above.
-
-| Field | Value |
-|-------|-------|
-| Date / run | 2026-07-14 Guide 04 Implement |
-| n_cases | 30 |
-| paired_cases_scored | 30 (0 asymmetric failures) |
-| generator | `gemma4:e2b` |
-| CE model | `Xenova/ms-marco-MiniLM-L-6-v2` |
-| CE runtime mode | `classification` |
-| rrf_only_ask_hits | 26 |
-| ce_ask_hits | 26 |
-| ce_vs_rrf_ask_delta_hits | **0** |
-| degrade_rate | 0.0 |
-| avg_ce_latency_ms | 94.7 |
-| lexical_proxy_retrieval_hits | 8 (segregated; not lift) |
-| Status at run | **candidate** — flat delta; freeze later Guide 09 override |
-
-## Guide 02 paired ask ablation results (2026-07-13) — superseded n
-
-Source: prior `evals/last_run_summary.json` (n=12). Retained for history only; **do not** cite n=12 as current eval maturity.
-
-| Field | Value |
-|-------|-------|
-| Date / run | 2026-07-13 Guide 02 Implement pass 22 |
-| n_cases | 12 |
-| rrf_only_ask_hits | 11 |
-| ce_ask_hits | 11 |
-| ce_vs_rrf_ask_delta_hits | **0** |
-
-No invented public-release pass/fail thresholds.
+**Generator note (not a freeze lock):** `gemma4:e2b` is the confirmed primary generator; `qwen3.5:4b` is kept as a historical/fallback baseline from an earlier evaluation era. Neither is part of the frozen-model claim above — only the embedding and cross-encoder models are.
 
 ## 2026-08-25 — serving-path embedding provider note
 
-The public fixture corpus is now embedded and queried with `gemini-embedding-001` @ 768 (serverless deployment requirement; dimension-compatible with the frozen `vector(768)` column). This changes the public serving path only — it does **not** reopen any freeze gate, does not alter ranking architecture (hybrid → RRF → dedup → CE), and makes **no CE-lift claim**. The local/BYO path continues to default to Ollama `nomic-embed-text` @ 768. Generation on the hosted path uses `gemini-flash`; generation was never part of the freeze scope.
+The public fixture corpus is now embedded and queried with `gemini-embedding-001` @ 768 for the hosted serverless deployment (dimension-compatible with the frozen `vector(768)` column). This changes the public serving path only — it does not reopen the freeze above, does not alter the ranking architecture (hybrid → RRF → dedup → cross-encoder), and makes no cross-encoder-lift claim. The local/BYO path continues to default to Ollama `nomic-embed-text` @ 768. Hosted generation uses `gemini-flash`; generation was never part of the freeze scope.
 
----
+## A follow-up local evaluation (2026-09-24) — measured a small real lift, not shipped
 
-## JH-51 paired Ask note — 2026-09-24 (local M2 Pro)
+A later, separate local evaluation compared RRF-only against local RRF + cross-encoder ranking using richer retrieval metrics (MRR, Recall@1, Recall@3) rather than the binary ask-hit measure used above:
 
-Measured RRF-only vs local RRF+CE on SHA `8eb5d59269e370f6c2ef50563afec3027e515241` (did not merge `origin/main`).
-
-- Evidence: `evals/evidence/2026-09-24_jh51_rrf_vs_ce_paired.json` + `.md`
-- n=44; gold_mrr RRF 0.8258 → CE 0.8371; R@1 0.75 → 0.7727; R@3 flat 0.9091
-- helps/hurts/unchanged (MRR): 2 / 1 / 41; degradation_rate 0.0227; gold_in_rrf_top_k_rate 0.9091
-- CE latency p50/p95 ≈ 800 / 983 ms (avg 822.66); model Xenova/ms-marco-MiniLM-L-6-v2
-- Locked gate (helps>hurts ∧ MRR|R@1 lift ∧ n≥30): **GO** (tiny lift; fixture ceiling / not hard-neg stress)
-- **No Production change; hosted CE not enabled; no shipping PR.**
-
+- Evidence: `evals/evidence/2026-09-24_rrf_vs_ce_paired.json` / `.md`
+- n=44; gold MRR 0.8258 → 0.8371; Recall@1 0.75 → 0.7727; Recall@3 flat at 0.9091
+- Helps / hurts / unchanged (by MRR): 2 / 1 / 41; degradation rate 0.0227; gold-in-RRF-top-K rate 0.9091
+- Cross-encoder latency: p50/p95 ≈ 800/983ms (avg 822.66ms), same model as above
+- Against a pre-registered gate (helps > hurts, and a measured MRR or Recall@1 lift, on n ≥ 30): this **passes** — a small but real lift, though likely a fixture-ceiling effect rather than a result from genuinely hard negative examples
+- **This did not ship.** No Production change, hosted cross-encoder not enabled, no release built on it.

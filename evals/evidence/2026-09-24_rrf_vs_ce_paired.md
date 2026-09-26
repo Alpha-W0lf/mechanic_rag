@@ -1,12 +1,11 @@
-# JH-51 measured RRF-only vs local RRF+CE (paired Ask)
+# Measured RRF-only vs local RRF+CE (paired Ask)
 
 **Date:** 2026-09-24 (America/Chicago)  
 **Git SHA:** `8eb5d59269e370f6c2ef50563afec3027e515241` (`8eb5d59`) — stayed on local main; did **not** merge `origin/main` (`d044c60`). Eval harness (`--ask-url-rrf-only`, `eval_rank_metrics.py`) already present.  
-**Machine:** Toms-MB-Pro-M2-Pro (`75e939cd-aeeb-4f71-9e40-ae8dfbd16e8c`)  
 **Golden:** `evals/golden_fixture_v1.json`  
 **Arms:** PORT 3000 `MECHANIC_FORCE_RRF_ONLY=0` (CE on); PORT 3001 `MECHANIC_FORCE_RRF_ONLY=1` (RRF-only); both `MECHANIC_DIAGNOSTICS=1` `SECTION_DEDUP_ENABLED=1`  
 **CE model:** Xenova/ms-marco-MiniLM-L-6-v2 (`@xenova/transformers`, classification runtime)  
-**Evidence JSON:** `evals/evidence/2026-09-24_jh51_rrf_vs_ce_paired.json` (copy of `evals/last_run_summary.json`)  
+**Evidence JSON:** `evals/evidence/2026-09-24_rrf_vs_ce_paired.json` (copy of `evals/last_run_summary.json`)  
 **Production / hosted CE / shipping:** **not** changed; no PR; no deploy.
 
 ## Metrics table (n=44, paired_cases_scored=44, asymmetric_failures=0)
@@ -53,7 +52,7 @@ Gate: `helps > hurts` **AND** (positive MRR **or** R@1 lift) **AND** `n ≥ 30`;
 
 ### Recommendation: **GO (gate met)**
 
-Gate arithmetic is met, so this is a **GO** vs the locked JH-51 gate. Effect size is tiny and fixture-headroom-limited; do **not** auto-ship hosted CE or Production reranking from this alone — human freeze / product decision still required. No PR opened.
+Gate arithmetic is met, so this is a **GO** against the locked gate above. Effect size is tiny and fixture-headroom-limited; do **not** auto-ship hosted CE or Production reranking from this alone — a human freeze/product decision is still required. No PR opened.
 
 ## Ops notes
 
