@@ -178,3 +178,17 @@ No invented public-release pass/fail thresholds.
 ## 2026-08-25 — serving-path embedding provider note
 
 The public fixture corpus is now embedded and queried with `gemini-embedding-001` @ 768 (serverless deployment requirement; dimension-compatible with the frozen `vector(768)` column). This changes the public serving path only — it does **not** reopen any freeze gate, does not alter ranking architecture (hybrid → RRF → dedup → CE), and makes **no CE-lift claim**. The local/BYO path continues to default to Ollama `nomic-embed-text` @ 768. Generation on the hosted path uses `gemini-flash`; generation was never part of the freeze scope.
+
+---
+
+## JH-51 paired Ask note — 2026-09-24 (local M2 Pro)
+
+Measured RRF-only vs local RRF+CE on SHA `8eb5d59269e370f6c2ef50563afec3027e515241` (did not merge `origin/main`).
+
+- Evidence: `evals/evidence/2026-09-24_jh51_rrf_vs_ce_paired.json` + `.md`
+- n=44; gold_mrr RRF 0.8258 → CE 0.8371; R@1 0.75 → 0.7727; R@3 flat 0.9091
+- helps/hurts/unchanged (MRR): 2 / 1 / 41; degradation_rate 0.0227; gold_in_rrf_top_k_rate 0.9091
+- CE latency p50/p95 ≈ 800 / 983 ms (avg 822.66); model Xenova/ms-marco-MiniLM-L-6-v2
+- Locked gate (helps>hurts ∧ MRR|R@1 lift ∧ n≥30): **GO** (tiny lift; fixture ceiling / not hard-neg stress)
+- **No Production change; hosted CE not enabled; no shipping PR.**
+
