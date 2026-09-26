@@ -2,7 +2,7 @@
 
 **Status:** Active portfolio vision · Formal embed/CE **frozen** (not earned lift) · **LICENSE:** PolyForm-NC 1.0.0 (source-available / non-commercial) · Fixtures-only public packaging · **GitHub visibility public** · Personal-garage multimodal paths exist locally (flags default **off**) · **Not** dual-product Done · **Not** friend Drive→Mechanic ingest · **Not** OSI open source  
 
-> **Terminology:** `Guide NN` / `M1–M3` tags mark numbered internal build milestones — historical provenance for when a capability landed. Read them as labels; current truth is what this document states.
+> **Terminology:** `M1`–`M3` label the three multimodal milestone stages (linked visuals → image retrieval → vision-assisted answers). Read them as stage names; current truth is what this document states.
 **Created:** 2026-07-12  
 **Updated:** 2026-09-24 (added a hosted topology pointer to ARCHITECTURE §3.1; M1–M3 labeled parked)  
 **Owner:** Tom  
@@ -79,7 +79,7 @@ A vehicle that is capture-complete is **not** automatically RAG-ready. Portfolio
 - Citations (vehicle, document/family, section, page range when available)
 - Eval set + smoke path (incl. CE lift vs RRF-only)
 - Docs: README, GETTING_STARTED, architecture, FAQ/tradeoffs, `.env.example`, fork/run welcome
-- Generator: local **Ollama** — operator default **`gemma4:e2b`** (pass 9 smoke OK); fallback **`qwen3.5:4b`** (pass 8c historical baseline). Hosted public demo generates with Gemini — see [`ARCHITECTURE.md` §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo).
+- Generator: local **Ollama** — operator default **`gemma4:e2b`** (smoke-tested); fallback **`qwen3.5:4b`** (an earlier baseline, kept as the fallback). Hosted public demo generates with Gemini — see [`ARCHITECTURE.md` §3.1](./ARCHITECTURE.md#31-production-topology-hosted-demo).
 - **Clone / reproduction DB:** local Postgres + pgvector via Docker Compose (host **5433**)
 - Multi-vehicle **schema + catalog** (even if fixtures only ship 1–2 synthetic vehicles)
 
