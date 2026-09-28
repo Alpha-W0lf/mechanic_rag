@@ -111,6 +111,15 @@ describe('buildAskLogLine', () => {
     expect(err.image_degrade_reason).toBe('image_search_error');
   });
 
+  it('keeps query_expansion rule ids and does not add question text', () => {
+    const line = buildAskLogLine({
+      outcome: 'answered',
+      query_expansion: ['engine_size_to_displacement'],
+    });
+    expect(line.query_expansion).toEqual(['engine_size_to_displacement']);
+    expect(JSON.stringify(line)).not.toMatch(/how big is the engine/i);
+  });
+
   it('omits undefined fields and never adds question or raw error text', () => {
     const line = buildAskLogLine({
       outcome: 'degraded',

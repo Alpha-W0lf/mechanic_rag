@@ -3,7 +3,7 @@ import type { RetrieverHit, RrfResult } from './types';
 /**
  * Reciprocal Rank Fusion over N independent ranked lists.
  * Uses ranks only: rrf_score(id) += 1 / (k + rank). Not [0,1] similarity.
- * Empty lists contribute nothing (image-degrade = identical to two-list RRF).
+ * Empty lists contribute nothing, so a skipped channel is identical to fusing without it.
  */
 export function reciprocalRankFusionMany(
   lists: RetrieverHit[][],
