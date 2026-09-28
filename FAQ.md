@@ -30,7 +30,7 @@ Public git repository boundary is **`fixtures/` only** (synthetic). Drive sync, 
 
 **Hosted Production vs stranger clone:**
 - **Git clone / stranger path:** uses synthetic `fixtures/` with public fail-closed validation (`scripts/checks/public_fail_closed.py`).
-- **Hosted production demo (`https://mechanic-rag.vercel.app`):** serves cited answers from owner-accepted personal-garage Honda S2000 Gold (`cat:2003-honda-s2000`, ~2.5k units across service manual, owner's manual, and wiring diagrams) ingested directly into the hosted Supabase database. The hosted demo demonstrates full-scale OEM manual retrieval, while the repository clone remains clean and reproducible on synthetic fixtures. See ARCHITECTURE §5.3.
+- **Hosted production demo (`https://mechanic-rag.vercel.app`):** serves cited answers from owner-accepted personal-garage Honda S2000 Gold (`cat:2003-honda-s2000`, 3,760 retrieval chunks across the service manual, owner's manual, and wiring diagrams) ingested directly into the hosted Supabase database. The hosted demo demonstrates full-scale OEM manual retrieval, while the repository clone remains clean and reproducible on synthetic fixtures. See ARCHITECTURE §5.3.
 
 ## 5. Are embed/CE frozen? What does paired ask delta `0` mean?
 
