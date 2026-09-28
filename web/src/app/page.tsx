@@ -1,11 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import {
+  ASK_IN_FLIGHT_STATUS,
+  ASK_QUESTION_PLACEHOLDER,
   CORPUS_COVERS_CHIP,
   CORPUS_COVERS_SUMMARY,
   DEGRADED_ASK_BANNER,
+  DEGRADED_OUTCOME_LABEL,
   HOSTED_CE_OFF_CHIP,
   HOSTED_CE_OFF_LINE,
+  HOSTED_FREE_TIER_CHIP,
+  RETRY_SUMMARY_LABEL,
   stripDegradedBanner,
 } from "@/lib/ask_copy";
 import { renderAnswerCitationNodes } from "@/lib/answer_citations";
@@ -131,8 +136,8 @@ export default function Home() {
     };
   }, []);
 
-  async function onAsk(e: React.FormEvent) {
-    e.preventDefault();
+  async function submitAsk() {
+    if (!question.trim() || loading) return;
     setError(null);
     setAnswer(null);
     setCitations([]);
@@ -161,6 +166,11 @@ export default function Home() {
     }
   }
 
+  async function onAsk(e: React.FormEvent) {
+    e.preventDefault();
+    await submitAsk();
+  }
+
   const controlsDisabled = loading;
 
   return (
@@ -180,6 +190,9 @@ export default function Home() {
         <p className="mt-1 text-xs text-ink-muted flex flex-wrap items-center gap-1.5">
           <span className="inline-block rounded border border-border bg-surface px-1.5 py-0.5 text-[11px] font-mono text-ink-muted">
             {HOSTED_CE_OFF_CHIP}
+          </span>
+          <span className="inline-block rounded border border-border bg-surface px-1.5 py-0.5 text-[11px] font-mono text-ink-muted">
+            {HOSTED_FREE_TIER_CHIP}
           </span>
           <span>{HOSTED_CE_OFF_LINE}</span>
         </p>
@@ -215,7 +228,7 @@ export default function Home() {
           Question
           <input
             className="ui-control mt-1.5 w-full px-3 py-2 text-sm"
-            placeholder="e.g. What is the oil drain plug torque?"
+            placeholder={ASK_QUESTION_PLACEHOLDER}
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             disabled={controlsDisabled}
@@ -231,7 +244,7 @@ export default function Home() {
           </button>
           {loading && (
             <span className="text-sm text-ink-muted" role="status">
-              Ranking evidence and generating answer…
+              {ASK_IN_FLIGHT_STATUS}
             </span>
           )}
         </div>
@@ -277,13 +290,23 @@ export default function Home() {
       {outcome === "degraded" && answer && (
         <section className="mb-6">
           <div className="outcome-panel outcome-degraded" role="status">
-            <span className="outcome-label">Degraded</span>
+            <span className="outcome-label">{DEGRADED_OUTCOME_LABEL}</span>
             <p className="text-sm mb-3">{DEGRADED_ASK_BANNER}</p>
             <div className="whitespace-pre-wrap text-sm leading-relaxed text-ink">
               <AnswerCitationText
                 text={stripDegradedBanner(answer)}
                 citations={citations}
               />
+            </div>
+            <div className="mt-3">
+              <button
+                type="button"
+                className="ui-btn-secondary px-3 py-1.5 text-sm font-medium"
+                onClick={() => void submitAsk()}
+                disabled={controlsDisabled || !question.trim()}
+              >
+                {RETRY_SUMMARY_LABEL}
+              </button>
             </div>
           </div>
         </section>

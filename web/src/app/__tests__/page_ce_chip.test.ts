@@ -1,13 +1,21 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import Home from "@/app/page";
 import {
+  ASK_IN_FLIGHT_STATUS,
+  ASK_QUESTION_PLACEHOLDER,
   CORPUS_COVERS_CHIP,
   CORPUS_COVERS_SUMMARY,
+  DEGRADED_ASK_BANNER,
+  DEGRADED_OUTCOME_LABEL,
   HOSTED_CE_OFF_CHIP,
   HOSTED_CE_OFF_LINE,
   HOSTED_CE_SKIP_REASON,
+  HOSTED_FREE_TIER_CHIP,
+  RETRY_SUMMARY_LABEL,
 } from "@/lib/ask_copy";
 
 describe('JH-48.7: Live UI "CE off on hosted" chip', () => {
@@ -45,5 +53,44 @@ describe('JH-48.7: Live UI "CE off on hosted" chip', () => {
     expect(CORPUS_COVERS_SUMMARY).toContain("Honda S2000 service manual");
     expect(CORPUS_COVERS_SUMMARY).not.toMatch(/risk/i);
     expect(CORPUS_COVERS_SUMMARY).not.toMatch(/copyright/i);
+  });
+});
+
+describe("Free-tier Ask UX copy", () => {
+  it("exports mastery-first free-tier labels without a user-visible Degraded headline", () => {
+    expect(DEGRADED_OUTCOME_LABEL).toBe("Cited excerpts");
+    expect(DEGRADED_OUTCOME_LABEL).not.toMatch(/degraded/i);
+    expect(DEGRADED_ASK_BANNER).toMatch(/Free Gemini/i);
+    expect(DEGRADED_ASK_BANNER).toMatch(/citations intact/i);
+    expect(DEGRADED_ASK_BANNER).not.toMatch(/sorry|apolog/i);
+    expect(DEGRADED_ASK_BANNER).not.toContain(
+      "AI summary temporarily unavailable",
+    );
+    expect(ASK_IN_FLIGHT_STATUS).toMatch(/free-tier Gemini/i);
+    expect(ASK_IN_FLIGHT_STATUS).toMatch(/retries/i);
+    expect(ASK_QUESTION_PLACEHOLDER).toBe(
+      "e.g. What is the engine displacement of the F20C?",
+    );
+    expect(HOSTED_FREE_TIER_CHIP).toMatch(/Free-tier Gemini/i);
+    expect(RETRY_SUMMARY_LABEL).toBe("Retry summary");
+  });
+
+  it("renders free-tier chip and OEM placeholder on the live homepage", () => {
+    const html = renderToStaticMarkup(React.createElement(Home));
+    expect(html).toContain(HOSTED_FREE_TIER_CHIP);
+    expect(html).toContain(ASK_QUESTION_PLACEHOLDER);
+    expect(html).not.toContain("What is the oil drain plug torque?");
+    expect(html).not.toContain(">Degraded<");
+    expect(html).not.toMatch(/sorry|apolog/i);
+  });
+
+  it("wires degraded UI to Cited excerpts, wait status, and Retry summary", () => {
+    const src = readFileSync(resolve(__dirname, "../page.tsx"), "utf8");
+    expect(src).toContain("DEGRADED_OUTCOME_LABEL");
+    expect(src).toContain("ASK_IN_FLIGHT_STATUS");
+    expect(src).toContain("RETRY_SUMMARY_LABEL");
+    expect(src).toContain("HOSTED_FREE_TIER_CHIP");
+    expect(src).not.toMatch(/>Degraded</);
+    expect(src).not.toContain("Ranking evidence and generating answer");
   });
 });
