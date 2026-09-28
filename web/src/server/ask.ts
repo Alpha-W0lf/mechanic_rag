@@ -31,10 +31,11 @@ import { type AskRequest } from './ask_request';
 import { isForceRrfOnlyEnv, rankAfterFusion } from './ask_ranking';
 import { maybeAssistWithVlmSafe } from './ask_vlm';
 import {
-  buildVisualAssets,
-  garageRoot,
-  type Provenance,
-} from './page_assets';
+  expandQueryForRetrieval,
+  retrieveExpansionBoost,
+  withQueryExpansionDiagnostic,
+} from './ask_query_expansion';
+import { buildVisualAssets, garageRoot, type Provenance } from './page_assets';
 
 export type { AskRequest } from './ask_request';
 export { validateAskRequest } from './ask_request';
@@ -70,6 +71,7 @@ export async function handleAsk(
   let genMs: number | undefined;
   let genAttempts: number | undefined;
   let genStarted = 0;
+  const expansion = expandQueryForRetrieval(req.question);
 
   try {
     const exists = await vehicleExists(req.vehicle_id);
@@ -81,7 +83,7 @@ export async function handleAsk(
     let embedMs = 0;
     try {
       const embStarted = Date.now();
-      const emb = await embedText(req.question);
+      const emb = await embedText(expansion.embedQuery);
       embedding = emb.embedding;
       embeddingModel = emb.model;
       embedMs = Date.now() - embStarted;
@@ -119,6 +121,13 @@ export async function handleAsk(
     );
     lexicalMs = Date.now() - lStarted;
 
+    const boost = await retrieveExpansionBoost({
+      vehicleId: req.vehicle_id,
+      expansion,
+      topN,
+      docFamily: req.doc_family,
+    });
+
     const imageCh = await retrieveImageChannel({
       vehicleId: req.vehicle_id,
       question: req.question,
@@ -128,7 +137,8 @@ export async function handleAsk(
     const image = imageCh.hits;
     const imageMs = imageCh.ms;
 
-    let fused = reciprocalRankFusionMany([vector, lexical, image], rrfK, topN);
+    const rankLists = [vector, lexical, image, boost.hits];
+    let fused = reciprocalRankFusionMany(rankLists, rrfK, topN);
     const rrfSize = fused.length;
     let dedupDrops = 0;
     if (dedupEnabled && fused.length > 0) {
@@ -153,6 +163,7 @@ export async function handleAsk(
         rrf_size: rrfSize,
         dedup_drops: dedupDrops,
         outcome: 'insufficient_evidence',
+        query_expansion: expansion.rules,
         total_ms: Date.now() - t0,
       });
       return insufficientEvidenceResult({
@@ -213,6 +224,7 @@ export async function handleAsk(
         lexical_count: lexical.length,
         image_count: image.length,
         outcome: 'insufficient_evidence',
+        query_expansion: expansion.rules,
         total_ms: Date.now() - t0,
       });
       return insufficientEvidenceResult({
@@ -255,6 +267,7 @@ export async function handleAsk(
         requestId,
         vehicle_id: req.vehicle_id,
         outcome: 'insufficient_evidence',
+        query_expansion: expansion.rules,
         gen_attempts: genAttempts,
         gen_ms: genMs,
         total_ms: Date.now() - t0,
@@ -322,6 +335,9 @@ export async function handleAsk(
       vlm_model: vlm.model,
       vlm_ms: vlm.ms,
       vlm_pages: vlm.pages,
+      query_expansion: expansion.rules,
+      expansion_lexical_count: boost.hits.length,
+      expansion_lexical_ms: boost.ms,
     };
     logAsk({
       requestId,
@@ -357,19 +373,21 @@ export async function handleAsk(
         requestId,
         vehicle_id: req.vehicle_id,
         outcome: 'degraded',
+        query_expansion: expansion.rules,
         error_class: degraded.error_class,
         citation_count: degraded.citations.length,
         gen_attempts: genAttempts,
         gen_ms: genMs,
         total_ms: Date.now() - t0,
       });
-      return degraded;
+      return withQueryExpansionDiagnostic(degraded, expansion.rules);
     }
     const failure = toPublicAskFailure(err);
     logAsk({
       requestId,
       vehicle_id: req.vehicle_id,
       outcome: 'dependency_error',
+      query_expansion: expansion.rules,
       error_class: failure.error_class,
       gen_attempts: genAttempts,
       gen_ms: genMs,

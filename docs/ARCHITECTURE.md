@@ -274,7 +274,8 @@ This is the actual product surface — the RAG ranking pipeline Mechanic exists 
 **Pipeline (binding order):**
 
 ```text
-vehicle-filtered vector + lexical (independent, topN each)
+question ──(retrieval-only soft expansion, deterministic; displayed/generated question unchanged)
+vehicle-filtered vector + lexical (+ image when enabled, + expansion lexical when a rule fires)
         → RRF fuse (stable chunk_id)
         → optional section dedup
         → take top N → local cross-encoder → top K
@@ -296,14 +297,15 @@ Provisional sizes (defaults, tuned only with eval evidence — no stage is left 
 3. Run vector ANN search and lexical full-text search as independent queries against Postgres.
 4. Both result lists use the same stable `chunk_id` values for the same underlying rows.
 5. Cap each list at `topN` (provisional default 50).
+6. **Soft query expansion (retrieval-only).** A small deterministic rule set (`web/src/server/ask_query_expansion.ts`) spots under-specified asks, today "how big is the engine?"-style size questions, and adds spec vocabulary (`displacement`, `bore`, `stroke`) to the retrieval side only. The embedding text gets the terms appended. Lexical search keeps its AND query on the original question and adds a *separate* OR-query rank list, because appending terms to a `plainto_tsquery` AND query would narrow recall instead of widening it. The question the user typed is what the generator, cross-encoder and UI see, unchanged. No LLM call and no new dependency. When no rule fires, retrieval is byte-identical to the unexpanded path.
 
 **Lexical search** uses Postgres `to_tsvector('simple', …)` / `plainto_tsquery('simple', …)` plus a GIN index — not a separate search service like OpenSearch or Elasticsearch. Trigram or exact-match supplementation is a future option only if fixture evals show systematic misses; it's not in v1's day-one scope.
 
 ### 7.2 Fuse with Reciprocal Rank Fusion (RRF)
 
-- Pure reciprocal-rank fusion over the two rank lists: `rrf_score(id) += 1 / (k + rank)`, with a default `k = 60`.
+- Pure reciprocal-rank fusion over the independent rank lists (text vector, lexical, image when enabled, expansion-lexical when a rule fires). Empty lists contribute nothing, so a skipped channel is identical to fusing without it. `rrf_score(id) += 1 / (k + rank)`, with a default `k = 60`.
 - RRF scores are rank-derived sums, not a normalized `[0,1]` similarity score — types and docs must not claim otherwise.
-- `web/src/lib/retrieval/rrf.ts` is the implementation, valid once chunk IDs are stable across both retrievers.
+- `web/src/lib/retrieval/rrf.ts` is the implementation, valid once chunk IDs are stable across the retrievers.
 
 ### 7.3 Section deduplication
 
@@ -395,7 +397,7 @@ Optional, for later: `doc_family`, a bounded `history`. An earlier `{ "query" }`
 }
 ```
 
-`diagnostics` (retriever counts, latencies, model/index versions) is populated only when a development flag is on — never private chunk bodies, and never in default responses or logs.
+`diagnostics` (retriever counts, latencies, model/index versions, and `query_expansion` rule ids) is populated only when a development flag is on — never private chunk bodies, and never in default responses or logs.
 
 **No evidence found:** HTTP 200 with an explicit insufficient-evidence answer and empty or minimal citations — never invented mechanical advice.
 
@@ -403,7 +405,7 @@ Optional, for later: `doc_family`, a bounded `history`. An earlier `{ "query" }`
 
 **Dependency failure:** a down Postgres stays non-200 `database_unavailable` — the system never fabricates an answer to route around it. A Gemini generation/embedding failure after retries, with at least one citation already available, returns HTTP 200 `outcome: "degraded"` with an `error_class` (`generator_unavailable` | `embedding_unavailable` | `rate_limited`) and extractive excerpts only. Zero citations, or a local generation failure, keeps the existing non-200 `error_class`.
 
-**Multimodal, out of the default response:** an optional local vision-model assist (`gemma4:e2b`) exists behind a flag (default off), routed only when the flag is on and either the UI requests a diagram or a heuristic triggers (torque-only questions skip it); it times out at 45s and degrades cleanly, and a filter strips any VLM-reported torque/force value not already present in the cited text — an image can never override what the text citations already own. Evidence: `evals/evidence/2026-07-27_m3_vlm_eval_evidence.json`. A separate optional image-retrieval channel exists for the private multi-vehicle garage: a side table of CLIP embeddings (`openai/clip-vit-base-patch32`, 512-d), queried via a CLIP text encoder and fused into the same RRF pipeline (`k=60`) alongside text and lexical results; an empty or degraded image list falls back identically to the text-only two-list RRF, and a diagram result always requires a paired text chunk. Neither capability is required for, or exposed in, the default public demo path.
+**Multimodal, out of the default response:** an optional local vision-model assist (`gemma4:e2b`) exists behind a flag (default off), routed only when the flag is on and either the UI requests a diagram or a heuristic triggers (torque-only questions skip it); it times out at 45s and degrades cleanly, and a filter strips any VLM-reported torque/force value not already present in the cited text — an image can never override what the text citations already own. Evidence: `evals/evidence/2026-07-27_m3_vlm_eval_evidence.json`. A separate optional image-retrieval channel exists for the private multi-vehicle garage: a side table of CLIP embeddings (`openai/clip-vit-base-patch32`, 512-d), queried via a CLIP text encoder and fused into the same RRF pipeline (`k=60`) alongside text and lexical results; an empty or degraded image list contributes nothing to RRF, so a skipped image channel is identical to fusing without it, and a diagram result always requires a paired text chunk. Neither capability is required for, or exposed in, the default public demo path.
 
 ### 8.2 Frontend
 
@@ -436,7 +438,7 @@ Liveness, the DB probe, and readiness are three distinct contracts — this neve
 
 ### 9.2 Ask path logs (structured)
 
-Emitted per ask: a request ID, `vehicle_id`, vector/lexical result counts and latencies, RRF result size, section-dedup drop count (if any), cross-encoder `N`/`K`, cross-encoder latency, `rerank_degraded`, the chosen `chunk_id`s, embedding/index/generator/cross-encoder versions, and the outcome. Private chunk bodies are never logged by default.
+Emitted per ask: a request ID, `vehicle_id`, vector/lexical result counts and latencies, RRF result size, section-dedup drop count (if any), cross-encoder `N`/`K`, cross-encoder latency, `rerank_degraded`, the chosen `chunk_id`s, embedding/index/generator/cross-encoder versions, `query_expansion` (rule ids only, never question text), and the outcome. Private chunk bodies are never logged by default.
 
 ### 9.3 Ingest logs
 
@@ -512,6 +514,7 @@ Mechanic never queries the upstream capture/processing systems directly. It may 
 | A dual Next.js app tree | Forbidden — the root `app/` tree stays removed |
 | Cross-vehicle retrieval | Forbidden without an explicit multi-select API (not in v1) |
 | Cross-encoder unavailable, timed out, or returns empty scores | Degrades to RRF (+ dedup) order; sets `rerank_degraded`; citation validation still applies |
+| Vague size ask ("how big is the engine?") | Retrieval-only expansion adds spec terms; the answer stays citation-bound. Generator failure still degrades to cited excerpts (HTTP 200) |
 
 ---
 

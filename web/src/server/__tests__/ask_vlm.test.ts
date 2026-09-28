@@ -82,7 +82,7 @@ describe('maybeAssistWithVlmSafe', () => {
       vehicleId: 'fixture:honda-s2000-demo',
       citations: [],
       citedTexts: [],
-      env: {},
+      env: { NODE_ENV: 'test' },
     });
     expect(result).toEqual({
       invoked: false,

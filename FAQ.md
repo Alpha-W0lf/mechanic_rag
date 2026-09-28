@@ -103,6 +103,14 @@ The freeze is an **explicit owner decision**, **not** earned lift from ablation.
 - **Hosted path (≤60 seconds):** The live deployment at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) runs the complete hybrid retrieval + RRF + section dedup pipeline using free-tier serverless Gemini generation and embeddings. No local software or model downloads required.
 - **Local Dev Container / clone:** In `.devcontainer/` or local clone, you can set `GEMINI_API_KEY` in `web/.env.local` to use hosted Gemini generation, or verify the lexical retrieval and extractive degrade path without running local Ollama or pulling multi-GB models. Multi-GB local models (`gemma4:e2b`, `nomic-embed-text`) are only needed if you wish to run fully offline local LLM generation.
 
+## 13. What happens with a vague ask like "how big is the engine?"
+
+Vague size questions are a classic hybrid-retrieval trap: "big" is closer, in both embedding space and keywords, to *overall length / width* rows than to the *displacement* row. In the S2000 service manual both sit in the same Design Specifications table.
+
+Mechanic handles this with **soft, retrieval-only query expansion**: a deterministic rule recognizes an engine-size ask and adds `displacement` / `bore` / `stroke` to the embedding text and to a separate OR full-text rank list that is fused by RRF. The question you typed is what the model answers, unchanged. Specific asks ("engine displacement of the F20C"), fluid-capacity asks ("engine oil capacity") and unrelated asks (brakes) don't trigger it. `diagnostics.query_expansion` shows when it fired.
+
+What it doesn't change: generation on the free Gemini tier can still time out. When that happens, Ask returns the cited excerpts instead of an invented answer (HTTP 200, `outcome: "degraded"`). Expansion improves *which* pages are cited. It doesn't make the free generator always available.
+
 ---
 
 **Clone path:** [`GETTING_STARTED.md`](GETTING_STARTED.md) · **Skim:** [`README.md`](README.md)
