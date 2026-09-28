@@ -13,7 +13,7 @@ Do not paste secrets from this demo or from any other system.
 **In scope**
 
 - This repository (`Alpha-W0lf/mechanic_rag`)
-- The public fixture demo at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app)
+- The public hosted demo at [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app)
 
 **Out of scope**
 
@@ -22,7 +22,7 @@ Do not paste secrets from this demo or from any other system.
 
 ## Production
 
-The hosted demo uses free-tier Vercel, Supabase, and Gemini. It is a fixture demo (synthetic service docs), not a paid production shop tool.
+The hosted free-tier Vercel / Supabase / Gemini demo answers across the complete Honda S2000 service, owner's, and wiring manuals (personal-garage / PrivateGold; vehicle `cat:2003-honda-s2000`). The public git clone and fixture vehicle (`fixture:honda-s2000-demo`) remain synthetic fixtures only. This is not a paid production shop tool.
 
 ## Security residual (free-tier)
 

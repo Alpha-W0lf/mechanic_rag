@@ -5,28 +5,36 @@ This repository is licensed under the PolyForm Noncommercial License 1.0.0
 It is source-available / non-commercial — not OSI open source and not MIT.
 
 This NOTICE is attribution and honesty for the public portfolio clone and
-hosted fixture demo. It does not change LICENSE. It is not a grant of extra
-rights.
+the hosted Production demo. It does not change LICENSE. It is not a grant
+of extra rights.
 
-Public corpus (synthetic fixtures only)
----------------------------------------
+Public clone / committed corpus (synthetic fixtures only)
+---------------------------------------------------------
 
-The public git tree and the hosted demo at mechanic-rag.vercel.app use
-synthetic fixtures only. The committed public corpus is
-fixtures/honda_s2000_demo/ (manifest rights_class = synthetic_fixture;
-provenance.transform_name = synthetic_author). The service-manual text in
-that tree is original demo content. It is not OEM manual text and is not
-extracted from Honda service publications.
+The public git tree uses synthetic fixtures only. The committed public
+corpus is fixtures/honda_s2000_demo/ (manifest rights_class =
+synthetic_fixture; provenance.transform_name = synthetic_author). The
+service-manual text in that tree is original demo content. It is not OEM
+manual text and is not extracted from Honda service publications. OEM
+PDFs must never enter the public tree.
+
+Hosted Production demo
+----------------------
+
+The hosted demo at mechanic-rag.vercel.app serves the complete Honda
+S2000 service, owner's, and wiring manuals from a private garage corpus
+(personal-garage / PrivateGold; vehicle cat:2003-honda-s2000) that is
+outside this public tree. The fixture vehicle (fixture:honda-s2000-demo)
+remains available on hosted for stranger reproduction.
 
 This repository does not claim OEM rights. It does not authorize
 reproduction, redistribution, or sublicensing of OEM service manuals or
 other manufacturer documentation. Official vehicle names (for example
-Honda, S2000) appear only as catalog / vehicle_id labels for the
-synthetic demo. No affiliation, endorsement, or license from any
-manufacturer is claimed or implied.
+Honda, S2000) appear as catalog / vehicle_id labels. No affiliation,
+endorsement, or license from any manufacturer is claimed or implied.
 
-Private / garage corpora, if used at all, stay outside this public tree
-(local gold roots; never the public clone default).
+Private / garage corpora stay outside this public tree (local gold roots;
+never the public clone default).
 
 Third-party software and hosted services
 ----------------------------------------
