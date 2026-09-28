@@ -237,3 +237,24 @@ export async function maybeAssistWithVlm(input: {
     };
   }
 }
+
+/**
+ * Ask-path boundary: VLM must never take down text ask.
+ * A throw becomes reason exactly `vlm_internal_error` (no message suffix).
+ * `assist` defaults to `maybeAssistWithVlm`; tests pass a throw to prove the map.
+ */
+export async function maybeAssistWithVlmSafe(
+  input: Parameters<typeof maybeAssistWithVlm>[0],
+  assist: typeof maybeAssistWithVlm = maybeAssistWithVlm,
+): Promise<VlmResult> {
+  try {
+    return await assist(input);
+  } catch {
+    return {
+      invoked: true,
+      notes: null,
+      degraded: true,
+      reason: 'vlm_internal_error',
+    };
+  }
+}

@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   filterVlmNotesAgainstCitations,
   isVlmEnabled,
+  maybeAssistWithVlmSafe,
   shouldInvokeVlm,
 } from '../ask_vlm';
 
@@ -51,5 +52,43 @@ describe('filterVlmNotesAgainstCitations', () => {
     );
     expect(out).toContain('39 N·m');
     expect(out).not.toContain('[spec omitted');
+  });
+});
+
+describe('maybeAssistWithVlmSafe', () => {
+  it('maps a thrown assist to vlm_internal_error', async () => {
+    const result = await maybeAssistWithVlmSafe(
+      {
+        question: 'Where is the wiring diagram?',
+        vehicleId: 'fixture:honda-s2000-demo',
+        citations: [],
+        citedTexts: [],
+      },
+      async () => {
+        throw new Error('boom');
+      },
+    );
+    expect(result).toEqual({
+      invoked: true,
+      notes: null,
+      degraded: true,
+      reason: 'vlm_internal_error',
+    });
+  });
+
+  it('returns the assist result when VLM is off', async () => {
+    const result = await maybeAssistWithVlmSafe({
+      question: 'What is the oil drain plug torque?',
+      vehicleId: 'fixture:honda-s2000-demo',
+      citations: [],
+      citedTexts: [],
+      env: {},
+    });
+    expect(result).toEqual({
+      invoked: false,
+      notes: null,
+      degraded: false,
+      reason: 'vlm_disabled',
+    });
   });
 });

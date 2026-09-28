@@ -29,7 +29,7 @@ import {
 } from './ask_outcome';
 import { type AskRequest } from './ask_request';
 import { isForceRrfOnlyEnv, rankAfterFusion } from './ask_ranking';
-import { maybeAssistWithVlm, type VlmResult } from './ask_vlm';
+import { maybeAssistWithVlmSafe } from './ask_vlm';
 import {
   buildVisualAssets,
   garageRoot,
@@ -225,29 +225,13 @@ export async function handleAsk(
     const citedTexts = usedChunkIds
       .map((id) => rows.get(id)?.content || '')
       .filter(Boolean);
-    let vlm: VlmResult = {
-      invoked: false,
-      notes: null,
-      degraded: false,
-      reason: 'vlm_disabled',
-    };
-    try {
-      vlm = await maybeAssistWithVlm({
-        question: req.question,
-        vehicleId: req.vehicle_id,
-        citations,
-        citedTexts,
-        diagramAssist: req.diagram_assist === true,
-      });
-    } catch {
-      // Business rule: VLM must never take down text ask.
-      vlm = {
-        invoked: true,
-        notes: null,
-        degraded: true,
-        reason: 'vlm_internal_error',
-      };
-    }
+    const vlm = await maybeAssistWithVlmSafe({
+      question: req.question,
+      vehicleId: req.vehicle_id,
+      citations,
+      citedTexts,
+      diagramAssist: req.diagram_assist === true,
+    });
     const vlmBlock =
       vlm.notes && vlm.notes.trim()
         ? `\n\nDiagram assist (layout only; specs must come from citations):\n${vlm.notes.trim()}\n`
