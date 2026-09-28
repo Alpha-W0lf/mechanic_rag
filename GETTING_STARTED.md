@@ -8,7 +8,7 @@ Clone-depth path for the **hybrid → RRF → section dedup → local CE** produ
 - Product why: [`docs/VISION.md`](docs/VISION.md)
 - Technical FAQ: [`FAQ.md`](FAQ.md)
 
-> **Looking for the fastest evaluation?** Use the hosted demo above. It runs the full hybrid vector + FTS → RRF → section dedup pipeline with citation labels on the synthetic Honda S2000 fixture without installing Docker, Python, Node, or pulling multi-GB models.
+> **Looking for the fastest evaluation?** Use the hosted demo above. It runs the full hybrid vector + FTS → RRF → section dedup pipeline with citation labels over the complete Honda S2000 service manuals (`cat:2003-honda-s2000`) — no Docker, Python, Node, or multi-GB local models. The stranger clone path below uses synthetic fixtures.
 >
 > If you are cloning to develop locally, you can use the optional **Dev Container** (`.devcontainer/`) or follow the clean-clone steps below.
 

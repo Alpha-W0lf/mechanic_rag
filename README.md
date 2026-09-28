@@ -19,13 +19,20 @@ The fastest path to evaluate Mechanic RAG is the live demo — no Docker, no Oll
 4. Inspect the cited answer: each numbered marker `[1]`, `[2]` links directly to the verified document, section, and page number.
 
 Or test via curl against the hosted JSON endpoint:
+
 ```bash
+# Hosted Production — complete Honda S2000 manuals
+curl -sS -X POST "https://mechanic-rag.vercel.app/api/ask" \
+  -H "content-type: application/json" \
+  -d '{"vehicle_id":"cat:2003-honda-s2000","question":"What is the engine displacement of the F20C?"}'
+
+# Stranger fixture path (also on hosted)
 curl -sS -X POST "https://mechanic-rag.vercel.app/api/ask" \
   -H "content-type: application/json" \
   -d '{"vehicle_id":"fixture:honda-s2000-demo","question":"What is the oil drain plug torque?"}'
 ```
 
-*(You can also verify live Ask health via `python scripts/checks/prod_ask_smoke.py` or trigger the `workflow_dispatch` Production Ask smoke probe in GitHub Actions; see [`docs/ops.md`](docs/ops.md#public-evidence-pack). Last public smoke check: **2026-09-24 19:48 UTC** — pass, `outcome: "answered"`, 2 citations, ~2.0s; DB keep-alive: ready).*
+*(You can also verify live Ask health via `python scripts/checks/prod_ask_smoke.py` or trigger the `workflow_dispatch` Production Ask smoke probe in GitHub Actions; see [`docs/ops.md`](docs/ops.md#public-evidence-pack). Last public smoke check: **2026-09-28 16:18 UTC** — pass, `outcome: "answered"`, 2 citations, ~2.5s; DB keep-alive: ready).*
 
 **Production durability.** The free-tier database paused after inactivity and took the live demo down. An external daily keep-alive now prevents that. The free-tier path was then hardened: model backoff with graceful degraded answers, a daily synthetic Ask monitor that files issues, an abuse shield, and a locked-down database API. Incident write-up: [`docs/incidents/2026-08-supabase-pause.md`](docs/incidents/2026-08-supabase-pause.md). A substantive public evidence pack (stranger curls for health, DB keep-alive, catalog, and Ask) is documented in [`docs/ops.md`](docs/ops.md#public-evidence-pack); platform pause/delete remains an honest free-tier residual risk (no paid HA or SLO).
 
