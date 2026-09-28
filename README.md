@@ -29,7 +29,7 @@ curl -sS -X POST "https://mechanic-rag.vercel.app/api/ask" \
 
 **Production durability.** The free-tier database paused after inactivity and took the live demo down. An external daily keep-alive now prevents that. The free-tier path was then hardened: model backoff with graceful degraded answers, a daily synthetic Ask monitor that files issues, an abuse shield, and a locked-down database API. Incident write-up: [`docs/incidents/2026-08-supabase-pause.md`](docs/incidents/2026-08-supabase-pause.md). A substantive public evidence pack (stranger curls for health, DB keep-alive, catalog, and Ask) is documented in [`docs/ops.md`](docs/ops.md#public-evidence-pack); platform pause/delete remains an honest free-tier residual risk (no paid HA or SLO).
 
-![Live demo — asking the fixture S2000 a service question and getting a cited answer](docs/assets/demo/live-demo.gif)
+![Live demo — asking the hosted S2000 manuals a service question and getting a cited answer](docs/assets/demo/live-demo.gif)
 
 ### Hosted demo vs local clone
 
