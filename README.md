@@ -47,7 +47,7 @@ Every search is filtered to one vehicle. Vague questions such as *how big is the
 
 Fusion alone puts the gold chunk in its shortlist for all 40 questions. The reranker puts the right chunk first more often, at the cost of added latency. Why the hosted demo runs without it: [`evals/RERANKER_DECISION.md`](evals/RERANKER_DECISION.md).
 
-Every number in an answer is checked against the passage its citation points to, with no model calls. On the hosted app (2026-10-20, 43 questions), this removed or re-pointed the 3 citations whose passage didn't state the number, and citation hits stayed at 40 / 40. Evidence: [`evals/evidence/2026-10-20_citation_grounding_paired.md`](evals/evidence/2026-10-20_citation_grounding_paired.md).
+Every cited number in an answer is checked against the passage its citation points to, with no model calls. On the hosted app (2026-10-20, 43 questions), this removed or re-pointed the 3 citations whose passage didn't state the number, and citation hits stayed at 40 / 40. Evidence: [`evals/evidence/2026-10-20_citation_grounding_paired.md`](evals/evidence/2026-10-20_citation_grounding_paired.md).
 
 ## Try it in 60 seconds
 

@@ -51,7 +51,7 @@ After review, the grounding step was tightened:
 - An answer whose markers are all dropped returns the full source list.
 - Labels inside a group are sorted.
 
-The final code was replayed offline on the 43 before-arm answers, using the cited section or page text as each chunk. To check the replay, `b76f599` was replayed the same way: it reproduces the live after arm exactly (40/40, 49/49, 43/43). The final code gives the same scores. Its only difference from `b76f599` is x3's spare-tire group, now `[1], [2]` instead of `[2], [1]`; the JSON shows the live `b76f599` output.
+As a one-off check (the script is not in the repo), the final code was replayed offline on the 43 before-arm answers, using the cited section or page text as each chunk. To check the replay, `b76f599` was replayed the same way: it reproduces the live after arm exactly (40/40, 49/49, 43/43). The final code gives the same scores. Its only difference from `b76f599` is x3's spare-tire group, now `[1], [2]` instead of `[2], [1]`; the JSON shows the live `b76f599` output.
 
 ## Gate set before the run
 
