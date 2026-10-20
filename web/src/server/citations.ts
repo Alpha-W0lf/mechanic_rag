@@ -15,7 +15,7 @@ export type Citation = {
 };
 
 const MAX_CONTEXT_CHARS = 12_000;
-const EXCERPT_CHARS = 150;
+export const EXCERPT_CHARS = 150;
 
 /** First ~150 characters of a chunk, whitespace collapsed, cut at a word boundary. */
 export function citationExcerpt(content: string): string {
@@ -173,10 +173,18 @@ export function isEvidenceInsufficient(text: string): boolean {
     lower.includes('not enough information') ||
     lower.includes('not sufficient information') ||
     /context does not (?:contain|mention|provide|have)/i.test(text) ||
-    /provided (?:context|text|manuals?|documents?) (?:does not|do not) (?:contain|provide|mention|have)/i.test(text) ||
-    /no (?:information|mention|evidence) (?:is provided|in the provided|in the context)/i.test(text) ||
-    /cannot (?:answer|find|determine) (?:.*?) (?:in|from|based on) (?:the )?(?:provided )?(?:context|information|evidence)/i.test(text) ||
-    /cannot (?:answer|find|determine) (?:this|from|based on) (?:the )?(?:provided )?(?:context|information|evidence)/i.test(text)
+    /provided (?:context|text|manuals?|documents?) (?:does not|do not) (?:contain|provide|mention|have)/i.test(
+      text,
+    ) ||
+    /no (?:information|mention|evidence) (?:is provided|in the provided|in the context)/i.test(
+      text,
+    ) ||
+    /cannot (?:answer|find|determine) (?:.*?) (?:in|from|based on) (?:the )?(?:provided )?(?:context|information|evidence)/i.test(
+      text,
+    ) ||
+    /cannot (?:answer|find|determine) (?:this|from|based on) (?:the )?(?:provided )?(?:context|information|evidence)/i.test(
+      text,
+    )
   );
 }
 

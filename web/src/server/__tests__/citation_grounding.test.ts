@@ -79,6 +79,62 @@ describe('finalizeCitations — numeric grounding', () => {
     expect(out.grounding).toMatchObject({ numericClaims: 1, dropped: 1 });
   });
 
+  it('returns the full assembled list, labelled 1..n, when every marker is dropped', () => {
+    const { citations, rows } = setup([ALIGNMENT, SCHEDULE, ALIGNMENT]);
+    const out = finalizeCitations(
+      'Tire pressure is 32 psi [3].',
+      citations,
+      rows,
+    );
+    expect(out.answer).toBe('Tire pressure is 32 psi.');
+    expect(out.citations.map((c) => c.label)).toEqual(['1', '2', '3']);
+  });
+
+  it('checks every marker in adjacent groups like [1][2] and [1] [2]', () => {
+    for (const markers of ['[1][2]', '[1] [2]']) {
+      const { citations, rows } = setup([TIRES, ALIGNMENT]);
+      const out = finalizeCitations(
+        `Tire pressure is 32 psi ${markers}.`,
+        citations,
+        rows,
+      );
+      expect(out.answer).toBe('Tire pressure is 32 psi [1].');
+      expect(out.citations.map((c) => c.chunk_id)).toEqual(['c1']);
+    }
+  });
+
+  it('keeps a citation whose chunk has some of the values; step numbers are not values', () => {
+    const { citations, rows } = setup([
+      'Torque the bolt to 39 N·m.',
+      '2. Remove the cover. 3. Torque to 39 N·m in 2 steps.',
+    ]);
+    const out = finalizeCitations(
+      '**Step 2:** torque to 39 N·m [1]. Tighten in 2 passes [1].',
+      citations,
+      rows,
+    );
+    expect(out.citations.map((c) => c.chunk_id)).toEqual(['c1']);
+    expect(out.grounding).toMatchObject({ repointed: 0, dropped: 0 });
+  });
+
+  it('moves a partly matching citation to a chunk with every value, else keeps it', () => {
+    const partial = 'Inflation table: 220 kPa maximum for towing.';
+    const { citations, rows } = setup([partial, TIRES]);
+    const moved = finalizeCitations(
+      'Front: 32 psi (220 kPa) [1].',
+      citations,
+      rows,
+    );
+    expect(moved.citations.map((c) => c.chunk_id)).toEqual(['c2']);
+    const only = setup([partial, ALIGNMENT]);
+    const kept = finalizeCitations(
+      'Front: 32 psi (220 kPa) [1].',
+      only.citations,
+      only.rows,
+    );
+    expect(kept.citations.map((c) => c.chunk_id)).toEqual(['c1']);
+  });
+
   it('keeps a citation whose chunk contains every value, across thousands separators and dashes', () => {
     const { citations, rows } = setup([SCHEDULE, VALVES]);
     const answer =

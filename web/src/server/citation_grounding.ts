@@ -10,6 +10,7 @@
  */
 import {
   citationExcerpt,
+  EXCERPT_CHARS,
   filterAnswerToKnownLabels,
   type Citation,
 } from './citations';
@@ -24,23 +25,25 @@ export type GroundingStats = {
   dropped: number;
 };
 
-const EXCERPT_CHARS = 150;
 // A value: digits with optional thousands separators or decimals, not glued
 // to letters (so "F20C" and "cm3" are not values).
 const NUMBER_RE =
   /(?<![\p{L}\d.,])\d{1,3}(?:,\d{3})+(?:\.\d+)?(?![\p{L}\d])|(?<![\p{L}\d.,])\d+(?:\.\d+)?(?![\p{L}\d])/gu;
-const MARKER_GROUP_RE = /\[\d+\](?:\s*,\s*\[\d+\])*/g;
+// "[1], [2]", "[1] [2]" and "[1][2]" are all one group.
+const MARKER_GROUP_RE = /\[\d+\](?:[ \t]*,?[ \t]*\[\d+\])*/g;
 const LIST_PREFIX_RE = /^\s*(?:[-*•]\s+|\d+[.)]\s+)/;
 
 function normalizeText(s: string): string {
   return s.replace(/[   ]/g, ' ').replace(/[‐-―−]/g, '-');
 }
 
-/** Normalised number tokens with their positions in the given text. */
-function numberTokens(text: string): Array<{ value: string; index: number }> {
-  const out: Array<{ value: string; index: number }> = [];
+/** Number tokens with their positions; "1,000" is read as "1000". */
+function numberTokens(
+  text: string,
+): Array<{ raw: string; value: string; index: number }> {
+  const out: Array<{ raw: string; value: string; index: number }> = [];
   for (const m of normalizeText(text).matchAll(NUMBER_RE)) {
-    out.push({ value: m[0].replace(/,/g, ''), index: m.index ?? 0 });
+    out.push({ raw: m[0], value: m[0].replace(/,/g, ''), index: m.index ?? 0 });
   }
   return out;
 }
@@ -88,11 +91,13 @@ function claims(answer: string): Claim[] {
     // The claim is the text since the last sentence end inside this span.
     const sentence = before.split(/(?<=[.!?;])\s+(?=\S)/).pop() ?? before;
     const text = sentence.replace(LIST_PREFIX_RE, '');
+    // A bare single digit ("Step 2", "in 2 passes") is a count, not a spec.
+    const values = numberTokens(text).filter((t) => !/^\d$/.test(t.raw));
     out.push({
       start: index,
       end: index + m[0].length,
       labels: [...m[0].matchAll(/\[(\d+)\]/g)].map((x) => x[1]),
-      numbers: [...new Set(numberTokens(text).map((t) => t.value))],
+      numbers: [...new Set(values.map((t) => t.value))],
     });
     spanStart = index + m[0].length;
   }
@@ -133,23 +138,27 @@ export function finalizeCitations(
       let chosen: string | null = label;
       if (claim.numbers.length > 0) {
         stats.numericClaims += 1;
-        const have = numbersByLabel.get(label) ?? new Set<string>();
-        const score = overlap(claim.numbers, have);
-        if (score === claim.numbers.length) stats.grounded += 1;
-        let best = { label, score };
-        for (const c of assembled) {
-          const s = overlap(
-            claim.numbers,
-            numbersByLabel.get(c.label) ?? new Set(),
-          );
-          if (s > best.score) best = { label: c.label, score: s };
-        }
-        if (best.score === 0) {
-          chosen = null;
-          stats.dropped += 1;
-        } else if (best.label !== label) {
+        const all = claim.numbers.length;
+        const scoreOf = (l: string) =>
+          overlap(claim.numbers, numbersByLabel.get(l) ?? new Set());
+        const score = scoreOf(label);
+        if (score === all) {
+          stats.grounded += 1;
+        } else {
+          // Move to a chunk with every value. Failing that, a chunk with some
+          // of them stays (the rest may be stray numbers in the sentence), and
+          // one with none goes to the closest match or is dropped.
+          let best = { label: score > 0 ? label : null, score };
+          for (const c of assembled) {
+            const s = scoreOf(c.label);
+            if (s === all || (score === 0 && s > best.score)) {
+              best = { label: c.label, score: s };
+              if (s === all) break;
+            }
+          }
           chosen = best.label;
-          stats.repointed += 1;
+          if (!chosen) stats.dropped += 1;
+          else if (chosen !== label) stats.repointed += 1;
         }
         if (chosen && !matchedValue.has(chosen)) {
           const have2 = numbersByLabel.get(chosen) ?? new Set<string>();
@@ -171,8 +180,10 @@ export function finalizeCitations(
   for (const m of rebuilt.matchAll(/\[(\d+)\]/g)) {
     if (!order.includes(m[1])) order.push(m[1]);
   }
+  // No markers left: return every assembled source, as for an answer that
+  // never had markers.
   if (order.length === 0) {
-    return { answer: rebuilt, citations: filtered.citations, grounding: stats };
+    return { answer: rebuilt, citations: assembled, grounding: stats };
   }
   const newLabel = new Map(order.map((old, i) => [old, String(i + 1)]));
   // Each group is renumbered as a unit and listed in ascending order.
