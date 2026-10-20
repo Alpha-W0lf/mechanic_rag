@@ -1,0 +1,1975 @@
+{
+  "date": "2026-10-20",
+  "golden": "evals/golden_fixture_v1.json",
+  "generator_model": "gemma-4-26b-a4b-it",
+  "embedding_model": "gemini-embedding-001",
+  "cases_note": "40 answerable golden cases (g10, g23, g24, g25 have no answer by design and are skipped) plus 3 open questions on the 2003 S2000 manuals (x1-x3). Excerpts are omitted.",
+  "before": {
+    "summary": {
+      "base_url": "Vercel Preview deployment",
+      "run_at_utc": "2026-10-20T17:54:08Z",
+      "n_golden": 40,
+      "citation_hits": 40,
+      "numeric_claims": 52,
+      "numeric_grounded": 49,
+      "labels_gapless": 37,
+      "n_total": 43,
+      "outcomes": {
+        "answered": 43
+      },
+      "git_sha": "e72e3e827f52dc8cd6d0147432aab023d0dafbe9"
+    },
+    "cases": [
+      {
+        "id": "g01-oil-drain-torque",
+        "question": "What is the oil drain plug torque?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 2,
+        "numeric_grounded": 2,
+        "labels_gapless": false,
+        "answer": "The oil drain plug torque is 39 N·m (29 lbf·ft) [1], [3].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-1 Specification",
+            "page_start": 3,
+            "page_end": 3
+          },
+          {
+            "label": "3",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-2 Oil Filter Replacement",
+            "page_start": 4,
+            "page_end": 4
+          }
+        ]
+      },
+      {
+        "id": "g02-oil-capacity",
+        "question": "What is the engine oil capacity with filter change?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The engine oil capacity with filter change is 4.8 liters (5.1 US quarts) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-1 Specification",
+            "page_start": 3,
+            "page_end": 3
+          }
+        ]
+      },
+      {
+        "id": "g03-clutch-free-play",
+        "question": "What is the clutch pedal free play specification?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "Clutch pedal free play should be 9–17 mm (0.35–0.67 in) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "2 Clutch > 2-1 Pedal Free Play",
+            "page_start": 7,
+            "page_end": 7
+          }
+        ]
+      },
+      {
+        "id": "g04-spark-plug-gap",
+        "question": "What electrode gap should spark plugs be set to?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The electrode gap should be set to 1.0–1.1 mm (0.039–0.043 in) [2]. Always set plugs to this cold installation gap before installing new plugs [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
+            "page_start": 12,
+            "page_end": 12
+          },
+          {
+            "label": "2",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-1 Specification",
+            "page_start": 10,
+            "page_end": 10
+          }
+        ]
+      },
+      {
+        "id": "g05-valve-clearance",
+        "question": "What is the cold intake valve clearance?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The cold intake valve clearance is 0.15–0.19 mm [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "5 Valve Clearance > 5-1 Inspection",
+            "page_start": 18,
+            "page_end": 18
+          }
+        ]
+      },
+      {
+        "id": "g06-coolant-capacity",
+        "question": "What is the coolant capacity including the reservoir?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The coolant capacity is approximately 5.8 liters including the reservoir [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-1 Coolant",
+            "page_start": 14,
+            "page_end": 14
+          }
+        ]
+      },
+      {
+        "id": "g07-spark-plug-torque",
+        "question": "What is the spark plug torque specification?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The spark plug torque is 18 N·m (13 lbf·ft) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-1 Specification",
+            "page_start": 10,
+            "page_end": 10
+          }
+        ]
+      },
+      {
+        "id": "g08-mtf-capacity",
+        "question": "How much manual transmission fluid does the gearbox hold?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The manual transmission fluid capacity is 1.5 liters (1.6 US quarts) [1].",
+        "retried_after_degraded": true,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "6 Transmission Fluid > 6-1 Specification",
+            "page_start": 20,
+            "page_end": 20
+          }
+        ]
+      },
+      {
+        "id": "g09-thermostat-open",
+        "question": "At what temperature does the thermostat begin opening?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The thermostat begins opening at 78–82 °C (172–180 °F) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-2 Thermostat",
+            "page_start": 15,
+            "page_end": 15
+          }
+        ]
+      },
+      {
+        "id": "g11-clutch-fluid-type",
+        "question": "What brake fluid type is specified for the clutch hydraulic system?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "Use only Honda DOT 3 or DOT 4 brake fluid in the clutch hydraulic system [1]. Never mix fluid types [1].",
+        "retried_after_degraded": true,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "2 Clutch > 2-2 Hydraulic Fluid",
+            "page_start": 8,
+            "page_end": 8
+          }
+        ]
+      },
+      {
+        "id": "g12-exhaust-valve-clearance",
+        "question": "What is the cold exhaust valve clearance?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The cold exhaust valve clearance is 0.26–0.30 mm [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "5 Valve Clearance > 5-1 Inspection",
+            "page_start": 18,
+            "page_end": 18
+          }
+        ]
+      },
+      {
+        "id": "g13-oil-grade",
+        "question": "What engine oil viscosity and API grade are specified for normal operating temperatures?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "For normal operating temperatures, use SAE 10W-30 viscosity and API SJ or later [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-1 Specification",
+            "page_start": 3,
+            "page_end": 3
+          }
+        ]
+      },
+      {
+        "id": "g14-oil-filter-turn",
+        "question": "After hand-tightening the oil filter, how much additional turn is required?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "After hand-tightening the oil filter, you should turn it an additional 3/4 turn [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-2 Oil Filter Replacement",
+            "page_start": 4,
+            "page_end": 4
+          }
+        ]
+      },
+      {
+        "id": "g15-spark-plug-type",
+        "question": "What is the specified spark plug type?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The specified spark plug type is NGK PFR7G-11 or equivalent [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-1 Specification",
+            "page_start": 10,
+            "page_end": 10
+          }
+        ]
+      },
+      {
+        "id": "g16-spark-interval",
+        "question": "At what mileage should spark plugs be replaced under normal conditions?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "Under normal conditions, spark plugs should be replaced every 105,000 miles (168,000 km) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-2 Replacement Interval",
+            "page_start": 11,
+            "page_end": 11
+          }
+        ]
+      },
+      {
+        "id": "g17-coolant-mix",
+        "question": "What Honda coolant type and mixing ratio should be used?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "Use Honda Type 2 coolant mixed 50/50 with distilled water [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-1 Coolant",
+            "page_start": 14,
+            "page_end": 14
+          }
+        ]
+      },
+      {
+        "id": "g18-radiator-cap",
+        "question": "What is the radiator cap relief pressure specification?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The radiator cap relief pressure is 93–123 kPa (0.95–1.25 kgf/cm², 13.5–17.8 psi) [1].",
+        "retried_after_degraded": true,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-1 Coolant",
+            "page_start": 14,
+            "page_end": 14
+          }
+        ]
+      },
+      {
+        "id": "g19-thermostat-full-open",
+        "question": "At what temperature is the thermostat fully open?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The thermostat fully open temperature is 95 °C (203 °F) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-2 Thermostat",
+            "page_start": 15,
+            "page_end": 15
+          }
+        ]
+      },
+      {
+        "id": "g20-mtf-fill",
+        "question": "To what level should manual transmission fluid be filled with the vehicle level?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "Fill the manual transmission fluid to the bottom of the filler hole with the vehicle level [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "6 Transmission Fluid > 6-1 Specification",
+            "page_start": 20,
+            "page_end": 20
+          }
+        ]
+      },
+      {
+        "id": "g21-clutch-pushrod",
+        "question": "What should be adjusted if clutch pedal free play is out of specification?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "If clutch pedal free play is out of specification, adjust the clutch master cylinder pushrod [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "2 Clutch > 2-1 Pedal Free Play",
+            "page_start": 7,
+            "page_end": 7
+          }
+        ]
+      },
+      {
+        "id": "g22-spark-misfire-inspect",
+        "question": "When should spark plugs be inspected earlier than the normal replacement interval?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "Inspect spark plugs earlier than the normal replacement interval if misfire DTCs are present [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-2 Replacement Interval",
+            "page_start": 11,
+            "page_end": 11
+          }
+        ]
+      },
+      {
+        "id": "g26-never-mix-clutch-fluid",
+        "question": "Can different brake fluid types be mixed in the clutch hydraulic system?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "No, you must never mix fluid types in the clutch hydraulic system [1]. Use only Honda DOT 3 or DOT 4 brake fluid [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "2 Clutch > 2-2 Hydraulic Fluid",
+            "page_start": 8,
+            "page_end": 8
+          }
+        ]
+      },
+      {
+        "id": "g27-wrong-oil-20w50",
+        "question": "Is SAE 20W-50 the specified engine oil viscosity for normal operating temperatures?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "No. For normal operating temperatures, you should use SAE 10W-30 [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-1 Specification",
+            "page_start": 3,
+            "page_end": 3
+          }
+        ]
+      },
+      {
+        "id": "g28-never-atf-in-mtf",
+        "question": "Can automatic transmission fluid be used instead of the specified gearbox lubricant?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": false,
+        "answer": "Use Honda Manual Transmission Fluid (MTF) [2].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "2",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "6 Transmission Fluid > 6-1 Specification",
+            "page_start": 20,
+            "page_end": 20
+          }
+        ]
+      },
+      {
+        "id": "g29-multi-thermo-vs-coolant",
+        "question": "What is the coolant system total capacity, and at what temperature does the thermostat become fully open?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 2,
+        "numeric_grounded": 2,
+        "labels_gapless": true,
+        "answer": "The coolant capacity is approximately 5.8 liters including the reservoir [2]. The thermostat becomes fully open at 95 °C (203 °F) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-2 Thermostat",
+            "page_start": 15,
+            "page_end": 15
+          },
+          {
+            "label": "2",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-1 Coolant",
+            "page_start": 14,
+            "page_end": 14
+          }
+        ]
+      },
+      {
+        "id": "g30-multi-spark-gap-vs-torque",
+        "question": "What is the spark plug electrode gap and installation torque?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 2,
+        "numeric_grounded": 2,
+        "labels_gapless": true,
+        "answer": "The spark plug electrode gap is 1.0–1.1 mm (0.039–0.043 in) [1]. The spark plug installation torque is 18 N·m (13 lbf·ft) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-1 Specification",
+            "page_start": 10,
+            "page_end": 10
+          }
+        ]
+      },
+      {
+        "id": "g31-trap-thermo-full-open",
+        "question": "At what temperature is the thermostat fully open (not just beginning to open)?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The thermostat is fully open at 95 °C (203 °F) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-2 Thermostat",
+            "page_start": 15,
+            "page_end": 15
+          }
+        ]
+      },
+      {
+        "id": "g32-trap-spark-gap-only",
+        "question": "What electrode gap should be set on the spark plugs before installation?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 2,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The electrode gap should be set to 1.0–1.1 mm (0.039–0.043 in) before installing new plugs [1], [2].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
+            "page_start": 12,
+            "page_end": 12
+          },
+          {
+            "label": "2",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-1 Specification",
+            "page_start": 10,
+            "page_end": 10
+          }
+        ]
+      },
+      {
+        "id": "g33-trap-oil-filter-turn",
+        "question": "After hand-tightening a new oil filter, how much additional turn is specified?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "After hand-tightening a new oil filter, you should turn it an additional 3/4 turn [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-2 Oil Filter Replacement",
+            "page_start": 4,
+            "page_end": 4
+          }
+        ]
+      },
+      {
+        "id": "g34-trap-clutch-pushrod",
+        "question": "If clutch pedal free play is out of specification, what should be adjusted?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "If clutch pedal free play is out of specification, you should adjust the clutch master cylinder pushrod [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "2 Clutch > 2-1 Pedal Free Play",
+            "page_start": 7,
+            "page_end": 7
+          }
+        ]
+      },
+      {
+        "id": "g35-trap-exhaust-clearance",
+        "question": "What is the cold exhaust valve clearance specification?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The cold exhaust valve clearance specification is 0.26–0.30 mm [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "5 Valve Clearance > 5-1 Inspection",
+            "page_start": 18,
+            "page_end": 18
+          }
+        ]
+      },
+      {
+        "id": "g36-trap-mtf-filler-hole",
+        "question": "How do you know the manual transmission is filled to the correct level?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "Fill the manual transmission to the bottom of the filler hole with the vehicle level [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "6 Transmission Fluid > 6-1 Specification",
+            "page_start": 20,
+            "page_end": 20
+          }
+        ]
+      },
+      {
+        "id": "g37-trap-spark-interval",
+        "question": "Under normal conditions, how often should spark plugs be replaced?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "Under normal conditions, spark plugs should be replaced every 105,000 miles (168,000 km) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-2 Replacement Interval",
+            "page_start": 11,
+            "page_end": 11
+          }
+        ]
+      },
+      {
+        "id": "g38-trap-radiator-cap-psi",
+        "question": "What is the radiator cap relief pressure range in psi?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The radiator cap relief pressure range is 13.5–17.8 psi [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-1 Coolant",
+            "page_start": 14,
+            "page_end": 14
+          }
+        ]
+      },
+      {
+        "id": "g39-trap-filler-cap-torque",
+        "question": "What torque value is specified for installing the oil filler cap (not the drain plug)?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The specified installation torque for the oil filler cap is 22 N·m (16 lbf·ft) [1]. You should hand-start the cap and then torque it to this value only [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-3 Oil Filler Cap Torque",
+            "page_start": 5,
+            "page_end": 5
+          }
+        ]
+      },
+      {
+        "id": "g40-trap-fan-switch-temp",
+        "question": "At what coolant temperature range does the radiator cooling fan switch turn the fan ON?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The radiator cooling fan switch turns the fan ON at 91–94 °C (196–201 °F) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-3 Cooling Fan Switch Temperature",
+            "page_start": 16,
+            "page_end": 16
+          }
+        ]
+      },
+      {
+        "id": "g41-trap-hot-inspection-gap",
+        "question": "If electrode gap is checked only during a hot-engine inspection, what millimeter window applies?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "If the electrode gap is checked only during a hot-engine inspection, the window is 1.2–1.3 mm (0.047–0.051 in) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
+            "page_start": 12,
+            "page_end": 12
+          }
+        ]
+      },
+      {
+        "id": "g42-trap-drain-not-filler-torque",
+        "question": "Which oil-system fastener uses the 39 N·m torque figure rather than the filler-cap torque?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 3,
+        "numeric_grounded": 3,
+        "labels_gapless": true,
+        "answer": "The oil drain plug uses the 39 N·m torque figure [2], [3], whereas the oil filler cap installation torque is 22 N·m [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-3 Oil Filler Cap Torque",
+            "page_start": 5,
+            "page_end": 5
+          },
+          {
+            "label": "2",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-2 Oil Filter Replacement",
+            "page_start": 4,
+            "page_end": 4
+          },
+          {
+            "label": "3",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-1 Specification",
+            "page_start": 3,
+            "page_end": 3
+          }
+        ]
+      },
+      {
+        "id": "g43-trap-thermo-not-fan-switch",
+        "question": "Which cooling temperature is the thermostat fully-open value, as distinct from the fan-switch ON band?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": false,
+        "answer": "The thermostat fully-open temperature is 95 °C (203 °F) [2].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "2",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-2 Thermostat",
+            "page_start": 15,
+            "page_end": 15
+          }
+        ]
+      },
+      {
+        "id": "g44-trap-cold-install-gap-not-hot",
+        "question": "Before installing new spark plugs, which gap window must be used instead of the hot-inspection window?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": false,
+        "answer": "Before installing new spark plugs, you must always set them to the cold installation gap instead of the hot inspection gap [1]. The cold installation gap specification is 1.0–1.1 mm (0.039–0.043 in) [3].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
+            "page_start": 12,
+            "page_end": 12
+          },
+          {
+            "label": "3",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-1 Specification",
+            "page_start": 10,
+            "page_end": 10
+          }
+        ]
+      },
+      {
+        "id": "x1",
+        "question": "What is the brake bleeding sequence?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": null,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "The brake bleeding sequence is as follows:\n\n1. Front Right\n2. Rear Right\n3. Front Left\n4. Rear Left [1]",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "service_manual--honda-s2000-service-manual-2000-2008",
+            "section_path": "Honda S2000 - Service Manual_2000 - 2008.pdf/page-1143",
+            "page_start": 1143,
+            "page_end": 1143
+          }
+        ]
+      },
+      {
+        "id": "x2",
+        "question": "What is the valve clearance for the F20C?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": null,
+        "numeric_claims": 6,
+        "numeric_grounded": 6,
+        "labels_gapless": false,
+        "answer": "The valve clearance for the F20C is as follows:\n\n*   **Intake:** 0.21— 0.25 mm (0.008—0.010 in.) [1], [4]\n*   **Exhaust:** 0.25—0.29 mm (0.010—0.011 in.) [1], [4]\n\nNote that valve clearance should be inspected (cold) every 105,000 miles (168,000 km) or 7 years [4]. Adjust the valves only when the cylinder head temperature is less than 100 °F (38 °C) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "service_manual--honda-s2000-service-manual-2000-2008",
+            "section_path": "Honda S2000 - Service Manual_2000 - 2008.pdf/page-172",
+            "page_start": 172,
+            "page_end": 172
+          },
+          {
+            "label": "4",
+            "document_id": "service_manual--honda-s2000-service-manual-2000-2008",
+            "section_path": "Honda S2000 - Service Manual_2000 - 2008.pdf/page-60",
+            "page_start": 60,
+            "page_end": 60
+          }
+        ]
+      },
+      {
+        "id": "x3",
+        "question": "What is the recommended tire pressure?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": null,
+        "numeric_claims": 6,
+        "numeric_grounded": 4,
+        "labels_gapless": false,
+        "answer": "For your vehicle, the recommended cold tire pressures are:\n\n*   **Front:** 32 psi (220 kPa, 2.2 kgf/cm²) [5], [7]\n*   **Rear:** 32 psi (220 kPa, 2.2 kgf/cm²) [5], [7]\n*   **Compact Spare Tire:** 60 psi (420 kPa, 4.2 kgf/cm²) [4], [7]",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "4",
+            "document_id": "owners_manual--honda-s2000-owners-manual-2001",
+            "section_path": "Honda S2000 - Owners Manual_2001.pdf/page-217",
+            "page_start": 217,
+            "page_end": 217
+          },
+          {
+            "label": "5",
+            "document_id": "service_manual--honda-s2000-service-manual-2000-2008",
+            "section_path": "Honda S2000 - Service Manual_2000 - 2008.pdf/page-1057",
+            "page_start": 1057,
+            "page_end": 1057
+          },
+          {
+            "label": "7",
+            "document_id": "owners_manual--honda-s2000-owners-manual-2001",
+            "section_path": "Honda S2000 - Owners Manual_2001.pdf/page-276",
+            "page_start": 276,
+            "page_end": 276
+          }
+        ]
+      }
+    ]
+  },
+  "after": {
+    "summary": {
+      "base_url": "Vercel Preview deployment",
+      "run_at_utc": "2026-10-20T18:01:46Z",
+      "n_golden": 40,
+      "citation_hits": 40,
+      "numeric_claims": 49,
+      "numeric_grounded": 49,
+      "labels_gapless": 43,
+      "n_total": 43,
+      "outcomes": {
+        "answered": 43
+      },
+      "git_sha": "b76f5993c2f38b8f5ea13f10020e973980a2f321"
+    },
+    "cases": [
+      {
+        "id": "g01-oil-drain-torque",
+        "question": "What is the oil drain plug torque?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 2,
+        "numeric_grounded": 2,
+        "labels_gapless": true,
+        "answer": "The oil drain plug torque is 39 N·m (29 lbf·ft) [1], [2].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-1 Specification",
+            "page_start": 3,
+            "page_end": 3
+          },
+          {
+            "label": "2",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-2 Oil Filter Replacement",
+            "page_start": 4,
+            "page_end": 4
+          }
+        ]
+      },
+      {
+        "id": "g02-oil-capacity",
+        "question": "What is the engine oil capacity with filter change?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The engine oil capacity with filter change is 4.8 liters (5.1 US quarts) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-1 Specification",
+            "page_start": 3,
+            "page_end": 3
+          }
+        ]
+      },
+      {
+        "id": "g03-clutch-free-play",
+        "question": "What is the clutch pedal free play specification?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "Clutch pedal free play should be 9–17 mm (0.35–0.67 in) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "2 Clutch > 2-1 Pedal Free Play",
+            "page_start": 7,
+            "page_end": 7
+          }
+        ]
+      },
+      {
+        "id": "g04-spark-plug-gap",
+        "question": "What electrode gap should spark plugs be set to?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The electrode gap should be set to 1.0–1.1 mm (0.039–0.043 in) [1]. Always set plugs to this cold installation gap before installing new plugs [2].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-1 Specification",
+            "page_start": 10,
+            "page_end": 10
+          },
+          {
+            "label": "2",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
+            "page_start": 12,
+            "page_end": 12
+          }
+        ]
+      },
+      {
+        "id": "g05-valve-clearance",
+        "question": "What is the cold intake valve clearance?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The cold intake valve clearance is 0.15–0.19 mm [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "5 Valve Clearance > 5-1 Inspection",
+            "page_start": 18,
+            "page_end": 18
+          }
+        ]
+      },
+      {
+        "id": "g06-coolant-capacity",
+        "question": "What is the coolant capacity including the reservoir?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The coolant capacity is approximately 5.8 liters including the reservoir [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-1 Coolant",
+            "page_start": 14,
+            "page_end": 14
+          }
+        ]
+      },
+      {
+        "id": "g07-spark-plug-torque",
+        "question": "What is the spark plug torque specification?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The spark plug torque is 18 N·m (13 lbf·ft) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-1 Specification",
+            "page_start": 10,
+            "page_end": 10
+          }
+        ]
+      },
+      {
+        "id": "g08-mtf-capacity",
+        "question": "How much manual transmission fluid does the gearbox hold?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The manual transmission fluid capacity is 1.5 liters (1.6 US quarts) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "6 Transmission Fluid > 6-1 Specification",
+            "page_start": 20,
+            "page_end": 20
+          }
+        ]
+      },
+      {
+        "id": "g09-thermostat-open",
+        "question": "At what temperature does the thermostat begin opening?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The thermostat begins opening at 78–82 °C (172–180 °F) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-2 Thermostat",
+            "page_start": 15,
+            "page_end": 15
+          }
+        ]
+      },
+      {
+        "id": "g11-clutch-fluid-type",
+        "question": "What brake fluid type is specified for the clutch hydraulic system?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "Use only Honda DOT 3 or DOT 4 brake fluid in the clutch hydraulic system [1]. Never mix fluid types [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "2 Clutch > 2-2 Hydraulic Fluid",
+            "page_start": 8,
+            "page_end": 8
+          }
+        ]
+      },
+      {
+        "id": "g12-exhaust-valve-clearance",
+        "question": "What is the cold exhaust valve clearance?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The cold exhaust valve clearance is 0.26–0.30 mm [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "5 Valve Clearance > 5-1 Inspection",
+            "page_start": 18,
+            "page_end": 18
+          }
+        ]
+      },
+      {
+        "id": "g13-oil-grade",
+        "question": "What engine oil viscosity and API grade are specified for normal operating temperatures?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "For normal operating temperatures, use SAE 10W-30 viscosity and API SJ or later [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-1 Specification",
+            "page_start": 3,
+            "page_end": 3
+          }
+        ]
+      },
+      {
+        "id": "g14-oil-filter-turn",
+        "question": "After hand-tightening the oil filter, how much additional turn is required?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "After hand-tightening the new oil filter, you should turn it an additional 3/4 turn [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-2 Oil Filter Replacement",
+            "page_start": 4,
+            "page_end": 4
+          }
+        ]
+      },
+      {
+        "id": "g15-spark-plug-type",
+        "question": "What is the specified spark plug type?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The specified spark plug type is NGK PFR7G-11 or equivalent [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-1 Specification",
+            "page_start": 10,
+            "page_end": 10
+          }
+        ]
+      },
+      {
+        "id": "g16-spark-interval",
+        "question": "At what mileage should spark plugs be replaced under normal conditions?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "Under normal conditions, spark plugs should be replaced every 105,000 miles (168,000 km) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-2 Replacement Interval",
+            "page_start": 11,
+            "page_end": 11
+          }
+        ]
+      },
+      {
+        "id": "g17-coolant-mix",
+        "question": "What Honda coolant type and mixing ratio should be used?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "Use Honda Type 2 coolant mixed 50/50 with distilled water [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-1 Coolant",
+            "page_start": 14,
+            "page_end": 14
+          }
+        ]
+      },
+      {
+        "id": "g18-radiator-cap",
+        "question": "What is the radiator cap relief pressure specification?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The radiator cap relief pressure is 93–123 kPa (0.95–1.25 kgf/cm², 13.5–17.8 psi) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-1 Coolant",
+            "page_start": 14,
+            "page_end": 14
+          }
+        ]
+      },
+      {
+        "id": "g19-thermostat-full-open",
+        "question": "At what temperature is the thermostat fully open?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The thermostat is fully open at 95 °C (203 °F) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-2 Thermostat",
+            "page_start": 15,
+            "page_end": 15
+          }
+        ]
+      },
+      {
+        "id": "g20-mtf-fill",
+        "question": "To what level should manual transmission fluid be filled with the vehicle level?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "Fill the manual transmission fluid to the bottom of the filler hole with the vehicle level [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "6 Transmission Fluid > 6-1 Specification",
+            "page_start": 20,
+            "page_end": 20
+          }
+        ]
+      },
+      {
+        "id": "g21-clutch-pushrod",
+        "question": "What should be adjusted if clutch pedal free play is out of specification?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "If clutch pedal free play is out of specification, adjust the clutch master cylinder pushrod [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "2 Clutch > 2-1 Pedal Free Play",
+            "page_start": 7,
+            "page_end": 7
+          }
+        ]
+      },
+      {
+        "id": "g22-spark-misfire-inspect",
+        "question": "When should spark plugs be inspected earlier than the normal replacement interval?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "Inspect spark plugs earlier than the normal replacement interval if misfire DTCs are present [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-2 Replacement Interval",
+            "page_start": 11,
+            "page_end": 11
+          }
+        ]
+      },
+      {
+        "id": "g26-never-mix-clutch-fluid",
+        "question": "Can different brake fluid types be mixed in the clutch hydraulic system?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "No, you must never mix fluid types in the clutch hydraulic system [1]. Use only Honda DOT 3 or DOT 4 brake fluid [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "2 Clutch > 2-2 Hydraulic Fluid",
+            "page_start": 8,
+            "page_end": 8
+          }
+        ]
+      },
+      {
+        "id": "g27-wrong-oil-20w50",
+        "question": "Is SAE 20W-50 the specified engine oil viscosity for normal operating temperatures?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "No. For normal operating temperatures, you should use SAE 10W-30 [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-1 Specification",
+            "page_start": 3,
+            "page_end": 3
+          }
+        ]
+      },
+      {
+        "id": "g28-never-atf-in-mtf",
+        "question": "Can automatic transmission fluid be used instead of the specified gearbox lubricant?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "Use Honda Manual Transmission Fluid (MTF) [1]. The provided documentation does not state whether automatic transmission fluid can be used instead of the specified gearbox lubricant [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "6 Transmission Fluid > 6-1 Specification",
+            "page_start": 20,
+            "page_end": 20
+          }
+        ]
+      },
+      {
+        "id": "g29-multi-thermo-vs-coolant",
+        "question": "What is the coolant system total capacity, and at what temperature does the thermostat become fully open?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 2,
+        "numeric_grounded": 2,
+        "labels_gapless": true,
+        "answer": "The coolant capacity is approximately 5.8 liters including the reservoir [1]. The thermostat becomes fully open at 95 °C (203 °F) [2].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-1 Coolant",
+            "page_start": 14,
+            "page_end": 14
+          },
+          {
+            "label": "2",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-2 Thermostat",
+            "page_start": 15,
+            "page_end": 15
+          }
+        ]
+      },
+      {
+        "id": "g30-multi-spark-gap-vs-torque",
+        "question": "What is the spark plug electrode gap and installation torque?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 2,
+        "numeric_grounded": 2,
+        "labels_gapless": true,
+        "answer": "The spark plug electrode gap is 1.0–1.1 mm (0.039–0.043 in) [1]. The spark plug installation torque is 18 N·m (13 lbf·ft) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-1 Specification",
+            "page_start": 10,
+            "page_end": 10
+          }
+        ]
+      },
+      {
+        "id": "g31-trap-thermo-full-open",
+        "question": "At what temperature is the thermostat fully open (not just beginning to open)?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The thermostat is fully open at 95 °C (203 °F) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-2 Thermostat",
+            "page_start": 15,
+            "page_end": 15
+          }
+        ]
+      },
+      {
+        "id": "g32-trap-spark-gap-only",
+        "question": "What electrode gap should be set on the spark plugs before installation?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The electrode gap should be set to 1.0–1.1 mm (0.039–0.043 in) before installing new plugs [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-1 Specification",
+            "page_start": 10,
+            "page_end": 10
+          }
+        ]
+      },
+      {
+        "id": "g33-trap-oil-filter-turn",
+        "question": "After hand-tightening a new oil filter, how much additional turn is specified?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "After hand-tightening a new oil filter, you should turn it an additional 3/4 turn [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-2 Oil Filter Replacement",
+            "page_start": 4,
+            "page_end": 4
+          }
+        ]
+      },
+      {
+        "id": "g34-trap-clutch-pushrod",
+        "question": "If clutch pedal free play is out of specification, what should be adjusted?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "If clutch pedal free play is out of specification, you should adjust the clutch master cylinder pushrod [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "2 Clutch > 2-1 Pedal Free Play",
+            "page_start": 7,
+            "page_end": 7
+          }
+        ]
+      },
+      {
+        "id": "g35-trap-exhaust-clearance",
+        "question": "What is the cold exhaust valve clearance specification?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The cold exhaust valve clearance specification is 0.26–0.30 mm [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "5 Valve Clearance > 5-1 Inspection",
+            "page_start": 18,
+            "page_end": 18
+          }
+        ]
+      },
+      {
+        "id": "g36-trap-mtf-filler-hole",
+        "question": "How do you know the manual transmission is filled to the correct level?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "Fill the manual transmission to the bottom of the filler hole with the vehicle level [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "6 Transmission Fluid > 6-1 Specification",
+            "page_start": 20,
+            "page_end": 20
+          }
+        ]
+      },
+      {
+        "id": "g37-trap-spark-interval",
+        "question": "Under normal conditions, how often should spark plugs be replaced?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "Under normal conditions, spark plugs should be replaced every 105,000 miles (168,000 km) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-2 Replacement Interval",
+            "page_start": 11,
+            "page_end": 11
+          }
+        ]
+      },
+      {
+        "id": "g38-trap-radiator-cap-psi",
+        "question": "What is the radiator cap relief pressure range in psi?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The radiator cap relief pressure range is 13.5–17.8 psi [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-1 Coolant",
+            "page_start": 14,
+            "page_end": 14
+          }
+        ]
+      },
+      {
+        "id": "g39-trap-filler-cap-torque",
+        "question": "What torque value is specified for installing the oil filler cap (not the drain plug)?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The specified installation torque for the oil filler cap is 22 N·m (16 lbf·ft) [1]. You should hand-start the cap and then torque it to this value only [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-3 Oil Filler Cap Torque",
+            "page_start": 5,
+            "page_end": 5
+          }
+        ]
+      },
+      {
+        "id": "g40-trap-fan-switch-temp",
+        "question": "At what coolant temperature range does the radiator cooling fan switch turn the fan ON?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The radiator cooling fan switch turns the fan ON at 91–94 °C (196–201 °F) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-3 Cooling Fan Switch Temperature",
+            "page_start": 16,
+            "page_end": 16
+          }
+        ]
+      },
+      {
+        "id": "g41-trap-hot-inspection-gap",
+        "question": "If electrode gap is checked only during a hot-engine inspection, what millimeter window applies?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "If the electrode gap is checked only during a hot-engine inspection, the window is 1.2–1.3 mm (0.047–0.051 in) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
+            "page_start": 12,
+            "page_end": 12
+          }
+        ]
+      },
+      {
+        "id": "g42-trap-drain-not-filler-torque",
+        "question": "Which oil-system fastener uses the 39 N·m torque figure rather than the filler-cap torque?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 3,
+        "numeric_grounded": 3,
+        "labels_gapless": true,
+        "answer": "The oil drain plug uses the 39 N·m torque figure [1], [2], whereas the oil filler cap installation torque is 22 N·m [3].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-2 Oil Filter Replacement",
+            "page_start": 4,
+            "page_end": 4
+          },
+          {
+            "label": "2",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-1 Specification",
+            "page_start": 3,
+            "page_end": 3
+          },
+          {
+            "label": "3",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "1 Engine Oil > 1-3 Oil Filler Cap Torque",
+            "page_start": 5,
+            "page_end": 5
+          }
+        ]
+      },
+      {
+        "id": "g43-trap-thermo-not-fan-switch",
+        "question": "Which cooling temperature is the thermostat fully-open value, as distinct from the fan-switch ON band?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "The thermostat fully-open temperature is 95 °C (203 °F) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "4 Cooling System > 4-2 Thermostat",
+            "page_start": 15,
+            "page_end": 15
+          }
+        ]
+      },
+      {
+        "id": "g44-trap-cold-install-gap-not-hot",
+        "question": "Before installing new spark plugs, which gap window must be used instead of the hot-inspection window?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": true,
+        "numeric_claims": 1,
+        "numeric_grounded": 1,
+        "labels_gapless": true,
+        "answer": "Before installing new spark plugs, you must always set them to the cold installation gap instead of the hot inspection gap [1]. The cold installation gap specification is 1.0–1.1 mm (0.039–0.043 in) [2].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-3 Hot-Engine Spark Gap Inspection",
+            "page_start": 12,
+            "page_end": 12
+          },
+          {
+            "label": "2",
+            "document_id": "fixture-s2000-service-manual",
+            "section_path": "3 Spark Plugs > 3-1 Specification",
+            "page_start": 10,
+            "page_end": 10
+          }
+        ]
+      },
+      {
+        "id": "x1",
+        "question": "What is the brake bleeding sequence?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": null,
+        "numeric_claims": 0,
+        "numeric_grounded": 0,
+        "labels_gapless": true,
+        "answer": "The brake bleeding sequence is as follows:\n\n1. Front Right\n2. Rear Right\n3. Front Left\n4. Rear Left [1]",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "service_manual--honda-s2000-service-manual-2000-2008",
+            "section_path": "Honda S2000 - Service Manual_2000 - 2008.pdf/page-1143",
+            "page_start": 1143,
+            "page_end": 1143
+          }
+        ]
+      },
+      {
+        "id": "x2",
+        "question": "What is the valve clearance for the F20C?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": null,
+        "numeric_claims": 6,
+        "numeric_grounded": 6,
+        "labels_gapless": true,
+        "answer": "The valve clearance for the F20C is as follows:\n\n*   **Intake:** 0.21— 0.25 mm (0.008—0.010 in.) [1], [2]\n*   **Exhaust:** 0.25—0.29 mm (0.010—0.011 in.) [1], [2]\n\nNote that valve clearance should be inspected (cold) every 105,000 miles (168,000 km) or 7 years [2]. When performing an adjustment, ensure the cylinder head temperature is less than 100 °F (38 °C) [1].",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "service_manual--honda-s2000-service-manual-2000-2008",
+            "section_path": "Honda S2000 - Service Manual_2000 - 2008.pdf/page-172",
+            "page_start": 172,
+            "page_end": 172
+          },
+          {
+            "label": "2",
+            "document_id": "service_manual--honda-s2000-service-manual-2000-2008",
+            "section_path": "Honda S2000 - Service Manual_2000 - 2008.pdf/page-60",
+            "page_start": 60,
+            "page_end": 60
+          }
+        ]
+      },
+      {
+        "id": "x3",
+        "question": "What is the recommended tire pressure?",
+        "http": 200,
+        "outcome": "answered",
+        "citation_hit": null,
+        "numeric_claims": 4,
+        "numeric_grounded": 4,
+        "labels_gapless": true,
+        "answer": "For your vehicle, the recommended cold tire pressures are:\n\n*   **Front:** 32 psi (220 kPa, 2.2 kgf/cm²) [1]\n*   **Rear:** 32 psi (220 kPa, 2.2 kgf/cm²) [1]\n*   **Compact Spare Tire:** 60 psi (420 kPa, 4.2 kgf/cm²) [2], [1]",
+        "retried_after_degraded": false,
+        "citations": [
+          {
+            "label": "1",
+            "document_id": "owners_manual--honda-s2000-owners-manual-2001",
+            "section_path": "Honda S2000 - Owners Manual_2001.pdf/page-276",
+            "page_start": 276,
+            "page_end": 276
+          },
+          {
+            "label": "2",
+            "document_id": "owners_manual--honda-s2000-owners-manual-2001",
+            "section_path": "Honda S2000 - Owners Manual_2001.pdf/page-217",
+            "page_start": 217,
+            "page_end": 217
+          }
+        ]
+      }
+    ]
+  }
+}

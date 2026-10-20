@@ -166,6 +166,20 @@ describe('finalizeCitations — labels and excerpts', () => {
     expect(out.citations.map((c) => c.chunk_id)).toEqual(['c1', 'c3']);
   });
 
+  it('lists the labels inside a group in ascending order after renumbering', () => {
+    const { citations, rows } = setup([ALIGNMENT, TIRES, SCHEDULE]);
+    const out = finalizeCitations(
+      'Rotate tires [3]. Check alignment too [1], [3].',
+      citations,
+      rows,
+    );
+    expect(out.answer).toBe('Rotate tires [1]. Check alignment too [1], [2].');
+    expect(out.citations.map((c) => [c.label, c.chunk_id])).toEqual([
+      ['1', 'c3'],
+      ['2', 'c1'],
+    ]);
+  });
+
   it('centres the excerpt on the matched value', () => {
     const long = `${'General tire care and rotation notes. '.repeat(8)}Recommended cold tire pressure: 32 psi front and rear. ${'Check monthly. '.repeat(8)}`;
     const { citations, rows } = setup([long]);

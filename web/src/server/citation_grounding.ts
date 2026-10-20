@@ -4,8 +4,9 @@
  * the cited chunk must contain that number. If it doesn't, the marker is
  * re-pointed to the retrieved chunk that contains the most of the claim's
  * numbers, or dropped when none does. The answer text is never changed apart
- * from its markers. Labels are then renumbered 1..n by first appearance, and
- * each citation's excerpt is centred on the value it supports.
+ * from its markers. Labels are then renumbered 1..n by first appearance (each
+ * marker group in ascending order), and each citation's excerpt is centred on
+ * the value it supports.
  */
 import {
   citationExcerpt,
@@ -174,8 +175,13 @@ export function finalizeCitations(
     return { answer: rebuilt, citations: filtered.citations, grounding: stats };
   }
   const newLabel = new Map(order.map((old, i) => [old, String(i + 1)]));
-  const finalAnswer = rebuilt.replace(/\[(\d+)\]/g, (whole, old: string) =>
-    newLabel.has(old) ? `[${newLabel.get(old)}]` : whole,
+  // Each group is renumbered as a unit and listed in ascending order.
+  const finalAnswer = rebuilt.replace(MARKER_GROUP_RE, (group) =>
+    [...group.matchAll(/\[(\d+)\]/g)]
+      .map((x) => Number(newLabel.get(x[1]) ?? x[1]))
+      .sort((a, b) => a - b)
+      .map((l) => `[${l}]`)
+      .join(', '),
   );
   const citations = order.map((old) => {
     const c = byLabel.get(old)!;
