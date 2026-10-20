@@ -340,13 +340,14 @@ If the reranker fails, fail open to the fused (+ optionally deduped) order — a
 ### 7.6 Context assembly
 
 1. Take the top `K` chunks (cross-encoder order, or RRF order if degraded) within a bounded token/character budget.
-2. Assign server-side citation labels (`[1]`, `[2]`, …) exactly once, at assembly time — this is the only place labels are assigned, sequential from 1 in assembly order.
+2. Assign server-side citation labels (`[1]`, `[2]`, …) at assembly time, sequential from 1 in assembly order; the generator sees only these labels.
 3. Pass only labeled context to the generator (local Ollama or hosted Gemini).
-4. After generation, the returned `citations` array is the referenced subset of that assembled list — labels stay stable even if the array is sparse (e.g. an answer citing `[1]` and `[3]` returns exactly those two labels, still pointing at their original chunks). Labels are never renumbered unless the answer text itself is rewritten in the same step; renumbering only one side would misattribute a citation to the wrong source. If the answer contains no markers at all, the full assembled list is returned.
-5. Unknown markers (e.g. `[99]`, or `[3]` when only two chunks were assembled) are rejected: stripped from the answer text and never added to the citation array. Known markers are left untouched.
-6. Citation metadata comes from database rows only — never from anything the model invents.
-7. Extractive or degraded answers follow the same label-stability rule: skipped empty-content rows keep the original labels of whatever rows remain.
-8. The UI renders `[n]` in an answer as a link to `#citation-n` only when a citation with that label is actually present in the response; otherwise the token stays plain text.
+4. After generation, a deterministic grounding check runs (`web/src/server/citation_grounding.ts`, no model calls): for each claim that states a number and carries markers, the cited chunk must contain that number (whitespace, thousands separators and dash variants normalised). If it doesn't, the marker is re-pointed to the assembled chunk that contains the most of the claim's numbers, or dropped when none does. The answer text is never changed apart from its markers.
+5. The returned `citations` array is the referenced subset of the assembled list, relabelled `1..n` in order of first appearance in the answer; markers and cards are renumbered together, so labels never skip. Each citation's `excerpt` is a ~150-character window centred on the value it supports, or the start of the chunk when no value matched.
+6. Unknown markers (e.g. `[99]`, or `[3]` when only two chunks were assembled) are rejected: stripped from the answer text and never added to the citation array. Known markers are left untouched.
+7. Citation metadata comes from database rows only — never from anything the model invents.
+8. Extractive or degraded answers keep their assembly labels: skipped empty-content rows keep the original labels of whatever rows remain.
+9. The UI renders `[n]` in an answer as a link to `#citation-n` only when a citation with that label is actually present in the response; otherwise the token stays plain text.
 
 ### 7.7 Model locks
 

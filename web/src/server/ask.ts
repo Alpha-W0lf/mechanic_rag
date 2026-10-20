@@ -4,10 +4,10 @@ import { sectionDedup } from '@/lib/retrieval/section_dedup';
 import {
   ASK_SYSTEM_PROMPT,
   assembleContext,
-  filterAnswerToKnownLabels,
   isEvidenceInsufficient,
   type Citation,
 } from './citations';
+import { finalizeCitations } from './citation_grounding';
 import type { CrossEncoder } from './cross_encoder';
 import { errorClassForEmbedFailure, toPublicAskFailure } from './ask_errors';
 import { maybeDegradedAsk } from './ask_degrade';
@@ -279,7 +279,7 @@ export async function handleAsk(
       });
     }
 
-    const filtered = filterAnswerToKnownLabels(text, citations);
+    const filtered = finalizeCitations(text, citations, rows);
 
     const provenanceByDocumentId = new Map<
       string,
@@ -338,6 +338,7 @@ export async function handleAsk(
       query_expansion: expansion.rules,
       expansion_lexical_count: boost.hits.length,
       expansion_lexical_ms: boost.ms,
+      citation_grounding: filtered.grounding,
     };
     logAsk({
       requestId,

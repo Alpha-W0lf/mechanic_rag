@@ -61,9 +61,9 @@ The 2025 stub (`{question, history}`, `page_number`, `{status:"ok"}` only) is re
 |-------|--------|
 | `outcome` | `answered` \| `insufficient_evidence` \| `degraded` |
 | `error_class` | Present on `outcome: "degraded"` (and on non-200 failures). Values: `generator_unavailable` \| `embedding_unavailable` \| `database_unavailable` \| `rate_limited` \| `internal` |
-| `citations[].label` | Server-assigned `"1"`, `"2"`, … (ARCHITECTURE §7.6). |
+| `citations[].label` | Server-assigned `"1"`, `"2"`, … with no gaps, in order of first appearance in the answer (ARCHITECTURE §7.6). |
 | `citations[].page_start` / `page_end` | Locators from DB rows. There is no `page_number` field. |
-| `citations[].excerpt` | A short citation of the manual page: the first ~150 characters of the cited chunk. |
+| `citations[].excerpt` | A short citation of the manual page: ~150 characters centred on the value the answer cites, or the start of the chunk when no value matched. |
 | `diagnostics` | Object only when `MECHANIC_DIAGNOSTICS=1`; otherwise `null`. Never private chunk bodies. |
 | `visual_assets` | Parked M1. Empty on the public text-RAG path. Shape when present: `{ chunk_id, document_id, page_start, content_type, href }`. |
 
