@@ -331,6 +331,42 @@ describe('gemini transient failures and deadline', () => {
     });
   });
 
+  it('retries a network failure (fetch TypeError) and reports NETWORK_ERROR when it persists', async () => {
+    const fetchMock = vi
+      .fn()
+      .mockImplementation(() => Promise.reject(new TypeError('fetch failed')));
+    vi.stubGlobal('fetch', fetchMock);
+    const err = await geminiFetch(
+      'https://example.test',
+      { method: 'POST' },
+      { sleep: async () => undefined },
+    ).catch((e: unknown) => e);
+    expect(err).toBeInstanceOf(GeminiError);
+    expect(err).toMatchObject({ googleStatus: 'NETWORK_ERROR' });
+    expect(fetchMock).toHaveBeenCalledTimes(GEMINI_RETRY.maxAttempts);
+  });
+
+  it('does not retry when the backoff plus another attempt would not fit the budget', async () => {
+    const clock = 0;
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue(new Response('busy', { status: 503 }));
+    vi.stubGlobal('fetch', fetchMock);
+    // 1.5 s left; the first backoff is 1 s, leaving less than minAttemptMs for a retry.
+    const res = await geminiFetch(
+      'https://example.test',
+      { method: 'POST' },
+      {
+        sleep: async () => undefined,
+        now: () => clock,
+        random: () => 0,
+        deadlineAt: GEMINI_RETRY.initialDelayMs + GEMINI_RETRY.minAttemptMs / 2,
+      },
+    );
+    expect(res.status).toBe(503);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it('stops starting new attempts once the overall deadline has passed', async () => {
     let clock = 0;
     const now = () => clock;

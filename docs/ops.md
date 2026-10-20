@@ -6,7 +6,7 @@ Scoring and operator policy for the hosted demo.
 
 Production is Vercel Hobby + Supabase Free + Gemini API free tier. Platform pause/delete and free-tier quota remain residual risks: a paused or deleted tenant, or a Gemini/Supabase quota exhaustion, can take the public demo down even when this repo is green. The external keep-alive (`GET /api/health?mode=db`) and the daily cited-Ask monitor mitigate inactivity pause and surface Ask failures; they are not high availability, and this demo carries no SLO.
 
-`POST /api/ask` exports `maxDuration = 60` (Next.js App Router) so Vercel Hobby cannot leave Ask running past the same 60s generate/embed budget already used by `OLLAMA_TIMEOUT_MS`.
+`POST /api/ask` exports `maxDuration = 60` (Next.js App Router) so Vercel Hobby stops any Ask after 60 s. Hosted Gemini calls have their own 50 s budget per Ask inside that limit (see 2 below).
 
 ### Durability posture
 

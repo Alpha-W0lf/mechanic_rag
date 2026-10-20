@@ -45,9 +45,9 @@ export const GEMINI_RETRY = {
 };
 
 /**
- * One Gemini time budget per Ask, shared by embed and generate. It leaves room
- * under the 60 s function limit (app/api/ask/route.ts maxDuration) for
- * retrieval, database work and the response.
+ * One Gemini time budget per Ask, measured from the start of the request and
+ * shared by embed and generate. Retrieval and database work run inside it; it
+ * ends 10 s before the 60 s function limit (app/api/ask/route.ts maxDuration).
  */
 export const ASK_GEMINI_BUDGET_MS = 50_000;
 

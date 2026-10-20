@@ -5,7 +5,7 @@
 private path tokens, no private rights class, fixture vehicle IDs only.
 
 `public_fail_closed.py --tree .` checks every tracked file in the repo: no
-PDFs anywhere, and images only under docs/assets/ (the README screenshots)
+PDFs anywhere, and images only under docs/assets/
 plus the app favicon.
 """
 
