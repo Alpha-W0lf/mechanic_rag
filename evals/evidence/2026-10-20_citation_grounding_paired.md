@@ -27,7 +27,7 @@ The grounding check and the fix use the same rule (the number appears in the cit
 | Answers with gap-free labels              |         37 / 43 |        43 / 43 |
 | Answered                                  |         43 / 43 |        43 / 43 |
 
-The denominator falls from 52 to 49 because three markers that pointed at text without the value were removed from groups that also cite the right source. No claim lost all of its citations.
+The 3 ungrounded markers were removed (g32) or moved to the page that states the value, which the same group already cited (x3), so the after arm has 49 numeric claims. No claim lost all of its citations. The fix enforces at chunk level what this score measures at page level.
 
 39 of the 43 answers are word-for-word the same in both arms apart from their markers. The generator reworded the other 4 (g14, g19, g28, x2); none changed its citation hit or grounding count. The after arm renumbers every answer, so gap-free labels hold by construction.
 

@@ -117,6 +117,22 @@ describe('finalizeCitations — numeric grounding', () => {
     expect(out.grounding).toMatchObject({ repointed: 0, dropped: 0 });
   });
 
+  it('keeps a correct citation when the sentence also names the model year or a page', () => {
+    const { citations, rows } = setup([
+      'Oil capacity with filter: 4.8 L (5.1 US qt).',
+      '2003 model year changes. See page 8-6 for the oil filter, page 12 for torque.',
+    ]);
+    for (const answer of [
+      'For the 2003 S2000, oil capacity with filter is 4.8 L (5.1 US qt) [1].',
+      'Oil capacity with filter is 4.8 L (see page 8-6) [1].',
+      'Oil capacity with filter is 4.8 L (see page 12) [1].',
+    ]) {
+      const out = finalizeCitations(answer, citations, rows);
+      expect(out.citations.map((c) => c.chunk_id)).toEqual(['c1']);
+      expect(out.grounding).toMatchObject({ repointed: 0, dropped: 0 });
+    }
+  });
+
   it('moves a partly matching citation to a chunk with every value, else keeps it', () => {
     const partial = 'Inflation table: 220 kPa maximum for towing.';
     const { citations, rows } = setup([partial, TIRES]);
