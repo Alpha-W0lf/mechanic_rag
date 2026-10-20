@@ -242,6 +242,10 @@ on:
     - cron: '0 12 * * *'  # 12:00 UTC daily smoke check
 ```
 
+### Operational boundaries
+
+The README GIF under [`docs/assets/demo/`](assets/demo/) shows a cited answer from the hosted demo; it is a UI capture, not a monitor.
+
 ## Public Ask abuse shield
 
 `POST /api/ask` is unauthenticated. Every successful pass spends Gemini free-tier quota (`gemini-embedding-001`'s ~1K requests/day is the binding constraint) and Supabase Free capacity. The shield is app-level Postgres logic — not a paid WAF.

@@ -7,6 +7,8 @@ Ask a question about a car and get an answer that cites the exact manual and pag
 
 **Live demo:** [mechanic-rag.vercel.app](https://mechanic-rag.vercel.app) answers from the complete Honda S2000 service manual, owner's manual and wiring diagrams. No install, no API key.
 
+![Asking the hosted S2000 manuals a service question and getting a cited answer](docs/assets/demo/live-demo.gif)
+
 ## The problem
 
 Service manuals bury torque specs, fluids and procedures across thousands of pages. Owners and techs still dig by hand. Mechanic RAG answers from the manual itself and cites the document and page for every source it uses.
