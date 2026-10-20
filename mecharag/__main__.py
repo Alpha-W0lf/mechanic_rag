@@ -1,0 +1,193 @@
+"""mecharag CLI entrypoints: ingest, eval."""
+
+from __future__ import annotations
+
+import argparse
+import sys
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(
+        prog="mecharag",
+        description="Mechanic RAG offline ingest and eval CLI",
+    )
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    ingest_p = sub.add_parser(
+        "ingest",
+        help="Ingest fixtures or private Gold (PrivateGoldSource)",
+    )
+    ingest_p.add_argument(
+        "--source",
+        default="fixtures",
+        help=(
+            "Source adapter: fixtures | private-gold "
+            "(aliases: FixtureSource, PrivateGoldSource, private_gold). "
+            "Default: fixtures"
+        ),
+    )
+    ingest_p.add_argument(
+        "--root",
+        default=None,
+        help=(
+            "Root directory: FIXTURE_ROOT/./fixtures for fixtures; "
+            "MECHANIC_PRIVATE_GOLD_ROOT for private-gold (required if unset)"
+        ),
+    )
+    ingest_p.add_argument(
+        "--database-url",
+        default=None,
+        help="Postgres URL (default: DATABASE_URL)",
+    )
+    ingest_p.add_argument(
+        "--vehicle-id",
+        default=None,
+        help="Optional vehicle_id filter to stage ingest (e.g. cat:2003-honda-s2000)",
+    )
+    ingest_p.add_argument(
+        "--doc-family",
+        default=None,
+        help="Optional doc_family filter to stage ingest (e.g. owners_manual, wiring, service_manual)",
+    )
+
+    eval_p = sub.add_parser(
+        "eval",
+        help="Run golden fixture eval harness",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=(
+            "Paired ask ablation:\n"
+            "  1. Start CE-on Next: MECHANIC_DIAGNOSTICS=1 (FORCE_RRF_ONLY unset)\n"
+            "     e.g. cd web && pnpm dev   # port 3000\n"
+            "  2. Start RRF-only Next: MECHANIC_FORCE_RRF_ONLY=1 MECHANIC_DIAGNOSTICS=1\n"
+            "     e.g. cd web && PORT=3001 MECHANIC_FORCE_RRF_ONLY=1 pnpm dev\n"
+            "  3. mecharag eval --golden evals/ \\\n"
+            "       --ask-url http://127.0.0.1:3000/api/ask \\\n"
+            "       --ask-url-rrf-only http://127.0.0.1:3001/api/ask\n"
+            "  SECTION_DEDUP_ENABLED must be identical on both processes.\n"
+            "  Without --ask-url-rrf-only, paired metrics are skipped (CE-on arm only).\n"
+            "  Use --no-paired-ask to silence the paired-ablation warning."
+        ),
+    )
+    eval_p.add_argument(
+        "--golden",
+        default="evals",
+        help="Path to golden cases directory or JSON (default: evals/)",
+    )
+    eval_p.add_argument(
+        "--database-url",
+        default=None,
+        help="Postgres URL (default: DATABASE_URL)",
+    )
+    eval_p.add_argument(
+        "--ask-url",
+        default="http://127.0.0.1:3000/api/ask",
+        help="Ask API for CE-on arm (FORCE_RRF_ONLY unset)",
+    )
+    eval_p.add_argument(
+        "--ask-url-rrf-only",
+        default=None,
+        help=(
+            "Ask API for forced RRF-only arm (Next with MECHANIC_FORCE_RRF_ONLY=1). "
+            "Required for paired ask ablation metrics."
+        ),
+    )
+    eval_p.add_argument(
+        "--retrieval-only",
+        action="store_true",
+        help="Score lexical FTS proxy from DB only (no HTTP ask)",
+    )
+    eval_p.add_argument(
+        "--no-paired-ask",
+        action="store_true",
+        help="Skip paired CE-on vs RRF-only asks even if --ask-url-rrf-only is set",
+    )
+
+    map_p = sub.add_parser(
+        "receipt-to-gold-status",
+        help=(
+            "Map present_only_receipt.json → gold_status.json"
+        ),
+    )
+    map_p.add_argument(
+        "receipt",
+        type=str,
+        help="Path to present_only_receipt.json",
+    )
+    map_p.add_argument(
+        "--out",
+        default=None,
+        help="Output gold_status.json path (default: sibling of receipt)",
+    )
+
+    garage_p = sub.add_parser(
+        "garage-emit",
+        help="Local private-corpus PDF → normalized-manifest RAG Gold (init/sync/emit)",
+    )
+    # Remaining argv after 'garage-emit' are parsed by garage_emit.cli
+    garage_p.add_argument(
+        "garage_argv",
+        nargs=argparse.REMAINDER,
+        help="Subcommand args: init | sync-bronze | emit …",
+    )
+
+    embed_p = sub.add_parser(
+        "embed-images",
+        help="M2: batch CLIP page embeds into chunk_image_embeddings ([m2] extra)",
+    )
+    embed_p.add_argument("--database-url", default=None)
+    embed_p.add_argument("--garage-root", default=None)
+    embed_p.add_argument(
+        "--vehicle-prefix",
+        action="append",
+        default=None,
+        help="Repeatable LIKE prefix (default: cat:%%)",
+    )
+    embed_p.add_argument("--limit-pages", type=int, default=None)
+    embed_p.add_argument("--batch-size", type=int, default=4)
+    embed_p.add_argument("--force", action="store_true")
+    embed_p.add_argument("--dry-run", action="store_true")
+
+    clip_q = sub.add_parser(
+        "clip-query",
+        help="M2: CLIP text-tower embed for ask image channel ([m2] extra)",
+    )
+    clip_q.add_argument("--text", required=True)
+
+    args = parser.parse_args(argv)
+
+    if args.command == "ingest":
+        from mecharag.ingest_cmd import run_ingest
+
+        return run_ingest(args)
+    if args.command == "eval":
+        from mecharag.eval_cmd import run_eval
+
+        return run_eval(args)
+    if args.command == "receipt-to-gold-status":
+        from mecharag.receipt_to_gold_status import main as map_main
+
+        argv_map = [args.receipt]
+        if args.out:
+            argv_map.extend(["--out", args.out])
+        return map_main(argv_map)
+    if args.command == "garage-emit":
+        from mecharag.garage_emit.cli import main as garage_main
+
+        rest = list(args.garage_argv)
+        if rest and rest[0] == "--":
+            rest = rest[1:]
+        return garage_main(rest)
+    if args.command == "embed-images":
+        from mecharag.embed_images_cmd import run_embed
+
+        return run_embed(args)
+    if args.command == "clip-query":
+        from mecharag.clip_query import main as clip_main
+
+        return clip_main(["--text", args.text])
+    parser.error(f"unknown command: {args.command}")
+    return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

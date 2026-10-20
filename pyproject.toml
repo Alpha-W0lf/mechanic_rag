@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mecharag"
+version = "0.1.0"
+description = "Mechanic RAG offline ingest and eval CLI (fixtures → Compose Postgres)."
+readme = "README.md"
+license = "PolyForm-Noncommercial-1.0.0"
+requires-python = ">=3.11"
+dependencies = [
+    "python-dotenv==1.0.1",
+    "requests==2.34.2",
+    "psycopg[binary]==3.3.6",
+    "tenacity==9.1.4",
+    "pypdf==6.19.0",
+    "pdf2image==1.17.0",
+    "cryptography>=3.1",
+    "jsonschema>=4.20",
+]
+
+[project.optional-dependencies]
+legacy = [
+    "pdf2image==1.17.0",
+    "pypdf==6.19.0",
+    "google-genai==2.25.0",
+    "google-api-core==2.25.1",
+]
+dev = [
+    "pytest>=8.0",
+]
+m2 = [
+    "torch>=2.2",
+    "transformers>=4.40",
+    "pillow>=10.0",
+]
+
+[project.scripts]
+mecharag = "mecharag.__main__:main"
+
+[tool.setuptools.package-data]
+mecharag = ["garage_emit/*.json"]
+
+[tool.setuptools.packages.find]
+include = ["mecharag*"]
+exclude = ["scripts*", "web*", "output*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+markers = [
+    "integration: program fixtures (MECHANIC_EXTRA_FIXTURES_ROOT), live Vehicle Gold emit, or a running Compose/Next/Ollama stack",
+    "slow: OEM PDF corpus (rag_input/ is gitignored) or network / Ollama / Postgres",
+]

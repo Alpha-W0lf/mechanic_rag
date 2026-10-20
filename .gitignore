@@ -1,0 +1,79 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+/node_modules
+/.pnpm-store
+
+# Local Environment
+.env
+.env*.local
+!.env.example
+
+# Production/Build artifacts
+/.next/
+/out/
+/build
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test outputs
+/coverage
+
+# Misc
+.DS_Store
+*.pem
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Generated output files
+output/
+
+# OEM / private manuals — never commit (the public repo stays fixture-only)
+rag_input/**
+!rag_input/.gitkeep
+*.pdf
+
+# Local private-corpus staging — OEM and private trees stay out of git
+/tmp_private_gold*/
+/private_gold_met/
+
+# Accidental in-repo private-corpus trees (prefer ~/var/mechanic_garage/)
+/mechanic_garage/
+/garage_bronze/
+/garage_gold/
+
+# Local-only eval sets and summaries for private corpora
+evals/golden_garage*.json
+evals/last_run_summary_garage*.json
+evals/golden_m2_diagram_stubs*.json
+evals/golden_m3_vision_v1.json
+
+# VSCode
+.vscode/
+
+# IntelliJ
+.idea/
+
+# Supabase
+.supabase
+
+
+# build metadata
+*.egg-info/
+
+# Supabase CLI local state
+supabase/.temp/
+.vercel
+.cursor/

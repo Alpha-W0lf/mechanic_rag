@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mechanic-rag.local/contracts/ask_response.schema.json",
+  "title": "AskResponse",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["answer", "citations"],
+  "properties": {
+    "answer": { "type": "string" },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "chunk_id",
+          "vehicle_id",
+          "doc_family",
+          "document_id"
+        ],
+        "properties": {
+          "label": { "type": "string" },
+          "chunk_id": { "type": "string" },
+          "vehicle_id": { "type": "string" },
+          "doc_family": { "type": "string" },
+          "document_id": { "type": "string" },
+          "section_path": { "type": ["string", "null"] },
+          "page_start": { "type": ["integer", "null"] },
+          "page_end": { "type": ["integer", "null"] },
+          "excerpt": {
+            "description": "Short excerpt of the cited chunk (about 150 characters, cut on a word boundary).",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "outcome": {
+      "type": "string",
+      "enum": ["answered", "insufficient_evidence", "degraded"]
+    },
+    "error_class": {
+      "description": "Present when outcome is degraded: why the summary model was skipped.",
+      "type": "string",
+      "enum": [
+        "generator_unavailable",
+        "embedding_unavailable",
+        "database_unavailable",
+        "rate_limited",
+        "internal"
+      ]
+    },
+    "diagnostics": {
+      "description": "Present only when MECHANIC_DIAGNOSTICS=1. Never private chunk bodies.",
+      "type": ["object", "null"]
+    },
+    "visual_assets": {
+      "description": "M1 optional linked page images. Ask emits href when bronze+page resolvable; never rasterizes. Missing asset → omit entry.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "chunk_id",
+          "document_id",
+          "page_start",
+          "content_type",
+          "href"
+        ],
+        "properties": {
+          "chunk_id": { "type": "string" },
+          "document_id": { "type": "string" },
+          "page_start": { "type": "integer" },
+          "content_type": { "type": "string", "const": "image/png" },
+          "href": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "source_root": "~/Documents/Vehicle manuals",
+  "deny_name_substr": [
+    "draft"
+  ],
+  "vehicles": [
+    {
+      "vehicle_id": "cat:demo-roadster",
+      "bronze_dirname": "demo-roadster",
+      "gold_dirname": "cat_demo-roadster",
+      "year": 2003,
+      "make": "Demo",
+      "model": "Roadster",
+      "engine": "unknown",
+      "trim": null,
+      "manuals": [
+        {
+          "filename": "Demo Roadster - Service Manual.pdf",
+          "doc_family": "service_manual",
+          "source": "Demo Roadster/Demo Roadster - Service Manual.pdf"
+        },
+        {
+          "filename": "Demo Roadster - Owners Manual.pdf",
+          "doc_family": "owners_manual",
+          "source": "Demo Roadster/Demo Roadster - Owners Manual.pdf"
+        },
+        {
+          "filename": "Demo Roadster - Wiring Diagram.pdf",
+          "doc_family": "wiring",
+          "source": "Demo Roadster/Demo Roadster - Wiring Diagram.pdf"
+        }
+      ],
+      "exclude_filenames": [
+        "Demo Roadster - Service Manual (older year).pdf"
+      ]
+    }
+  ]
+}

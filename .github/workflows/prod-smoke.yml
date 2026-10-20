@@ -1,0 +1,30 @@
+name: Production smoke
+# Health check: one cited Ask against the live demo. Runs on every push to
+# main (so the badge always has a status) and on demand. It checks whatever
+# is live at that moment; one request per run stays far inside free-tier limits.
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      ask_url:
+        description: "Ask endpoint URL to probe"
+        required: false
+        default: "https://mechanic-rag.vercel.app/api/ask"
+
+permissions:
+  contents: read
+
+jobs:
+  prod_ask_smoke:
+    name: Production Ask smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: .python-version
+      - name: Production Ask smoke probe
+        env:
+          ASK_URL: ${{ inputs.ask_url || 'https://mechanic-rag.vercel.app/api/ask' }}
+        run: python scripts/checks/prod_ask_smoke.py --url "$ASK_URL"
