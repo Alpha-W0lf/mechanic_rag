@@ -294,6 +294,17 @@ describe('isEvidenceInsufficient detection for true misses', () => {
     ).toBe(true);
   });
 
+  it('detects the refusals gemma4:e2b wrote for the unanswerable golden questions', () => {
+    for (const text of [
+      'Context is insufficient.',
+      'Context is insufficient to determine the fuel pressure specification.',
+      'The context provided does not contain information regarding the OEM front brake pad part number.',
+      'The context provided does not contain information on how to replace the cabin air filter.',
+    ]) {
+      expect(isEvidenceInsufficient(text), text).toBe(true);
+    }
+  });
+
   it('returns false for actual answers with citation grounding', () => {
     expect(
       isEvidenceInsufficient(
