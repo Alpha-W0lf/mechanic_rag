@@ -6,8 +6,8 @@
  "mode": "MECHANIC_FORCE_RRF_ONLY=1 (cross-encoder not run: the sharp native module is not built here), ASK_RATE_LIMIT_DISABLED=1, fixture:honda-s2000-demo",
  "sets": [
   "golden_fixture_v1.json (40 answerable, 4 unanswerable)",
-  "abstain_dev_v1.json (12+12)",
-  "abstain_unseen_v2.json (12+12)"
+  "abstain_extra_a.json (12+12)",
+  "abstain_extra_b.json (12+12)"
  ],
  "before_refusal_detector_as_of_1bb7b8a": [
   {
@@ -19,7 +19,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The oil drain plug torque is 39 N·m (29 lbf·ft) [1].",
-   "secs": 15.0
+   "secs": 15.0,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g02-oil-capacity",
@@ -30,7 +31,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Engine oil capacity with filter change is 4.8 liters (5.1 US quarts) [1].",
-   "secs": 7.5
+   "secs": 7.5,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g03-clutch-free-play",
@@ -41,7 +43,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Clutch pedal free play should be 9–17 mm (0.35–0.67 in) [1]. If the free play is outside of specification, you should adjust the clutch master cylinder pushrod [1].",
-   "secs": 5.7
+   "secs": 5.7,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g04-spark-plug-gap",
@@ -52,7 +55,8 @@
    "cite_hit": true,
    "n_cit": 2,
    "answer": "The electrode gap should be set to 1.0–1.1 mm (0.039–0.043 in) according to the 3-1 Specification [1]. Always set the plugs to the cold installation gap before installing new plugs [2].",
-   "secs": 8.0
+   "secs": 8.0,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g05-valve-clearance",
@@ -63,7 +67,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The cold intake valve clearance is 0.15–0.19 mm [1].",
-   "secs": 5.9
+   "secs": 5.9,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g06-coolant-capacity",
@@ -74,7 +79,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Coolant capacity is approximately 5.8 liters including the reservoir [1].",
-   "secs": 5.9
+   "secs": 5.9,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g07-spark-plug-torque",
@@ -85,7 +91,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The spark plug torque specification is 18 N·m (13 lbf·ft) [1].",
-   "secs": 7.0
+   "secs": 7.0,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g08-mtf-capacity",
@@ -96,7 +103,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Manual transmission fluid capacity is 1.5 liters (1.6 US quarts) [1].",
-   "secs": 5.4
+   "secs": 5.4,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g09-thermostat-open",
@@ -107,7 +115,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The thermostat begins opening at 78–82 °C (172–180 °F) [1].",
-   "secs": 8.1
+   "secs": 8.1,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g10-hard-miss-abs-module",
@@ -118,7 +127,8 @@
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 9.0
+   "secs": 9.0,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "g11-clutch-fluid-type",
@@ -129,7 +139,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Use only Honda DOT 3 or DOT 4 brake fluid in the clutch hydraulic system [1].",
-   "secs": 5.9
+   "secs": 5.9,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g12-exhaust-valve-clearance",
@@ -140,7 +151,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The cold exhaust valve clearance is 0.26–0.30 mm [1].",
-   "secs": 6.0
+   "secs": 6.0,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g13-oil-grade",
@@ -151,7 +163,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The specified oil for normal operating temperatures is SAE 10W-30, using API SJ or later [1].",
-   "secs": 6.9
+   "secs": 6.9,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g14-oil-filter-turn",
@@ -162,7 +175,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "After hand-tightening the oil filter, an additional 3/4 turn is required [1].",
-   "secs": 4.6
+   "secs": 4.6,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g15-spark-plug-type",
@@ -173,7 +187,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The specified spark plug type is NGK PFR7G-11 or equivalent [1].",
-   "secs": 7.2
+   "secs": 7.2,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g16-spark-interval",
@@ -184,7 +199,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Spark plugs should be replaced every 105,000 miles (168,000 km) under normal conditions [1].",
-   "secs": 6.2
+   "secs": 6.2,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g17-coolant-mix",
@@ -195,7 +211,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Use Honda Type 2 coolant mixed 50/50 with distilled water [1].",
-   "secs": 6.1
+   "secs": 6.1,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g18-radiator-cap",
@@ -206,7 +223,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The radiator cap relief pressure is 93–123 kPa (0.95–1.25 kgf/cm², 13.5–17.8 psi) [1].",
-   "secs": 8.1
+   "secs": 8.1,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g19-thermostat-full-open",
@@ -217,7 +235,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The fully open temperature for the thermostat is 95 °C (203 °F) [1].",
-   "secs": 5.4
+   "secs": 5.4,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g20-mtf-fill",
@@ -228,7 +247,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Manual transmission fluid should be filled to the bottom of the filler hole with the vehicle level [1].",
-   "secs": 6.9
+   "secs": 6.9,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g21-clutch-pushrod",
@@ -239,7 +259,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "If clutch pedal free play is out of specification, adjust the clutch master cylinder pushrod [1].",
-   "secs": 5.4
+   "secs": 5.4,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g22-spark-misfire-inspect",
@@ -250,7 +271,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Spark plugs should be inspected earlier than the normal replacement interval if misfire DTCs are present [1]. The normal replacement interval is every 105,000 miles (168,000 km) under normal conditions [1].",
-   "secs": 8.6
+   "secs": 8.6,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g23-hard-miss-brake-pad-pn",
@@ -261,7 +283,8 @@
    "cite_hit": null,
    "n_cit": 8,
    "answer": "The context provided does not contain information regarding the OEM front brake pad part number for the S2000.",
-   "secs": 6.8
+   "secs": 6.8,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "g24-hard-miss-ecu-pinout",
@@ -272,7 +295,8 @@
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 8.1
+   "secs": 8.1,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "g25-hard-miss-tsb-oil",
@@ -283,7 +307,8 @@
    "cite_hit": null,
    "n_cit": 8,
    "answer": "Context is insufficient.",
-   "secs": 8.0
+   "secs": 8.0,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "g26-never-mix-clutch-fluid",
@@ -294,7 +319,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Use only Honda DOT 3 or DOT 4 brake fluid in the clutch hydraulic system. Never mix fluid types [1].",
-   "secs": 7.5
+   "secs": 7.5,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g27-wrong-oil-20w50",
@@ -305,7 +331,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "For normal operating temperatures, the specified engine oil viscosity is SAE 10W-30 [1].",
-   "secs": 7.7
+   "secs": 7.7,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g28-never-atf-in-mtf",
@@ -316,7 +343,8 @@
    "cite_hit": true,
    "n_cit": 8,
    "answer": "Context is insufficient.",
-   "secs": 7.7
+   "secs": 7.7,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "g29-multi-thermo-vs-coolant",
@@ -327,7 +355,8 @@
    "cite_hit": true,
    "n_cit": 2,
    "answer": "Coolant capacity is approximately 5.8 liters including the reservoir [1]. The thermostat becomes fully open at 95 °C (203 °F) [2].",
-   "secs": 6.5
+   "secs": 6.5,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g30-multi-spark-gap-vs-torque",
@@ -338,7 +367,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The spark plug electrode gap is 1.0–1.1 mm (0.039–0.043 in) [1]. The spark plug torque is 18 N·m (13 lbf·ft) [1].",
-   "secs": 8.5
+   "secs": 8.5,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g31-trap-thermo-full-open",
@@ -349,7 +379,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The fully open temperature for the thermostat is 95 °C (203 °F) [1].",
-   "secs": 6.0
+   "secs": 6.0,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g32-trap-spark-gap-only",
@@ -360,7 +391,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The electrode gap should be set to 1.0–1.1 mm (0.039–0.043 in) [1].",
-   "secs": 8.0
+   "secs": 8.0,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g33-trap-oil-filter-turn",
@@ -371,7 +403,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "After hand-tightening a new oil filter, you should turn an additional 3/4 turn [1].",
-   "secs": 8.7
+   "secs": 8.7,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g34-trap-clutch-pushrod",
@@ -382,7 +415,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "If clutch pedal free play is out of specification, adjust the clutch master cylinder pushrod [1].",
-   "secs": 6.0
+   "secs": 6.0,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g35-trap-exhaust-clearance",
@@ -393,7 +427,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The cold exhaust valve clearance specification is 0.26–0.30 mm [1].",
-   "secs": 7.1
+   "secs": 7.1,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g36-trap-mtf-filler-hole",
@@ -404,7 +439,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "To know how the manual transmission is filled to the correct level, you should fill it to the bottom of the filler hole with the vehicle level [1].",
-   "secs": 8.1
+   "secs": 8.1,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g37-trap-spark-interval",
@@ -415,7 +451,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Spark plugs should be replaced every 105,000 miles (168,000 km) under normal conditions [1]. Inspect earlier if misfire DTCs are present [1].",
-   "secs": 9.0
+   "secs": 9.0,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g38-trap-radiator-cap-psi",
@@ -426,7 +463,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The radiator cap relief pressure range is 13.5–17.8 psi [1].",
-   "secs": 7.3
+   "secs": 7.3,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g39-trap-filler-cap-torque",
@@ -437,7 +475,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The oil filler cap installation torque is 22 N·m (16 lbf·ft) [1].",
-   "secs": 8.4
+   "secs": 8.4,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g40-trap-fan-switch-temp",
@@ -448,7 +487,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The radiator cooling fan switch turns the fan ON at 91–94 °C (196–201 °F) [1].",
-   "secs": 8.6
+   "secs": 8.6,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g41-trap-hot-inspection-gap",
@@ -459,7 +499,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "If the electrode gap is checked on a hot engine during inspection only, the hot inspection gap window is 1.2–1.3 mm (0.047–0.051 in) [1].",
-   "secs": 8.4
+   "secs": 8.4,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g42-trap-drain-not-filler-torque",
@@ -470,7 +511,8 @@
    "cite_hit": true,
    "n_cit": 2,
    "answer": "The oil drain plug torque is 39 N·m [1], [2].",
-   "secs": 7.0
+   "secs": 7.0,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g43-trap-thermo-not-fan-switch",
@@ -481,7 +523,8 @@
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The fully open temperature for the thermostat is 95 °C (203 °F) [1].",
-   "secs": 7.4
+   "secs": 7.4,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "g44-trap-cold-install-gap-not-hot",
@@ -492,535 +535,584 @@
    "cite_hit": false,
    "n_cit": 1,
    "answer": "Always set plugs to the cold installation gap before installing new plugs [1].",
-   "secs": 8.1
+   "secs": 8.1,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "h01-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the front wheel alignment toe specification?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 8.7
+   "secs": 8.7,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "h02-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How tight should the wheel lug nuts be?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 8,
    "answer": "The context provided does not contain information regarding how tight the wheel lug nuts should be.",
-   "secs": 9.6
+   "secs": 9.6,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "h03-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the fuel tank capacity?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 8.5
+   "secs": 8.5,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "h04-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the oil pressure warning switch torque?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 11.2
+   "secs": 11.2,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "h05-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the brake rotor minimum thickness?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 8,
    "answer": "Context is insufficient to answer this question.",
-   "secs": 8.8
+   "secs": 8.8,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "h06-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the recommended tire pressure?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 8,
    "answer": "Context is insufficient. There is no information regarding recommended tire pressure in the provided context.",
-   "secs": 6.8
+   "secs": 6.8,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "h07-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the timing belt replacement interval?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 8.5
+   "secs": 8.5,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "h08-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the battery group size and cold cranking rating?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 7.9
+   "secs": 7.9,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "h09-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How much engine coolant does the heater core hold?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 1,
    "answer": "Coolant capacity is approximately 5.8 liters, including the reservoir [1].",
-   "secs": 8.6
+   "secs": 8.6,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "h10-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the part number for the oil filter?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 10.2
+   "secs": 10.2,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "h11-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the power steering fluid type?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 11.5
+   "secs": 11.5,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "h12-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the clutch disc thickness wear limit?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 8,
    "answer": "Context is insufficient.",
-   "secs": 7.5
+   "secs": 7.5,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "h13-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How many liters of oil does the engine take when I change the filter?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 2,
    "answer": "The engine takes 4.8 liters of oil when the filter is changed [1], [2].",
-   "secs": 9.7
+   "secs": 9.7,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "h14-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What size of tightening force goes on the sump bolt?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The oil drain plug torque is 39 N·m (29 lbf·ft) [1].",
-   "secs": 12.3
+   "secs": 12.3,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "h15-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How far should the clutch pedal move before it engages?",
    "expect": "answer",
    "outcome": "insufficient_evidence",
    "cite_hit": false,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 9.2
+   "secs": 9.2,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "h16-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What plug should I fit and how wide should its gap be?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The spark plug type should be NGK PFR7G-11 or equivalent [1]. The electrode gap should be 1.0–1.1 mm (0.039–0.043 in) [1].",
-   "secs": 8.6
+   "secs": 8.6,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "h17-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How many miles between spark plug changes?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Spark plugs should be replaced every 105,000 miles under normal conditions [1].",
-   "secs": 11.0
+   "secs": 11.0,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "h18-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What mixture of antifreeze and water goes in the cooling system?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Use Honda Type 2 coolant mixed 50/50 with distilled water.[1]",
-   "secs": 8.8
+   "secs": 8.8,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "h19-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "When does the thermostat start to open?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The thermostat begins opening at 78–82 °C (172–180 °F) [1]. The fully open temperature is 95 °C (203 °F) [1].",
-   "secs": 9.4
+   "secs": 9.4,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "h20-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What are the tappet clearances with the engine cold?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Valve clearance (cold) is 0.15–0.19 mm for intake and 0.26–0.30 mm for exhaust [1].",
-   "secs": 9.9
+   "secs": 9.9,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "h21-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How full should the gearbox be filled with lubricant?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The manual transmission fluid capacity is 1.5 liters (1.6 US quarts), and it should be filled to the bottom of the filler hole with the vehicle level [1].",
-   "secs": 10.7
+   "secs": 10.7,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "h22-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How tight is the oil filler cap?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The oil filler cap installation torque is 22 N·m (16 lbf·ft) [1].",
-   "secs": 9.8
+   "secs": 9.8,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "h23-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the cooling fan switch turn-on temperature?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The radiator cooling fan switch turns the fan ON at 91–94 °C (196–201 °F) [1].",
-   "secs": 10.2
+   "secs": 10.2,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "h24-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What brake fluid can go in the clutch system?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Use only Honda DOT 3 or DOT 4 brake fluid in the clutch hydraulic system [1].",
-   "secs": 7.4
+   "secs": 7.4,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "v01-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the engine idle speed?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 8,
    "answer": "Context is insufficient.",
-   "secs": 9.8
+   "secs": 9.8,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "v02-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "How many quarts of power steering fluid does the system hold?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 8,
    "answer": "Context is insufficient.",
-   "secs": 9.5
+   "secs": 9.5,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "v03-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the wiper blade size?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 8,
    "answer": "The context provided does not contain information regarding the wiper blade size.",
-   "secs": 7.4
+   "secs": 7.4,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "v04-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "How do I reset the airbag warning light?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 8,
    "answer": "Context is insufficient.",
-   "secs": 8.0
+   "secs": 8.0,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "v05-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the rear differential oil capacity?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 8.1
+   "secs": 8.1,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "v06-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the headlight bulb type?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 7.4
+   "secs": 7.4,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "v07-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the maximum towing weight?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 6.5
+   "secs": 6.5,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "v08-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the alternator output rating?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 8,
    "answer": "The context provided does not contain information regarding the alternator output rating.",
-   "secs": 7.8
+   "secs": 7.8,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "v09-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the recommended brake caliper bolt torque?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 8,
    "answer": "Context is insufficient.",
-   "secs": 6.5
+   "secs": 6.5,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "v10-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "How do I replace the cabin air filter?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 8,
    "answer": "The context provided does not contain information on how to replace the cabin air filter.",
-   "secs": 8.1
+   "secs": 8.1,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "v11-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the fuel pressure specification?",
    "expect": "abstain",
    "outcome": "answered",
    "cite_hit": null,
    "n_cit": 8,
    "answer": "Context is insufficient to determine the fuel pressure specification.",
-   "secs": 7.5
+   "secs": 7.5,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "v12-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the compression ratio of the engine?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
    "cite_hit": null,
    "n_cit": 0,
    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
-   "secs": 7.5
+   "secs": 7.5,
+   "outcome_rescored_new_detector": "insufficient_evidence"
   },
   {
    "id": "v13-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What oil grade should go in the engine?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The engine oil should be SAE 10W-30 for normal operating temperatures [1].",
-   "secs": 8.3
+   "secs": 8.3,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "v14-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What torque is applied when installing the spark plugs?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The spark plug torque is 18 N·m (13 lbf·ft) [1].",
-   "secs": 8.0
+   "secs": 8.0,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "v15-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "How much does the coolant system hold including the overflow bottle?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Coolant capacity is approximately 5.8 liters, including the reservoir [1].",
-   "secs": 5.7
+   "secs": 5.7,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "v16-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "At what temperature is the thermostat completely open?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The fully open temperature for the thermostat is 95 °C (203 °F) [1].",
-   "secs": 7.1
+   "secs": 7.1,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "v17-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the clutch pedal travel before engagement?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The context provides information regarding clutch pedal free play, which should be 9–17 mm (0.35–0.67 in) [1].",
-   "secs": 9.3
+   "secs": 9.3,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "v18-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What torque should the drain plug be tightened to after the oil is drained?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The oil drain plug should be torqued to 39 N·m (29 lbf·ft) when reinstalling it [2, [1]].",
-   "secs": 7.7
+   "secs": 7.7,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "v19-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "Which fluid should I use in the manual gearbox?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Use Honda Manual Transmission Fluid (MTF) [1]. Fill to the bottom of the filler hole with the vehicle level [1].",
-   "secs": 7.3
+   "secs": 7.3,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "v20-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the radiator cap pressure rating?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The radiator cap relief pressure is 93–123 kPa (0.95–1.25 kgf/cm², 13.5–17.8 psi) [1].",
-   "secs": 7.1
+   "secs": 7.1,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "v21-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "How many turns after hand tightening a new oil filter?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Install a new oil filter; hand-tighten then turn an additional 3/4 turn [1].",
-   "secs": 4.8
+   "secs": 4.8,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "v22-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "When should I look at the plugs sooner than the scheduled change?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "Spark plugs should be inspected earlier if misfire DTCs are present [1].",
-   "secs": 7.8
+   "secs": 7.8,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "v23-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the cold exhaust tappet gap?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The cold exhaust valve clearance is 0.26–0.30 mm [1].",
-   "secs": 8.5
+   "secs": 8.5,
+   "outcome_rescored_new_detector": "answered"
   },
   {
    "id": "v24-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the hot inspection gap for the electrodes?",
    "expect": "answer",
    "outcome": "answered",
    "cite_hit": true,
    "n_cit": 1,
    "answer": "The hot inspection gap window for the electrodes is 1.2–1.3 mm (0.047–0.051 in) [1]. This figure is not the cold installation gap specified in 3-1 [1].",
-   "secs": 10.4
+   "secs": 10.4,
+   "outcome_rescored_new_detector": "answered"
   }
  ],
  "after_refusal_detector_fix": [
@@ -1510,7 +1602,7 @@
   },
   {
    "id": "h01-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the front wheel alignment toe specification?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1521,7 +1613,7 @@
   },
   {
    "id": "h02-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How tight should the wheel lug nuts be?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1532,7 +1624,7 @@
   },
   {
    "id": "h03-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the fuel tank capacity?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1543,7 +1635,7 @@
   },
   {
    "id": "h04-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the oil pressure warning switch torque?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1554,7 +1646,7 @@
   },
   {
    "id": "h05-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the brake rotor minimum thickness?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1565,7 +1657,7 @@
   },
   {
    "id": "h06-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the recommended tire pressure?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1576,7 +1668,7 @@
   },
   {
    "id": "h07-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the timing belt replacement interval?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1587,7 +1679,7 @@
   },
   {
    "id": "h08-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the battery group size and cold cranking rating?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1598,7 +1690,7 @@
   },
   {
    "id": "h09-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How much engine coolant does the heater core hold?",
    "expect": "abstain",
    "outcome": "answered",
@@ -1609,7 +1701,7 @@
   },
   {
    "id": "h10-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the part number for the oil filter?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1620,7 +1712,7 @@
   },
   {
    "id": "h11-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the power steering fluid type?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1631,7 +1723,7 @@
   },
   {
    "id": "h12-unanswerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the clutch disc thickness wear limit?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1642,7 +1734,7 @@
   },
   {
    "id": "h13-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How many liters of oil does the engine take when I change the filter?",
    "expect": "answer",
    "outcome": "answered",
@@ -1653,7 +1745,7 @@
   },
   {
    "id": "h14-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What size of tightening force goes on the sump bolt?",
    "expect": "answer",
    "outcome": "answered",
@@ -1664,7 +1756,7 @@
   },
   {
    "id": "h15-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How far should the clutch pedal move before it engages?",
    "expect": "answer",
    "outcome": "answered",
@@ -1675,7 +1767,7 @@
   },
   {
    "id": "h16-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What plug should I fit and how wide should its gap be?",
    "expect": "answer",
    "outcome": "answered",
@@ -1686,7 +1778,7 @@
   },
   {
    "id": "h17-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How many miles between spark plug changes?",
    "expect": "answer",
    "outcome": "answered",
@@ -1697,7 +1789,7 @@
   },
   {
    "id": "h18-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What mixture of antifreeze and water goes in the cooling system?",
    "expect": "answer",
    "outcome": "answered",
@@ -1708,7 +1800,7 @@
   },
   {
    "id": "h19-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "When does the thermostat start to open?",
    "expect": "answer",
    "outcome": "answered",
@@ -1719,7 +1811,7 @@
   },
   {
    "id": "h20-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What are the tappet clearances with the engine cold?",
    "expect": "answer",
    "outcome": "answered",
@@ -1730,7 +1822,7 @@
   },
   {
    "id": "h21-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How full should the gearbox be filled with lubricant?",
    "expect": "answer",
    "outcome": "answered",
@@ -1741,7 +1833,7 @@
   },
   {
    "id": "h22-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "How tight is the oil filler cap?",
    "expect": "answer",
    "outcome": "answered",
@@ -1752,7 +1844,7 @@
   },
   {
    "id": "h23-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What is the cooling fan switch turn-on temperature?",
    "expect": "answer",
    "outcome": "answered",
@@ -1763,7 +1855,7 @@
   },
   {
    "id": "h24-answerable",
-   "set": "abstain_dev_v1.json",
+   "set": "abstain_extra_a.json",
    "q": "What brake fluid can go in the clutch system?",
    "expect": "answer",
    "outcome": "answered",
@@ -1774,7 +1866,7 @@
   },
   {
    "id": "v01-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the engine idle speed?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1785,7 +1877,7 @@
   },
   {
    "id": "v02-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "How many quarts of power steering fluid does the system hold?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1796,7 +1888,7 @@
   },
   {
    "id": "v03-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the wiper blade size?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1807,7 +1899,7 @@
   },
   {
    "id": "v04-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "How do I reset the airbag warning light?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1818,7 +1910,7 @@
   },
   {
    "id": "v05-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the rear differential oil capacity?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1829,7 +1921,7 @@
   },
   {
    "id": "v06-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the headlight bulb type?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1840,7 +1932,7 @@
   },
   {
    "id": "v07-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the maximum towing weight?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1851,7 +1943,7 @@
   },
   {
    "id": "v08-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the alternator output rating?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1862,7 +1954,7 @@
   },
   {
    "id": "v09-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the recommended brake caliper bolt torque?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1873,7 +1965,7 @@
   },
   {
    "id": "v10-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "How do I replace the cabin air filter?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1884,7 +1976,7 @@
   },
   {
    "id": "v11-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the fuel pressure specification?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1895,7 +1987,7 @@
   },
   {
    "id": "v12-unanswerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the compression ratio of the engine?",
    "expect": "abstain",
    "outcome": "insufficient_evidence",
@@ -1906,7 +1998,7 @@
   },
   {
    "id": "v13-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What oil grade should go in the engine?",
    "expect": "answer",
    "outcome": "answered",
@@ -1917,7 +2009,7 @@
   },
   {
    "id": "v14-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What torque is applied when installing the spark plugs?",
    "expect": "answer",
    "outcome": "answered",
@@ -1928,7 +2020,7 @@
   },
   {
    "id": "v15-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "How much does the coolant system hold including the overflow bottle?",
    "expect": "answer",
    "outcome": "answered",
@@ -1939,7 +2031,7 @@
   },
   {
    "id": "v16-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "At what temperature is the thermostat completely open?",
    "expect": "answer",
    "outcome": "answered",
@@ -1950,7 +2042,7 @@
   },
   {
    "id": "v17-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the clutch pedal travel before engagement?",
    "expect": "answer",
    "outcome": "insufficient_evidence",
@@ -1961,7 +2053,7 @@
   },
   {
    "id": "v18-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What torque should the drain plug be tightened to after the oil is drained?",
    "expect": "answer",
    "outcome": "answered",
@@ -1972,7 +2064,7 @@
   },
   {
    "id": "v19-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "Which fluid should I use in the manual gearbox?",
    "expect": "answer",
    "outcome": "answered",
@@ -1983,7 +2075,7 @@
   },
   {
    "id": "v20-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the radiator cap pressure rating?",
    "expect": "answer",
    "outcome": "answered",
@@ -1994,7 +2086,7 @@
   },
   {
    "id": "v21-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "How many turns after hand tightening a new oil filter?",
    "expect": "answer",
    "outcome": "answered",
@@ -2005,7 +2097,7 @@
   },
   {
    "id": "v22-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "When should I look at the plugs sooner than the scheduled change?",
    "expect": "answer",
    "outcome": "answered",
@@ -2016,7 +2108,7 @@
   },
   {
    "id": "v23-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the cold exhaust tappet gap?",
    "expect": "answer",
    "outcome": "answered",
@@ -2027,7 +2119,7 @@
   },
   {
    "id": "v24-answerable",
-   "set": "abstain_unseen_v2.json",
+   "set": "abstain_extra_b.json",
    "q": "What is the hot inspection gap for the electrodes?",
    "expect": "answer",
    "outcome": "answered",
@@ -2036,5 +2128,2037 @@
    "answer": "The hot inspection gap window for the electrodes is 1.2–1.3 mm (0.047–0.051 in) [1].",
    "secs": 10.9
   }
- ]
+ ],
+ "note_rescored": "outcome_rescored_new_detector re-reads each before-arm reply with the new patterns (no model run).",
+ "gate_runs_removed_design": {
+  "description": "Same stack; ASK_MAX_VECTOR_DISTANCE=0.317 gate (since removed), with the old detector and with the new detector.",
+  "old_detector_plus_gate": [
+   {
+    "id": "g01-oil-drain-torque",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the oil drain plug torque?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 2,
+    "answer": "The oil drain plug torque is 39 N·m (29 lbf·ft) [1], [2].",
+    "secs": 6.3
+   },
+   {
+    "id": "g02-oil-capacity",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the engine oil capacity with filter change?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Engine oil capacity with filter change is 4.8 liters (5.1 US quarts) [1].",
+    "secs": 6.8
+   },
+   {
+    "id": "g03-clutch-free-play",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the clutch pedal free play specification?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Clutch pedal free play should be 9–17 mm (0.35–0.67 in) [1]. If the free play is out of specification, you should adjust the clutch master cylinder pushrod [1].",
+    "secs": 6.6
+   },
+   {
+    "id": "g04-spark-plug-gap",
+    "set": "golden_fixture_v1.json",
+    "q": "What electrode gap should spark plugs be set to?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 2,
+    "answer": "The electrode gap should be set to 1.0–1.1 mm (0.039–0.043 in) [1]. Always set the plugs to the cold installation gap before installing new plugs [2].",
+    "secs": 7.5
+   },
+   {
+    "id": "g05-valve-clearance",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the cold intake valve clearance?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The cold intake valve clearance is 0.15–0.19 mm [1].",
+    "secs": 7.1
+   },
+   {
+    "id": "g06-coolant-capacity",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the coolant capacity including the reservoir?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Coolant capacity is approximately 5.8 liters including the reservoir [1].",
+    "secs": 6.3
+   },
+   {
+    "id": "g07-spark-plug-torque",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the spark plug torque specification?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The spark plug torque specification is 18 N·m (13 lbf·ft) [1].",
+    "secs": 7.1
+   },
+   {
+    "id": "g08-mtf-capacity",
+    "set": "golden_fixture_v1.json",
+    "q": "How much manual transmission fluid does the gearbox hold?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Manual transmission fluid capacity is 1.5 liters (1.6 US quarts) [1].",
+    "secs": 6.2
+   },
+   {
+    "id": "g09-thermostat-open",
+    "set": "golden_fixture_v1.json",
+    "q": "At what temperature does the thermostat begin opening?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The thermostat begins opening at 78–82 °C (172–180 °F) [1].",
+    "secs": 7.8
+   },
+   {
+    "id": "g10-hard-miss-abs-module",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the ABS module connector pinout for the S2000?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 9.6
+   },
+   {
+    "id": "g11-clutch-fluid-type",
+    "set": "golden_fixture_v1.json",
+    "q": "What brake fluid type is specified for the clutch hydraulic system?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Use only Honda DOT 3 or DOT 4 brake fluid in the clutch hydraulic system [1].",
+    "secs": 6.0
+   },
+   {
+    "id": "g12-exhaust-valve-clearance",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the cold exhaust valve clearance?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Valve clearance (cold) is 0.26–0.30 mm for the exhaust [1].",
+    "secs": 5.8
+   },
+   {
+    "id": "g13-oil-grade",
+    "set": "golden_fixture_v1.json",
+    "q": "What engine oil viscosity and API grade are specified for normal operating temperatures?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The specified engine oil for normal operating temperatures is SAE 10W-30, using API SJ or later [1].",
+    "secs": 6.9
+   },
+   {
+    "id": "g14-oil-filter-turn",
+    "set": "golden_fixture_v1.json",
+    "q": "After hand-tightening the oil filter, how much additional turn is required?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "After hand-tightening the oil filter, an additional 3/4 turn is required [1].",
+    "secs": 4.5
+   },
+   {
+    "id": "g15-spark-plug-type",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the specified spark plug type?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The specified spark plug type is NGK PFR7G-11 or equivalent [1].",
+    "secs": 5.5
+   },
+   {
+    "id": "g16-spark-interval",
+    "set": "golden_fixture_v1.json",
+    "q": "At what mileage should spark plugs be replaced under normal conditions?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Spark plugs should be replaced every 105,000 miles (168,000 km) under normal conditions [1].",
+    "secs": 5.7
+   },
+   {
+    "id": "g17-coolant-mix",
+    "set": "golden_fixture_v1.json",
+    "q": "What Honda coolant type and mixing ratio should be used?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Use Honda Type 2 coolant mixed 50/50 with distilled water [1].",
+    "secs": 6.5
+   },
+   {
+    "id": "g18-radiator-cap",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the radiator cap relief pressure specification?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The radiator cap relief pressure is 93–123 kPa (0.95–1.25 kgf/cm², 13.5–17.8 psi) [1].",
+    "secs": 6.8
+   },
+   {
+    "id": "g19-thermostat-full-open",
+    "set": "golden_fixture_v1.json",
+    "q": "At what temperature is the thermostat fully open?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The fully open temperature for the thermostat is 95 °C (203 °F) [1].",
+    "secs": 4.8
+   },
+   {
+    "id": "g20-mtf-fill",
+    "set": "golden_fixture_v1.json",
+    "q": "To what level should manual transmission fluid be filled with the vehicle level?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Manual transmission fluid should be filled to the bottom of the filler hole with the vehicle level [1].",
+    "secs": 6.8
+   },
+   {
+    "id": "g21-clutch-pushrod",
+    "set": "golden_fixture_v1.json",
+    "q": "What should be adjusted if clutch pedal free play is out of specification?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "If clutch pedal free play is out of specification, adjust the clutch master cylinder pushrod [1].",
+    "secs": 6.7
+   },
+   {
+    "id": "g22-spark-misfire-inspect",
+    "set": "golden_fixture_v1.json",
+    "q": "When should spark plugs be inspected earlier than the normal replacement interval?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Spark plugs should be inspected earlier if misfire DTCs are present [1].",
+    "secs": 5.9
+   },
+   {
+    "id": "g23-hard-miss-brake-pad-pn",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the OEM front brake pad part number for the S2000?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 7.0
+   },
+   {
+    "id": "g24-hard-miss-ecu-pinout",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the ECU connector pinout for the S2000?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 8.5
+   },
+   {
+    "id": "g25-hard-miss-tsb-oil",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the Honda TSB number for excessive oil consumption on the S2000?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "Context is insufficient.",
+    "secs": 8.3
+   },
+   {
+    "id": "g26-never-mix-clutch-fluid",
+    "set": "golden_fixture_v1.json",
+    "q": "Can different brake fluid types be mixed in the clutch hydraulic system?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Use only Honda DOT 3 or DOT 4 brake fluid in the clutch hydraulic system. Never mix fluid types [1].",
+    "secs": 8.5
+   },
+   {
+    "id": "g27-wrong-oil-20w50",
+    "set": "golden_fixture_v1.json",
+    "q": "Is SAE 20W-50 the specified engine oil viscosity for normal operating temperatures?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "For normal operating temperatures, the specified engine oil viscosity is SAE 10W-30 [1].",
+    "secs": 7.6
+   },
+   {
+    "id": "g28-never-atf-in-mtf",
+    "set": "golden_fixture_v1.json",
+    "q": "Can automatic transmission fluid be used instead of the specified gearbox lubricant?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The context specifies that Honda Manual Transmission Fluid (MTF) should be used [1]. There is no information provided regarding the use of automatic transmission fluid.",
+    "secs": 7.8
+   },
+   {
+    "id": "g29-multi-thermo-vs-coolant",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the coolant system total capacity, and at what temperature does the thermostat become fully open?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 2,
+    "answer": "The coolant capacity is approximately 5.8 liters, including the reservoir [1]. The thermostat becomes fully open at 95 °C (203 °F) [2].",
+    "secs": 6.4
+   },
+   {
+    "id": "g30-multi-spark-gap-vs-torque",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the spark plug electrode gap and installation torque?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The spark plug electrode gap is 1.0–1.1 mm (0.039–0.043 in) [1]. The spark plug torque is 18 N·m (13 lbf·ft) [1].",
+    "secs": 6.0
+   },
+   {
+    "id": "g31-trap-thermo-full-open",
+    "set": "golden_fixture_v1.json",
+    "q": "At what temperature is the thermostat fully open (not just beginning to open)?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The fully open temperature for the thermostat is 95 °C (203 °F) [1].",
+    "secs": 5.0
+   },
+   {
+    "id": "g32-trap-spark-gap-only",
+    "set": "golden_fixture_v1.json",
+    "q": "What electrode gap should be set on the spark plugs before installation?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The electrode gap should be set to 1.0–1.1 mm (0.039–0.043 in) [1].",
+    "secs": 6.4
+   },
+   {
+    "id": "g33-trap-oil-filter-turn",
+    "set": "golden_fixture_v1.json",
+    "q": "After hand-tightening a new oil filter, how much additional turn is specified?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "To install a new oil filter, after hand-tightening it, you must turn an additional 3/4 turn [1].",
+    "secs": 5.7
+   },
+   {
+    "id": "g34-trap-clutch-pushrod",
+    "set": "golden_fixture_v1.json",
+    "q": "If clutch pedal free play is out of specification, what should be adjusted?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "If clutch pedal free play is out of specification, adjust the clutch master cylinder pushrod. [1]",
+    "secs": 6.1
+   },
+   {
+    "id": "g35-trap-exhaust-clearance",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the cold exhaust valve clearance specification?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The cold exhaust valve clearance specification is 0.26–0.30 mm [1].",
+    "secs": 6.5
+   },
+   {
+    "id": "g36-trap-mtf-filler-hole",
+    "set": "golden_fixture_v1.json",
+    "q": "How do you know the manual transmission is filled to the correct level?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "To know if the manual transmission is filled to the correct level, you should fill it to the bottom of the filler hole with the vehicle level [1].",
+    "secs": 6.9
+   },
+   {
+    "id": "g37-trap-spark-interval",
+    "set": "golden_fixture_v1.json",
+    "q": "Under normal conditions, how often should spark plugs be replaced?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Spark plugs should be replaced every 105,000 miles (168,000 km) under normal conditions [1].",
+    "secs": 7.9
+   },
+   {
+    "id": "g38-trap-radiator-cap-psi",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the radiator cap relief pressure range in psi?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The radiator cap relief pressure is 13.5–17.8 psi [1].",
+    "secs": 6.7
+   },
+   {
+    "id": "g39-trap-filler-cap-torque",
+    "set": "golden_fixture_v1.json",
+    "q": "What torque value is specified for installing the oil filler cap (not the drain plug)?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The oil filler cap installation torque is 22 N·m (16 lbf·ft) [1].",
+    "secs": 8.1
+   },
+   {
+    "id": "g40-trap-fan-switch-temp",
+    "set": "golden_fixture_v1.json",
+    "q": "At what coolant temperature range does the radiator cooling fan switch turn the fan ON?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The radiator cooling fan switch turns the fan ON at 91–94 °C (196–201 °F) [1].",
+    "secs": 6.9
+   },
+   {
+    "id": "g41-trap-hot-inspection-gap",
+    "set": "golden_fixture_v1.json",
+    "q": "If electrode gap is checked only during a hot-engine inspection, what millimeter window applies?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "If the electrode gap is checked only during a hot engine inspection, the hot inspection gap window is 1.2–1.3 mm (0.047–0.051 in) [1].",
+    "secs": 8.1
+   },
+   {
+    "id": "g42-trap-drain-not-filler-torque",
+    "set": "golden_fixture_v1.json",
+    "q": "Which oil-system fastener uses the 39 N·m torque figure rather than the filler-cap torque?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 2,
+    "answer": "The oil drain plug torque is 39 N·m [1], [2].",
+    "secs": 5.4
+   },
+   {
+    "id": "g43-trap-thermo-not-fan-switch",
+    "set": "golden_fixture_v1.json",
+    "q": "Which cooling temperature is the thermostat fully-open value, as distinct from the fan-switch ON band?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The fully open temperature for the thermostat is 95 °C (203 °F) [1].",
+    "secs": 7.8
+   },
+   {
+    "id": "g44-trap-cold-install-gap-not-hot",
+    "set": "golden_fixture_v1.json",
+    "q": "Before installing new spark plugs, which gap window must be used instead of the hot-inspection window?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": false,
+    "n_cit": 1,
+    "answer": "Always set plugs to the cold installation gap before installing new plugs [1].",
+    "secs": 7.4
+   },
+   {
+    "id": "h01-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the front wheel alignment toe specification?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.7
+   },
+   {
+    "id": "h02-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "How tight should the wheel lug nuts be?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.9
+   },
+   {
+    "id": "h03-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the fuel tank capacity?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 5.8
+   },
+   {
+    "id": "h04-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the oil pressure warning switch torque?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "Context is insufficient to determine the oil pressure warning switch torque.",
+    "secs": 7.6
+   },
+   {
+    "id": "h05-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the brake rotor minimum thickness?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.4
+   },
+   {
+    "id": "h06-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the recommended tire pressure?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "Context is insufficient. There is no information regarding recommended tire pressure in the provided context.",
+    "secs": 6.2
+   },
+   {
+    "id": "h07-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the timing belt replacement interval?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 8.7
+   },
+   {
+    "id": "h08-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the battery group size and cold cranking rating?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.0
+   },
+   {
+    "id": "h09-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "How much engine coolant does the heater core hold?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 1,
+    "answer": "Coolant capacity is approximately 5.8 liters including the reservoir [1].",
+    "secs": 6.8
+   },
+   {
+    "id": "h10-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the part number for the oil filter?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "Context is insufficient.",
+    "secs": 6.3
+   },
+   {
+    "id": "h11-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the power steering fluid type?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 10.2
+   },
+   {
+    "id": "h12-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the clutch disc thickness wear limit?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "Context is insufficient.",
+    "secs": 6.0
+   },
+   {
+    "id": "h13-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "How many liters of oil does the engine take when I change the filter?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 2,
+    "answer": "The engine takes 4.8 liters of oil when the filter is changed [1], [2].",
+    "secs": 7.4
+   },
+   {
+    "id": "h14-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "What size of tightening force goes on the sump bolt?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The oil drain plug torque is 39 N·m (29 lbf·ft) [1].",
+    "secs": 7.6
+   },
+   {
+    "id": "h15-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "How far should the clutch pedal move before it engages?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Clutch pedal free play should be 9–17 mm (0.35–0.67 in) [1].",
+    "secs": 7.8
+   },
+   {
+    "id": "h16-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "What plug should I fit and how wide should its gap be?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The spark plug type should be NGK PFR7G-11 or equivalent [1]. The electrode gap should be 1.0–1.1 mm (0.039–0.043 in) [1].",
+    "secs": 6.9
+   },
+   {
+    "id": "h17-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "How many miles between spark plug changes?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Spark plugs should be replaced every 105,000 miles under normal conditions [1].",
+    "secs": 9.8
+   },
+   {
+    "id": "h18-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "What mixture of antifreeze and water goes in the cooling system?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Use Honda Type 2 coolant mixed 50/50 with distilled water.[1]",
+    "secs": 6.3
+   },
+   {
+    "id": "h19-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "When does the thermostat start to open?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The thermostat begins opening at 78–82 °C (172–180 °F) [1]. The fully open temperature is 95 °C (203 °F) [1].",
+    "secs": 6.2
+   },
+   {
+    "id": "h20-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "What are the tappet clearances with the engine cold?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Valve clearance (cold) is 0.15–0.19 mm for intake and 0.26–0.30 mm for exhaust [1].",
+    "secs": 7.6
+   },
+   {
+    "id": "h21-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "How full should the gearbox be filled with lubricant?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The manual transmission fluid capacity is 1.5 liters (1.6 US quarts), and you should fill it to the bottom of the filler hole with the vehicle level [1].",
+    "secs": 7.6
+   },
+   {
+    "id": "h22-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "How tight is the oil filler cap?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The oil filler cap installation torque is 22 N·m (16 lbf·ft) [1].",
+    "secs": 7.0
+   },
+   {
+    "id": "h23-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the cooling fan switch turn-on temperature?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The radiator cooling fan switch turns the fan ON at 91–94 °C (196–201 °F) [1].",
+    "secs": 7.2
+   },
+   {
+    "id": "h24-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "What brake fluid can go in the clutch system?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Use only Honda DOT 3 or DOT 4 brake fluid in the clutch hydraulic system [1]. Remember never to mix fluid types and to bleed the system after any hydraulic component replacement [1].",
+    "secs": 8.0
+   },
+   {
+    "id": "v01-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the engine idle speed?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "Context is insufficient.",
+    "secs": 7.7
+   },
+   {
+    "id": "v02-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "How many quarts of power steering fluid does the system hold?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "Context is insufficient.",
+    "secs": 7.6
+   },
+   {
+    "id": "v03-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the wiper blade size?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "Context is insufficient to answer this question.",
+    "secs": 6.1
+   },
+   {
+    "id": "v04-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "How do I reset the airbag warning light?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "The context provided does not contain information on how to reset the airbag warning light.",
+    "secs": 7.0
+   },
+   {
+    "id": "v05-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the rear differential oil capacity?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.6
+   },
+   {
+    "id": "v06-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the headlight bulb type?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "Context is insufficient.",
+    "secs": 5.3
+   },
+   {
+    "id": "v07-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the maximum towing weight?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 5.9
+   },
+   {
+    "id": "v08-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the alternator output rating?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "The context provided does not contain information regarding the alternator output rating.",
+    "secs": 5.7
+   },
+   {
+    "id": "v09-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the recommended brake caliper bolt torque?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 5.7
+   },
+   {
+    "id": "v10-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "How do I replace the cabin air filter?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 7.7
+   },
+   {
+    "id": "v11-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the fuel pressure specification?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "Context is insufficient to determine the fuel pressure specification.",
+    "secs": 6.3
+   },
+   {
+    "id": "v12-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the compression ratio of the engine?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 8,
+    "answer": "The context provided does not contain information regarding the compression ratio of the engine.",
+    "secs": 6.3
+   },
+   {
+    "id": "v13-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What oil grade should go in the engine?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The engine oil should be SAE 10W-30 for normal operating temperatures [1].",
+    "secs": 7.0
+   },
+   {
+    "id": "v14-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What torque is applied when installing the spark plugs?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The spark plug torque is 18 N·m (13 lbf·ft) [1].",
+    "secs": 6.6
+   },
+   {
+    "id": "v15-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "How much does the coolant system hold including the overflow bottle?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Coolant capacity is approximately 5.8 liters, including the reservoir [1].",
+    "secs": 5.9
+   },
+   {
+    "id": "v16-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "At what temperature is the thermostat completely open?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The fully open temperature for the thermostat is 95 °C (203 °F) [1].",
+    "secs": 5.0
+   },
+   {
+    "id": "v17-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the clutch pedal travel before engagement?",
+    "expect": "answer",
+    "outcome": "insufficient_evidence",
+    "cite_hit": false,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 8.3
+   },
+   {
+    "id": "v18-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What torque should the drain plug be tightened to after the oil is drained?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 2,
+    "answer": "The oil drain plug should be torqued to 39 N·m (29 lbf·ft) when reinstalling it [1], [2].",
+    "secs": 7.5
+   },
+   {
+    "id": "v19-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "Which fluid should I use in the manual gearbox?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Use Honda Manual Transmission Fluid (MTF) [1]. Fill to the bottom of the filler hole with the vehicle level [1].",
+    "secs": 7.4
+   },
+   {
+    "id": "v20-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the radiator cap pressure rating?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The radiator cap relief pressure is 93–123 kPa (0.95–1.25 kgf/cm², 13.5–17.8 psi) [1].",
+    "secs": 7.3
+   },
+   {
+    "id": "v21-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "How many turns after hand tightening a new oil filter?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "To install a new oil filter, you should hand-tighten it and then turn an additional 3/4 turn [1].",
+    "secs": 5.7
+   },
+   {
+    "id": "v22-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "When should I look at the plugs sooner than the scheduled change?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "You should inspect the spark plugs earlier if misfire DTCs are present [1]. The standard replacement interval is every 105,000 miles (168,000 km) under normal conditions [1].",
+    "secs": 7.6
+   },
+   {
+    "id": "v23-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the cold exhaust tappet gap?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The cold exhaust valve clearance is 0.26–0.30 mm [1].",
+    "secs": 8.3
+   },
+   {
+    "id": "v24-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the hot inspection gap for the electrodes?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The hot inspection gap window for the electrode gap is 1.2–1.3 mm (0.047–0.051 in) [1].",
+    "secs": 8.5
+   }
+  ],
+  "new_detector_plus_gate": [
+   {
+    "id": "g01-oil-drain-torque",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the oil drain plug torque?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 2,
+    "answer": "The oil drain plug torque is 39 N·m (29 lbf·ft) [1], [2].",
+    "secs": 8.0
+   },
+   {
+    "id": "g02-oil-capacity",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the engine oil capacity with filter change?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Engine oil capacity with filter change is 4.8 liters (5.1 US quarts) [1].",
+    "secs": 7.7
+   },
+   {
+    "id": "g03-clutch-free-play",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the clutch pedal free play specification?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Clutch pedal free play should be 9–17 mm (0.35–0.67 in) [1]. If the free play is outside of specification, you should adjust the clutch master cylinder pushrod [1].",
+    "secs": 7.3
+   },
+   {
+    "id": "g04-spark-plug-gap",
+    "set": "golden_fixture_v1.json",
+    "q": "What electrode gap should spark plugs be set to?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 2,
+    "answer": "The electrode gap for the spark plugs should be set to 1.0–1.1 mm (0.039–0.043 in) [1]. Always set the plugs to the cold installation gap before installing new plugs [2].",
+    "secs": 7.8
+   },
+   {
+    "id": "g05-valve-clearance",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the cold intake valve clearance?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The cold intake valve clearance is 0.15–0.19 mm [1].",
+    "secs": 8.4
+   },
+   {
+    "id": "g06-coolant-capacity",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the coolant capacity including the reservoir?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Coolant capacity is approximately 5.8 liters including the reservoir [1].",
+    "secs": 8.3
+   },
+   {
+    "id": "g07-spark-plug-torque",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the spark plug torque specification?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The spark plug torque specification is 18 N·m (13 lbf·ft) [1].",
+    "secs": 8.4
+   },
+   {
+    "id": "g08-mtf-capacity",
+    "set": "golden_fixture_v1.json",
+    "q": "How much manual transmission fluid does the gearbox hold?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Manual transmission fluid capacity is 1.5 liters (1.6 US quarts) [1].",
+    "secs": 6.2
+   },
+   {
+    "id": "g09-thermostat-open",
+    "set": "golden_fixture_v1.json",
+    "q": "At what temperature does the thermostat begin opening?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The thermostat begins opening at 78–82 °C (172–180 °F) [1].",
+    "secs": 8.1
+   },
+   {
+    "id": "g10-hard-miss-abs-module",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the ABS module connector pinout for the S2000?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 10.1
+   },
+   {
+    "id": "g11-clutch-fluid-type",
+    "set": "golden_fixture_v1.json",
+    "q": "What brake fluid type is specified for the clutch hydraulic system?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Use only Honda DOT 3 or DOT 4 brake fluid in the clutch hydraulic system [1].",
+    "secs": 6.2
+   },
+   {
+    "id": "g12-exhaust-valve-clearance",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the cold exhaust valve clearance?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The cold exhaust valve clearance is 0.26–0.30 mm [1].",
+    "secs": 6.2
+   },
+   {
+    "id": "g13-oil-grade",
+    "set": "golden_fixture_v1.json",
+    "q": "What engine oil viscosity and API grade are specified for normal operating temperatures?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The specified engine oil for normal operating temperatures is SAE 10W-30, using API SJ or later [1].",
+    "secs": 7.8
+   },
+   {
+    "id": "g14-oil-filter-turn",
+    "set": "golden_fixture_v1.json",
+    "q": "After hand-tightening the oil filter, how much additional turn is required?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "To install a new oil filter, after hand-tightening it, you must turn an additional 3/4 turn [1].",
+    "secs": 8.7
+   },
+   {
+    "id": "g15-spark-plug-type",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the specified spark plug type?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The specified spark plug type is NGK PFR7G-11 or equivalent [1].",
+    "secs": 7.9
+   },
+   {
+    "id": "g16-spark-interval",
+    "set": "golden_fixture_v1.json",
+    "q": "At what mileage should spark plugs be replaced under normal conditions?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Spark plugs should be replaced every 105,000 miles under normal conditions [1].",
+    "secs": 8.0
+   },
+   {
+    "id": "g17-coolant-mix",
+    "set": "golden_fixture_v1.json",
+    "q": "What Honda coolant type and mixing ratio should be used?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Use Honda Type 2 coolant mixed 50/50 with distilled water [1].",
+    "secs": 6.6
+   },
+   {
+    "id": "g18-radiator-cap",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the radiator cap relief pressure specification?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The radiator cap relief pressure is 93–123 kPa (0.95–1.25 kgf/cm², 13.5–17.8 psi) [1].",
+    "secs": 7.7
+   },
+   {
+    "id": "g19-thermostat-full-open",
+    "set": "golden_fixture_v1.json",
+    "q": "At what temperature is the thermostat fully open?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The fully open temperature for the thermostat is 95 °C (203 °F) [1].",
+    "secs": 5.6
+   },
+   {
+    "id": "g20-mtf-fill",
+    "set": "golden_fixture_v1.json",
+    "q": "To what level should manual transmission fluid be filled with the vehicle level?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Manual transmission fluid should be filled to the bottom of the filler hole with the vehicle level [1].",
+    "secs": 7.3
+   },
+   {
+    "id": "g21-clutch-pushrod",
+    "set": "golden_fixture_v1.json",
+    "q": "What should be adjusted if clutch pedal free play is out of specification?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "If clutch pedal free play is out of specification, adjust the clutch master cylinder pushrod [1].",
+    "secs": 6.1
+   },
+   {
+    "id": "g22-spark-misfire-inspect",
+    "set": "golden_fixture_v1.json",
+    "q": "When should spark plugs be inspected earlier than the normal replacement interval?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Spark plugs should be inspected earlier if misfire DTCs are present [1]. The normal replacement interval is every 105,000 miles (168,000 km) under normal conditions [1].",
+    "secs": 9.5
+   },
+   {
+    "id": "g23-hard-miss-brake-pad-pn",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the OEM front brake pad part number for the S2000?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 8.7
+   },
+   {
+    "id": "g24-hard-miss-ecu-pinout",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the ECU connector pinout for the S2000?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 9.3
+   },
+   {
+    "id": "g25-hard-miss-tsb-oil",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the Honda TSB number for excessive oil consumption on the S2000?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 10.5
+   },
+   {
+    "id": "g26-never-mix-clutch-fluid",
+    "set": "golden_fixture_v1.json",
+    "q": "Can different brake fluid types be mixed in the clutch hydraulic system?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Use only Honda DOT 3 or DOT 4 brake fluid in the clutch hydraulic system. Never mix fluid types [1].",
+    "secs": 10.4
+   },
+   {
+    "id": "g27-wrong-oil-20w50",
+    "set": "golden_fixture_v1.json",
+    "q": "Is SAE 20W-50 the specified engine oil viscosity for normal operating temperatures?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "For normal operating temperatures, the specified engine oil viscosity is SAE 10W-30 [1].",
+    "secs": 9.0
+   },
+   {
+    "id": "g28-never-atf-in-mtf",
+    "set": "golden_fixture_v1.json",
+    "q": "Can automatic transmission fluid be used instead of the specified gearbox lubricant?",
+    "expect": "answer",
+    "outcome": "insufficient_evidence",
+    "cite_hit": false,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 9.0
+   },
+   {
+    "id": "g29-multi-thermo-vs-coolant",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the coolant system total capacity, and at what temperature does the thermostat become fully open?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 2,
+    "answer": "Coolant capacity is approximately 5.8 liters including the reservoir [1]. The thermostat becomes fully open at 95 °C (203 °F) [2].",
+    "secs": 7.9
+   },
+   {
+    "id": "g30-multi-spark-gap-vs-torque",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the spark plug electrode gap and installation torque?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The spark plug electrode gap is 1.0–1.1 mm (0.039–0.043 in) [1]. The spark plug torque is 18 N·m (13 lbf·ft) [1].",
+    "secs": 11.1
+   },
+   {
+    "id": "g31-trap-thermo-full-open",
+    "set": "golden_fixture_v1.json",
+    "q": "At what temperature is the thermostat fully open (not just beginning to open)?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The fully open temperature for the thermostat is 95 °C (203 °F) [1].",
+    "secs": 7.0
+   },
+   {
+    "id": "g32-trap-spark-gap-only",
+    "set": "golden_fixture_v1.json",
+    "q": "What electrode gap should be set on the spark plugs before installation?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The electrode gap should be set to 1.0–1.1 mm (0.039–0.043 in) [1].",
+    "secs": 7.5
+   },
+   {
+    "id": "g33-trap-oil-filter-turn",
+    "set": "golden_fixture_v1.json",
+    "q": "After hand-tightening a new oil filter, how much additional turn is specified?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "After hand-tightening a new oil filter, you must turn an additional 3/4 turn [1].",
+    "secs": 6.6
+   },
+   {
+    "id": "g34-trap-clutch-pushrod",
+    "set": "golden_fixture_v1.json",
+    "q": "If clutch pedal free play is out of specification, what should be adjusted?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "If clutch pedal free play is out of specification, adjust the clutch master cylinder pushrod. [1]",
+    "secs": 6.7
+   },
+   {
+    "id": "g35-trap-exhaust-clearance",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the cold exhaust valve clearance specification?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Valve clearance (cold) for the exhaust is 0.26–0.30 mm [1].",
+    "secs": 6.5
+   },
+   {
+    "id": "g36-trap-mtf-filler-hole",
+    "set": "golden_fixture_v1.json",
+    "q": "How do you know the manual transmission is filled to the correct level?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "To know if the manual transmission is filled to the correct level, you should fill it to the bottom of the filler hole with the vehicle level [1].",
+    "secs": 7.8
+   },
+   {
+    "id": "g37-trap-spark-interval",
+    "set": "golden_fixture_v1.json",
+    "q": "Under normal conditions, how often should spark plugs be replaced?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Spark plugs should be replaced every 105,000 miles (168,000 km) under normal conditions [1]. Inspect earlier if misfire DTCs are present [1].",
+    "secs": 9.1
+   },
+   {
+    "id": "g38-trap-radiator-cap-psi",
+    "set": "golden_fixture_v1.json",
+    "q": "What is the radiator cap relief pressure range in psi?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The radiator cap relief pressure range is 13.5–17.8 psi [1].",
+    "secs": 6.7
+   },
+   {
+    "id": "g39-trap-filler-cap-torque",
+    "set": "golden_fixture_v1.json",
+    "q": "What torque value is specified for installing the oil filler cap (not the drain plug)?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The oil filler cap installation torque is 22 N·m (16 lbf·ft) [1].",
+    "secs": 8.2
+   },
+   {
+    "id": "g40-trap-fan-switch-temp",
+    "set": "golden_fixture_v1.json",
+    "q": "At what coolant temperature range does the radiator cooling fan switch turn the fan ON?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The radiator cooling fan switch turns the fan ON at 91–94 °C (196–201 °F) [1].",
+    "secs": 6.9
+   },
+   {
+    "id": "g41-trap-hot-inspection-gap",
+    "set": "golden_fixture_v1.json",
+    "q": "If electrode gap is checked only during a hot-engine inspection, what millimeter window applies?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "If the electrode gap is checked only during a hot engine inspection, the hot inspection gap window is 1.2–1.3 mm (0.047–0.051 in) [1].",
+    "secs": 8.8
+   },
+   {
+    "id": "g42-trap-drain-not-filler-torque",
+    "set": "golden_fixture_v1.json",
+    "q": "Which oil-system fastener uses the 39 N·m torque figure rather than the filler-cap torque?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 2,
+    "answer": "The oil drain plug torque is 39 N·m [1], [2].",
+    "secs": 6.9
+   },
+   {
+    "id": "g43-trap-thermo-not-fan-switch",
+    "set": "golden_fixture_v1.json",
+    "q": "Which cooling temperature is the thermostat fully-open value, as distinct from the fan-switch ON band?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The fully open temperature for the thermostat is 95 °C (203 °F) [1].",
+    "secs": 8.2
+   },
+   {
+    "id": "g44-trap-cold-install-gap-not-hot",
+    "set": "golden_fixture_v1.json",
+    "q": "Before installing new spark plugs, which gap window must be used instead of the hot-inspection window?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": false,
+    "n_cit": 1,
+    "answer": "Always set plugs to the cold installation gap before installing new plugs [1].",
+    "secs": 6.9
+   },
+   {
+    "id": "h01-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the front wheel alignment toe specification?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.5
+   },
+   {
+    "id": "h02-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "How tight should the wheel lug nuts be?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.0
+   },
+   {
+    "id": "h03-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the fuel tank capacity?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.4
+   },
+   {
+    "id": "h04-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the oil pressure warning switch torque?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 9.9
+   },
+   {
+    "id": "h05-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the brake rotor minimum thickness?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.6
+   },
+   {
+    "id": "h06-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the recommended tire pressure?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.1
+   },
+   {
+    "id": "h07-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the timing belt replacement interval?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 7.6
+   },
+   {
+    "id": "h08-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the battery group size and cold cranking rating?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 5.8
+   },
+   {
+    "id": "h09-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "How much engine coolant does the heater core hold?",
+    "expect": "abstain",
+    "outcome": "answered",
+    "cite_hit": null,
+    "n_cit": 1,
+    "answer": "Coolant capacity is approximately 5.8 liters including the reservoir [1].",
+    "secs": 7.8
+   },
+   {
+    "id": "h10-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the part number for the oil filter?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 8.3
+   },
+   {
+    "id": "h11-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the power steering fluid type?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 9.6
+   },
+   {
+    "id": "h12-unanswerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the clutch disc thickness wear limit?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 5.7
+   },
+   {
+    "id": "h13-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "How many liters of oil does the engine take when I change the filter?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 2,
+    "answer": "The engine oil capacity with a filter change is 4.8 liters [1], [2].",
+    "secs": 7.6
+   },
+   {
+    "id": "h14-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "What size of tightening force goes on the sump bolt?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The oil drain plug torque is 39 N·m (29 lbf·ft) [1].",
+    "secs": 6.3
+   },
+   {
+    "id": "h15-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "How far should the clutch pedal move before it engages?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Clutch pedal free play should be 9–17 mm (0.35–0.67 in) [1].",
+    "secs": 7.3
+   },
+   {
+    "id": "h16-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "What plug should I fit and how wide should its gap be?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The spark plug type should be NGK PFR7G-11 or equivalent [1]. The electrode gap should be 1.0–1.1 mm (0.039–0.043 in) [1].",
+    "secs": 6.3
+   },
+   {
+    "id": "h17-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "How many miles between spark plug changes?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Spark plugs should be replaced every 105,000 miles under normal conditions [1].",
+    "secs": 9.2
+   },
+   {
+    "id": "h18-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "What mixture of antifreeze and water goes in the cooling system?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Use Honda Type 2 coolant mixed 50/50 with distilled water.[1]",
+    "secs": 6.5
+   },
+   {
+    "id": "h19-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "When does the thermostat start to open?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The thermostat begins opening at 78–82 °C (172–180 °F) [1].",
+    "secs": 7.9
+   },
+   {
+    "id": "h20-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "What are the tappet clearances with the engine cold?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Valve clearance (cold) is specified as follows: intake 0.15–0.19 mm; exhaust 0.26–0.30 mm [1].",
+    "secs": 7.9
+   },
+   {
+    "id": "h21-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "How full should the gearbox be filled with lubricant?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The manual transmission fluid capacity is 1.5 liters (1.6 US quarts), and you should fill it to the bottom of the filler hole with the vehicle level [1].",
+    "secs": 7.8
+   },
+   {
+    "id": "h22-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "How tight is the oil filler cap?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The oil filler cap installation torque is 22 N·m (16 lbf·ft) [1]. When installing the cap, hand-start it and then torque it to the filler-cap value only [1].",
+    "secs": 7.8
+   },
+   {
+    "id": "h23-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "What is the cooling fan switch turn-on temperature?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The radiator cooling fan switch turns the fan ON at 91–94 °C (196–201 °F) [1].",
+    "secs": 7.6
+   },
+   {
+    "id": "h24-answerable",
+    "set": "abstain_extra_a.json",
+    "q": "What brake fluid can go in the clutch system?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Use only Honda DOT 3 or DOT 4 brake fluid in the clutch hydraulic system [1].",
+    "secs": 5.7
+   },
+   {
+    "id": "v01-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the engine idle speed?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 7.1
+   },
+   {
+    "id": "v02-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "How many quarts of power steering fluid does the system hold?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 7.4
+   },
+   {
+    "id": "v03-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the wiper blade size?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.4
+   },
+   {
+    "id": "v04-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "How do I reset the airbag warning light?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 7.1
+   },
+   {
+    "id": "v05-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the rear differential oil capacity?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.4
+   },
+   {
+    "id": "v06-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the headlight bulb type?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 5.3
+   },
+   {
+    "id": "v07-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the maximum towing weight?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 5.1
+   },
+   {
+    "id": "v08-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the alternator output rating?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 5.5
+   },
+   {
+    "id": "v09-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the recommended brake caliper bolt torque?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 4.8
+   },
+   {
+    "id": "v10-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "How do I replace the cabin air filter?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 5.9
+   },
+   {
+    "id": "v11-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the fuel pressure specification?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 4.9
+   },
+   {
+    "id": "v12-unanswerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the compression ratio of the engine?",
+    "expect": "abstain",
+    "outcome": "insufficient_evidence",
+    "cite_hit": null,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 4.7
+   },
+   {
+    "id": "v13-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What oil grade should go in the engine?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The engine oil should be SAE 10W-30 for normal operating temperatures [1].",
+    "secs": 5.8
+   },
+   {
+    "id": "v14-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What torque is applied when installing the spark plugs?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The spark plug torque is 18 N·m (13 lbf·ft) [1].",
+    "secs": 6.3
+   },
+   {
+    "id": "v15-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "How much does the coolant system hold including the overflow bottle?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Coolant capacity is approximately 5.8 liters, including the reservoir [1].",
+    "secs": 5.3
+   },
+   {
+    "id": "v16-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "At what temperature is the thermostat completely open?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The fully open temperature for the thermostat is 95 °C (203 °F) [1].",
+    "secs": 6.6
+   },
+   {
+    "id": "v17-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the clutch pedal travel before engagement?",
+    "expect": "answer",
+    "outcome": "insufficient_evidence",
+    "cite_hit": false,
+    "n_cit": 0,
+    "answer": "Insufficient evidence in the indexed manuals for this vehicle to answer safely. I will not invent torque specs or procedures. Try rephrasing or confirming the vehicle selection.",
+    "secs": 6.9
+   },
+   {
+    "id": "v18-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What torque should the drain plug be tightened to after the oil is drained?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 2,
+    "answer": "The oil drain plug should be torqued to 39 N·m (29 lbf·ft) when reinstalling it [1], [2].",
+    "secs": 6.9
+   },
+   {
+    "id": "v19-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "Which fluid should I use in the manual gearbox?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Use Honda Manual Transmission Fluid (MTF) [1].",
+    "secs": 6.2
+   },
+   {
+    "id": "v20-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the radiator cap pressure rating?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The radiator cap relief pressure is 93–123 kPa (0.95–1.25 kgf/cm², 13.5–17.8 psi) [1].",
+    "secs": 7.0
+   },
+   {
+    "id": "v21-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "How many turns after hand tightening a new oil filter?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Install a new oil filter; hand-tighten then turn an additional 3/4 turn [1].",
+    "secs": 4.2
+   },
+   {
+    "id": "v22-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "When should I look at the plugs sooner than the scheduled change?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "Spark plugs should be inspected earlier if misfire DTCs are present [1].",
+    "secs": 5.5
+   },
+   {
+    "id": "v23-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the cold exhaust tappet gap?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The cold exhaust valve clearance is 0.26–0.30 mm [1].",
+    "secs": 6.6
+   },
+   {
+    "id": "v24-answerable",
+    "set": "abstain_extra_b.json",
+    "q": "What is the hot inspection gap for the electrodes?",
+    "expect": "answer",
+    "outcome": "answered",
+    "cite_hit": true,
+    "n_cit": 1,
+    "answer": "The hot inspection gap window for the electrodes is 1.2–1.3 mm (0.047–0.051 in) [1]. This figure is not the cold installation gap [1].",
+    "secs": 7.8
+   }
+  ]
+ }
 }
