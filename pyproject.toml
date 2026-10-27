@@ -24,7 +24,7 @@ dependencies = [
 legacy = [
     "pdf2image==1.17.0",
     "pypdf==6.21.0",
-    "google-genai==2.31.0",
+    "google-genai==2.33.0",
     "google-api-core==2.42.0",
 ]
 dev = [
